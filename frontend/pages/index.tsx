@@ -25,7 +25,7 @@ export default function Home() {
     const body = {
       nama: formData.get("nama"),
       noHp: formData.get("noHp"),
-      NoRek: formData.get("NoRek"),
+      noRek: formData.get("noRek"),
       email: formData.get("email"),
       password: formData.get("password"),
     }
@@ -83,7 +83,7 @@ export default function Home() {
                         <Form.Control
                             type="text"
                             placeholder="No Rekening"
-                            name='NoRek'
+                            name='noRek'
                         />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
