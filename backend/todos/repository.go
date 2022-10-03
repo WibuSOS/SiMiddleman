@@ -3,7 +3,7 @@ package todos
 import (
 	"strconv"
 
-	"github.com/WibuSOS/sinarmas/models"
+	"github.com/WibuSOS/SiMiddleman/models"
 	"gorm.io/gorm"
 )
 

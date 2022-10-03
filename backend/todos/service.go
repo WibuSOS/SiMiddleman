@@ -1,8 +1,9 @@
 package todos
 
 import (
-	"github.com/WibuSOS/sinarmas/models"
 	"net/http"
+
+	"github.com/WibuSOS/SiMiddleman/models"
 )
 
 type Service interface {

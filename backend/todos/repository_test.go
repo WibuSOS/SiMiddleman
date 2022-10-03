@@ -1,11 +1,12 @@
 package todos
 
 import (
-	"github.com/WibuSOS/sinarmas/models"
+	"testing"
+
+	"github.com/WibuSOS/SiMiddleman/models"
 	"github.com/glebarez/sqlite"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
-	"testing"
 )
 
 func newTestDB(t *testing.T) *gorm.DB {

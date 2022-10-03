@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/WibuSOS/sinarmas/api"
+	"github.com/WibuSOS/SiMiddleman/api"
 	_ "github.com/joho/godotenv/autoload"
 )
 
