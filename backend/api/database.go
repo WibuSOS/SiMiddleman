@@ -2,10 +2,11 @@ package api
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/WibuSOS/sinarmas/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"os"
 )
 
 func SetupDb() (*gorm.DB, error) {
@@ -60,9 +61,8 @@ func SetupDb() (*gorm.DB, error) {
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 
-	if err := db.AutoMigrate(&models.Todos{}); err != nil {
+	if err := db.AutoMigrate(&models.Users{}); err != nil {
 		return nil, fmt.Errorf("failed to migrate database: %w", err)
 	}
-
 	return db, err
 }
