@@ -1,45 +1,9 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
-import Modal from 'react-modal';
-
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    width: '50%'
-  },
-};
-
-function ShowRegisterModal(props){
-  return(
-    <Modal
-      {...props}>
-        <div className={"w-100"}>
-            <div className={"modal-header"}>
-                <h4 className={"modal-title"}>Register</h4>
-                <button className={"btn btn-close"} onClick={props.closeModal}></button>
-            </div>
-            <div className={"w-100 d-flex flex-row justify-content-between my-1"}>
-              <form className={"mx-1"} onSubmit={() => console.log("Submit")}>
-                <input className='mx-1' name="name" type="text" placeholder='Nama' />
-                <br />
-                <input className='mx-1' name="email" type="email" placeholder='Email' />
-                <br />
-                <input className='mx-1' name="password" type="password" placeholder='Password' />
-                <br />
-                <input className='mx-1' name="confirm-password" type="password" placeholder='Confirm Password' />
-                <br />
-                <button className='btn btn-danger'>Submit</button>
-              </form>
-            </div>    
-        </div>
-    </Modal>
-  )
-}
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+import logo from './assets/logo.png'
 
 export default function Home() {
   const [registerModal, setRegisterModal] = useState(false);
@@ -51,26 +15,75 @@ export default function Home() {
     
   }
 
-  const openRegisterModal = () =>{
-    setRegisterModal(true)
-  }
+  const openRegisterModal = () => setRegisterModal(true)
 
-  const closeRegisterModal = () =>{
-    setRegisterModal(false)
-  }
+  const closeRegisterModal = () => setRegisterModal(false)
 
   return (
     <div className='container mx-10 my-7'>
-      <button className='btn btn-primary' onClick={() => openRegisterModal()}>
-        Register
-      </button>
-      
-      <ShowRegisterModal
-        isOpen={registerModal}
-        onRequestClose={closeRegisterModal}
-        contentLabel="Register Modal" 
-        closeModal={closeRegisterModal}
-        style={customStyles} />
+        <Button variant="primary" onClick={openRegisterModal}>
+            Register
+        </Button>
+        
+        <Modal show={registerModal} onHide={closeRegisterModal}
+            aria-labelledby="contained-modal-title-vcenter"
+            centered>
+
+            <Modal.Header closeButton>	
+                <div className="avatar">
+                    <img src={logo.src} alt="logo SiMiddleman+"/>
+                </div>
+                <Modal.Title className="ms-auto">Register</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+                <Form>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Control
+                            type="text"
+                            placeholder="Nama"
+                            name='nama'
+                            autoFocus
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Control
+                            type="text"
+                            placeholder="No HP"
+                            name='noHp'
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Control
+                            type="text"
+                            placeholder="No Rekening"
+                            name='noRek'
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Control
+                            type="email"
+                            placeholder="Email"
+                            name='email'
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                        <Form.Control
+                            type="password"
+                            placeholder="Password"
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                        <Form.Control
+                            type="password"
+                            placeholder="Confirm Password"
+                            name='confirmPassword'
+                        />
+                    </Form.Group>
+                    <Button variant='merah' onClick={closeRegisterModal}>Daftar Akun</Button>
+                </Form>
+            </Modal.Body>
+        </Modal>
     </div>
   )
 }
