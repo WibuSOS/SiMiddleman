@@ -1,7 +1,6 @@
 package api
 
 import (
-	"github.com/WibuSOS/sinarmas/login"
 	"github.com/gin-contrib/cors"
 )
 
@@ -11,10 +10,11 @@ func (s *server) SetupRouter() {
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
 	}))
 
-	loginRepo := login.NewRepository(s.DB)
-	loginService := login.NewService(loginRepo)
-	loginHandler := login.NewHandler(loginService)
+	authRepo := auth.NewRepository(s.DB)
+	authService := auth.NewService(loginRepo)
+	authHandler := auth.NewHandler(loginService)
 
 	//Login
 	s.Router.POST("/login", authHandler.Login)
+	s.Router.POST("/register", authHandler.Register)
 }
