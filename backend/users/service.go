@@ -1,8 +1,9 @@
 package users
 
 import (
-	"github.com/WibuSOS/sinarmas/models"
 	"net/http"
+
+	"github.com/WibuSOS/sinarmas/models"
 )
 
 type Service interface {

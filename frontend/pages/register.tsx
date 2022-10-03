@@ -79,7 +79,7 @@ export default function Home() {
                         <Form.Control
                             type="text"
                             placeholder="No Rekening"
-                            name='noRek'
+                            name='NoRek'
                         />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
@@ -93,6 +93,7 @@ export default function Home() {
                         <Form.Control
                             type="password"
                             placeholder="Password"
+                            name='password'
                         />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
