@@ -3,7 +3,7 @@ package todos
 import (
 	"testing"
 
-	"github.com/WibuSOS/SiMiddleman/models"
+	"github.com/WibuSOS/sinarmas/models"
 	"github.com/glebarez/sqlite"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"

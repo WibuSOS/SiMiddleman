@@ -5,8 +5,8 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/WibuSOS/SiMiddleman/models"
-	//"github.com/WibuSOS/SiMiddleman/utils/errors"
+	"github.com/WibuSOS/sinarmas/models"
+	//"github.com/WibuSOS/sinarmas/utils/errors"
 )
 
 type Repository interface {

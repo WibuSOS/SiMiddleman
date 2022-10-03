@@ -3,9 +3,9 @@ package auth
 import (
 	"net/http"
 
-	//"github.com/WibuSOS/SiMiddleman/models"
-	//"github.com/WibuSOS/SiMiddleman/utils/errors"
-	"github.com/WibuSOS/SiMiddleman/utils/token"
+	//"github.com/WibuSOS/sinarmas/models"
+	//"github.com/WibuSOS/sinarmas/utils/errors"
+	"github.com/WibuSOS/sinarmas/utils/token"
 )
 
 type Service interface {

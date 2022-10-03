@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/WibuSOS/SiMiddleman/models"
+	"github.com/WibuSOS/sinarmas/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -64,6 +64,5 @@ func SetupDb() (*gorm.DB, error) {
 	if err := db.AutoMigrate(&models.Users{}); err != nil {
 		return nil, fmt.Errorf("failed to migrate database: %w", err)
 	}
-
 	return db, err
 }

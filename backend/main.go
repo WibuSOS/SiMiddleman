@@ -4,11 +4,12 @@ import (
 	"log"
 	"os"
 
-	"github.com/WibuSOS/SiMiddleman/api"
+	"github.com/WibuSOS/sinarmas/api"
 	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
+	//test
 	file, err := os.OpenFile("logs.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatalln(err.Error())

@@ -3,7 +3,7 @@ package auth
 import (
 	"net/http"
 
-	//"github.com/WibuSOS/SiMiddleman/utils/errors"
+	//"github.com/WibuSOS/sinarmas/utils/errors"
 
 	"github.com/gin-gonic/gin"
 )

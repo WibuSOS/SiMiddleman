@@ -3,7 +3,7 @@ package todos
 import (
 	"net/http"
 
-	"github.com/WibuSOS/SiMiddleman/models"
+	"github.com/WibuSOS/sinarmas/models"
 )
 
 type Service interface {

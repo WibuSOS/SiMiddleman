@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/WibuSOS/SiMiddleman/models"
+	"github.com/WibuSOS/sinarmas/models"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
