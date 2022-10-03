@@ -2,6 +2,7 @@ package users
 
 import (
 	"github.com/WibuSOS/sinarmas/models"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -31,7 +32,14 @@ func NewRepository(db *gorm.DB) *repository {
 // }
 
 func (r *repository) CreateUser(req *models.Users) error {
+	pb, err := bcrypt.GenerateFromPassword([]byte(req.Password), 4)
+
+	if err != nil {
+		return err
+	}
+
 	req.Role = "consumer"
+	req.Password = string(pb)
 	res := r.db.Create(&req)
 	if res.Error != nil {
 		return res.Error
