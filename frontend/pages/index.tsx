@@ -1,102 +1,58 @@
-import { useState, useEffect } from 'react'
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import logo from './assets/logo.png'
 
-export default function Home() {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  useEffect(() => {
-    getData()
-  }, []);
+function Example() {
+  const [show, setShow] = useState(false);
 
-  const getData = async () => {
-    try {
-      const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL);
-      const data = await res.json();
-      setData(data);
-    }
-    catch (error) {
-      setError(error);
-    }
-  }
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-  const handleCheck = async (e) => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updateCheck/${e.currentTarget.value}`, {
-        method: 'PATCH',
-      });
-      getData();
-    }
-    catch (error) {
-      setError(error);
-    }
-  }
-
-  const handleDelete = async (e) => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${e.currentTarget.value}`, {
-        method: 'DELETE',
-      });
-      getData();
-    }
-    catch (error) {
-      setError(error);
-    }
-  }
+  console.log(logo.src)
 
   return (
-    <div className='container mx-10 my-7'>
-      {error && <div>Failed to load {error.toString()}</div>}
-      {
-        !data ? <div>Loading...</div>
-          : (
-            (data?.data ?? []).length === 0 && <p>data kosong</p>
-          )
-      }
-
-      <Input onSuccess={getData} />
-      {data?.data && data?.data?.map((item, index) => (
-        <div key={index}>
-          <input type="checkbox" defaultChecked={item.done} onChange={handleCheck} value={item.ID} />
-          <span> {item.ID}. Task: {item.task}</span>
-          <button value={item.ID} onClick={handleDelete} className="bg-red-500 rounded-lg">Delete</button>
-        </div>
-      ))}
+    <div id='login'>
+      <Button variant="primary" onClick={handleShow}>
+        Login
+      </Button>
+      <Modal show={show} onHide={handleClose}
+      aria-labelledby="contained-modal-title-vcenter"
+      centered>
+        <Modal.Header closeButton>	
+          <div className="avatar">
+					  <img src={logo.src} alt="logo SiMiddleman+"/>
+          </div>
+          <Modal.Title className="ms-auto">Login</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Control
+                type="email"
+                placeholder="Email"
+                autoFocus
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                autoFocus
+              />
+            </Form.Group>
+          </Form>
+          <div className='d-flex justify-content-between'>
+            <a href="javascript:alert('not yet implemented')">Lupa Password?</a>
+            <Button variant='merah' onClick={handleClose}>Masuk</Button>
+          </div>
+          <p className='or'>OR</p>
+          <Button variant='merah' onClick={handleClose} className='w-100'>Daftar Akun</Button>
+        </Modal.Body>
+      </Modal>
     </div>
-  )
+  );
 }
 
-function Input({ onSuccess }) {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const body = {
-      task: formData.get("data")
-    }
-
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/send`, {
-        method: 'POST',
-        body: JSON.stringify(body)
-      });
-      const data = await res.json();
-      setData(data.message);
-      onSuccess();
-    }
-    catch (error) {
-      setError(error);
-    }
-  }
-
-  return (
-    <div>
-      {error && <p>error: {error.toString()}</p>}
-      {data && <p>success: {data}</p>}
-      <form onSubmit={handleSubmit}>
-        <input name="data" type="text" />
-        <button className='bg-green-500 rounded-lg'>Submit</button>
-      </form>
-    </div>
-  )
-}
+export default Example;
