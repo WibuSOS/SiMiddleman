@@ -16,5 +16,6 @@ func (s *server) SetupRouter() {
 
 	//Login
 	s.Router.POST("/login", authHandler.Login)
+	//Register
 	s.Router.POST("/register", authHandler.Register)
 }
