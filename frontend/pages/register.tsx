@@ -68,34 +68,34 @@ export default function Home() {
                             autoFocus
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
                         <Form.Control
                             type="text"
                             placeholder="No HP"
                             name='noHp'
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
                         <Form.Control
                             type="text"
                             placeholder="No Rekening"
                             name='noRek'
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
                         <Form.Control
                             type="email"
                             placeholder="Email"
                             name='email'
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
                         <Form.Control
                             type="password"
                             placeholder="Password"
                         />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
                         <Form.Control
                             type="password"
                             placeholder="Confirm Password"
