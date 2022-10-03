@@ -22,26 +22,27 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+
     const body = {
-      nama: formData.get("nama"),
-      noHp: formData.get("noHp"),
-      noRek: formData.get("noRek"),
-      email: formData.get("email"),
-      password: formData.get("password"),
+        nama: formData.get("nama"),
+        noHp: formData.get("noHp"),
+        noRek: formData.get("noRek"),
+        email: formData.get("email"),
+        password: formData.get("password"),
     }
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
-        method: 'POST',
-        body: JSON.stringify(body)
-      });
-      const data = await res.json();
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
+            method: 'POST',
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
 
-      // alihkan kehalaman home sekaligus login
-      console.log(data)
+        // alihkan kehalaman home sekaligus login
+        console.log(data)
     }
     catch (error) {
-      console.log(error);
+        console.log(error);
     }
   }
 
@@ -70,6 +71,7 @@ export default function Home() {
                             placeholder="Nama"
                             name='nama'
                             autoFocus
+                            required
                         />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
@@ -77,6 +79,7 @@ export default function Home() {
                             type="text"
                             placeholder="No HP"
                             name='noHp'
+                            required
                         />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
@@ -84,6 +87,7 @@ export default function Home() {
                             type="text"
                             placeholder="No Rekening"
                             name='noRek'
+                            required
                         />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput4">
@@ -91,6 +95,7 @@ export default function Home() {
                             type="email"
                             placeholder="Email"
                             name='email'
+                            required
                         />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput5">
@@ -98,6 +103,8 @@ export default function Home() {
                             type="password"
                             placeholder="Password"
                             name='password'
+                            required
+                            minLength={8}
                         />
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
@@ -105,6 +112,8 @@ export default function Home() {
                             type="password"
                             placeholder="Confirm Password"
                             name='confirmPassword'
+                            required
+                            minLength={8}
                         />
                     </Form.Group>
                     <Button variant='merah' type='submit'>Submit</Button>
