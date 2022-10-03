@@ -1,0 +1,5 @@
+/.env
+/logs.txt
+/tmp/*
+
+/**/*.db

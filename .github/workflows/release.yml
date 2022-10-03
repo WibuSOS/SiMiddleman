@@ -1,0 +1,55 @@
+name: essential jobs
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  check-quality:
+    runs-on: ubuntu-latest
+    name: Code quality check job
+    steps:
+    - name: Check code meets quality standards
+      id: codiga
+      uses: codiga/github-action@master
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        codiga_api_token: ${{ secrets.CODIGA_API_TOKEN }}
+        force_ref: 'none'
+        min_quality_grade: 'WARNING'
+        min_quality_score: '50'
+        max_defects_rate: '0.0001'
+        max_complex_functions_rate: '0.0001'
+        max_long_functions_rate: '0.0001'
+        project_name: ''
+        max_timeout_sec: '600'
+  
+  test:
+    runs-on: ubuntu-latest
+    name: Test job
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+      - name: Install dependencies
+        run: go get .
+      - name: Build
+        run: go build -v ./...
+      - name: Test with the Go CLI
+        run: go test -cover -v ./todos
+  
+  heroku:
+    runs-on: ubuntu-latest
+    name: Deployment job
+    steps:
+      - uses: actions/checkout@v3
+      - name: Add api remote origin
+        run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+      - name: Deploy api to Heroku
+        run: git push heroku `git subtree split --prefix backend master`:refs/heads/master --force
