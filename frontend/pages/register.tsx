@@ -1,102 +1,76 @@
-import { useState, useEffect } from 'react'
+import Head from 'next/head';
+import { useState, useEffect } from 'react';
+import Modal from 'react-modal';
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    width: '50%'
+  },
+};
+
+function ShowRegisterModal(props){
+  return(
+    <Modal
+      {...props}>
+        <div className={"w-100"}>
+            <div className={"modal-header"}>
+                <h4 className={"modal-title"}>Register</h4>
+                <button className={"btn btn-close"} onClick={props.closeModal}></button>
+            </div>
+            <div className={"w-100 d-flex flex-row justify-content-between my-1"}>
+              <form className={"mx-1"} onSubmit={() => console.log("Submit")}>
+                <input className='mx-1' name="name" type="text" placeholder='Nama' />
+                <br />
+                <input className='mx-1' name="email" type="email" placeholder='Email' />
+                <br />
+                <input className='mx-1' name="password" type="password" placeholder='Password' />
+                <br />
+                <input className='mx-1' name="confirm-password" type="password" placeholder='Confirm Password' />
+                <br />
+                <button className='btn btn-danger'>Submit</button>
+              </form>
+            </div>    
+        </div>
+    </Modal>
+  )
+}
 
 export default function Home() {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+  const [registerModal, setRegisterModal] = useState(false);
   useEffect(() => {
     getData()
   }, []);
 
   const getData = async () => {
-    try {
-      const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL);
-      const data = await res.json();
-      setData(data);
-    }
-    catch (error) {
-      setError(error);
-    }
+    
   }
 
-  const handleCheck = async (e) => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updateCheck/${e.currentTarget.value}`, {
-        method: 'PATCH',
-      });
-      getData();
-    }
-    catch (error) {
-      setError(error);
-    }
+  const openRegisterModal = () =>{
+    setRegisterModal(true)
   }
 
-  const handleDelete = async (e) => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${e.currentTarget.value}`, {
-        method: 'DELETE',
-      });
-      getData();
-    }
-    catch (error) {
-      setError(error);
-    }
+  const closeRegisterModal = () =>{
+    setRegisterModal(false)
   }
 
   return (
     <div className='container mx-10 my-7'>
-      {error && <div>Failed to load {error.toString()}</div>}
-      {
-        !data ? <div>Loading...</div>
-          : (
-            (data?.data ?? []).length === 0 && <p>data kosong</p>
-          )
-      }
-
-      <Input onSuccess={getData} />
-      {data?.data && data?.data?.map((item, index) => (
-        <div key={index}>
-          <input type="checkbox" defaultChecked={item.done} onChange={handleCheck} value={item.ID} />
-          <span> {item.ID}. Task: {item.task}</span>
-          <button value={item.ID} onClick={handleDelete} className="bg-red-500 rounded-lg">Delete</button>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function Input({ onSuccess }) {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const body = {
-      task: formData.get("data")
-    }
-
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/send`, {
-        method: 'POST',
-        body: JSON.stringify(body)
-      });
-      const data = await res.json();
-      setData(data.message);
-      onSuccess();
-    }
-    catch (error) {
-      setError(error);
-    }
-  }
-
-  return (
-    <div>
-      {error && <p>error: {error.toString()}</p>}
-      {data && <p>success: {data}</p>}
-      <form onSubmit={handleSubmit}>
-        <input name="data" type="text" />
-        <button className='bg-green-500 rounded-lg'>Submit</button>
-      </form>
+      <button className='btn btn-primary' onClick={() => openRegisterModal()}>
+        Register
+      </button>
+      
+      <ShowRegisterModal
+        isOpen={registerModal}
+        onRequestClose={closeRegisterModal}
+        contentLabel="Register Modal" 
+        closeModal={closeRegisterModal}
+        style={customStyles} />
     </div>
   )
 }
