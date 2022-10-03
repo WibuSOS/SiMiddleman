@@ -19,6 +19,28 @@ export default function Home() {
 
   const closeRegisterModal = () => setRegisterModal(false)
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const body = {
+      task: formData.get("data")
+    }
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
+        method: 'POST',
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+
+      // alihkan kehalaman home sekaligus login
+      console.log(data)
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className='container mx-10 my-7'>
         <Button variant="primary" onClick={openRegisterModal}>
@@ -37,7 +59,7 @@ export default function Home() {
             </Modal.Header>
 
             <Modal.Body>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Control
                             type="text"
@@ -80,7 +102,7 @@ export default function Home() {
                             name='confirmPassword'
                         />
                     </Form.Group>
-                    <Button variant='merah' onClick={closeRegisterModal}>Daftar Akun</Button>
+                    <Button variant='merah' type='submit'>Submit</Button>
                 </Form>
             </Modal.Body>
         </Modal>
