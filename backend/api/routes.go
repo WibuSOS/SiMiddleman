@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/WibuSOS/sinarmas/todos"
+	"github.com/WibuSOS/sinarmas/users"
 	"github.com/gin-contrib/cors"
 )
 
@@ -11,12 +11,12 @@ func (s *server) SetupRouter() {
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
 	}))
 
-	todosRepo := todos.NewRepository(s.DB)
-	todosService := todos.NewService(todosRepo)
-	todosHandler := todos.NewHandler(todosService)
+	usersRepo := users.NewRepository(s.DB)
+	usersService := users.NewService(usersRepo)
+	usersHandler := users.NewHandler(usersService)
 
-	s.Router.GET("/", todosHandler.GetTodos)
-	s.Router.POST("/send", todosHandler.CreateTodo)
-	s.Router.PATCH("/updateCheck/:task_id", todosHandler.CheckTodo)
-	s.Router.DELETE("/:task_id", todosHandler.DeleteTodo)
+	// s.Router.GET("/", usersHandler.GetUser)
+	s.Router.POST("/register", usersHandler.CreateUser)
+	// s.Router.PATCH("/updateCheck/:task_id", usersHandler.UpdateUser)
+	// s.Router.DELETE("/:task_id", usersHandler.DeleteUser)
 }
