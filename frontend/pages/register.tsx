@@ -23,7 +23,11 @@ export default function Home() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const body = {
-      task: formData.get("data")
+      nama: formData.get("nama"),
+      noHp: formData.get("noHp"),
+      NoRek: formData.get("NoRek"),
+      email: formData.get("email"),
+      password: formData.get("password"),
     }
 
     try {
