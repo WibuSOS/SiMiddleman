@@ -39,21 +39,25 @@ func (h *Handler) CreateUser(c *gin.Context) {
 	})
 }
 
-// func (h *Handler) GetUser(c *gin.Context) {
-// 	todos, status, err := h.Service.GetTodos()
-// 	if err != nil {
-// 		log.Println(err.Error())
-// 		c.JSON(status, gin.H{
-// 			"message": err.Error(),
-// 		})
-// 		return
-// 	}
+func (h *Handler) GetUser(c *gin.Context) {
+	// todos, status, err := h.Service.GetTodos()
+	// if err != nil {
+	// 	log.Println(err.Error())
+	// 	c.JSON(status, gin.H{
+	// 		"message": err.Error(),
+	// 	})
+	// 	return
+	// }
 
-// 	c.JSON(status, gin.H{
-// 		"message": "success",
-// 		"data":    todos,
-// 	})
-// }
+	// c.JSON(status, gin.H{
+	// 	"message": "success",
+	// 	"data":    todos,
+	// })
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "success",
+	})
+}
 
 // func (h *Handler) UpdateUser(c *gin.Context) {
 // 	taskId := c.Param("task_id")
