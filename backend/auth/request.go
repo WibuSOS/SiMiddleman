@@ -5,8 +5,8 @@ import (
 )
 
 type DataRequest struct {
-	Email    string `json:"email" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 func (r *DataRequest) Validation() *errors.RestError {
@@ -15,7 +15,7 @@ func (r *DataRequest) Validation() *errors.RestError {
 	}
 
 	if r.Password == "" {
-		return errors.NewBadRequestError("invalid password")
+		return errors.NewBadRequestError("Invalid password")
 	}
 
 	return nil
