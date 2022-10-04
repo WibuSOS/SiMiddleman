@@ -164,7 +164,7 @@ func TestCreateUser(t *testing.T) {
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
 	assert.Equal(t, "no hp tidak memenuhi syarat", res.Message)
 
-	// ERROR VALIDATE USER (NO HP)
+	// ERROR VALIDATE USER (NO REK)
 	payload = `{
     "nama": "abcde",
     "email": "admin@xyz.com",
