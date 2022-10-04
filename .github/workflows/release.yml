@@ -42,7 +42,9 @@ jobs:
       - name: Build
         run: go build -v ./...
       - name: Test with the Go CLI
-        run: go test -cover -v ./todos
+        run: go test -cover -v ./auth
+      - name: Test database with go CLI
+        run: go test -cover -v ./api/database_test.go
   
   heroku:
     runs-on: ubuntu-latest
