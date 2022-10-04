@@ -23,7 +23,7 @@ func (s *server) SetupRouter() {
 	usersService := users.NewService(usersRepo)
 	usersHandler := users.NewHandler(usersService)
 
-	// s.Router.GET("/", usersHandler.GetUser)
+	s.Router.GET("/", usersHandler.GetUser)
 	s.Router.POST("/register", usersHandler.CreateUser)
 	// s.Router.PATCH("/updateCheck/:task_id", usersHandler.UpdateUser)
 	// s.Router.DELETE("/:task_id", usersHandler.DeleteUser)
