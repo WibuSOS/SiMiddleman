@@ -4,6 +4,8 @@ import (
 	"testing"
 
 	"github.com/WibuSOS/sinarmas/models"
+	"golang.org/x/crypto/bcrypt"
+
 	//"github.com/WibuSOS/sinarmas/utils/errors"
 
 	"github.com/stretchr/testify/assert"
@@ -31,7 +33,11 @@ func newTestDB(t *testing.T) *gorm.DB {
 	assert.NoError(t, err)
 
 	//var user models.Users
-	user := models.Users{Email: "fikri@gmail.com", Password: "fikri123"}
+	password := "fikri123"
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+	assert.NoError(t, err)
+
+	user := models.Users{Email: "fikri@gmail.com", Password: string(hash)}
 	result := db.Create(&user)
 	assert.NoError(t, result.Error)
 
@@ -52,7 +58,7 @@ func TestLoginSuccess(t *testing.T) {
 	assert.NotNil(t, user)
 }
 
-func TestLoginErrorBadRequest(t *testing.T) {
+func TestLoginErrorUserNotFound(t *testing.T) {
 	db := newTestDB(t)
 	repo := NewRepository(db)
 
@@ -64,6 +70,22 @@ func TestLoginErrorBadRequest(t *testing.T) {
 	_, err := repo.Login(req)
 	assert.NotNil(t, err)
 	assert.Equal(t, "User not found", err.Message)
+	assert.Equal(t, 400, err.Status)
+	assert.Equal(t, "Bad_Request", err.Error)
+}
+
+func TestLoginErrorAuthenticationFailed(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+
+	req := DataRequest{
+		Email:    "fikri@gmail.com",
+		Password: "lubis123",
+	}
+
+	_, err := repo.Login(req)
+	assert.NotNil(t, err)
+	assert.Equal(t, "Authentication failed", err.Message)
 	assert.Equal(t, 400, err.Status)
 	assert.Equal(t, "Bad_Request", err.Error)
 }
