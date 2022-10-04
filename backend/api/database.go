@@ -30,7 +30,7 @@ func SetupDb() (*gorm.DB, error) {
 			return nil, fmt.Errorf("failed to connect database: %w", errs)
 		}
 
-		db = dbRoot.Exec(fmt.Sprintf("CREATE DATABASE %s;", os.Getenv("DB_NAME")))
+		db = dbRoot.Exec(fmt.Sprintf("CREATE DATABASE %s ;", os.Getenv("DB_NAME")))
 
 		if db.Error != nil {
 			fmt.Println("Unable to create DB, attempting to connect assuming it exists...")
