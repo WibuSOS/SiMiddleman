@@ -1,6 +1,7 @@
 package token
 
 import (
+	"log"
 	"os"
 	"time"
 
@@ -23,8 +24,19 @@ func GenerateToken(user models.Users) (string, *errors.RestError) {
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, actClaims)
 	resultToken, err := at.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
+		log.Println("Login: Error while creating token")
 		return "", errors.NewInternalServerError("Error while creating token")
 	}
 
 	return resultToken, nil
+}
+
+func ValidationToken(dataTime int64) bool {
+	if dataTime > time.Now().Unix() {
+		log.Println("Token Validation: Token Not Expired")
+		return false
+	}
+
+	log.Println("Token Validation: Expired")
+	return true
 }
