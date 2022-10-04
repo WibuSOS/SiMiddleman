@@ -33,12 +33,10 @@ function Home() {
       console.log(data);
       setData(data.message);
       if (data.message == "success") {
-        hasil = "benar";
-        console.log("benar")
+        alert("benar")
       }
       else {
-        hasil = "salah"
-        console.log("salah")
+        alert("salah")
       }
     }
     catch (error) {
@@ -68,7 +66,6 @@ function Home() {
           </div>
           <p className='or'>OR</p>
           <Button variant='merah' onClick={handleClose} className='w-100'>Daftar Akun</Button>
-          <p>hasilnya: {hasil}</p>
         </Modal.Body>
       </Modal>
     </>
