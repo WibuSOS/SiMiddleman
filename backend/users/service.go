@@ -1,14 +1,13 @@
 package users
 
 import (
-	"net/http"
-
 	"github.com/WibuSOS/sinarmas/models"
+	"github.com/WibuSOS/sinarmas/utils/errors"
 )
 
 type Service interface {
+	CreateUser(req *models.Users) *errors.RestError
 	// GetUser() (models.Users, int, error)
-	CreateUser(req *models.Users) (int, error)
 	// UpdateUser(taskId string) (int, error)
 	// DeleteUser(taskId string) (int, error)
 }
@@ -21,6 +20,15 @@ func NewService(repo Repository) *service {
 	return &service{repo}
 }
 
+func (s *service) CreateUser(req *models.Users) *errors.RestError {
+	err := s.repo.CreateUser(req)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // func (s *service) GetUser() (models.Users, int, error) {
 // 	todos, err := s.repo.GetTodos()
 // 	if err != nil {
@@ -29,15 +37,6 @@ func NewService(repo Repository) *service {
 
 // 	return todos, http.StatusOK, nil
 // }
-
-func (s *service) CreateUser(req *models.Users) (int, error) {
-	err := s.repo.CreateUser(req)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-
-	return http.StatusOK, nil
-}
 
 // func (s *service) UpdateUser(taskId string) (int, error) {
 // 	err := s.repo.UpdateUser(taskId)

@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import logo from './assets/logo.png'
-import LoginForm from './login';
+import LoginForm from './Login';
 import RegisterForm from './register';
 import { useRouter } from 'next/router';
 
@@ -92,45 +92,13 @@ function Home() {
         Register
       </Button>
 
-      <Modal show={show} onHide={handleClose}
-        aria-labelledby="contained-modal-title-vcenter"
-        centered>
-        <Modal.Header closeButton>
-          <div className="avatar">
-            <img src={logo.src} alt="logo SiMiddleman+" />
-          </div>
-          <Modal.Title className="ms-auto">Login</Modal.Title>
-        </Modal.Header>
+      <LoginForm handleSubmit={handleSubmitLogin}
+        handleClose={handleClose}
+        show={show} />
 
-        <Modal.Body>
-          <LoginForm handleSubmit={handleSubmitLogin} />
-
-          <div className='d-flex justify-content-between'>
-            <a>Lupa Password?</a>
-            <Button type='submit' variant='merah' form='loginForm'>Masuk</Button>
-          </div>
-
-          <p className='or'>OR</p>
-
-          <Button variant='merah' onClick={handleClose} className='w-100'>Daftar Akun</Button>
-        </Modal.Body>
-      </Modal>
-
-      <Modal show={registerModal} onHide={closeRegisterModal}
-        aria-labelledby="contained-modal-title-vcenter"
-        centered>
-
-        <Modal.Header closeButton>
-          <div className="avatar">
-            <img src={logo.src} alt="logo SiMiddleman+" />
-          </div>
-          <Modal.Title className="ms-auto">Register</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <RegisterForm handleSubmit={handleSubmitRegister} />
-        </Modal.Body>
-      </Modal>
+      <RegisterForm handleSubmit={handleSubmitRegister}
+        closeRegisterModal={closeRegisterModal}
+        registerModal={registerModal} />
     </div>
   );
 }
