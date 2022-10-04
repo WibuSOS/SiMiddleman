@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import logo from './assets/logo.png'
-import LoginForm from './Login';
+import LoginForm from './login';
 import RegisterForm from './register';
 import { useRouter } from 'next/router';
 
