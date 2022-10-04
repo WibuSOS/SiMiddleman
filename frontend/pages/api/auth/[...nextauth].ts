@@ -14,27 +14,43 @@ export default NextAuth ({
                     label: "Password", 
                     type: "password"},
             },
-            authorize: (credentials) => {
-                // database lookup
-                if (credentials.email === "admin@localhost.com" && credentials.password == "admin") {
-                    return {
-                        id: 1,
-                        email: "admin@localhost.com"
-                    };
+            authorize : async (credentials, req) => {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
+                  method: 'POST',
+                  body: JSON.stringify(credentials),
+                  headers: { "Content-Type": "application/json" }
+                });
+                const user = await res.json();
+                if (res.ok && user) {
+                  return user
                 }
-                // login failed
                 return null;
             },
             
         }),
     ],
+    // pages: {
+    //     signIn: "/",
+    // },
     callbacks: {
-        jwt: () => {},
-        session: () => {},
+        jwt: ({ token, user }) => {
+            // first time jwt callback is run, user object is available
+            if (user) {
+                token.id = user.id;
+            }
+
+            return token;
+        },
+        session: ( { session, token }) => {
+            if (token) {
+                session.id = token.id;
+            }
+
+            return session;
+        },
     },
     secret: "test",
     jwt: {
         secret: "test",
-        encryption: true,
-    }
+    },
 })

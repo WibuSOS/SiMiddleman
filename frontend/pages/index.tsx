@@ -7,9 +7,9 @@ import logo from './assets/logo.png'
 import LoginForm from './Login';
 import RegisterForm from './register';
 import { useRouter } from 'next/router';
+import { signOut, signIn, useSession } from "next-auth/react";
 
 function Home() {
-    const router = useRouter();
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [show, setShow] = useState(false);
@@ -81,26 +81,38 @@ function Home() {
             console.log(error);
         }
       }
+      
+      const router = useRouter();
+      const { data: session } = useSession();
 
-    return (
-        <div className='container mx-10 my-7'>
-            <Button variant="primary" onClick={handleShow}>
-                Login
-            </Button>
+      console.log("session", session);
 
-            <Button variant="primary" onClick={openRegisterModal}>
-                Register
-            </Button>
-            
-            <LoginForm handleSubmit={handleSubmitLogin}
-                handleClose={handleClose}
-                show={show}/>
-            
-            <RegisterForm handleSubmit={handleSubmitRegister}
-                closeRegisterModal={closeRegisterModal}
-                registerModal={registerModal}/>
-        </div>
-    );
+      if (session) {
+        return (
+          <Button onClick={() => signOut()}>Sign out</Button>
+        )
+      }
+      else {
+        return (
+          <div className='container mx-10 my-7'>
+              <Button variant="primary" onClick={handleShow}>
+                  Login
+              </Button>
+  
+              <Button variant="primary" onClick={openRegisterModal}>
+                  Register
+              </Button>
+              
+              <LoginForm handleSubmit={handleSubmitLogin}
+                  handleClose={handleClose}
+                  show={show}/>
+              
+              <RegisterForm handleSubmit={handleSubmitRegister}
+                  closeRegisterModal={closeRegisterModal}
+                  registerModal={registerModal}/>
+          </div>
+        );
+      }
 }
 
 export default Home;
