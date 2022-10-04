@@ -1,15 +1,16 @@
-name: essential jobs
+name: Test
+
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - master
 
 jobs:
   check-quality:
-    on:
-      pull_request:
-        types:
-          - opened
-        branches:
-          - master
     runs-on: ubuntu-latest
-    name: Code quality check job
+    name: Code quality check
     steps:
     - name: Check code meets quality standards
       id: codiga
@@ -27,14 +28,8 @@ jobs:
         max_timeout_sec: '600'
   
   test:
-    on:
-      pull_request:
-        types:
-          - opened
-        branches:
-          - master
     runs-on: ubuntu-latest
-    name: Test job
+    name: Golang test
     defaults:
       run:
         working-directory: ./backend
@@ -50,17 +45,3 @@ jobs:
         run: go build -v ./...
       - name: Test with the Go CLI
         run: go test -cover -v ./...
-  
-  heroku:
-    on:
-      push:
-        branches:
-          - master
-    runs-on: ubuntu-latest
-    name: Deployment job
-    steps:
-      - uses: actions/checkout@v3
-      - name: Add api remote origin
-        run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-      - name: Deploy api to Heroku
-        run: git push heroku `git subtree split --prefix backend master`:refs/heads/master --force
