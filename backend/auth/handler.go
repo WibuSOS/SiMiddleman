@@ -23,15 +23,15 @@ func (h *Handler) Login(c *gin.Context) {
 		return
 	}
 
-	res, status, err := h.Service.Login(req)
-	if err != nil || status != 200 {
-		c.JSON(status, gin.H{
-			"message": err.Error(),
+	res, err := h.Service.Login(req)
+	if err != nil {
+		c.JSON(err.Status, gin.H{
+			"message": err.Message,
 		})
 		return
 	}
 
-	c.JSON(status, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
 		"data":    res,
 	})
