@@ -31,7 +31,7 @@ func (h *Handler) Login(c *gin.Context) {
 		return
 	}
 
-	c.JSON(err.Status, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
 		"data":    res,
 	})
