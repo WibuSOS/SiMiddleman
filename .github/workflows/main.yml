@@ -1,12 +1,13 @@
 name: essential jobs
 
-on:
-  push:
-    branches:
-      - master
-
 jobs:
   check-quality:
+    on:
+      pull_request:
+        types:
+          - opened
+        branches:
+          - master
     runs-on: ubuntu-latest
     name: Code quality check job
     steps:
@@ -26,6 +27,12 @@ jobs:
         max_timeout_sec: '600'
   
   test:
+    on:
+      pull_request:
+        types:
+          - opened
+        branches:
+          - master
     runs-on: ubuntu-latest
     name: Test job
     defaults:
@@ -42,9 +49,13 @@ jobs:
       - name: Build
         run: go build -v ./...
       - name: Test with the Go CLI
-        run: go test -cover -v ./todos
+        run: go test -cover -v ./...
   
   heroku:
+    on:
+      push:
+        branches:
+          - master
     runs-on: ubuntu-latest
     name: Deployment job
     steps:
