@@ -44,7 +44,7 @@ jobs:
       - name: Test with the Go CLI
         run: go test -cover -v ./auth
       - name: Test database with go CLI
-        run: go test -cover -v ./api/database_test.go
+        run: go test -cover -v ./auth
   
   heroku:
     runs-on: ubuntu-latest

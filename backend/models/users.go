@@ -36,11 +36,7 @@ func (user *Users) ValidateUser() error {
 		return fmt.Errorf("email tidak memenuhi syarat")
 	}
 
-<<<<<<< HEAD
-	if user.Password == "" || (len(user.Password) > 18 && len(user.Password) >= 8) {
-=======
 	if user.Password == "" || len(user.Password) > 18 || len(user.Password) < 8 {
->>>>>>> 1734b93604cd615ec267b48b4dc01c1bdaa5efd0
 		return fmt.Errorf("password tidak memenuhi syarat")
 	}
 
