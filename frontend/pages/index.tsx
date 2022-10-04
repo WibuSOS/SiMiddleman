@@ -3,17 +3,51 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import logo from './assets/logo.png'
+import LoginForm from './Login';
 
-function Example() {
+function Home() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  console.log(logo.src)
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  let hasil = ""
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const body = {
+      email: formData.get("email"),
+      password: formData.get("password")
+    }
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
+        method: 'POST',
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      console.log(data);
+      setData(data.message);
+      if (data.message == "success") {
+        hasil = "benar";
+        console.log("benar")
+      }
+      else {
+        hasil = "salah"
+        console.log("salah")
+      }
+    }
+    catch (error) {
+      setError(error);
+    }
+  }
 
   return (
-    <div id='login'>
+    <>
       <Button variant="primary" onClick={handleShow}>
         Login
       </Button>
@@ -22,37 +56,23 @@ function Example() {
       centered>
         <Modal.Header closeButton>	
           <div className="avatar">
-					  <img src={logo.src} alt="logo SiMiddleman+"/>
+            <img src={logo.src} alt="logo SiMiddleman+"/>
           </div>
           <Modal.Title className="ms-auto">Login</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Control
-                type="email"
-                placeholder="Email"
-                autoFocus
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                autoFocus
-              />
-            </Form.Group>
-          </Form>
+          <LoginForm handleSubmit={handleSubmit}/>
           <div className='d-flex justify-content-between'>
-            <a href="javascript:alert('not yet implemented')">Lupa Password?</a>
-            <Button variant='merah' onClick={handleClose}>Masuk</Button>
+            <a>Lupa Password?</a>
+            <Button type='submit' variant='merah' form='loginForm'>Masuk</Button>
           </div>
           <p className='or'>OR</p>
           <Button variant='merah' onClick={handleClose} className='w-100'>Daftar Akun</Button>
+          <p>hasilnya: {hasil}</p>
         </Modal.Body>
       </Modal>
-    </div>
+    </>
   );
 }
 
-export default Example;
+export default Home;
