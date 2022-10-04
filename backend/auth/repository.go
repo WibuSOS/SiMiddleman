@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
 	"github.com/WibuSOS/sinarmas/models"
@@ -22,7 +23,7 @@ func NewRepository(db *gorm.DB) *repository {
 func (r *repository) Login(req DataRequest) (models.Users, *errors.RestError) {
 	var user models.Users
 
-	res := r.db.Where("email = ? AND password = ?", req.Email, req.Password).Find(&user)
+	res := r.db.Where("email = ?", req.Email).Find(&user)
 
 	if res.Error != nil {
 		return models.Users{}, errors.NewInternalServerError("Error while fetching data")
@@ -30,6 +31,11 @@ func (r *repository) Login(req DataRequest) (models.Users, *errors.RestError) {
 
 	if user.Email == "" {
 		return models.Users{}, errors.NewBadRequestError("User not found")
+	}
+
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
+	if err != nil {
+		return models.Users{}, errors.NewBadRequestError("Authentication failed")
 	}
 
 	return user, nil
