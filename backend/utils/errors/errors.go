@@ -1,6 +1,7 @@
 package errors
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -40,4 +41,8 @@ func NewUnauthorized(message string) *RestError {
 		Status:  http.StatusUnauthorized,
 		Error:   "Unauthorized",
 	}
+}
+
+func LogError(err *RestError) {
+	log.Printf("status:%v \nerror:%v \nmessage:%v", err.Status, err.Error, err.Message)
 }

@@ -1,10 +1,10 @@
 package users
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/WibuSOS/sinarmas/models"
+	"github.com/WibuSOS/sinarmas/utils/errors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +14,29 @@ type Handler struct {
 
 func NewHandler(service Service) *Handler {
 	return &Handler{service}
+}
+
+func (h *Handler) CreateUser(c *gin.Context) {
+	var req models.Users
+	if err := c.ShouldBindJSON(&req); err != nil {
+		error := errors.NewBadRequestError(err.Error())
+		errors.LogError(error)
+		c.JSON(error.Status, gin.H{"message": error.Message})
+		return
+	}
+
+	err := h.Service.CreateUser(&req)
+	if err != nil {
+		errors.LogError(err)
+		c.JSON(err.Status, gin.H{
+			"message": err.Message,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "success",
+	})
 }
 
 // func (h *Handler) GetUser(c *gin.Context) {
@@ -31,28 +54,6 @@ func NewHandler(service Service) *Handler {
 // 		"data":    todos,
 // 	})
 // }
-
-func (h *Handler) CreateUser(c *gin.Context) {
-	var req models.Users
-	if err := c.ShouldBindJSON(&req); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	status, err := h.Service.CreateUser(&req)
-	if err != nil {
-		log.Println(err.Error())
-		c.JSON(status, gin.H{
-			"message": err.Error(),
-		})
-		return
-	}
-
-	c.JSON(status, gin.H{
-		"message": "success",
-	})
-}
 
 // func (h *Handler) UpdateUser(c *gin.Context) {
 // 	taskId := c.Param("task_id")
