@@ -55,7 +55,7 @@ export default function RegisterForm() {
 
   return (
     <>
-      <Button variant="primary" onClick={openRegisterModal} data-testid="buttonRegister">
+      <Button variant="primary" onClick={openRegisterModal} data-testid="buttonRegisterForm">
         Register
       </Button>
 

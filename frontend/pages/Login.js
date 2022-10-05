@@ -43,7 +43,7 @@ export default function LoginForm() {
               <img src={logo.src} alt="logo SiMiddleman+" data-testid="logo"/>
           </div>
           <h2 data-testid="Title">Login</h2>
-          <Form onSubmit={handleSubmitLogin} id="loginForm" className="pt-3" data-testid="loginForm">
+          <Form onSubmit={handleSubmitLogin} id="loginForm" className="pt-3" data-testid="login">
             <Form.Group className="mb-3">
               <Form.Control
               type="email"
