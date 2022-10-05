@@ -36,6 +36,7 @@ func (s *server) SetupRouter() {
 
 	s.Router.GET("/product/:idroom", productHandler.GetSpesifikProduct)
 	s.Router.POST("/createproduct/:idroom", productHandler.CreateProduct)
+	// s.Router.POST("/createproductreturnid/:idroom", productHandler.CreateProductReturnID)
 	s.Router.PUT("/updateproduct/:id", productHandler.UpdateProduct)
 	s.Router.DELETE("/deleteproduct/:id", productHandler.DeleteProduct)
 }

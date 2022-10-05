@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 type Products struct {
 	gorm.Model
-	IdRoom    int    `json:"idroom"`
+	RoomsID   uint   `json:"idroom" gorm:"not null"`
 	Nama      string `json:"nama"`
 	Harga     int    `json:"harga"`
 	Kuantitas int    `json:"kuantitas"`

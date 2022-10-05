@@ -2,7 +2,6 @@ package product
 
 import (
 	"log"
-	"strconv"
 
 	"gorm.io/gorm"
 
@@ -11,8 +10,9 @@ import (
 )
 
 type Repository interface {
-	GetSpesifikProduct(idroom string) (models.Products, *errors.RestError)
-	CreateProduct(idroom string, req DataRequest) (models.Products, *errors.RestError)
+	GetSpesifikProduct(idroom uint) (models.Products, error)
+	CreateProduct(idroom uint, req DataRequest) (models.Products, error)
+	CreateProductReturnID(idroom uint, req DataRequest) (uint, error)
 	UpdateProduct(id string, req DataRequest) (models.Products, *errors.RestError)
 	DeleteProduct(id string) *errors.RestError
 }
@@ -25,27 +25,25 @@ func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) GetSpesifikProduct(idroom string) (models.Products, *errors.RestError) {
+func (r *repository) GetSpesifikProduct(idroom uint) (models.Products, error) {
 	var product models.Products
 
 	res := r.db.Where("id_room = ?", idroom).Find(&product)
 
 	if res.Error != nil {
-		return models.Products{}, errors.NewInternalServerError("Error while fetching data")
+		return models.Products{}, res.Error
 	}
 
 	if product.Nama == "" {
-		return models.Products{}, errors.NewBadRequestError("Belum ada Product")
+		return models.Products{}, res.Error
 	}
 
 	return product, nil
 }
 
-func (r *repository) CreateProduct(idroom string, req DataRequest) (models.Products, *errors.RestError) {
-	idroomconv, _ := strconv.Atoi(idroom)
-
+func (r *repository) CreateProduct(idroom uint, req DataRequest) (models.Products, error) {
 	product := models.Products{
-		IdRoom:    idroomconv,
+		RoomsID:   idroom,
 		Nama:      req.Nama,
 		Harga:     req.Harga,
 		Kuantitas: req.Kuantitas,
@@ -54,10 +52,28 @@ func (r *repository) CreateProduct(idroom string, req DataRequest) (models.Produ
 	res := r.db.Create(&product)
 	if res.Error != nil {
 		log.Println("Create Data error : ", res.Error)
-		return models.Products{}, errors.NewBadRequestError(res.Error.Error())
+		return models.Products{}, res.Error
 	}
 
 	return product, nil
+}
+
+func (r *repository) CreateProductReturnID(idroom uint, req DataRequest) (uint, error) {
+
+	product := models.Products{
+		RoomsID:   idroom,
+		Nama:      req.Nama,
+		Harga:     req.Harga,
+		Kuantitas: req.Kuantitas,
+		Deskripsi: req.Deskripsi,
+	}
+	res := r.db.Create(&product)
+	if res.Error != nil {
+		log.Println("Create Data error : ", res.Error)
+		return 0, res.Error
+	}
+
+	return product.ID, nil
 }
 
 func (r *repository) UpdateProduct(id string, req DataRequest) (models.Products, *errors.RestError) {
