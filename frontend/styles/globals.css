@@ -70,7 +70,8 @@ a {
   margin-right: -50%;
 }
 
-.centered-form .btn-merah {
+.centered-form .btn-merah,
+.modal-body .btn-merah {
   background-color: var(--primary);
   color: #fff;
 }
@@ -81,6 +82,7 @@ a {
 
 .modal-content .modal-header {
   border-bottom: none;
+  padding-top: 2.5rem;
 }
 
 .modal-header .modal-title {
@@ -112,4 +114,14 @@ a {
 
 .centered-form h2 {
   color: var(--primary);
+}
+
+.modal-content .avatar {
+  position: absolute;
+  top: -13%;
+  left: 40%;
+}
+
+.modal-content .avatar img {
+	width: 100%;
 }

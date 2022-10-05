@@ -8,11 +8,10 @@ import LoginForm from './Login';
 import RegisterForm from './register';
 import { useRouter } from 'next/router';
 import { signOut, signIn, useSession } from "next-auth/react";
+import CreateRoom from './CreateRoom';
 
 function Home() {
     const [show, setShow] = useState(false);
-    const handleShow = () => setShow(true)
-    const handleClose = () => setShow(false)
     const [registerModal, setRegisterModal] = useState(false);
     const openRegisterModal = () => setRegisterModal(true)
     const closeRegisterModal = () => setRegisterModal(false)
@@ -59,7 +58,10 @@ function Home() {
 
       if (session) {
         return (
-          <Button onClick={() => signOut()}>Sign out</Button>
+          <>
+            <Button onClick={() => signOut()}>Sign out</Button>
+            <CreateRoom/>
+          </>
         )
       }
       else {
