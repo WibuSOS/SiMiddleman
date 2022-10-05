@@ -40,7 +40,7 @@ function Home() {
       console.log(data);
       setData(data.message);
       if (data.message == "success") {
-        alert("benar")
+        router.push('./home')
       }
       else {
         alert("salah")

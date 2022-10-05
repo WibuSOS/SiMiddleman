@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/WibuSOS/sinarmas/auth"
+	"github.com/WibuSOS/sinarmas/product"
 	"github.com/WibuSOS/sinarmas/users"
 	"github.com/gin-contrib/cors"
 )
@@ -27,4 +28,14 @@ func (s *server) SetupRouter() {
 	s.Router.POST("/register", usersHandler.CreateUser)
 	// s.Router.PATCH("/updateCheck/:task_id", usersHandler.UpdateUser)
 	// s.Router.DELETE("/:task_id", usersHandler.DeleteUser)
+
+	//product
+	productRepo := product.NewRepository(s.DB)
+	productService := product.NewService(productRepo)
+	productHandler := product.NewHandler(productService)
+
+	s.Router.GET("/product/:idroom", productHandler.GetSpesifikProduct)
+	s.Router.POST("/createproduct/:idroom", productHandler.CreateProduct)
+	s.Router.PUT("/updateproduct/:id", productHandler.UpdateProduct)
+	s.Router.DELETE("/deleteproduct/:id", productHandler.DeleteProduct)
 }

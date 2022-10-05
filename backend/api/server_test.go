@@ -53,4 +53,7 @@ func TestServer(t *testing.T) {
 	// server.RunServer()
 	assert.NotNil(t, server)
 
+	// os.Setenv("asd", "8080")
+	// server.RunServer()
+	// assert.Error(t, server.DB.Error)
 }
