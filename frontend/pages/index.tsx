@@ -10,8 +10,6 @@ import { useRouter } from 'next/router';
 import { signOut, signIn, useSession } from "next-auth/react";
 
 function Home() {
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true)
     const handleClose = () => setShow(false)
@@ -21,34 +19,6 @@ function Home() {
 
     const getData = async () => {
         
-    }
-
-    const handleSubmitLogin = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const body = {
-        email: formData.get("email"),
-        password: formData.get("password")
-        }
-
-        try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
-            method: 'POST',
-            body: JSON.stringify(body)
-        });
-        const data = await res.json();
-        console.log(data);
-        setData(data.message);
-        if (data.message == "success") {
-            alert("benar")
-        }
-        else {
-            alert("salah")
-        }
-        }
-        catch (error) {
-            setError(error);
-        }
     }
 
     const handleSubmitRegister = async (e) => {
@@ -95,17 +65,13 @@ function Home() {
       else {
         return (
           <div className='container mx-10 my-7'>
-              <Button variant="primary" onClick={handleShow}>
+              <Button variant="primary" onClick={() => signIn()}>
                   Login
               </Button>
   
               <Button variant="primary" onClick={openRegisterModal}>
                   Register
               </Button>
-              
-              <LoginForm handleSubmit={handleSubmitLogin}
-                  handleClose={handleClose}
-                  show={show}/>
               
               <RegisterForm handleSubmit={handleSubmitRegister}
                   closeRegisterModal={closeRegisterModal}

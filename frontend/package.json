@@ -14,7 +14,8 @@
     "next-auth": "^4.12.2",
     "react": "18.2.0",
     "react-bootstrap": "^2.5.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "sweetalert2": "^11.4.37"
   },
   "devDependencies": {
     "@types/node": "18.7.23",

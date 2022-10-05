@@ -1,19 +1,21 @@
 import NextAuth from 'next-auth'
 import CredentialProvider from 'next-auth/providers/credentials'
+import { Alert } from 'react-bootstrap';
+import Swal from 'sweetalert2'
 
 export default NextAuth ({
     providers: [
         CredentialProvider({
             name: "credentials",
             credentials: {
-                email: { 
-                    label: "Email", 
-                    type: "email", 
-                    placeholder: "admin@localhost.com"},
-                password: { 
-                    label: "Password", 
-                    type: "password"},
-            },
+              email: { 
+                  label: "Email", 
+                  type: "email", 
+                  placeholder: "admin@localhost.com"},
+              password: { 
+                  label: "Password", 
+                  type: "password"},
+          },
             authorize : async (credentials, req) => {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
                   method: 'POST',
@@ -29,9 +31,9 @@ export default NextAuth ({
             
         }),
     ],
-    // pages: {
-    //     signIn: "/",
-    // },
+    pages: {
+        signIn: "/Login",
+    },
     callbacks: {
         jwt: ({ token, user }) => {
             // first time jwt callback is run, user object is available
