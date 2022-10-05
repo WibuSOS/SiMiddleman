@@ -1,6 +1,7 @@
 package errors
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -30,7 +31,7 @@ func NewInternalServerError(message string) *RestError {
 	return &RestError{
 		Message: message,
 		Status:  http.StatusInternalServerError,
-		Error:   "internal_server_error",
+		Error:   "Internal_Server_Error",
 	}
 }
 
@@ -40,4 +41,8 @@ func NewUnauthorized(message string) *RestError {
 		Status:  http.StatusUnauthorized,
 		Error:   "Unauthorized",
 	}
+}
+
+func LogError(err *RestError) {
+	log.Printf("status:%v \nerror:%v \nmessage:%v", err.Status, err.Error, err.Message)
 }

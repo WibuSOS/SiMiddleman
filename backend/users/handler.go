@@ -1,10 +1,10 @@
 package users
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/WibuSOS/sinarmas/models"
+	"github.com/WibuSOS/sinarmas/utils/errors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,40 +16,45 @@ func NewHandler(service Service) *Handler {
 	return &Handler{service}
 }
 
-// func (h *Handler) GetUser(c *gin.Context) {
-// 	todos, status, err := h.Service.GetTodos()
-// 	if err != nil {
-// 		log.Println(err.Error())
-// 		c.JSON(status, gin.H{
-// 			"message": err.Error(),
-// 		})
-// 		return
-// 	}
-
-// 	c.JSON(status, gin.H{
-// 		"message": "success",
-// 		"data":    todos,
-// 	})
-// }
-
 func (h *Handler) CreateUser(c *gin.Context) {
 	var req models.Users
 	if err := c.ShouldBindJSON(&req); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		error := errors.NewBadRequestError(err.Error())
+		errors.LogError(error)
+		c.JSON(error.Status, gin.H{"message": error.Message})
 		return
 	}
 
-	status, err := h.Service.CreateUser(&req)
+	err := h.Service.CreateUser(&req)
 	if err != nil {
-		log.Println(err.Error())
-		c.JSON(status, gin.H{
-			"message": err.Error(),
+		errors.LogError(err)
+		c.JSON(err.Status, gin.H{
+			"message": err.Message,
 		})
 		return
 	}
 
-	c.JSON(status, gin.H{
+	c.JSON(http.StatusOK, gin.H{
+		"message": "success",
+	})
+}
+
+func (h *Handler) GetUser(c *gin.Context) {
+	// todos, status, err := h.Service.GetTodos()
+	// if err != nil {
+	// 	log.Println(err.Error())
+	// 	c.JSON(status, gin.H{
+	// 		"message": err.Error(),
+	// 	})
+	// 	return
+	// }
+
+	// c.JSON(status, gin.H{
+	// 	"message": "success",
+	// 	"data":    todos,
+	// })
+
+	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
 	})
 }
