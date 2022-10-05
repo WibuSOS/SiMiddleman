@@ -35,6 +35,7 @@ func (s *service) Login(req DataRequest) (DataResponse, *errors.RestError) {
 	}
 
 	res := DataResponse{
+		Nama:  user.Nama,
 		Email: user.Email,
 		Token: token,
 	}

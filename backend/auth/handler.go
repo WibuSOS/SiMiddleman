@@ -34,6 +34,6 @@ func (h *Handler) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
 		"data":    res,
-		"token":   res.Token,
+		//"token":   res.Token,
 	})
 }

@@ -16,11 +16,11 @@ func (s *server) SetupRouter() {
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
 	}))
 
-	// customer := []string{"consumer"}
+	// consumer := []string{"consumer"}
 	// admin := []string{"admin"}
-	// all := []string{"customer, admin"}
+	// all := []string{"consumer, admin"}
 
-	// isConsumer := authorization.Roles{AllowedRoles: customer[:]}
+	// isConsumer := authorization.Roles{AllowedRoles: consumer[:]}
 	// isAdmin := authorization.Roles{AllowedRoles: admin[:]}
 	// isAll := authorization.Roles{AllowedRoles: all[:]}
 

@@ -1,7 +1,7 @@
 package auth
 
 type DataResponse struct {
+	Nama  string `json:"nama"`
 	Email string `json:"email"`
-	//ID    uint   `json:"id"`
 	Token string `json:"token"`
 }
