@@ -2,6 +2,8 @@ import { Form } from "react-bootstrap";
 import logo from './assets/logo.png';
 import Button from 'react-bootstrap/Button';
 import { signIn } from "next-auth/react";
+import Swal from 'sweetalert2';
+import router from "next/router";
 
 export default function LoginForm() {
   const handleSubmitLogin = async (e) => {
@@ -11,7 +13,28 @@ export default function LoginForm() {
       email: formData.get("email"),
       password: formData.get("password")
     }
-    signIn("credentials", {email: body.email, password: body.password, callbackUrl: "/"})
+    signIn("credentials", {
+      email: body.email, 
+      password: body.password,
+      redirect: false,
+      callbackUrl: "/"},)
+      .then(({ ok, error }) => {
+        if (ok) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Login berhasil',
+            showConfirmButton: false,
+            timer: 1500,
+          })
+          router.push("/");
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Login gagal',
+            text: 'Email/Password anda salah',
+          })
+        }
+      })
   }
     return (   
       <div className="test">
@@ -39,11 +62,11 @@ export default function LoginForm() {
             </Form.Group>
           </Form>
           <div className='d-flex justify-content-between'>
-            <a>Lupa Password?</a>
+            <a onClick={() => alert("not yet implemented")}>Lupa Password?</a>
             <Button type='submit' variant='merah' form='loginForm'>Masuk</Button>
           </div>
           <p className='or'>OR</p>
-          <Button variant='merah' className='w-100'>Daftar Akun</Button>
+          <Button variant='merah' className='w-100'>Daftar</Button>
         </div>
       </div>
     )
