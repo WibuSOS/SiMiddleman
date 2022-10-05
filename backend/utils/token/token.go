@@ -25,11 +25,6 @@ func GenerateToken(user models.Users) (string, *errors.RestError) {
 		Role:  user.Role,
 	}
 
-	// actClaims := jwt.MapClaims{}
-	// actClaims["user_id"] = user.ID
-	// actClaims["user_email"] = user.Email
-	// actClaims["exp"] = expTime
-
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, actClaims)
 	resultToken, err := at.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
