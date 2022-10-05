@@ -1,10 +1,9 @@
-import { Form, Modal, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
 import { signIn } from "next-auth/react";
-import RegForm from './registerForm'
+import RegisterModal from './registerModal'
 
 export default function RegisterForm() {
   const [registerModal, setRegisterModal] = useState(false);
@@ -56,23 +55,13 @@ export default function RegisterForm() {
 
   return (
     <>
-      <Button variant="primary" onClick={openRegisterModal}>
+      <Button variant="primary" onClick={openRegisterModal} data-testid="buttonRegister">
         Register
       </Button>
-      <Modal show={registerModal} onHide={closeRegisterModal}
-        aria-labelledby="contained-modal-title-vcenter"
-        centered>
-        <Modal.Header closeButton>	
-          <div className="avatar">
-              <img src={logo.src} alt="logo SiMiddleman+"/>
-          </div>
-          <Modal.Title className="ms-auto">Register</Modal.Title>
-        </Modal.Header>
 
-        <Modal.Body>
-          <RegForm handleSubmitRegister={handleSubmitRegister} />
-        </Modal.Body>
-      </Modal> 
+      <RegisterModal handleSubmitRegister={handleSubmitRegister}
+        closeRegisterModal={closeRegisterModal}
+        registerModal={registerModal}/>
     </>
   )
 }
