@@ -3,7 +3,7 @@ import "@testing-library/jest-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 
 describe("Register Form", () => {
-  it("renders a register form", () => {
+  it("Renders a register form", () => {
     render(<RegisterModal handleSubmitRegister={() => {}}
       closeRegisterModal={() => {}}
       registerModal={() => {}}/>);
