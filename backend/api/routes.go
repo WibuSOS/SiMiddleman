@@ -2,8 +2,9 @@ package api
 
 import (
 	"github.com/WibuSOS/sinarmas/auth"
+	"github.com/WibuSOS/sinarmas/controllers/rooms"
+	"github.com/WibuSOS/sinarmas/controllers/users"
 	"github.com/WibuSOS/sinarmas/product"
-	"github.com/WibuSOS/sinarmas/users"
 	"github.com/gin-contrib/cors"
 )
 
@@ -20,6 +21,7 @@ func (s *server) SetupRouter() {
 	//auth
 	s.Router.POST("/login", authHandler.Login)
 
+	// users controller (register)
 	usersRepo := users.NewRepository(s.DB)
 	usersService := users.NewService(usersRepo)
 	usersHandler := users.NewHandler(usersService)
@@ -34,9 +36,16 @@ func (s *server) SetupRouter() {
 	productService := product.NewService(productRepo)
 	productHandler := product.NewHandler(productService)
 
-	s.Router.GET("/product/:idroom", productHandler.GetSpesifikProduct)
-	s.Router.POST("/createproduct/:idroom", productHandler.CreateProduct)
+	// s.Router.GET("/product/:idroom", productHandler.GetSpesifikProduct)
+	// s.Router.POST("/createproduct/:idroom", productHandler.CreateProduct)
 	// s.Router.POST("/createproductreturnid/:idroom", productHandler.CreateProductReturnID)
 	s.Router.PUT("/updateproduct/:id", productHandler.UpdateProduct)
 	s.Router.DELETE("/deleteproduct/:id", productHandler.DeleteProduct)
+
+	// rooms controller (create)
+	roomsRepo := rooms.NewRepository(s.DB)
+	roomsService := rooms.NewService(roomsRepo)
+	roomsHandler := rooms.NewHandler(roomsService)
+
+	s.Router.POST("/rooms", roomsHandler.CreateRoom)
 }

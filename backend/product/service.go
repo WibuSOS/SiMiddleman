@@ -7,9 +7,9 @@ import (
 )
 
 type Service interface {
-	GetSpesifikProduct(idroom uint, req DataRequest) (models.Products, error)
-	CreateProduct(idroom uint, req DataRequest) (models.Products, error)
-	CreateProductReturnID(idroom uint, req DataRequest) (uint, error)
+	// GetSpesifikProduct(idroom uint, req DataRequest) (models.Products, error)
+	// CreateProduct(idroom uint, req DataRequest) (models.Products, error)
+	// CreateProductReturnID(idroom uint, req DataRequest) (uint, error)
 	UpdateProduct(id string, req DataRequest) (models.Products, *errors.RestError)
 	DeleteProduct(id string) *errors.RestError
 }
@@ -22,34 +22,34 @@ func NewService(repo Repository) *service {
 	return &service{repo}
 }
 
-func (s *service) GetSpesifikProduct(idroom uint, req DataRequest) (models.Products, error) {
-	product, err := s.repo.GetSpesifikProduct(idroom)
-	if err != nil {
-		return models.Products{}, err
-	}
+// func (s *service) GetSpesifikProduct(idroom uint, req DataRequest) (models.Products, error) {
+// 	product, err := s.repo.GetSpesifikProduct(idroom)
+// 	if err != nil {
+// 		return models.Products{}, err
+// 	}
 
-	return product, nil
-}
+// 	return product, nil
+// }
 
-func (s *service) CreateProduct(idroom uint, req DataRequest) (models.Products, error) {
+// func (s *service) CreateProduct(idroom uint, req DataRequest) (models.Products, error) {
 
-	product, err := s.repo.CreateProduct(idroom, req)
-	if err != nil {
-		return models.Products{}, err
-	}
+// 	product, err := s.repo.CreateProduct(idroom, req)
+// 	if err != nil {
+// 		return models.Products{}, err
+// 	}
 
-	return product, nil
-}
+// 	return product, nil
+// }
 
-func (s *service) CreateProductReturnID(idroom uint, req DataRequest) (uint, error) {
+// func (s *service) CreateProductReturnID(idroom uint, req DataRequest) (uint, error) {
 
-	idproduct, err := s.repo.CreateProductReturnID(idroom, req)
-	if err != nil {
-		return 0, err
-	}
+// 	idproduct, err := s.repo.CreateProductReturnID(idroom, req)
+// 	if err != nil {
+// 		return 0, err
+// 	}
 
-	return idproduct, nil
-}
+// 	return idproduct, nil
+// }
 
 func (s *service) UpdateProduct(id string, req DataRequest) (models.Products, *errors.RestError) {
 	product, err := s.repo.UpdateProduct(id, req)

@@ -10,9 +10,9 @@ import (
 )
 
 type Repository interface {
-	GetSpesifikProduct(idroom uint) (models.Products, error)
-	CreateProduct(idroom uint, req DataRequest) (models.Products, error)
-	CreateProductReturnID(idroom uint, req DataRequest) (uint, error)
+	// GetSpesifikProduct(idroom uint) (models.Products, error)
+	// CreateProduct(idroom uint, req DataRequest) (models.Products, error)
+	// CreateProductReturnID(idroom uint, req DataRequest) (uint, error)
 	UpdateProduct(id string, req DataRequest) (models.Products, *errors.RestError)
 	DeleteProduct(id string) *errors.RestError
 }
@@ -25,56 +25,56 @@ func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) GetSpesifikProduct(idroom uint) (models.Products, error) {
-	var product models.Products
+// func (r *repository) GetSpesifikProduct(idroom uint) (models.Products, error) {
+// 	var product models.Products
 
-	res := r.db.Where("id_room = ?", idroom).Find(&product)
+// 	res := r.db.Where("id_room = ?", idroom).Find(&product)
 
-	if res.Error != nil {
-		return models.Products{}, res.Error
-	}
+// 	if res.Error != nil {
+// 		return models.Products{}, res.Error
+// 	}
 
-	if product.Nama == "" {
-		return models.Products{}, res.Error
-	}
+// 	if product.Nama == "" {
+// 		return models.Products{}, res.Error
+// 	}
 
-	return product, nil
-}
+// 	return product, nil
+// }
 
-func (r *repository) CreateProduct(idroom uint, req DataRequest) (models.Products, error) {
-	product := models.Products{
-		RoomsID:   idroom,
-		Nama:      req.Nama,
-		Harga:     req.Harga,
-		Kuantitas: req.Kuantitas,
-		Deskripsi: req.Deskripsi,
-	}
-	res := r.db.Create(&product)
-	if res.Error != nil {
-		log.Println("Create Data error : ", res.Error)
-		return models.Products{}, res.Error
-	}
+// func (r *repository) CreateProduct(idroom uint, req DataRequest) (models.Products, error) {
+// 	product := models.Products{
+// 		RoomsID:   idroom,
+// 		Nama:      req.Nama,
+// 		Harga:     req.Harga,
+// 		Kuantitas: req.Kuantitas,
+// 		Deskripsi: req.Deskripsi,
+// 	}
+// 	res := r.db.Create(&product)
+// 	if res.Error != nil {
+// 		log.Println("Create Data error : ", res.Error)
+// 		return models.Products{}, res.Error
+// 	}
 
-	return product, nil
-}
+// 	return product, nil
+// }
 
-func (r *repository) CreateProductReturnID(idroom uint, req DataRequest) (uint, error) {
+// func (r *repository) CreateProductReturnID(idroom uint, req DataRequest) (uint, error) {
 
-	product := models.Products{
-		RoomsID:   idroom,
-		Nama:      req.Nama,
-		Harga:     req.Harga,
-		Kuantitas: req.Kuantitas,
-		Deskripsi: req.Deskripsi,
-	}
-	res := r.db.Create(&product)
-	if res.Error != nil {
-		log.Println("Create Data error : ", res.Error)
-		return 0, res.Error
-	}
+// 	product := models.Products{
+// 		RoomsID:   idroom,
+// 		Nama:      req.Nama,
+// 		Harga:     req.Harga,
+// 		Kuantitas: req.Kuantitas,
+// 		Deskripsi: req.Deskripsi,
+// 	}
+// 	res := r.db.Create(&product)
+// 	if res.Error != nil {
+// 		log.Println("Create Data error : ", res.Error)
+// 		return 0, res.Error
+// 	}
 
-	return product.ID, nil
-}
+// 	return product.ID, nil
+// }
 
 func (r *repository) UpdateProduct(id string, req DataRequest) (models.Products, *errors.RestError) {
 	product := models.Products{

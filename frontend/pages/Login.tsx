@@ -1,23 +1,27 @@
 import { Form } from "react-bootstrap";
-import Modal from 'react-bootstrap/Modal';
 import logo from './assets/logo.png';
 import Button from 'react-bootstrap/Button';
+import { signIn } from "next-auth/react";
 
-export default function LoginForm({ handleSubmit, handleClose, show }) {
-    return (
-      <Modal show={show} onHide={handleClose}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered>
-        <Modal.Header closeButton>	
-          <div className="avatar">
+export default function LoginForm() {
+  const handleSubmitLogin = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const body = {
+      email: formData.get("email"),
+      password: formData.get("password")
+    }
+    signIn("credentials", {email: body.email, password: body.password, callbackUrl: "/"})
+  }
+    return (   
+      <div className="test">
+        <div className="centered-form text-center">
+          <div className="avatar text-center">
               <img src={logo.src} alt="logo SiMiddleman+"/>
           </div>
-          <Modal.Title className="ms-auto">Login</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>            
-          <Form onSubmit={handleSubmit} id="loginForm">
-            <Form.Group className="mb-3" controlId='userEmail'>
+          <h2>Login</h2>
+          <Form onSubmit={handleSubmitLogin} id="loginForm" className="pt-3">
+            <Form.Group className="mb-3">
               <Form.Control
               type="email"
               placeholder="Email"
@@ -25,7 +29,7 @@ export default function LoginForm({ handleSubmit, handleClose, show }) {
               required
               autoFocus/>
             </Form.Group>
-            <Form.Group className="mb-3" controlId='userPassword'>
+            <Form.Group className="mb-3">
               <Form.Control
               type="password"
               placeholder="Password"
@@ -34,16 +38,13 @@ export default function LoginForm({ handleSubmit, handleClose, show }) {
               minLength={8}/>
             </Form.Group>
           </Form>
-
           <div className='d-flex justify-content-between'>
-              <a>Lupa Password?</a>
-              <Button type='submit' variant='merah' form='loginForm'>Masuk</Button>
+            <a>Lupa Password?</a>
+            <Button type='submit' variant='merah' form='loginForm'>Masuk</Button>
           </div>
-
           <p className='or'>OR</p>
-
-          <Button variant='merah' onClick={handleClose} className='w-100'>Daftar Akun</Button>
-        </Modal.Body>
-      </Modal>
+          <Button variant='merah' className='w-100'>Daftar Akun</Button>
+        </div>
+      </div>
     )
 }
