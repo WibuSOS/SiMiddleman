@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/WibuSOS/sinarmas/auth"
+	"github.com/WibuSOS/sinarmas/controllers/rooms"
 	"github.com/WibuSOS/sinarmas/controllers/users"
 	"github.com/gin-contrib/cors"
 )
@@ -19,6 +20,7 @@ func (s *server) SetupRouter() {
 	//auth
 	s.Router.POST("/login", authHandler.Login)
 
+	// users controller (register)
 	usersRepo := users.NewRepository(s.DB)
 	usersService := users.NewService(usersRepo)
 	usersHandler := users.NewHandler(usersService)
@@ -27,4 +29,11 @@ func (s *server) SetupRouter() {
 	s.Router.POST("/register", usersHandler.CreateUser)
 	// s.Router.PATCH("/updateCheck/:task_id", usersHandler.UpdateUser)
 	// s.Router.DELETE("/:task_id", usersHandler.DeleteUser)
+
+	// rooms controller (create)
+	roomsRepo := rooms.NewRepository(s.DB)
+	roomsService := rooms.NewService(roomsRepo)
+	roomsHandler := rooms.NewHandler(roomsService)
+
+	s.Router.POST("/rooms", roomsHandler.CreateRoom)
 }
