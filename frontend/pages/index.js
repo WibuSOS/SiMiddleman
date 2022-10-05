@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import { signOut, signIn, useSession } from "next-auth/react";
 import CreateRoom from './CreateRoom';
-import RegisterForm from './Register';
+import RegisterForm from './register';
 
 function Home() {    
   const { data: session } = useSession();
