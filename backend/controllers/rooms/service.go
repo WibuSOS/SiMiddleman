@@ -1,12 +1,11 @@
 package rooms
 
 import (
-	"github.com/WibuSOS/sinarmas/models"
 	"github.com/WibuSOS/sinarmas/utils/errors"
 )
 
 type Service interface {
-	CreateUser(req *models.Users) *errors.RestError
+	CreateRoom(req *DataRequest) *errors.RestError
 	// GetUser() (models.Users, int, error)
 	// UpdateUser(taskId string) (int, error)
 	// DeleteUser(taskId string) (int, error)
@@ -20,8 +19,8 @@ func NewService(repo Repository) *service {
 	return &service{repo}
 }
 
-func (s *service) CreateUser(req *models.Users) *errors.RestError {
-	err := s.repo.CreateUser(req)
+func (s *service) CreateRoom(req *DataRequest) *errors.RestError {
+	err := s.repo.CreateRoom(req)
 	if err != nil {
 		return err
 	}

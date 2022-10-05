@@ -3,12 +3,11 @@ package rooms
 import (
 	"github.com/WibuSOS/sinarmas/models"
 	"github.com/WibuSOS/sinarmas/utils/errors"
-	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
 type Repository interface {
-	CreateUser(req *models.Users) *errors.RestError
+	CreateRoom(req *DataRequest) *errors.RestError
 	// GetUser() (models.Users, error)
 	// UpdateUser(taskId string) error
 	// DeleteUser(taskId string) error
@@ -22,16 +21,17 @@ func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) CreateUser(req *models.Users) *errors.RestError {
-	req.Role = "consumer"
-	err := req.ValidateUser()
-	if err != nil {
-		return errors.NewBadRequestError(err.Error())
+func (r *repository) CreateRoom(req *DataRequest) *errors.RestError {
+	if err := req.ValidateReq(); err != nil {
+		return err
 	}
 
-	pb, _ := bcrypt.GenerateFromPassword([]byte(req.Password), 8)
-	req.Password = string(pb)
-	res := r.db.Create(&req)
+	newRoom := models.Rooms{
+		PenjualID: req.PenjualID,
+		Product:   models.Product{},
+	}
+
+	res := r.db.Omit("Transaction").Create(&newRoom)
 	if res.Error != nil {
 		return errors.NewBadRequestError(res.Error.Error())
 	}

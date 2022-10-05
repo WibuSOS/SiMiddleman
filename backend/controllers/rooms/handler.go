@@ -3,7 +3,6 @@ package rooms
 import (
 	"net/http"
 
-	"github.com/WibuSOS/sinarmas/models"
 	"github.com/WibuSOS/sinarmas/utils/errors"
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +16,7 @@ func NewHandler(service Service) *Handler {
 }
 
 func (h *Handler) CreateRoom(c *gin.Context) {
-	var req models.Users
+	var req DataRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		error := errors.NewBadRequestError(err.Error())
 		errors.LogError(error)
@@ -25,7 +24,7 @@ func (h *Handler) CreateRoom(c *gin.Context) {
 		return
 	}
 
-	err := h.Service.CreateUser(&req)
+	err := h.Service.CreateRoom(&req)
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{
