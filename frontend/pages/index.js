@@ -5,6 +5,7 @@ import RegisterForm from './register';
 
 function Home() {    
   const { data: session } = useSession();
+  console.log("session", session)
 
   if (session) {
     return (
