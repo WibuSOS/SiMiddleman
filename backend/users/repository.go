@@ -23,19 +23,14 @@ func NewRepository(db *gorm.DB) *repository {
 }
 
 func (r *repository) CreateUser(req *models.Users) *errors.RestError {
-	pb, err := bcrypt.GenerateFromPassword([]byte(req.Password), 8)
-
-	if err != nil {
-		return errors.NewBadRequestError(err.Error())
-	}
-
 	req.Role = "consumer"
-	err = req.ValidateUser()
-	req.Password = string(pb)
+	err := req.ValidateUser()
 	if err != nil {
 		return errors.NewBadRequestError(err.Error())
 	}
 
+	pb, _ := bcrypt.GenerateFromPassword([]byte(req.Password), 8)
+	req.Password = string(pb)
 	res := r.db.Create(&req)
 	if res.Error != nil {
 		return errors.NewBadRequestError(res.Error.Error())
