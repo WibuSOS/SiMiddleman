@@ -2,7 +2,7 @@ package api
 
 import (
 	"github.com/WibuSOS/sinarmas/auth"
-	"github.com/WibuSOS/sinarmas/users"
+	"github.com/WibuSOS/sinarmas/controllers/users"
 	"github.com/gin-contrib/cors"
 )
 
