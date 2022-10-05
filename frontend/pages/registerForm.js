@@ -55,7 +55,7 @@ export default function FormRegister({ handleSubmitRegister }) {
                   type="password"
                   placeholder="Confirm Password"
                   name='confirmPassword'
-                  data-testid="confirm"
+                  data-testid="confirmPassword"
                   required
                   minLength={8}
               />
