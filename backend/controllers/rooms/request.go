@@ -1,8 +1,7 @@
 package rooms
 
 import (
-	"fmt"
-
+	"github.com/WibuSOS/sinarmas/product"
 	"github.com/WibuSOS/sinarmas/utils/errors"
 )
 
@@ -23,8 +22,8 @@ func (req *DataRequest) ValidateReq() *errors.RestError {
 		return errors.NewBadRequestError("oops... there is something wrong")
 	}
 
-	if err := req.Product.ValidateReq(); err != nil {
-		return errors.NewBadRequestError(err.Error())
+	if err := req.Produk.ValidateReq(); err != nil {
+		return err
 	}
 
 	return nil

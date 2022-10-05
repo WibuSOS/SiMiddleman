@@ -1,10 +1,6 @@
-package models
+package product
 
-import "gorm.io/gorm"
-
-type Products struct {
-	gorm.Model
-	RoomsID   uint   `json:"idroom" gorm:"not null"`
+type DataResponse struct {
 	Nama      string `json:"nama"`
 	Harga     int    `json:"harga"`
 	Kuantitas int    `json:"kuantitas"`
