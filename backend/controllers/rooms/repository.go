@@ -10,7 +10,7 @@ import (
 )
 
 type Repository interface {
-	CreateRoom(req *DataRequest) *errors.RestError
+	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	// GetUser() (models.Users, error)
 	// UpdateUser(taskId string) error
 	// DeleteUser(taskId string) error
@@ -36,16 +36,16 @@ func generateRoomCode(n int) string {
 	return string(b)
 }
 
-func (r *repository) CreateRoom(req *DataRequest) *errors.RestError {
+func (r *repository) CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError) {
 	if err := req.ValidateReq(); err != nil {
-		return err
+		return models.Rooms{}, err
 	}
 
 	roomCodeLength := 10
 	newRoom := models.Rooms{
 		PenjualID: req.PenjualID,
 		RoomCode:  generateRoomCode(roomCodeLength),
-		Product: models.Products{
+		Product: &models.Products{
 			Nama:      req.Product.Nama,
 			Deskripsi: req.Product.Deskripsi,
 			Harga:     req.Product.Harga,
@@ -55,10 +55,10 @@ func (r *repository) CreateRoom(req *DataRequest) *errors.RestError {
 
 	res := r.db.Omit("Transaction").Create(&newRoom)
 	if res.Error != nil {
-		return errors.NewBadRequestError(res.Error.Error())
+		return models.Rooms{}, errors.NewBadRequestError(res.Error.Error())
 	}
 
-	return nil
+	return newRoom, nil
 }
 
 // func (r *repository) GetUser() (models.Users, error) {
