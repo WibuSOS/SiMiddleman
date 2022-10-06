@@ -13,6 +13,7 @@ import (
 type Repository interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError)
+	JoinRoom(room_id string, user_id string) (models.Rooms, *errors.RestError)
 	// UpdateUser(taskId string) error
 	// DeleteUser(taskId string) error
 }
@@ -81,6 +82,24 @@ func (r *repository) GetAllRooms(user_id string) ([]models.Rooms, *errors.RestEr
 	newRooms = append(newRooms, user.PembeliRooms...)
 
 	return newRooms, nil
+}
+
+func (r *repository) JoinRoom(room_id string, user_id string) (models.Rooms, *errors.RestError) {
+	var room models.Rooms
+
+	res := r.db.
+		Preload("Product").
+		Where("id = ? AND (penjual_id = ? OR pembeli_id = ?)", room_id, user_id, user_id).Find(&room)
+
+	if res.Error != nil {
+		return models.Rooms{}, errors.NewBadRequestError(res.Error.Error())
+	}
+
+	if room.ID == 0 {
+		return models.Rooms{}, errors.NewBadRequestError("Tidak bisa memasuki ruangan")
+	}
+
+	return room, nil
 }
 
 // func (r *repository) DeleteUser(taskId string) error {
