@@ -4,9 +4,9 @@ import "github.com/WibuSOS/sinarmas/utils/errors"
 
 type DataRequest struct {
 	Nama      string `json:"nama"`
-	Harga     int    `json:"harga"`
-	Kuantitas int    `json:"kuantitas"`
 	Deskripsi string `json:"deskripsi"`
+	Harga     uint   `json:"harga"`
+	Kuantitas uint   `json:"kuantitas"`
 }
 
 func (r *DataRequest) ValidateReq() *errors.RestError {

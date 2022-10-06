@@ -3,7 +3,6 @@ package rooms
 import (
 	"net/http"
 
-	"github.com/WibuSOS/sinarmas/models"
 	"github.com/WibuSOS/sinarmas/utils/errors"
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +16,7 @@ func NewHandler(service Service) *Handler {
 }
 
 func (h *Handler) CreateRoom(c *gin.Context) {
-	var req models.Users
+	var req DataRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		error := errors.NewBadRequestError(err.Error())
 		errors.LogError(error)
@@ -25,39 +24,41 @@ func (h *Handler) CreateRoom(c *gin.Context) {
 		return
 	}
 
-	err := h.Service.CreateUser(&req)
+	newRoom, err := h.Service.CreateRoom(&req)
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{
 			"message": err.Message,
+			"data":    newRoom,
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
+		"data":    newRoom,
 	})
 }
 
-func (h *Handler) GetUser(c *gin.Context) {
-	// todos, status, err := h.Service.GetTodos()
-	// if err != nil {
-	// 	log.Println(err.Error())
-	// 	c.JSON(status, gin.H{
-	// 		"message": err.Error(),
-	// 	})
-	// 	return
-	// }
+// func (h *Handler) GetUser(c *gin.Context) {
+// 	todos, status, err := h.Service.GetTodos()
+// 	if err != nil {
+// 		log.Println(err.Error())
+// 		c.JSON(status, gin.H{
+// 			"message": err.Error(),
+// 		})
+// 		return
+// 	}
 
-	// c.JSON(status, gin.H{
-	// 	"message": "success",
-	// 	"data":    todos,
-	// })
+// 	c.JSON(status, gin.H{
+// 		"message": "success",
+// 		"data":    todos,
+// 	})
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "success",
-	})
-}
+// 	c.JSON(http.StatusOK, gin.H{
+// 		"message": "success",
+// 	})
+// }
 
 // func (h *Handler) UpdateUser(c *gin.Context) {
 // 	taskId := c.Param("task_id")

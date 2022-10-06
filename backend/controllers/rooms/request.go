@@ -6,8 +6,8 @@ import (
 )
 
 type DataRequest struct {
-	PenjualID uint                `json:"id"`
-	Produk    product.DataRequest `json:"produk"`
+	PenjualID uint                 `json:"id"`
+	Product   *product.DataRequest `json:"product"`
 }
 
 func (req *DataRequest) ValidateReq() *errors.RestError {
@@ -15,7 +15,7 @@ func (req *DataRequest) ValidateReq() *errors.RestError {
 		return errors.NewBadRequestError("oops... there is something wrong")
 	}
 
-	if err := req.Produk.ValidateReq(); err != nil {
+	if err := req.Product.ValidateReq(); err != nil {
 		return err
 	}
 

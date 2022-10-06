@@ -6,7 +6,7 @@ import (
 )
 
 type Service interface {
-	CreateUser(req *models.Users) *errors.RestError
+	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	// GetUser() (models.Users, int, error)
 	// UpdateUser(taskId string) (int, error)
 	// DeleteUser(taskId string) (int, error)
@@ -20,13 +20,9 @@ func NewService(repo Repository) *service {
 	return &service{repo}
 }
 
-func (s *service) CreateUser(req *models.Users) *errors.RestError {
-	err := s.repo.CreateUser(req)
-	if err != nil {
-		return err
-	}
-
-	return nil
+func (s *service) CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError) {
+	newRoom, err := s.repo.CreateRoom(req)
+	return newRoom, err
 }
 
 // func (s *service) GetUser() (models.Users, int, error) {
