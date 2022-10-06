@@ -16,6 +16,8 @@ func SetupDb() (*gorm.DB, error) {
 
 	if os.Getenv("ENVIRONMENT") == "PROD" {
 		db, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
+	} else if os.Getenv("ENVIRONMENT") == "STAGING" {
+		db, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
 	} else {
 		config := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 			os.Getenv("DB_HOST"),
