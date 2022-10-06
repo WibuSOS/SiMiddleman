@@ -1,8 +1,12 @@
 package api
 
 import (
+	//"github.com/WibuSOS/sinarmas/middlewares/authentication"
+	//"github.com/WibuSOS/sinarmas/middlewares/authorization"
+
 	"github.com/WibuSOS/sinarmas/auth"
-	"github.com/WibuSOS/sinarmas/users"
+	"github.com/WibuSOS/sinarmas/controllers/rooms"
+	"github.com/WibuSOS/sinarmas/controllers/users"
 	"github.com/gin-contrib/cors"
 )
 
@@ -12,6 +16,14 @@ func (s *server) SetupRouter() {
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
 	}))
 
+	// customer := []string{"consumer"}
+	// admin := []string{"admin"}
+	// all := []string{"customer, admin"}
+
+	// isConsumer := authorization.Roles{AllowedRoles: customer[:]}
+	// isAdmin := authorization.Roles{AllowedRoles: admin[:]}
+	// isAll := authorization.Roles{AllowedRoles: all[:]}
+
 	authRepo := auth.NewRepository(s.DB)
 	authService := auth.NewService(authRepo)
 	authHandler := auth.NewHandler(authService)
@@ -19,12 +31,20 @@ func (s *server) SetupRouter() {
 	//auth
 	s.Router.POST("/login", authHandler.Login)
 
+	// users controller (register)
 	usersRepo := users.NewRepository(s.DB)
 	usersService := users.NewService(usersRepo)
 	usersHandler := users.NewHandler(usersService)
 
 	s.Router.GET("/", usersHandler.GetUser)
-	s.Router.POST("/register", usersHandler.CreateUser)
+	s.Router.POST("/register" /*authentication.Authentication, isAdmin.Authorize,*/, usersHandler.CreateUser)
 	// s.Router.PATCH("/updateCheck/:task_id", usersHandler.UpdateUser)
 	// s.Router.DELETE("/:task_id", usersHandler.DeleteUser)
+
+	// rooms controller (create)
+	roomsRepo := rooms.NewRepository(s.DB)
+	roomsService := rooms.NewService(roomsRepo)
+	roomsHandler := rooms.NewHandler(roomsService)
+
+	s.Router.POST("/rooms", roomsHandler.CreateRoom)
 }
