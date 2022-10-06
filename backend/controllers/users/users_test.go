@@ -19,7 +19,7 @@ func newTestDB(t *testing.T) *gorm.DB {
 	assert.NoError(t, err)
 	assert.NotNil(t, db)
 
-	err = db.AutoMigrate(&models.Users{})
+	err = db.AutoMigrate(&models.Users{}, &models.Rooms{}, &models.Products{}, &models.Transactions{})
 	assert.NoError(t, err)
 
 	return db

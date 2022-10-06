@@ -7,7 +7,7 @@ import (
 
 type Service interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
-	// GetUser() (models.Users, int, error)
+	GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError)
 	// UpdateUser(taskId string) (int, error)
 	// DeleteUser(taskId string) (int, error)
 }
@@ -25,14 +25,10 @@ func (s *service) CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	return newRoom, err
 }
 
-// func (s *service) GetUser() (models.Users, int, error) {
-// 	todos, err := s.repo.GetTodos()
-// 	if err != nil {
-// 		return models.Users{}, http.StatusInternalServerError, err
-// 	}
-
-// 	return todos, http.StatusOK, nil
-// }
+func (s *service) GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError) {
+	newRooms, err := s.repo.GetAllRooms(user_id)
+	return newRooms, err
+}
 
 // func (s *service) UpdateUser(taskId string) (int, error) {
 // 	err := s.repo.UpdateUser(taskId)
