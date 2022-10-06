@@ -1,24 +1,22 @@
-import {Container, Button } from 'react-bootstrap';
+import {Button } from 'react-bootstrap';
 import { signOut, signIn, useSession } from "next-auth/react";
 import CreateRoom from './CreateRoom';
-import RegisterForm from './Register';
+import RegisterForm from './register';
 import jwt from "jsonwebtoken";
 
 function Home() {    
   const { data: session } = useSession();
 
   if (session) {
-    const people = session['user'];
-    console.log(people)
-    // jwt.verify(session['users'], process.env.JWT_SECRET)
+    const decoded = jwt.verify(session['user'], process.env.JWT_SECRET);
     return (
       <>
         <div className='container pt-5'>
           <h2>Halo Selamat Datang, berikut merupakan data anda:</h2>
           <ul>
-            <li>Id: </li>
-            <li>Email: </li>
-            <li>Role: </li>
+            <li>Id: { decoded.ID }</li>
+            <li>Email: { decoded.Email }</li>
+            <li>Role: { decoded.Role }</li>
           </ul>
           <div className='d-flex justify-content-left'>
             <Button onClick={() => signOut()} className="mx-3">Sign out</Button>
