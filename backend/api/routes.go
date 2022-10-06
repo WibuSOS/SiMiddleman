@@ -15,6 +15,7 @@ func (s *server) SetupRouter() {
 	s.Router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
+		AllowHeaders: []string{"Accept", "Content-Type", "Authorization"},
 	}))
 
 	consumer := []string{"consumer"}
@@ -50,7 +51,7 @@ func (s *server) SetupRouter() {
 	// s.Router.GET("/product/:idroom", productHandler.GetSpesifikProduct)
 	// s.Router.POST("/createproduct/:idroom", productHandler.CreateProduct)
 	// s.Router.POST("/createproductreturnid/:idroom", productHandler.CreateProductReturnID)
-	s.Router.PUT("/updateproduct/:id", productHandler.UpdateProduct)
+	s.Router.PUT("/updateproduct/:id", authentication.Authentication, isConsumer.Authorize, productHandler.UpdateProduct)
 	// s.Router.DELETE("/deleteproduct/:id", productHandler.DeleteProduct)
 
 	// rooms controller (create)
