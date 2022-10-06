@@ -2,7 +2,7 @@ import { Form, Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
 
-export default function ModalCreateRoom({idPenjual, closeCreateRoomModal, createRoomModal }) {
+export default function ModalCreateRoom({idPenjual, sessionToken, closeCreateRoomModal, createRoomModal }) {
   const handleSubmitCreateRoom = async (e) => {
     e.preventDefault();
   
@@ -19,7 +19,12 @@ export default function ModalCreateRoom({idPenjual, closeCreateRoomModal, create
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/rooms`, {
         method: 'POST',
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + sessionToken,
+        }
       });
       const data = await res.json();
 

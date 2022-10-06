@@ -10,7 +10,7 @@ export default function CreateRoom (props) {
   return (
     <>
       <Button onClick={() => openCreateRoomModal()} data-testid="createRoomButton">Create Room</Button>
-      <ModalCreateRoom idPenjual={props.idPenjual} closeCreateRoomModal={closeCreateRoomModal} createRoomModal={createRoomModal} />
+      <ModalCreateRoom idPenjual={props.idPenjual} sessionToken={props.sessionToken}closeCreateRoomModal={closeCreateRoomModal} createRoomModal={createRoomModal} />
     </>
   )
 }

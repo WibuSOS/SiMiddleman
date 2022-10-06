@@ -10,6 +10,7 @@ function Home() {
 
   if (session) {
     const decoded = jwt.verify(session['user'], process.env.JWT_SECRET);
+    const token = session['user'];
     return (
       <div className='container'>
         <div className='pt-5'>
@@ -21,7 +22,7 @@ function Home() {
           </ul>
           <div className='d-flex justify-content-left'>
             <Button onClick={() => signOut()} className="mx-3">Sign out</Button>
-            <CreateRoom idPenjual={decoded.ID}/>
+            <CreateRoom idPenjual={decoded.ID} sessionToken={token}/>
           </div>
         </div>
         <div className='pt-5'>
