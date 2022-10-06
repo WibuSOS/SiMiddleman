@@ -9,6 +9,7 @@ on:
       - edited
     branches:
       - master
+      - staging
 
 jobs:
   check-quality:
@@ -47,4 +48,4 @@ jobs:
       - name: Build
         run: go build -v ./...
       - name: Test with the Go CLI
-        run: go test -cover -v ./...
+        run: go test -cover -v ./controllers/...
