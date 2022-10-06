@@ -1,6 +1,9 @@
 import { Form, Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
+import Link from 'next/link';
+import { Router } from 'next/router';
+import router from "next/router";
 
 export default function ModalCreateRoom({idPenjual, sessionToken, closeCreateRoomModal, createRoomModal }) {
   const handleSubmitCreateRoom = async (e) => {
@@ -27,6 +30,7 @@ export default function ModalCreateRoom({idPenjual, sessionToken, closeCreateRoo
         }
       });
       const data = await res.json();
+      console.log(data);
 
       if (data.message === "success"){
         Swal.fire({
@@ -35,7 +39,10 @@ export default function ModalCreateRoom({idPenjual, sessionToken, closeCreateRoo
           confirmButtonText: 'Silahkan masuk ke room anda',
         }).then((result) => {
           if (result.isConfirmed) {
-            alert("not yet implemented")
+            router.push({
+              pathname: '/rooms', 
+              query: data
+            })
           }
         })
       }else {
