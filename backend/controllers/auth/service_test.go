@@ -19,10 +19,10 @@ func TestLoginServiceSuccess(t *testing.T) {
 		Password: "fikri123",
 	}
 
-	res, err := service.Login(req)
+	res, token, err := service.Login(req)
 	assert.Nil(t, err)
 	assert.NotEqual(t, "", res.Email)
-	assert.NotEqual(t, "", res.Token)
+	assert.NotEqual(t, "", token)
 }
 
 func TestLoginServiceErrorInvalidEmail(t *testing.T) {
@@ -35,7 +35,7 @@ func TestLoginServiceErrorInvalidEmail(t *testing.T) {
 		Password: "fikri123",
 	}
 
-	_, err := service.Login(req)
+	_, _, err := service.Login(req)
 	assert.NotNil(t, err)
 	assert.Equal(t, "Invalid email", err.Message)
 	assert.Equal(t, 400, err.Status)
@@ -52,7 +52,7 @@ func TestLoginServiceErrorInvalidPassword(t *testing.T) {
 		Password: "",
 	}
 
-	_, err := service.Login(req)
+	_, _, err := service.Login(req)
 	assert.NotNil(t, err)
 	assert.Equal(t, "Invalid password", err.Message)
 	assert.Equal(t, 400, err.Status)
@@ -69,7 +69,7 @@ func TestLoginServiceErrorUserNotFound(t *testing.T) {
 		Password: "fikri123",
 	}
 
-	_, err := service.Login(req)
+	_, _, err := service.Login(req)
 	assert.NotNil(t, err)
 	assert.Equal(t, "User not found", err.Message)
 	assert.Equal(t, 400, err.Status)

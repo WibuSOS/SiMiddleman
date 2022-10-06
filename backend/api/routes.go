@@ -1,10 +1,10 @@
 package api
 
 import (
-	//"github.com/WibuSOS/sinarmas/middlewares/authentication"
-	//"github.com/WibuSOS/sinarmas/middlewares/authorization"
+	"github.com/WibuSOS/sinarmas/middlewares/authentication"
+	"github.com/WibuSOS/sinarmas/middlewares/authorization"
 
-	"github.com/WibuSOS/sinarmas/auth"
+	"github.com/WibuSOS/sinarmas/controllers/auth"
 	"github.com/WibuSOS/sinarmas/controllers/product"
 	"github.com/WibuSOS/sinarmas/controllers/rooms"
 	"github.com/WibuSOS/sinarmas/controllers/users"
@@ -17,11 +17,11 @@ func (s *server) SetupRouter() {
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
 	}))
 
-	// customer := []string{"consumer"}
+	consumer := []string{"consumer"}
 	// admin := []string{"admin"}
-	// all := []string{"customer, admin"}
+	// all := []string{"consumer, admin"}
 
-	// isConsumer := authorization.Roles{AllowedRoles: customer[:]}
+	isConsumer := authorization.Roles{AllowedRoles: consumer[:]}
 	// isAdmin := authorization.Roles{AllowedRoles: admin[:]}
 	// isAll := authorization.Roles{AllowedRoles: all[:]}
 
@@ -38,7 +38,7 @@ func (s *server) SetupRouter() {
 	usersHandler := users.NewHandler(usersService)
 
 	// s.Router.GET("/", usersHandler.GetUser)
-	s.Router.POST("/register", usersHandler.CreateUser)
+	s.Router.POST("/register" /*authentication.Authentication, isAdmin.Authorize,*/, usersHandler.CreateUser)
 	// s.Router.PATCH("/updateCheck/:task_id", usersHandler.UpdateUser)
 	// s.Router.DELETE("/:task_id", usersHandler.DeleteUser)
 
@@ -51,12 +51,12 @@ func (s *server) SetupRouter() {
 	// s.Router.POST("/createproduct/:idroom", productHandler.CreateProduct)
 	// s.Router.POST("/createproductreturnid/:idroom", productHandler.CreateProductReturnID)
 	s.Router.PUT("/updateproduct/:id", productHandler.UpdateProduct)
-	s.Router.DELETE("/deleteproduct/:id", productHandler.DeleteProduct)
+	// s.Router.DELETE("/deleteproduct/:id", productHandler.DeleteProduct)
 
 	// rooms controller (create)
 	roomsRepo := rooms.NewRepository(s.DB)
 	roomsService := rooms.NewService(roomsRepo)
 	roomsHandler := rooms.NewHandler(roomsService)
 
-	s.Router.POST("/rooms", roomsHandler.CreateRoom)
+	s.Router.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomsHandler.CreateRoom)
 }

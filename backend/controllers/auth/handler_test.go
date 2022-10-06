@@ -36,13 +36,14 @@ func TestLoginHandler(t *testing.T) {
 	type response struct {
 		Message string       `json:"message"`
 		Data    DataResponse `json:"data"`
+		Token   string       `json:"token"`
 	}
 	var res response
 
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
 	assert.Equal(t, "success", res.Message)
 	assert.NotEqual(t, "", res.Data.Email)
-	assert.NotEqual(t, "", res.Data.Token)
+	assert.NotEqual(t, "", res.Token)
 }
 
 func TestLoginHandlerInvalidJSON(t *testing.T) {
