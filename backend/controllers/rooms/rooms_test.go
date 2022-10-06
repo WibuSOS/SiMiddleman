@@ -47,7 +47,7 @@ func TestCreateRoom(t *testing.T) {
 			"nama": "Razer Mouse",
 			"deskripsi": "Ini Razer Mouse",
 			"harga": 150000,
-			"kuantitas": 1,
+			"kuantitas": 1
 		}
 	}`
 
@@ -64,12 +64,14 @@ func TestCreateRoom(t *testing.T) {
 
 	// ERROR CREATE ROOM
 	payload = `{
-    "nama": "xyzde",
-    "email": "admin@xyz.com",
-    "password": "123456781234567812",
-    "noHp": "+6281993220999",
-    "noRek": "1234"
-		}`
+		"id": 0,
+		"product" : {
+			"nama": "Razer Mouse",
+			"deskripsi": "Ini Razer Mouse",
+			"harga": 150000,
+			"kuantitas": 1
+		}
+	}`
 	req, err = http.NewRequest("POST", "/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
@@ -79,11 +81,11 @@ func TestCreateRoom(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "constraint failed: UNIQUE constraint failed: users.email (2067)", res.Message)
+	assert.Equal(t, "oops... there is something wrong", res.Message)
 
 	// ERROR BIND
 	payload = `{}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err = http.NewRequest("POST", "/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -92,15 +94,17 @@ func TestCreateRoom(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 
-	// ERROR VALIDATE USER (NAMA)
+	// ERROR VALIDATE USER ID
 	payload = `{
-    "nama": "",
-    "email": "admin@xyz.com",
-    "password": "123456781234567812",
-    "noHp": "+6281993220999",
-    "noRek": "1234"
-		}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+		"id": "110",
+		"product" : {
+			"nama": "Razer Mouse",
+			"deskripsi": "Ini Razer Mouse",
+			"harga": 150000,
+			"kuantitas": 1
+		}
+	}`
+	req, err = http.NewRequest("POST", "/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -108,82 +112,99 @@ func TestCreateRoom(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "nama tidak memenuhi syarat", res.Message)
+
+	// // ERROR VALIDATE USER (NAMA)
+	// payload = `{
+	// "nama": "",
+	// "email": "admin@xyz.com",
+	// "password": "123456781234567812",
+	// "noHp": "+6281993220999",
+	// "noRek": "1234"
+	// 	}`
+	// req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	// assert.NoError(t, err)
+	// assert.NotNil(t, req)
+
+	// w = httptest.NewRecorder()
+	// r.ServeHTTP(w, req)
+
+	// assert.Equal(t, http.StatusBadRequest, w.Code)
+	// assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	// assert.Equal(t, "nama tidak memenuhi syarat", res.Message)
 
 	// ERROR VALIDATE USER (email)
-	payload = `{
-    "nama": "abcde",
-    "email": "admin@xyz",
-    "password": "123456781234567812",
-    "noHp": "+6281993220999",
-    "noRek": "1234"
-		}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
+	// payload = `{
+	// "nama": "abcde",
+	// "email": "admin@xyz",
+	// "password": "123456781234567812",
+	// "noHp": "+6281993220999",
+	// "noRek": "1234"
+	// 	}`
+	// req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	// assert.NoError(t, err)
+	// assert.NotNil(t, req)
 
-	w = httptest.NewRecorder()
-	r.ServeHTTP(w, req)
+	// w = httptest.NewRecorder()
+	// r.ServeHTTP(w, req)
 
-	assert.Equal(t, http.StatusBadRequest, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "email tidak memenuhi syarat", res.Message)
+	// assert.Equal(t, http.StatusBadRequest, w.Code)
+	// assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	// assert.Equal(t, "email tidak memenuhi syarat", res.Message)
 
 	// ERROR VALIDATE USER (PASSWORD)
-	payload = `{
-    "nama": "abcde",
-    "email": "admin@xyz.com",
-    "password": "",
-    "noHp": "+6281993220999",
-    "noRek": "1234"
-		}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
+	// payload = `{
+	// "nama": "abcde",
+	// "email": "admin@xyz.com",
+	// "password": "",
+	// "noHp": "+6281993220999",
+	// "noRek": "1234"
+	// 	}`
+	// req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	// assert.NoError(t, err)
+	// assert.NotNil(t, req)
 
-	w = httptest.NewRecorder()
-	r.ServeHTTP(w, req)
+	// w = httptest.NewRecorder()
+	// r.ServeHTTP(w, req)
 
-	assert.Equal(t, http.StatusBadRequest, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "password tidak memenuhi syarat", res.Message)
+	// assert.Equal(t, http.StatusBadRequest, w.Code)
+	// assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	// assert.Equal(t, "password tidak memenuhi syarat", res.Message)
 
 	// ERROR VALIDATE USER (NO HP)
-	payload = `{
-    "nama": "abcde",
-    "email": "admin@xyz.com",
-    "password": "123456781234567812",
-    "noHp": "",
-    "noRek": "1234"
-		}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
+	// payload = `{
+	// "nama": "abcde",
+	// "email": "admin@xyz.com",
+	// "password": "123456781234567812",
+	// "noHp": "",
+	// "noRek": "1234"
+	// 	}`
+	// req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	// assert.NoError(t, err)
+	// assert.NotNil(t, req)
 
-	w = httptest.NewRecorder()
-	r.ServeHTTP(w, req)
+	// w = httptest.NewRecorder()
+	// r.ServeHTTP(w, req)
 
-	assert.Equal(t, http.StatusBadRequest, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "no hp tidak memenuhi syarat", res.Message)
+	// assert.Equal(t, http.StatusBadRequest, w.Code)
+	// assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	// assert.Equal(t, "no hp tidak memenuhi syarat", res.Message)
 
 	// ERROR VALIDATE USER (NO REK)
-	payload = `{
-    "nama": "abcde",
-    "email": "admin@xyz.com",
-    "password": "123456781234567812",
-    "noHp": "081993220999",
-    "noRek": ""
-		}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
+	// payload = `{
+	// "nama": "abcde",
+	// "email": "admin@xyz.com",
+	// "password": "123456781234567812",
+	// "noHp": "081993220999",
+	// "noRek": ""
+	// 	}`
+	// req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	// assert.NoError(t, err)
+	// assert.NotNil(t, req)
 
-	w = httptest.NewRecorder()
-	r.ServeHTTP(w, req)
+	// w = httptest.NewRecorder()
+	// r.ServeHTTP(w, req)
 
-	assert.Equal(t, http.StatusBadRequest, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "no rek tidak memenuhi syarat", res.Message)
+	// assert.Equal(t, http.StatusBadRequest, w.Code)
+	// assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	// assert.Equal(t, "no rek tidak memenuhi syarat", res.Message)
 }
