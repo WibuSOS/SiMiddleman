@@ -67,13 +67,19 @@ func (r *repository) GetAllRooms(user_id string) ([]models.Rooms, *errors.RestEr
 	var newRooms []models.Rooms
 
 	id, _ := strconv.ParseUint(user_id, 10, 64)
-	res := r.db.First(&user, id)
+	res := r.db.
+		Preload("PenjualRooms.Product").
+		Preload("PenjualRooms.Transaction").
+		Preload("PembeliRooms.Product").
+		Preload("PembeliRooms.Transaction").
+		First(&user, id)
 	if res.Error != nil {
 		return []models.Rooms{}, errors.NewBadRequestError(res.Error.Error())
 	}
 
 	newRooms = append(newRooms, user.PenjualRooms...)
 	newRooms = append(newRooms, user.PembeliRooms...)
+
 	return newRooms, nil
 }
 
