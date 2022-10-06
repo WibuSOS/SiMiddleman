@@ -2,16 +2,9 @@ import Button from 'react-bootstrap/Button';
 import router, { useRouter } from "next/router";
 
 function Room() {
-    const router = useRouter()
-    const query = router.query()
-    
-    const handleClose = async (e) => {
-        e.preventDefault();
-    }
-
     return (
         <div className='container pt-5'>
-            <Button type='submit' onSubmit={handleClose}>Close</Button>
+            <Button type='submit'>Close</Button>
             <div className="d-flex justify-content-between">
                 <div className='pt-5'>
                     <h2>Detail Produk</h2>
@@ -23,7 +16,7 @@ function Room() {
             </div>
             <div className='pt-5'>
                 <h5> NAMA PRODUK : </h5>
-                <h5> {query.product.nama} </h5>
+                <h5> Razer </h5>
             </div>
             <div className="d-flex justify-content-between pt-5">
                 <div className="col">
@@ -41,7 +34,7 @@ function Room() {
             </div>
             <div className='pt-5'>
                 <h5> DESKRIPSI PRODUK : </h5>
-                <h5> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</h5>
+                <h5> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h5>
             </div>
             <div className="row pt-5">
                 <Button type='submit'>Checkout</Button>
