@@ -14,8 +14,17 @@ func (r *DataRequest) ValidateReq() *errors.RestError {
 		return errors.NewBadRequestError("Nama tidak boleh kosong")
 	}
 
+	if r.Harga <= 0 {
+		return errors.NewBadRequestError("Harga tidak boleh kosong")
+	}
+
+	if r.Kuantitas <= 0 {
+		return errors.NewBadRequestError("Kuantitas tidak boleh kosong")
+	}
+
 	if r.Deskripsi == "" {
 		return errors.NewBadRequestError("Deskripsi tidak boleh kosong")
 	}
+
 	return nil
 }

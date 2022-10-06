@@ -1,7 +1,7 @@
 package rooms
 
 import (
-	"github.com/WibuSOS/sinarmas/product"
+	"github.com/WibuSOS/sinarmas/controllers/product"
 	"github.com/WibuSOS/sinarmas/utils/errors"
 )
 

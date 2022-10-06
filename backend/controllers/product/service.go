@@ -52,6 +52,9 @@ func NewService(repo Repository) *service {
 // }
 
 func (s *service) UpdateProduct(id string, req DataRequest) (models.Products, *errors.RestError) {
+	if err := req.ValidateReq(); err != nil {
+		return models.Products{}, err
+	}
 	product, err := s.repo.UpdateProduct(id, req)
 	if err != nil {
 		return models.Products{}, err
