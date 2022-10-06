@@ -9,6 +9,7 @@ on:
       - edited
     branches:
       - master
+      - staging
 
 jobs:
   check-quality:
