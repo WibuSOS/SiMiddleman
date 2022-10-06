@@ -60,12 +60,14 @@ func (h *Handler) GetAllRooms(c *gin.Context) {
 
 func (h *Handler) JoinRoom(c *gin.Context) {
 	room_id := c.Param("room_id")
-	room, err := h.Service.JoinRoom(room_id)
+	user_id := c.Param("user_id")
+	room, err := h.Service.JoinRoom(room_id, user_id)
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{
 			"message": err.Message,
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{

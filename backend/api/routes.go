@@ -61,5 +61,5 @@ func (s *server) SetupRouter() {
 
 	s.Router.POST("/rooms", roomsHandler.CreateRoom)
 	s.Router.GET("/rooms/:id", roomsHandler.GetAllRooms)
-	s.Router.GET("/joinroom/:room_id", roomsHandler.JoinRoom)
+	s.Router.GET("/joinroom/:room_id/:user_id", roomsHandler.JoinRoom)
 }
