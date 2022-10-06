@@ -1,6 +1,8 @@
 import { Form, Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
+import Home from '.';
+import { router } from 'next/router';
 
 export default function ModalCreateRoom({idPenjual, sessionToken, closeCreateRoomModal, createRoomModal }) {
   const handleSubmitCreateRoom = async (e) => {
@@ -32,11 +34,8 @@ export default function ModalCreateRoom({idPenjual, sessionToken, closeCreateRoo
         Swal.fire({
           icon: 'success',
           title: 'Room berhasil dibuat',
-          confirmButtonText: 'Silahkan masuk ke room anda',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            alert("not yet implemented")
-          }
+          showConfirmButton: false,
+          timer: 1500,
         })
       }else {
         Swal.fire({
