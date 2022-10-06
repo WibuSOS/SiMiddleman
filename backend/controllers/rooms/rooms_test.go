@@ -7,6 +7,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/WibuSOS/sinarmas/controllers/users"
 	"github.com/WibuSOS/sinarmas/models"
 	"github.com/gin-gonic/gin"
 	"github.com/glebarez/sqlite"
@@ -131,4 +132,161 @@ func TestCreateRoom(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
+}
+
+func TestGetAllRooms(t *testing.T) {
+	// DB and Responses
+	type getRoomsResponse struct {
+		Message string          `json:"message"`
+		Data    *[]models.Rooms `json:"data"`
+	}
+	type createRoomsResponse struct {
+		Message string       `json:"message"`
+		Data    models.Rooms `json:"data"`
+	}
+	type createUsersResponse struct {
+		Message string `json:"message"`
+	}
+	var getRoomsRes getRoomsResponse
+	var createRoomsRes createRoomsResponse
+	var createUsersRes createUsersResponse
+	db := newTestDB(t)
+
+	// Rooms Handler
+	roomsRepo := NewRepository(db)
+	roomsService := NewService(roomsRepo)
+	roomsHandler := NewHandler(roomsService)
+
+	// Users Handler
+	usersRepo := users.NewRepository(db)
+	usersService := users.NewService(usersRepo)
+	usersHandler := users.NewHandler(usersService)
+
+	// Set Routes
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.POST("/register" /*authentication.Authentication, isAdmin.Authorize,*/, usersHandler.CreateUser)
+	r.POST("/rooms", roomsHandler.CreateRoom)
+	r.GET("/rooms/:id", roomsHandler.GetAllRooms)
+
+	// Create User 1
+	payload := `{
+    "nama": "xyzde",
+    "email": "admin@xyz.com",
+    "password": "123456781234567812",
+    "noHp": "+6281223440777",
+    "noRek": "1234"
+		}`
+	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createUsersRes))
+	assert.Equal(t, "success", createUsersRes.Message)
+
+	// Create User 2
+	payload = `{
+    "nama": "xyzde",
+    "email": "admin@abc.com",
+    "password": "123456781234567812",
+    "noHp": "+6281223440777",
+    "noRek": "1234"
+		}`
+	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createUsersRes))
+	assert.Equal(t, "success", createUsersRes.Message)
+
+	// Create Room 1
+	payload = `{
+		"id": 1,
+		"product" : {
+			"nama": "Razer Mouse",
+			"deskripsi": "Ini Razer Mouse",
+			"harga": 150000,
+			"kuantitas": 1
+		}
+	}`
+
+	req, err = http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createRoomsRes))
+	assert.Equal(t, "success", createRoomsRes.Message)
+
+	// Create Room 2
+	payload = `{
+		"id": 1,
+		"product" : {
+			"nama": "Razer Mouse",
+			"deskripsi": "Ini Razer Mouse",
+			"harga": 150000,
+			"kuantitas": 1
+		}
+	}`
+
+	req, err = http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createRoomsRes))
+	assert.Equal(t, "success", createRoomsRes.Message)
+
+	// SUCCESS ADA ISINYA
+	req, err = http.NewRequest("GET", "/rooms/1", nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &getRoomsRes))
+	assert.Equal(t, "success", getRoomsRes.Message)
+	assert.NotEmpty(t, getRoomsRes.Data)
+
+	// SUCCESS TAPI ISINYA KOSONG
+	req, err = http.NewRequest("GET", "/rooms/2", nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &getRoomsRes))
+	assert.Equal(t, "success", getRoomsRes.Message)
+	assert.Empty(t, getRoomsRes.Data)
+
+	// FAIL RECORD NOT FOUND
+	req, err = http.NewRequest("GET", "/rooms/3", nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &getRoomsRes))
+	assert.Equal(t, "record not found", getRoomsRes.Message)
+	assert.Empty(t, getRoomsRes.Data)
 }
