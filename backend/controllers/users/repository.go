@@ -5,6 +5,7 @@ import (
 	"github.com/WibuSOS/sinarmas/utils/errors"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type Repository interface {
@@ -31,7 +32,7 @@ func (r *repository) CreateUser(req *models.Users) *errors.RestError {
 
 	pb, _ := bcrypt.GenerateFromPassword([]byte(req.Password), 8)
 	req.Password = string(pb)
-	res := r.db.Create(&req)
+	res := r.db.Omit(clause.Associations).Create(req)
 	if res.Error != nil {
 		return errors.NewBadRequestError(res.Error.Error())
 	}

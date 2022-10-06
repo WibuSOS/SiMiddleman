@@ -2,6 +2,7 @@ package rooms
 
 import (
 	"math/rand"
+	"strconv"
 	"time"
 
 	"github.com/WibuSOS/sinarmas/models"
@@ -11,7 +12,7 @@ import (
 
 type Repository interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
-	// GetUser() (models.Users, error)
+	GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError)
 	// UpdateUser(taskId string) error
 	// DeleteUser(taskId string) error
 }
@@ -61,37 +62,26 @@ func (r *repository) CreateRoom(req *DataRequest) (models.Rooms, *errors.RestErr
 	return newRoom, nil
 }
 
-// func (r *repository) GetUser() (models.Users, error) {
-// 	var todos models.Users
-// 	res := r.db.Find(&todos)
-// 	if res.Error != nil {
-// 		return models.Users{}, res.Error
-// 	}
+func (r *repository) GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError) {
+	var user models.Users
+	var newRooms []models.Rooms
 
-// 	return todos, nil
-// }
+	id, _ := strconv.ParseUint(user_id, 10, 64)
+	res := r.db.
+		Preload("PenjualRooms.Product").
+		Preload("PenjualRooms.Transaction").
+		Preload("PembeliRooms.Product").
+		Preload("PembeliRooms.Transaction").
+		First(&user, id)
+	if res.Error != nil {
+		return []models.Rooms{}, errors.NewBadRequestError(res.Error.Error())
+	}
 
-// func (r *repository) UpdateUser(taskId string) error {
-// 	idConv, _ := strconv.Atoi(taskId)
-// 	todo := models.Users{}
-// 	res := r.db.First(&todo, idConv)
+	newRooms = append(newRooms, user.PenjualRooms...)
+	newRooms = append(newRooms, user.PembeliRooms...)
 
-// 	if res.Error != nil {
-// 		return res.Error
-// 	}
-
-// 	if todo.Done {
-// 		res = r.db.Model(&todo).Where("ID = ?", idConv).Update("Done", false)
-// 	} else {
-// 		res = r.db.Model(&todo).Where("ID = ?", idConv).Update("Done", true)
-// 	}
-
-// 	if res.Error != nil {
-// 		return res.Error
-// 	}
-
-// 	return nil
-// }
+	return newRooms, nil
+}
 
 // func (r *repository) DeleteUser(taskId string) error {
 // 	idConv, _ := strconv.Atoi(taskId)

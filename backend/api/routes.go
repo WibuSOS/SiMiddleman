@@ -59,5 +59,6 @@ func (s *server) SetupRouter() {
 	roomsService := rooms.NewService(roomsRepo)
 	roomsHandler := rooms.NewHandler(roomsService)
 
-	s.Router.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomsHandler.CreateRoom)
+	s.Router.POST("/rooms", roomsHandler.CreateRoom)
+	s.Router.GET("/rooms/:id", roomsHandler.GetAllRooms)
 }
