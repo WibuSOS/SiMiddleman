@@ -15,16 +15,6 @@ import (
 )
 
 func newTestDB(t *testing.T) *gorm.DB {
-	// config := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-	// 	os.Getenv("DB_HOST"),
-	// 	os.Getenv("DB_USER"),
-	// 	os.Getenv("DB_PASSWORD"),
-	// 	os.Getenv("DB_NAME"),
-	// 	os.Getenv("DB_PORT"),
-	// )
-	// config := "host=localhost user=postgres password=postgres dbname=simiddleman port=5432 sslmode=disable"
-	// db, err := gorm.Open(postgres.Open(config), &gorm.Config{})
-
 	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
 	assert.NoError(t, err)
 	assert.NotNil(t, db)
