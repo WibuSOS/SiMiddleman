@@ -24,39 +24,41 @@ func (h *Handler) CreateRoom(c *gin.Context) {
 		return
 	}
 
-	err := h.Service.CreateRoom(&req)
+	newRoom, err := h.Service.CreateRoom(&req)
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{
 			"message": err.Message,
+			"data":    newRoom,
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
+		"data":    newRoom,
 	})
 }
 
-func (h *Handler) GetUser(c *gin.Context) {
-	// todos, status, err := h.Service.GetTodos()
-	// if err != nil {
-	// 	log.Println(err.Error())
-	// 	c.JSON(status, gin.H{
-	// 		"message": err.Error(),
-	// 	})
-	// 	return
-	// }
+// func (h *Handler) GetUser(c *gin.Context) {
+// 	todos, status, err := h.Service.GetTodos()
+// 	if err != nil {
+// 		log.Println(err.Error())
+// 		c.JSON(status, gin.H{
+// 			"message": err.Error(),
+// 		})
+// 		return
+// 	}
 
-	// c.JSON(status, gin.H{
-	// 	"message": "success",
-	// 	"data":    todos,
-	// })
+// 	c.JSON(status, gin.H{
+// 		"message": "success",
+// 		"data":    todos,
+// 	})
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "success",
-	})
-}
+// 	c.JSON(http.StatusOK, gin.H{
+// 		"message": "success",
+// 	})
+// }
 
 // func (h *Handler) UpdateUser(c *gin.Context) {
 // 	taskId := c.Param("task_id")

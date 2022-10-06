@@ -30,7 +30,7 @@ func SetupDb() (*gorm.DB, error) {
 			return nil, fmt.Errorf("failed to connect database: %w", errs)
 		}
 
-		db = dbRoot.Exec(fmt.Sprintf("CREATE DATABASE %s;", os.Getenv("DB_NAME")))
+		db = dbRoot.Exec(fmt.Sprintf("CREATE DATABASE %s ;", os.Getenv("DB_NAME")))
 
 		if db.Error != nil {
 			fmt.Println("Unable to create DB, attempting to connect assuming it exists...")
@@ -61,7 +61,7 @@ func SetupDb() (*gorm.DB, error) {
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 
-	if err := db.AutoMigrate(&models.Users{}, &models.Rooms{}, &models.Product{}, &models.Transactions{}); err != nil {
+	if err := db.AutoMigrate(&models.Users{}, &models.Rooms{}, &models.Products{}, &models.Transactions{}); err != nil {
 		return nil, fmt.Errorf("failed to migrate database: %w", err)
 	}
 	return db, err
