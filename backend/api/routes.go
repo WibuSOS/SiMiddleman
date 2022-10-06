@@ -59,4 +59,5 @@ func (s *server) SetupRouter() {
 	roomsHandler := rooms.NewHandler(roomsService)
 
 	s.Router.POST("/rooms", roomsHandler.CreateRoom)
+	s.Router.GET("/rooms/:id", roomsHandler.GetAllRooms)
 }

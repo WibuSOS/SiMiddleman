@@ -19,7 +19,7 @@ func newTestDB(t *testing.T) *gorm.DB {
 	assert.NoError(t, err)
 	assert.NotNil(t, db)
 
-	err = db.AutoMigrate(&models.Users{})
+	err = db.AutoMigrate(&models.Users{}, &models.Rooms{}, &models.Products{}, &models.Transactions{})
 	assert.NoError(t, err)
 
 	return db
@@ -27,7 +27,8 @@ func newTestDB(t *testing.T) *gorm.DB {
 
 func TestCreateRoom(t *testing.T) {
 	type response struct {
-		Message string `json:"message"`
+		Message string       `json:"message"`
+		Data    models.Rooms `json:"data"`
 	}
 	var res response
 	db := newTestDB(t)
@@ -37,17 +38,20 @@ func TestCreateRoom(t *testing.T) {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.POST("/register", handler.CreateRoom)
+	r.POST("/rooms", handler.CreateRoom)
 
 	// SUCCESS
 	payload := `{
-    "nama": "xyzde",
-    "email": "admin@xyz.com",
-    "password": "123456781234567812",
-    "noHp": "+6281993220999",
-    "noRek": "1234"
-		}`
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+		"id": 1,
+		"product" : {
+			"nama": "Razer Mouse",
+			"deskripsi": "Ini Razer Mouse",
+			"harga": 150000,
+			"kuantitas": 1,
+		}
+	}`
+
+	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -58,7 +62,7 @@ func TestCreateRoom(t *testing.T) {
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
 	assert.Equal(t, "success", res.Message)
 
-	// ERROR CREATE USER
+	// ERROR CREATE ROOM
 	payload = `{
     "nama": "xyzde",
     "email": "admin@xyz.com",
@@ -66,7 +70,7 @@ func TestCreateRoom(t *testing.T) {
     "noHp": "+6281993220999",
     "noRek": "1234"
 		}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err = http.NewRequest("POST", "/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 

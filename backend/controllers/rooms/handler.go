@@ -40,25 +40,23 @@ func (h *Handler) CreateRoom(c *gin.Context) {
 	})
 }
 
-// func (h *Handler) GetUser(c *gin.Context) {
-// 	todos, status, err := h.Service.GetTodos()
-// 	if err != nil {
-// 		log.Println(err.Error())
-// 		c.JSON(status, gin.H{
-// 			"message": err.Error(),
-// 		})
-// 		return
-// 	}
+func (h *Handler) GetAllRooms(c *gin.Context) {
+	user_id := c.Param("id")
+	newRooms, err := h.Service.GetAllRooms(user_id)
+	if err != nil {
+		errors.LogError(err)
+		c.JSON(err.Status, gin.H{
+			"message": err.Message,
+			"data":    newRooms,
+		})
+		return
+	}
 
-// 	c.JSON(status, gin.H{
-// 		"message": "success",
-// 		"data":    todos,
-// 	})
-
-// 	c.JSON(http.StatusOK, gin.H{
-// 		"message": "success",
-// 	})
-// }
+	c.JSON(http.StatusOK, gin.H{
+		"message": "success",
+		"data":    newRooms,
+	})
+}
 
 // func (h *Handler) UpdateUser(c *gin.Context) {
 // 	taskId := c.Param("task_id")
