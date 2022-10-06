@@ -125,3 +125,11 @@ a {
 .modal-content .avatar img {
 	width: 100%;
 }
+
+.room {
+  text-align: center;
+}
+
+.room .card-detail-produk {
+  text-align: left;
+}
