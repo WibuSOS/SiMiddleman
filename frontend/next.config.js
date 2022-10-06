@@ -4,4 +4,10 @@ const nextConfig = {
   swcMinify: true,
 }
 
-module.exports = nextConfig
+module.exports = {
+  nextConfig,
+  env: {
+    JWT_SECRET: process.env.JWT_SECRET,
+  }
+}
+  
