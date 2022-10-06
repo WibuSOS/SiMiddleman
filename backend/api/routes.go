@@ -36,7 +36,7 @@ func (s *server) SetupRouter() {
 	usersHandler := users.NewHandler(usersService)
 
 	s.Router.GET("/", usersHandler.GetUser)
-	s.Router.POST("/register" /*authentication.Authentication, isAdmin.Authorize,*/, usersHandler.CreateUser)
+	s.Router.POST("/register", usersHandler.CreateUser)
 	// s.Router.PATCH("/updateCheck/:task_id", usersHandler.UpdateUser)
 	// s.Router.DELETE("/:task_id", usersHandler.DeleteUser)
 }

@@ -43,8 +43,10 @@ func Authentication(c *gin.Context) {
 		return
 	}
 
+	id := claims["ID"]
 	role := claims["Role"]
 
+	c.Set("id", id)
 	c.Set("role", role)
 	c.Next()
 }
