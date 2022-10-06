@@ -122,18 +122,18 @@ func (h *Handler) UpdateProduct(c *gin.Context) {
 	})
 }
 
-func (h *Handler) DeleteProduct(c *gin.Context) {
-	id := c.Param("id")
-	err := h.Service.DeleteProduct(id)
+// func (h *Handler) DeleteProduct(c *gin.Context) {
+// 	id := c.Param("id")
+// 	err := h.Service.DeleteProduct(id)
 
-	if err != nil {
-		c.JSON(err.Status, gin.H{
-			"message": err.Message,
-		})
-		return
-	}
+// 	if err != nil {
+// 		c.JSON(err.Status, gin.H{
+// 			"message": err.Message,
+// 		})
+// 		return
+// 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message": "berhasil menghapus Data!",
-	})
-}
+// 	c.JSON(http.StatusOK, gin.H{
+// 		"message": "berhasil menghapus Data!",
+// 	})
+// }

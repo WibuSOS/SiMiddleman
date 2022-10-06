@@ -23,7 +23,7 @@ func (h *Handler) Login(c *gin.Context) {
 		return
 	}
 
-	res, err := h.Service.Login(req)
+	res, token, err := h.Service.Login(req)
 	if err != nil {
 		c.JSON(err.Status, gin.H{
 			"message": err.Message,
@@ -34,6 +34,6 @@ func (h *Handler) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
 		"data":    res,
-		"token":   res.Token,
+		"token":   token,
 	})
 }

@@ -2,6 +2,7 @@ package authentication
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -23,7 +24,7 @@ func Authentication(c *gin.Context) {
 	})
 
 	if err != nil {
-		//log.Println("Authentication: Unable to verify Token")
+		log.Println("Authentication: Unable to verify Token")
 		restErr := errors.NewUnauthorized("Unable to verify Token")
 		c.JSON(restErr.Status, gin.H{
 			"message": restErr.Message,
@@ -31,7 +32,7 @@ func Authentication(c *gin.Context) {
 		c.Abort()
 		return
 	}
-	//log.Println("Authentication: Token Verified!")
+	log.Println("Authentication: Token Verified!")
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok || !token.Valid {
@@ -42,8 +43,10 @@ func Authentication(c *gin.Context) {
 		return
 	}
 
+	id := claims["ID"]
 	role := claims["Role"]
 
+	c.Set("id", id)
 	c.Set("role", role)
 	c.Next()
 }
