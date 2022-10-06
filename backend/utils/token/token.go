@@ -20,8 +20,9 @@ func GenerateToken(user models.Users) (string, *errors.RestError) {
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expTime,
 		},
-		ID:   user.ID,
-		Role: user.Role,
+		ID:    user.ID,
+		Email: user.Email,
+		Role:  user.Role,
 	}
 
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, actClaims)
