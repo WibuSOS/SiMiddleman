@@ -29,10 +29,7 @@
     "eslint": "8.24.0",
     "eslint-config-next": "12.3.1",
     "jest": "^29.1.2",
-<<<<<<< HEAD
-=======
     "jest-environment-jsdom": "^29.1.2",
->>>>>>> 68a4285a22a19b0c4f8e6e6038a314f6fd7d04ec
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8",
     "typescript": "^4.8.4"
