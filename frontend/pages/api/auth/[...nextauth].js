@@ -1,6 +1,5 @@
 import NextAuth from 'next-auth'
 import CredentialProvider from 'next-auth/providers/credentials'
-import jwt from "jsonwebtoken"
 
 export default NextAuth ({
   providers: [
@@ -43,15 +42,4 @@ export default NextAuth ({
       return token;
     }
   },
-  // secret: "simiddleman",
-  // jwt: {
-  //   encode: async ({ secret, token }) => {
-  //     return jwt.sign(token as any, secret, { algorithm: "HS256" });
-  //   },
-  //   decode: async ( {secret, token} ) => {
-  //     return jwt.verify(token as string, secret, {
-  //       algorithms: ["HS256"],
-  //     }) as any;
-  //   },
-  // },
 })
