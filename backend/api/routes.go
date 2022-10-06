@@ -51,7 +51,7 @@ func (s *server) SetupRouter() {
 	// s.Router.POST("/createproduct/:idroom", productHandler.CreateProduct)
 	// s.Router.POST("/createproductreturnid/:idroom", productHandler.CreateProductReturnID)
 	s.Router.PUT("/updateproduct/:id", productHandler.UpdateProduct)
-	s.Router.DELETE("/deleteproduct/:id", productHandler.DeleteProduct)
+	// s.Router.DELETE("/deleteproduct/:id", productHandler.DeleteProduct)
 
 	// rooms controller (create)
 	roomsRepo := rooms.NewRepository(s.DB)

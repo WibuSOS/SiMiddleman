@@ -11,7 +11,7 @@ type Service interface {
 	// CreateProduct(idroom uint, req DataRequest) (models.Products, error)
 	// CreateProductReturnID(idroom uint, req DataRequest) (uint, error)
 	UpdateProduct(id string, req DataRequest) (models.Products, *errors.RestError)
-	DeleteProduct(id string) *errors.RestError
+	// DeleteProduct(id string) *errors.RestError
 }
 
 type service struct {
@@ -63,11 +63,11 @@ func (s *service) UpdateProduct(id string, req DataRequest) (models.Products, *e
 	return product, nil
 }
 
-func (s *service) DeleteProduct(id string) *errors.RestError {
-	err := s.repo.DeleteProduct(id)
-	if err != nil {
-		return err
-	}
+// func (s *service) DeleteProduct(id string) *errors.RestError {
+// 	err := s.repo.DeleteProduct(id)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	return nil
-}
+// 	return nil
+// }

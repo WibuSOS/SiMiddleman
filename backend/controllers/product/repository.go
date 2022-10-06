@@ -14,7 +14,7 @@ type Repository interface {
 	// CreateProduct(idroom uint, req DataRequest) (models.Products, error)
 	// CreateProductReturnID(idroom uint, req DataRequest) (uint, error)
 	UpdateProduct(id string, req DataRequest) (models.Products, *errors.RestError)
-	DeleteProduct(id string) *errors.RestError
+	// DeleteProduct(id string) *errors.RestError
 }
 
 type repository struct {
@@ -94,13 +94,13 @@ func (r *repository) UpdateProduct(id string, req DataRequest) (models.Products,
 	return product, nil
 }
 
-func (r *repository) DeleteProduct(id string) *errors.RestError {
-	product := models.Products{}
-	res := r.db.Where("ID = ?", id).Delete(&product)
-	if res.Error != nil {
-		log.Println("Delete Data error : ", res.Error)
-		return errors.NewBadRequestError(res.Error.Error())
-	}
+// func (r *repository) DeleteProduct(id string) *errors.RestError {
+// 	product := models.Products{}
+// 	res := r.db.Where("ID = ?", id).Delete(&product)
+// 	if res.Error != nil {
+// 		log.Println("Delete Data error : ", res.Error)
+// 		return errors.NewBadRequestError(res.Error.Error())
+// 	}
 
-	return nil
-}
+// 	return nil
+// }

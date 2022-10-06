@@ -66,8 +66,7 @@ func TestUpdateProduct(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	type response struct {
-		Message string       `json:"message"`
-		Data    DataResponse `json:"data"`
+		Message string `json:"message"`
 	}
 
 	var res response
@@ -91,6 +90,8 @@ func TestUpdateProduct(t *testing.T) {
 	w = httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Nama tidak boleh kosong", res.Message)
 
 	//error Validate request Harga
 	payload = `{"nama": "makanan dingin", "harga": 0, "kuantitas": 2, "deskripsi":"ini adalah makanan dingin"}`
@@ -100,6 +101,8 @@ func TestUpdateProduct(t *testing.T) {
 	w = httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Harga tidak boleh kosong", res.Message)
 
 	//error Validate request kuantitas
 	payload = `{"nama": "makanan dingin", "harga": 15000, "kuantitas": 0, "deskripsi":"ini adalah makanan dingin"}`
@@ -109,6 +112,8 @@ func TestUpdateProduct(t *testing.T) {
 	w = httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Kuantitas tidak boleh kosong", res.Message)
 
 	//error Validate request deskripsi
 	payload = `{"nama": "makanan dingin", "harga": 15000, "kuantitas": 2, "deskripsi":""}`
@@ -118,6 +123,8 @@ func TestUpdateProduct(t *testing.T) {
 	w = httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Deskripsi tidak boleh kosong", res.Message)
 
 	//error id not found
 	payload = `{"nama": "makanan dingin", "harga": 15000, "kuantitas": 2, "deskripsi":"ini adalah makanan dingin"}`
@@ -128,6 +135,8 @@ func TestUpdateProduct(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, 400, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "record not found", res.Message)
 
 	//error invalid id type
 	// db.Create(&models.Products{
