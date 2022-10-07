@@ -1,8 +1,8 @@
 package api
 
 import (
-	// "github.com/WibuSOS/sinarmas/middlewares/authentication"
-	// "github.com/WibuSOS/sinarmas/middlewares/authorization"
+	"github.com/WibuSOS/sinarmas/middlewares/authentication"
+	"github.com/WibuSOS/sinarmas/middlewares/authorization"
 
 	"github.com/WibuSOS/sinarmas/controllers/auth"
 	"github.com/WibuSOS/sinarmas/controllers/product"
@@ -18,11 +18,11 @@ func (s *server) SetupRouter() {
 		AllowHeaders: []string{"Accept", "Content-Type", "Authorization"},
 	}))
 
-	// consumer := []string{"consumer"}
+	consumer := []string{"consumer"}
 	// admin := []string{"admin"}
 	// all := []string{"consumer, admin"}
 
-	// isConsumer := authorization.Roles{AllowedRoles: consumer[:]}
+	isConsumer := authorization.Roles{AllowedRoles: consumer[:]}
 	// isAdmin := authorization.Roles{AllowedRoles: admin[:]}
 	// isAll := authorization.Roles{AllowedRoles: all[:]}
 
@@ -51,7 +51,7 @@ func (s *server) SetupRouter() {
 	// s.Router.GET("/product/:idroom", productHandler.GetSpesifikProduct)
 	// s.Router.POST("/createproduct/:idroom", productHandler.CreateProduct)
 	// s.Router.POST("/createproductreturnid/:idroom", productHandler.CreateProductReturnID)
-	s.Router.PUT("/updateproduct/:id" /*authentication.Authentication, isConsumer.Authorize*/, productHandler.UpdateProduct)
+	s.Router.PUT("/updateproduct/:id", authentication.Authentication, isConsumer.Authorize, productHandler.UpdateProduct)
 	// s.Router.DELETE("/deleteproduct/:id", productHandler.DeleteProduct)
 
 	// rooms controller (create)
@@ -61,5 +61,4 @@ func (s *server) SetupRouter() {
 
 	s.Router.POST("/rooms", roomsHandler.CreateRoom)
 	s.Router.GET("/rooms/:id", roomsHandler.GetAllRooms)
-	s.Router.GET("/joinroom/:room_id/:user_id", roomsHandler.JoinRoom)
 }
