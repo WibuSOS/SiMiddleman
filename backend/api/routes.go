@@ -30,7 +30,7 @@ func (s *server) SetupRouter() {
 	authService := auth.NewService(authRepo)
 	authHandler := auth.NewHandler(authService)
 
-	//auth
+	//auth controller (login)
 	s.Router.POST("/login", authHandler.Login)
 
 	// users controller (register)
