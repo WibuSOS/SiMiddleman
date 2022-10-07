@@ -103,7 +103,8 @@ func (r *repository) JoinRoom(room_id string, user_id string) (models.Rooms, *er
 
 	res := r.db.
 		Preload("Product").
-		Where("id = ? AND (penjual_id = ? OR pembeli_id = ?)", room_id, user_id, user_id).Find(&room)
+		Where("id = ? AND (penjual_id = ? OR pembeli_id = ?)", room_id, user_id, user_id).
+		Find(&room)
 
 	if res.Error != nil {
 		return models.Rooms{}, errors.NewBadRequestError(res.Error.Error())

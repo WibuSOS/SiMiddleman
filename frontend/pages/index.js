@@ -1,42 +1,41 @@
-import {Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { signOut, signIn, useSession, getSession } from "next-auth/react";
 import CreateRoom from './CreateRoom';
 import RegisterForm from './register';
 import jwt from "jsonwebtoken";
 import CardRoom from './CardRoom';
 
-function Home(dataRoom) {    
+function Home(dataRoom) {
   const { data: session } = useSession();
-
   if (session) {
     const token = session['user'];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     let getAllRoom = dataRoom.dataRoom['data'];
     let AllRoom = [];
     getAllRoom == null ? "data kosong" :
-    getAllRoom.map((item, index) => (
-      AllRoom.push(
-        <CardRoom 
-        key={index}
-        kodeRuangan={item.roomCode}
-        namaProduk={item.product.nama} 
-        deskripsiProduk={item.product.deskripsi} 
-        hargaProduk={item.product.harga} 
-        kuantitasProduk={item.product.kuantitas}/>
-      )
-    ))
+      getAllRoom.map((item, index) => (
+        AllRoom.push(
+          <CardRoom
+            key={index}
+            kodeRuangan={item.roomCode}
+            namaProduk={item.product.nama}
+            deskripsiProduk={item.product.deskripsi}
+            hargaProduk={item.product.harga}
+            kuantitasProduk={item.product.kuantitas} />
+        )
+      ))
     return (
       <div className='container'>
         <div className='pt-5'>
           <h2>Halo Selamat Datang, berikut merupakan data anda:</h2>
           <ul>
-            <li>Id: { decoded.ID }</li>
-            <li>Email: { decoded.Email }</li>
-            <li>Role: { decoded.Role }</li>
+            <li>Id: {decoded.ID}</li>
+            <li>Email: {decoded.Email}</li>
+            <li>Role: {decoded.Role}</li>
           </ul>
           <div className='d-flex justify-content-left'>
             <Button onClick={() => signOut()} className="mx-3">Sign out</Button>
-            <CreateRoom idPenjual={decoded.ID} sessionToken={token}/>
+            <CreateRoom idPenjual={decoded.ID} sessionToken={token} />
           </div>
         </div>
         <div className='pt-5'>
@@ -51,17 +50,17 @@ function Home(dataRoom) {
   else {
     return (
       <div className='container mx-10 my-7'>
-          <Button variant="primary" onClick={() => signIn()}>
-              Login
-          </Button>
-          <RegisterForm/>
+        <Button variant="primary" onClick={() => signIn()}>
+          Login
+        </Button>
+        <RegisterForm />
       </div>
     );
   }
 }
 
-export async function getServerSideProps({req}) {
-  const session  = await getSession({req});
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
   let dataRoom = null;
   if (session) {
     const token = await session['user'];
@@ -76,11 +75,21 @@ export async function getServerSideProps({req}) {
       console.error();
     }
   }
+  else {
+    return {
+      redirect: {
+        destination: '/api/auth/signin',
+        permanent: false,
+      }
+    };
+  }
+
   return {
     props: {
-      dataRoom
+      dataRoom,
+      session,
     }, // will be passed to the page component as props
-  } 
+  }
 }
 
 export default Home;
