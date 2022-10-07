@@ -1,16 +1,30 @@
 import {Button } from 'react-bootstrap';
-import { signOut, signIn, useSession } from "next-auth/react";
+import { signOut, signIn, useSession, getSession } from "next-auth/react";
 import CreateRoom from './CreateRoom';
 import RegisterForm from './register';
 import jwt from "jsonwebtoken";
 import CardRoom from './CardRoom';
 
-function Home() {    
+function Home(dataRoom) {    
   const { data: session } = useSession();
 
   if (session) {
-    const decoded = jwt.verify(session['user'], process.env.JWT_SECRET);
     const token = session['user'];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    let getAllRoom = dataRoom.dataRoom['data'];
+    let AllRoom = [];
+    getAllRoom == null ? "data kosong" :
+    getAllRoom.map((item, index) => (
+      AllRoom.push(
+        <CardRoom 
+        key={index}
+        kodeRuangan={item.roomCode}
+        namaProduk={item.product.nama} 
+        deskripsiProduk={item.product.deskripsi} 
+        hargaProduk={item.product.harga} 
+        kuantitasProduk={item.product.kuantitas}/>
+      )
+    ))
     return (
       <div className='container'>
         <div className='pt-5'>
@@ -27,7 +41,9 @@ function Home() {
         </div>
         <div className='pt-5'>
           <h2>Berikut merupakan room yang telah anda buat</h2>
-          <CardRoom/>
+          <div className='row d-flex justify-content-between p-3'>
+            {AllRoom}
+          </div>
         </div>
       </div>
     )
@@ -42,6 +58,29 @@ function Home() {
       </div>
     );
   }
+}
+
+export async function getServerSideProps({req}) {
+  const session  = await getSession({req});
+  let dataRoom = null;
+  if (session) {
+    const token = await session['user'];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/rooms/${decoded.ID}`, {
+        method: 'GET',
+      });
+      dataRoom = await res.json();
+    } catch (error) {
+      console.error();
+    }
+  }
+  return {
+    props: {
+      dataRoom
+    }, // will be passed to the page component as props
+  } 
 }
 
 export default Home;
