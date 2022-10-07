@@ -17,7 +17,6 @@ describe("Login", () => {
     expect(screen.getByTestId("LupaPassword")).toBeInTheDocument();
     expect(screen.getByTestId("masukButton")).toBeInTheDocument();
     expect(screen.getByTestId("OR")).toBeInTheDocument();
-    expect(screen.getByTestId("buttonDaftar")).toBeInTheDocument();
   });
 
   it("Click Forget Password", () => {
