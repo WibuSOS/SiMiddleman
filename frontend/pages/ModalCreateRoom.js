@@ -6,6 +6,7 @@ import { router } from 'next/router';
 
 export default function ModalCreateRoom({idPenjual, sessionToken, closeCreateRoomModal, createRoomModal }) {
   const handleSubmitCreateRoom = async (e) => {
+    closeCreateRoomModal();
     e.preventDefault();
   
     const formData = new FormData(e.currentTarget);

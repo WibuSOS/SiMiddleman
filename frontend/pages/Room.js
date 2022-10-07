@@ -2,6 +2,17 @@ import Button from 'react-bootstrap/Button';
 import router, { useRouter } from "next/router";
 
 function Room() {
+    const roomDetail = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${room.id}/${user.id}`, {
+          method: 'GET',
+        });
+        const data = await res.json();
+        setData(data);
+      } catch (error) {
+        setError(error)
+      }
+    }
     return (
         <div className='container pt-5'>
             <Button type='submit'>Close</Button>
