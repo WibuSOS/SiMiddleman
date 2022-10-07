@@ -1,16 +1,19 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-export default function CardRoom() {
+export default function CardRoom( props ) {
   return (
-    <Card className='mt-5' style={{ width: '18rem' }}>
+    <Card className='mt-5' style={{ width: '22rem' }}>
       <Card.Body>
-        <Card.Title>Card Title</Card.Title>
+        <Card.Title className='mb-5'>Kode Ruangan: {props.kodeRuangan}</Card.Title>
         <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card&apos;s content.
+        <b>Nama: </b>{props.namaProduk}
+        <br/>
+        <b>Deskripsi: </b>{props.deskripsiProduk}
+        <br/>
+        <b>Harga:</b> Rp{props.hargaProduk}
         </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+        <Button variant="primary" className='w-100'>Masuk Room</Button>
       </Card.Body>
     </Card>
   );

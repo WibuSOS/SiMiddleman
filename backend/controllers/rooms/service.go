@@ -8,7 +8,7 @@ import (
 type Service interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError)
-	JoinRoom(room_id string) (models.Rooms, *errors.RestError)
+	JoinRoom(room_id string, user_id string) (models.Rooms, *errors.RestError)
 	// UpdateUser(taskId string) (int, error)
 	// DeleteUser(taskId string) (int, error)
 }
@@ -31,8 +31,8 @@ func (s *service) GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError
 	return newRooms, err
 }
 
-func (s *service) JoinRoom(room_id string) (models.Rooms, *errors.RestError) {
-	room, err := s.repo.JoinRoom(room_id)
+func (s *service) JoinRoom(room_id string, user_id string) (models.Rooms, *errors.RestError) {
+	room, err := s.repo.JoinRoom(room_id, user_id)
 	if err != nil {
 		return models.Rooms{}, err
 	}
