@@ -69,6 +69,9 @@ export async function getServerSideProps({ req }) {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/rooms/${decoded.ID}`, {
         method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        },
       });
       dataRoom = await res.json();
     } catch (error) {
