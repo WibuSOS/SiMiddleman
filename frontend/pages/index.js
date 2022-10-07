@@ -5,9 +5,8 @@ import RegisterForm from './register';
 import jwt from "jsonwebtoken";
 import CardRoom from './CardRoom';
 
-function Home(dataRoom) {    
+function Home( dataRoom) {    
   const { data: session } = useSession();
-
   if (session) {
     const token = session['user'];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -76,9 +75,19 @@ export async function getServerSideProps({req}) {
       console.error();
     }
   }
+  else {
+    return {
+      redirect: {
+        destination: '/api/auth/signin',
+        permanent: false,
+      }
+    };
+  }
+  
   return {
     props: {
-      dataRoom
+      dataRoom,
+      session,
     }, // will be passed to the page component as props
   } 
 }
