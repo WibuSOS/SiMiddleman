@@ -129,3 +129,53 @@ func TestCreateRoomRepositoryErrorProduct(t *testing.T) {
 	assert.Equal(t, "Nama tidak boleh kosong", err.Message)
 	assert.Empty(t, newRoom.RoomCode)
 }
+
+func TestGetAllRoomsRepositorySuccess(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+
+	// ROOM 1
+	req := DataRequest{
+		PenjualID: 1,
+		Product: &product.DataRequest{
+			Nama:      "Razer Mouse",
+			Deskripsi: "Ini Razer Mouse",
+			Harga:     150000,
+			Kuantitas: 1,
+		},
+	}
+
+	newRoom, err := repo.CreateRoom(&req)
+	assert.Empty(t, err)
+	assert.NotEmpty(t, newRoom.RoomCode)
+
+	// ROOM 2
+	req = DataRequest{
+		PenjualID: 1,
+		Product: &product.DataRequest{
+			Nama:      "Razer Mouse",
+			Deskripsi: "Ini Razer Mouse",
+			Harga:     150000,
+			Kuantitas: 1,
+		},
+	}
+
+	newRoom, err = repo.CreateRoom(&req)
+	assert.Empty(t, err)
+	assert.NotEmpty(t, newRoom.RoomCode)
+
+	rooms, err := repo.GetAllRooms("1")
+	assert.Empty(t, err)
+	assert.NotEmpty(t, rooms)
+	assert.Len(t, rooms, 2)
+}
+
+func TestGetAllRoomsRepositoryErrorDbLevel(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+
+	rooms, err := repo.GetAllRooms("10")
+	assert.NotEmpty(t, err)
+	assert.Equal(t, http.StatusBadRequest, err.Status)
+	assert.Empty(t, rooms)
+}
