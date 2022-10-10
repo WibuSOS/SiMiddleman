@@ -2,6 +2,7 @@ import { Form } from "react-bootstrap";
 import logo from './assets/logo.png';
 import Button from 'react-bootstrap/Button';
 import { signIn } from "next-auth/react";
+import RegisterForm from './register';
 import Swal from 'sweetalert2';
 import router from "next/router";
 
@@ -68,7 +69,7 @@ export default function LoginForm() {
             <Button type='submit' variant='merah' form='loginForm' data-testid="masukButton">Masuk</Button>
           </div>
           <p className='or' data-testid="OR">OR</p>
-          <Button variant='merah' className='w-100' data-testid="buttonDaftar">Daftar</Button>
+          <RegisterForm />
         </div>
       </div>
     )

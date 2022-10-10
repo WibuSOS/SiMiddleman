@@ -30,7 +30,7 @@ func (s *server) SetupRouter() {
 	authService := auth.NewService(authRepo)
 	authHandler := auth.NewHandler(authService)
 
-	//auth
+	//auth controller (login)
 	s.Router.POST("/login", authHandler.Login)
 
 	// users controller (register)
@@ -39,7 +39,7 @@ func (s *server) SetupRouter() {
 	usersHandler := users.NewHandler(usersService)
 
 	// s.Router.GET("/", usersHandler.GetUser)
-	s.Router.POST("/register" /*authentication.Authentication, isAdmin.Authorize,*/, usersHandler.CreateUser)
+	s.Router.POST("/register", usersHandler.CreateUser)
 	// s.Router.PATCH("/updateCheck/:task_id", usersHandler.UpdateUser)
 	// s.Router.DELETE("/:task_id", usersHandler.DeleteUser)
 
@@ -60,7 +60,7 @@ func (s *server) SetupRouter() {
 	roomsHandler := rooms.NewHandler(roomsService)
 	s.Router.GET("/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoom)
 
-	s.Router.POST("/rooms", roomsHandler.CreateRoom)
-	s.Router.GET("/rooms/:id", roomsHandler.GetAllRooms)
-
+	s.Router.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomsHandler.CreateRoom)
+	s.Router.GET("/rooms/:id", authentication.Authentication, isConsumer.Authorize, roomsHandler.GetAllRooms)
+	s.Router.GET("/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoom)
 }
