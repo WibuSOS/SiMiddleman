@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 function Pembayaran() {
     const router = useRouter();
@@ -38,7 +39,7 @@ function Pembayaran() {
                 </div>
                 <div className='mx-auto mb-4' style={{fontSize: "30px"}}>
                     Total Pembayaran :
-                    <b> Rp. {data.data.harga}</b>
+                    <b> Rp. {data?.data.harga}</b>
                 </div>
                 <div className='mx-auto mb-4' style={{fontSize: "24px"}}>
                     Silahkan lakukan pembayaran ke nomor yang ada diatas.
