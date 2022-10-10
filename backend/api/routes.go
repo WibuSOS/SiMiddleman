@@ -7,6 +7,7 @@ import (
 	"github.com/WibuSOS/sinarmas/controllers/auth"
 	"github.com/WibuSOS/sinarmas/controllers/product"
 	"github.com/WibuSOS/sinarmas/controllers/rooms"
+	"github.com/WibuSOS/sinarmas/controllers/transaction"
 	"github.com/WibuSOS/sinarmas/controllers/users"
 	"github.com/gin-contrib/cors"
 )
@@ -62,4 +63,10 @@ func (s *server) SetupRouter() {
 	s.Router.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomsHandler.CreateRoom)
 	s.Router.GET("/rooms/:id", authentication.Authentication, isConsumer.Authorize, roomsHandler.GetAllRooms)
 	s.Router.GET("/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoom)
+
+	transactionRepo := transaction.NewRepository(s.DB)
+	transactionService := transaction.NewService(transactionRepo)
+	transactionHandler := transaction.NewHandler(transactionService)
+
+	s.Router.PUT("/updatestatusdelivery/:id", transactionHandler.UpdateStatusDelivery)
 }
