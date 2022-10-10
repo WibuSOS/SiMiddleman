@@ -28,6 +28,7 @@ export default function Room( {user} ) {
         }
       });
       const data = await res.json();
+      // console.log(data.data.product.harga)
       setData(data);
     } catch (error) {
       console.error();
@@ -47,7 +48,7 @@ export default function Room( {user} ) {
         <h2>Detail Room: </h2>
         <p><strong>Kode Room</strong>: { data?.data.roomCode }</p>
         <p><strong>ID Penjual</strong>: { data?.data.penjualID }</p>
-        <p><strong>ID Pembeli</strong>: Not implemented yet!</p>
+        <p><strong>ID Pembeli</strong>: { data?.data.pembeliID }</p>
         <hr></hr>
       <div className="d-flex justify-content-between">
         <div className='pt-5'>
@@ -62,7 +63,18 @@ export default function Room( {user} ) {
             <p>{  data?.data.product.deskripsi }</p>
         </div>
         <div className='pt-5'>
+          {decoded.ID === data?.data.penjualID ? (
             <Button type='submit'>Edit Produk</Button>
+          ) : (
+            <Button onClick={() => {router.push(
+              {
+                pathname: '/Payment',
+                query: {
+                  harga: `${data?.data.product.harga}`,
+                },
+              }, '/Payment'
+            )}}>Beli</Button>
+          )}
         </div>
       </div>
       <div className='pt-5'>
