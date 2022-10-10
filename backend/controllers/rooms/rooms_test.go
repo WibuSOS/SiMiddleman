@@ -40,8 +40,8 @@ func TestJoinRoom(t *testing.T) {
 
 	// Create User 1
 	payload := `{
-    "nama": "xyzde",
-    "email": "admin@xyz.com",
+    "nama": "klmno",
+    "email": "admin@klm.com",
     "password": "123456781234567812",
     "noHp": "+6281223440777",
     "noRek": "1234"
