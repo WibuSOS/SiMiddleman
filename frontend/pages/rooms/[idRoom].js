@@ -2,6 +2,7 @@ import Button from 'react-bootstrap/Button';
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
 import { getSession} from 'next-auth/react';
+import jwt from "jsonwebtoken";
 
 export default function Room( {user} ) {
   const [data, setData] = useState(null);
@@ -13,9 +14,11 @@ export default function Room( {user} ) {
     getRoomDetails();
   }, [])
 
+  const decoded = jwt.verify(user, process.env.JWT_SECRET);
+
   const getRoomDetails = async () => {
     const idRoom = router.query.id;
-    const idPenjual = router.query.idPenjual;
+    const idPenjual = decoded.ID;
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${idRoom}/${idPenjual}`, {
@@ -25,6 +28,7 @@ export default function Room( {user} ) {
         }
       });
       const data = await res.json();
+      // console.log(data.data.product.harga)
       setData(data);
     } catch (error) {
       console.error();
@@ -34,6 +38,18 @@ export default function Room( {user} ) {
   return (
     <div className='container pt-5'>
       <Button type='submit'>Close</Button>
+        <hr></hr>
+        <h2>Detail Session: </h2>
+        <p><strong>Token</strong>: { user }</p>
+        <p><strong>ID</strong>: { decoded.ID }</p>
+        <p><strong>Email</strong>: { decoded.Email }</p>
+        <p><strong>Role</strong>: { decoded.Role }</p>
+        <hr></hr>
+        <h2>Detail Room: </h2>
+        <p><strong>Kode Room</strong>: { data?.data.roomCode }</p>
+        <p><strong>ID Penjual</strong>: { data?.data.penjualID }</p>
+        <p><strong>ID Pembeli</strong>: { data?.data.pembeliID }</p>
+        <hr></hr>
       <div className="d-flex justify-content-between">
         <div className='pt-5'>
             <h2>Detail Produk</h2>
@@ -47,7 +63,18 @@ export default function Room( {user} ) {
             <p>{  data?.data.product.deskripsi }</p>
         </div>
         <div className='pt-5'>
+          {decoded.ID === data?.data.penjualID ? (
             <Button type='submit'>Edit Produk</Button>
+          ) : (
+            <Button onClick={() => {router.push(
+              {
+                pathname: '/Payment',
+                query: {
+                  harga: `${data?.data.product.harga}`,
+                },
+              }, '/Payment'
+            )}}>Beli</Button>
+          )}
         </div>
       </div>
       <div className='pt-5'>

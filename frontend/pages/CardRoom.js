@@ -20,11 +20,10 @@ export default function CardRoom( props ) {
           {
             pathname: '/rooms/[idRoom]',
             query: {
-              idRoom: `${props.idRoom}`,
               id: `${props.idRoom}`,
-              idPenjual: `${props.idPenjual}`,
+              idRoom: `${props.kodeRuangan}`,
             },
-          }
+          }, '/rooms/[idRoom]'
         )}}>Masuk Room</Button>
       </Card.Body>
     </Card>

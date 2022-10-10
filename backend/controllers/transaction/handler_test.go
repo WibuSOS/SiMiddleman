@@ -21,9 +21,9 @@ func TestGetPaymentDetailsHandlerSuccess(t *testing.T) {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.GET("/getpaymentinfo/:room_id", handler.GetPaymentDetails)
+	r.GET("/getHarga/:idroom", handler.GetPaymentDetails)
 
-	url := fmt.Sprintf("/getpaymentinfo/%d", idRoom)
+	url := fmt.Sprintf("/getHarga/%d", idRoom)
 	req, err := http.NewRequest("GET", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
@@ -54,9 +54,9 @@ func TestGetPaymentDetailsHandlerEmptyProduct(t *testing.T) {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.GET("/getpaymentinfo/:room_id", handler.GetPaymentDetails)
+	r.GET("/getHarga/:idroom", handler.GetPaymentDetails)
 
-	url := fmt.Sprintf("/getpaymentinfo/%d", idRoom)
+	url := fmt.Sprintf("/getHarga/%d", idRoom)
 	req, err := http.NewRequest("GET", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
@@ -85,9 +85,9 @@ func TestGetPaymentDetailsHandlerRoomNotFound(t *testing.T) {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.GET("/getpaymentinfo/:room_id", handler.GetPaymentDetails)
+	r.GET("/getHarga/:idroom", handler.GetPaymentDetails)
 
-	url := fmt.Sprintf("/getpaymentinfo/%d", 3)
+	url := fmt.Sprintf("/getHarga/%d", 3)
 	req, err := http.NewRequest("GET", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)

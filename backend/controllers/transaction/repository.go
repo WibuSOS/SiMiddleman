@@ -1,13 +1,15 @@
 package transaction
 
 import (
-	"gorm.io/gorm"
+	"log"
 
 	"github.com/WibuSOS/sinarmas/models"
 	"github.com/WibuSOS/sinarmas/utils/errors"
+	"gorm.io/gorm"
 )
 
 type Repository interface {
+	UpdateStatusDelivery(id string) *errors.RestError
 	GetPaymentDetails(idRoom int) (models.Rooms, *errors.RestError)
 }
 
@@ -17,6 +19,20 @@ type repository struct {
 
 func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
+}
+
+func (r *repository) UpdateStatusDelivery(id string) *errors.RestError {
+	room := models.Rooms{
+		Status: "barang dikirim",
+	}
+	err := r.db.Where("id = ?", id).Updates(&room).Error
+
+	if err != nil {
+		log.Println("Update Status Barang error : ", err.Error())
+		return errors.NewBadRequestError(err.Error())
+	}
+
+	return nil
 }
 
 func (r *repository) GetPaymentDetails(idRoom int) (models.Rooms, *errors.RestError) {

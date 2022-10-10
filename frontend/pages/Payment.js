@@ -1,7 +1,10 @@
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 function Pembayaran() {
+    const router = useRouter();
+    const harga = router.query.harga;
     return (
         <div className='container pt-5' style={{backgroundColor: "#FFFFFF"}}>
             <Button type='submit'>Back</Button>
@@ -13,7 +16,7 @@ function Pembayaran() {
                 </div>
                 <div className='mx-auto mb-4' style={{fontSize: "30px"}}>
                     Total Pembayaran :
-                    <b> Rp. 150.000</b>
+                    <b> Rp. {harga}</b>
                 </div>
                 <div className='mx-auto mb-4' style={{fontSize: "24px"}}>
                     Silahkan lakukan pembayaran ke nomor yang ada diatas.
