@@ -11,6 +11,7 @@ import (
 
 type Repository interface {
 	UpdateStatusDelivery(id string) *errors.RestError
+	GetPaymentDetails(idRoom int) (models.Rooms, *errors.RestError)
 }
 
 type repository struct {
@@ -41,4 +42,8 @@ func (r *repository) UpdateStatusDelivery(id string) *errors.RestError {
 	}
 
 	return nil
+}
+
+func (r *repository) GetPaymentDetails(idRoom int) (models.Rooms, *errors.RestError) {
+	return models.Rooms{}, nil
 }

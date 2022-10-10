@@ -1,7 +1,33 @@
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 function Pembayaran() {
+    const router = useRouter();
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+    const idRoom = router.query.idRoom;
+
+    useEffect(() => {
+        getHarga();
+    }, [])
+
+    const getHarga = async () => {
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getHarga/${idRoom}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + user,
+            }
+            });
+            const data = await res.json();
+            setData(data);
+        } catch (error) {
+            console.error();
+        }
+    }
     return (
         <div className='container pt-5' style={{backgroundColor: "#FFFFFF"}}>
             <Button type='submit'>Back</Button>
@@ -13,7 +39,7 @@ function Pembayaran() {
                 </div>
                 <div className='mx-auto mb-4' style={{fontSize: "30px"}}>
                     Total Pembayaran :
-                    <b> Rp. 150.000</b>
+                    <b> Rp. {data?.data.harga}</b>
                 </div>
                 <div className='mx-auto mb-4' style={{fontSize: "24px"}}>
                     Silahkan lakukan pembayaran ke nomor yang ada diatas.

@@ -1,7 +1,6 @@
 package transaction
 
 import (
-	"net/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -25,6 +24,6 @@ func TestServiceUpdateStatusError(t *testing.T) {
 	err := service.UpdateStatusDelivery("asd")
 	assert.NotNil(t, err)
 	assert.Equal(t, "WHERE conditions required", err.Message)
-	assert.Equal(t, http.StatusBadRequest, err.Status)
+	assert.Equal(t, 400, err.Status)
 
 }

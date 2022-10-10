@@ -4,6 +4,7 @@ import "github.com/WibuSOS/sinarmas/utils/errors"
 
 type Service interface {
 	UpdateStatusDelivery(id string) *errors.RestError
+	GetPaymentDetails(idRoom int) (ResponsePaymentInfo, *errors.RestError)
 }
 
 type service struct {
@@ -20,4 +21,8 @@ func (s *service) UpdateStatusDelivery(id string) *errors.RestError {
 		return err
 	}
 	return nil
+}
+
+func (s *service) GetPaymentDetails(idRoom int) (ResponsePaymentInfo, *errors.RestError) {
+	return ResponsePaymentInfo{}, nil
 }
