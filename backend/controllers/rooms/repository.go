@@ -14,8 +14,6 @@ type Repository interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError)
 	JoinRoom(room_id string, user_id string) (models.Rooms, *errors.RestError)
-	// UpdateUser(taskId string) error
-	// DeleteUser(taskId string) error
 }
 
 type repository struct {
@@ -116,16 +114,3 @@ func (r *repository) JoinRoom(room_id string, user_id string) (models.Rooms, *er
 
 	return room, nil
 }
-
-// func (r *repository) DeleteUser(taskId string) error {
-// 	idConv, _ := strconv.Atoi(taskId)
-// 	todo := models.Users{}
-
-// 	res := r.db.Where("ID = ?", idConv).Delete(&todo)
-
-// 	if res.Error != nil {
-// 		return res.Error
-// 	}
-
-// 	return nil
-// }
