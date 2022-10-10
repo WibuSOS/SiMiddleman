@@ -16,7 +16,7 @@ export default function CardRoom( props ) {
         <br/>
         <b>Harga:</b> Rp{props.hargaProduk}
         </Card.Text>
-        <Button variant="primary" className='w-100' onClick={() => {router.replace(
+        <Button variant="primary" className='w-100' onClick={() => {router.push(
           {
             pathname: '/rooms/[idRoom]',
             query: {
