@@ -2,6 +2,7 @@ package transaction
 
 import (
 	"log"
+	"strconv"
 
 	"github.com/WibuSOS/sinarmas/models"
 	"github.com/WibuSOS/sinarmas/utils/errors"
@@ -22,10 +23,18 @@ func NewRepository(db *gorm.DB) *repository {
 }
 
 func (r *repository) UpdateStatusDelivery(id string) *errors.RestError {
+	idroom, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		log.Println(err.Error())
+	}
+
 	room := models.Rooms{
+		Model: gorm.Model{
+			ID: uint(idroom),
+		},
 		Status: "barang dikirim",
 	}
-	err := r.db.Where("id = ?", id).Updates(&room).Error
+	err = r.db.Model(&room).Updates(&room).Error
 
 	if err != nil {
 		log.Println("Update Status Barang error : ", err.Error())
