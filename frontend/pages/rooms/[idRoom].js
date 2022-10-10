@@ -28,7 +28,6 @@ export default function Room( {user} ) {
         }
       });
       const data = await res.json();
-      console.log(data.data)
       setData(data);
     } catch (error) {
       console.error();
