@@ -4,13 +4,10 @@ import (
 	"testing"
 
 	"github.com/WibuSOS/sinarmas/models"
-	"golang.org/x/crypto/bcrypt"
 
-	//"github.com/WibuSOS/sinarmas/utils/errors"
-
-	"github.com/stretchr/testify/assert"
-	//"gorm.io/driver/postgres"
 	"github.com/glebarez/sqlite"
+	"github.com/stretchr/testify/assert"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -22,7 +19,6 @@ func newTestDB(t *testing.T) *gorm.DB {
 	err = db.AutoMigrate(&models.Users{})
 	assert.NoError(t, err)
 
-	//var user models.Users
 	password := "fikri123"
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
 	assert.NoError(t, err)
