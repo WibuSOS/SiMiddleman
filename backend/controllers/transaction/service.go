@@ -24,5 +24,16 @@ func (s *service) UpdateStatusDelivery(id string) *errors.RestError {
 }
 
 func (s *service) GetPaymentDetails(idRoom int) (ResponsePaymentInfo, *errors.RestError) {
-	return ResponsePaymentInfo{}, nil
+	room, err := s.repo.GetPaymentDetails(idRoom)
+	if err != nil {
+		return ResponsePaymentInfo{}, err
+	}
+
+	total := int(room.Product.Harga) * int(room.Product.Kuantitas)
+
+	res := ResponsePaymentInfo{
+		Total: uint(total),
+	}
+
+	return res, nil
 }

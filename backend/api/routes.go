@@ -69,4 +69,5 @@ func (s *server) SetupRouter() {
 	transactionHandler := transaction.NewHandler(transactionService)
 
 	s.Router.PUT("/updatestatusdelivery/:id", transactionHandler.UpdateStatusDelivery)
+	s.Router.GET("/getHarga/:idroom", transactionHandler.GetPaymentDetails)
 }
