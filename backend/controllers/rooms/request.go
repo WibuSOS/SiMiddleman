@@ -6,15 +6,11 @@ import (
 )
 
 type DataRequest struct {
-	PenjualID uint                 `json:"id"`
-	Product   *product.DataRequest `json:"product"`
+	PenjualID uint                 `json:"id" binding:"required"`
+	Product   *product.DataRequest `json:"product" binding:"required"`
 }
 
 func (req *DataRequest) ValidateReq() *errors.RestError {
-	if req.PenjualID == 0 {
-		return errors.NewBadRequestError("oops... there is something wrong")
-	}
-
 	if err := req.Product.ValidateReq(); err != nil {
 		return err
 	}

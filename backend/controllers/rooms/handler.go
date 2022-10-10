@@ -75,37 +75,3 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 		"data":    room,
 	})
 }
-
-// func (h *Handler) UpdateUser(c *gin.Context) {
-// 	taskId := c.Param("task_id")
-// 	status, err := h.Service.CheckTodo(taskId)
-
-// 	if err != nil {
-// 		log.Println(err.Error())
-// 		c.JSON(status, gin.H{
-// 			"message": err.Error(),
-// 		})
-// 		return
-// 	}
-
-// 	c.JSON(status, gin.H{
-// 		"message": "success update checklist " + taskId,
-// 	})
-// }
-
-// func (h *Handler) DeleteUser(c *gin.Context) {
-// 	taskId := c.Param("task_id")
-// 	status, err := h.Service.DeleteTodo(taskId)
-
-// 	if err != nil {
-// 		log.Println(err.Error())
-// 		c.JSON(status, gin.H{
-// 			"message": err.Error(),
-// 		})
-// 		return
-// 	}
-
-// 	c.JSON(status, gin.H{
-// 		"message": "success delete checklist " + taskId,
-// 	})
-// }

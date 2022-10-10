@@ -9,10 +9,7 @@ import (
 )
 
 type Repository interface {
-	CreateUser(req *models.Users) *errors.RestError
-	// GetUser() (models.Users, error)
-	// UpdateUser(taskId string) error
-	// DeleteUser(taskId string) error
+	CreateUser(req *DataRequest) *errors.RestError
 }
 
 type repository struct {
@@ -23,64 +20,25 @@ func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) CreateUser(req *models.Users) *errors.RestError {
-	req.Role = "consumer"
-	err := req.ValidateUser()
+func (r *repository) CreateUser(req *DataRequest) *errors.RestError {
+	err := req.ValidateReq()
 	if err != nil {
-		return errors.NewBadRequestError(err.Error())
+		return err
 	}
 
 	pb, _ := bcrypt.GenerateFromPassword([]byte(req.Password), 8)
-	req.Password = string(pb)
-	res := r.db.Omit(clause.Associations).Create(req)
+	newUser := models.Users{
+		Nama:     req.Nama,
+		Role:     "consumer",
+		NoHp:     req.NoHp,
+		Email:    req.Email,
+		Password: string(pb),
+		NoRek:    req.NoRek,
+	}
+	res := r.db.Omit(clause.Associations).Create(&newUser)
 	if res.Error != nil {
 		return errors.NewBadRequestError(res.Error.Error())
 	}
 
 	return nil
 }
-
-// func (r *repository) GetUser() (models.Users, error) {
-// 	var todos models.Users
-// 	res := r.db.Find(&todos)
-// 	if res.Error != nil {
-// 		return models.Users{}, res.Error
-// 	}
-
-// 	return todos, nil
-// }
-
-// func (r *repository) UpdateUser(taskId string) error {
-// 	idConv, _ := strconv.Atoi(taskId)
-// 	todo := models.Users{}
-// 	res := r.db.First(&todo, idConv)
-
-// 	if res.Error != nil {
-// 		return res.Error
-// 	}
-
-// 	if todo.Done {
-// 		res = r.db.Model(&todo).Where("ID = ?", idConv).Update("Done", false)
-// 	} else {
-// 		res = r.db.Model(&todo).Where("ID = ?", idConv).Update("Done", true)
-// 	}
-
-// 	if res.Error != nil {
-// 		return res.Error
-// 	}
-
-// 	return nil
-// }
-
-// func (r *repository) DeleteUser(taskId string) error {
-// 	idConv, _ := strconv.Atoi(taskId)
-// 	todo := models.Users{}
-
-// 	res := r.db.Where("ID = ?", idConv).Delete(&todo)
-
-// 	if res.Error != nil {
-// 		return res.Error
-// 	}
-
-// 	return nil
-// }
