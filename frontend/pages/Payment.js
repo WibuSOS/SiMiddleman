@@ -7,7 +7,7 @@ function Pembayaran() {
             <Button type='submit'>Back</Button>
             <div className='d-flex flex-column justify-content-center'>
                 <h2 className='mx-auto mb-4' style={{fontSize: "48px"}}>Sinarmas</h2>
-                <h3 className='mx-auto' style={{fontSize: "36px"}}>0045831568</h3>
+                <h3 className='mx-auto' style={{fontSize: "36px"}}>0123456789</h3>
                 <div className='mx-auto mb-4' style={{fontSize: "24px"}}>
                     a/n Admin SiMiddleman
                 </div>
