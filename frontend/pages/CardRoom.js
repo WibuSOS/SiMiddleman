@@ -16,15 +16,14 @@ export default function CardRoom( props ) {
         <br/>
         <b>Harga:</b> Rp{props.hargaProduk}
         </Card.Text>
-        <Button variant="primary" className='w-100' onClick={() => {router.push(
+        <Button variant="primary" className='w-100' onClick={() => {router.replace(
           {
             pathname: '/rooms/[idRoom]',
             query: {
-              idRoom: `${props.idRoom}`,
               id: `${props.idRoom}`,
-              idPenjual: `${props.idPenjual}`,
+              idRoom: `${props.kodeRuangan}`,
             },
-          }
+          }, '/rooms/[idRoom]'
         )}}>Masuk Room</Button>
       </Card.Body>
     </Card>
