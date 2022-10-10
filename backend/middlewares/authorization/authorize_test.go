@@ -2,7 +2,6 @@ package authorization
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -10,13 +9,13 @@ import (
 
 	"github.com/WibuSOS/sinarmas/controllers/auth"
 	"github.com/WibuSOS/sinarmas/controllers/rooms"
-	"github.com/WibuSOS/sinarmas/controllers/users"
 	"github.com/WibuSOS/sinarmas/middlewares/authentication"
 	"github.com/WibuSOS/sinarmas/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/glebarez/sqlite"
 	"github.com/stretchr/testify/assert"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -28,64 +27,28 @@ func newTestDB(t *testing.T) *gorm.DB {
 	err = db.AutoMigrate(&models.Users{}, &models.Rooms{}, &models.Products{}, &models.Transactions{})
 	assert.NoError(t, err)
 
+	password := "123456781234567812"
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+	assert.NoError(t, err)
+
+	user := models.Users{Email: "consumer@xyz.com", Password: string(hash)}
+	result := db.Create(&user)
+	assert.NoError(t, result.Error)
+
 	return db
 }
 
-func TestCreateRoomWithAuthSuccess(t *testing.T) {
-	type createUsersResponse struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
-	type loginResponse struct {
-		Message string            `json:"message"`
-		Data    auth.DataResponse `json:"data"`
-		Token   string            `json:"token"`
-	}
-	type createRoomsResponse struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
-
-	var createUsersRes createUsersResponse
-	var createRoomsRes createRoomsResponse
-	var loginRes loginResponse
-	//--------------------------------------------------------------------------------------------------------------------------------------------//
+func newTestLoginHandler(t *testing.T) string {
 	db := newTestDB(t)
-	consumer := []string{"consumer"}
-	isConsumer := Roles{AllowedRoles: consumer[:]}
+	repo := auth.NewRepository(db)
+	service := auth.NewService(repo)
+	handler := auth.NewHandler(service)
 
-	// Users Handler
-	usersRepo := users.NewRepository(db)
-	usersService := users.NewService(usersRepo)
-	usersHandler := users.NewHandler(usersService)
-
-	// Auth Handler
-	authRepo := auth.NewRepository(db)
-	authService := auth.NewService(authRepo)
-	authHandler := auth.NewHandler(authService)
-
-	// rooms Handler
-	roomRepo := rooms.NewRepository(db)
-	roomService := rooms.NewService(roomRepo)
-	roomHandler := rooms.NewHandler(roomService)
-	//--------------------------------------------------------------------------------------------------------------------------------------------//
-	// Set Routes
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.POST("/register", usersHandler.CreateUser)
-	r.POST("/login", authHandler.Login)
-	r.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomHandler.CreateRoom)
-	//--------------------------------------------------------------------------------------------------------------------------------------------//
-	// Create User
-	payload := `{
-		"nama": "xyzde",
-		"email": "admin@hij.com",
-		"password": "123456781234567812",
-		"noHp": "+6281223440777",
-		"noRek": "1234"
-			}`
-
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	r.POST("/login", handler.Login)
+	payload := `{"email": "consumer@xyz.com", "password": "123456781234567812"}`
+	req, err := http.NewRequest("POST", "/login", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -93,26 +56,46 @@ func TestCreateRoomWithAuthSuccess(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createUsersRes))
-	assert.Equal(t, "success", createUsersRes.Message)
-	//--------------------------------------------------------------------------------------------------------------------------------------------//
-	// Login
-	payload = `{"email": "admin@hij.com", "password": "123456781234567812"}`
-	req, err = http.NewRequest("POST", "/login", strings.NewReader(payload))
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
 
-	w = httptest.NewRecorder()
-	r.ServeHTTP(w, req)
+	type response struct {
+		Message string            `json:"message"`
+		Data    auth.DataResponse `json:"data"`
+		Token   string            `json:"token"`
+	}
+	var res response
 
-	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &loginRes))
-	assert.Equal(t, "success", loginRes.Message)
-	assert.NotEqual(t, "", loginRes.Data.Email)
-	assert.NotEqual(t, "", loginRes.Token)
-	//--------------------------------------------------------------------------------------------------------------------------------------------//
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "success", res.Message)
+	assert.NotEqual(t, "", res.Data.Email)
+	assert.NotEqual(t, "", res.Token)
+
+	return res.Token
+}
+
+func TestCreateRoomWithAuthSuccess(t *testing.T) {
+	type createRoomsResponse struct {
+		Message string       `json:"message"`
+		Data    models.Rooms `json:"data"`
+	}
+
+	var createRoomsRes createRoomsResponse
+
+	db := newTestDB(t)
+	consumer := []string{"consumer"}
+	isConsumer := Roles{AllowedRoles: consumer[:]}
+
+	// rooms Handler
+	roomRepo := rooms.NewRepository(db)
+	roomService := rooms.NewService(roomRepo)
+	roomHandler := rooms.NewHandler(roomService)
+
+	// Set Routes
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomHandler.CreateRoom)
+
 	// SUCCESS
-	payload = `{
+	payload := `{
 		"id": 1,
 		"product" : {
 			"nama": "Razer Mouse",
@@ -122,12 +105,14 @@ func TestCreateRoomWithAuthSuccess(t *testing.T) {
 		}
 	}`
 
-	req, err = http.NewRequest("POST", "/rooms", strings.NewReader(payload))
-	req.Header.Add("Authorization", loginRes.Token)
+	token := newTestLoginHandler(t)
+
+	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	req.Header.Add("Authorization", token)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
-	w = httptest.NewRecorder()
+	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -136,89 +121,29 @@ func TestCreateRoomWithAuthSuccess(t *testing.T) {
 }
 
 func TestCreateRoomWithAuthUnauthorize(t *testing.T) {
-	type createUsersResponse struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
-	type loginResponse struct {
-		Message string            `json:"message"`
-		Data    auth.DataResponse `json:"data"`
-		Token   string            `json:"token"`
-	}
 	type createRoomsResponse struct {
 		Message string       `json:"message"`
 		Data    models.Rooms `json:"data"`
 	}
 
-	var createUsersRes createUsersResponse
 	var createRoomsRes createRoomsResponse
-	var loginRes loginResponse
-	//--------------------------------------------------------------------------------------------------------------------------------------------//
+
 	db := newTestDB(t)
 	admin := []string{"admin"}
 	isAdmin := Roles{AllowedRoles: admin[:]}
-
-	// Users Handler
-	usersRepo := users.NewRepository(db)
-	usersService := users.NewService(usersRepo)
-	usersHandler := users.NewHandler(usersService)
-
-	// Auth Handler
-	authRepo := auth.NewRepository(db)
-	authService := auth.NewService(authRepo)
-	authHandler := auth.NewHandler(authService)
 
 	// rooms Handler
 	roomRepo := rooms.NewRepository(db)
 	roomService := rooms.NewService(roomRepo)
 	roomHandler := rooms.NewHandler(roomService)
-	//--------------------------------------------------------------------------------------------------------------------------------------------//
+
 	// Set Routes
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.POST("/register", usersHandler.CreateUser)
-	r.POST("/login", authHandler.Login)
 	r.POST("/rooms", authentication.Authentication, isAdmin.Authorize, roomHandler.CreateRoom)
-	//--------------------------------------------------------------------------------------------------------------------------------------------//
-	// Create User
-	payload := `{
-		"nama": "xyzde",
-		"email": "admin@pqr.com",
-		"password": "123456781234567812",
-		"noHp": "+6281223440777",
-		"noRek": "1234"
-			}`
 
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
-
-	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createUsersRes))
-	assert.Equal(t, "success", createUsersRes.Message)
-	//--------------------------------------------------------------------------------------------------------------------------------------------//
-	// Login
-	payload = `{"email": "admin@pqr.com", "password": "123456781234567812"}`
-	req, err = http.NewRequest("POST", "/login", strings.NewReader(payload))
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
-
-	w = httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	log.Println(&loginRes)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &loginRes))
-	assert.Equal(t, "success", loginRes.Message)
-	assert.NotEqual(t, "", loginRes.Data.Email)
-	assert.NotEqual(t, "", loginRes.Token)
-	//--------------------------------------------------------------------------------------------------------------------------------------------//
 	// SUCCESS
-	payload = `{
+	payload := `{
 		"id": 1,
 		"product" : {
 			"nama": "Razer Mouse",
@@ -228,12 +153,14 @@ func TestCreateRoomWithAuthUnauthorize(t *testing.T) {
 		}
 	}`
 
-	req, err = http.NewRequest("POST", "/rooms", strings.NewReader(payload))
-	req.Header.Add("Authorization", loginRes.Token)
+	token := newTestLoginHandler(t)
+
+	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	req.Header.Add("Authorization", token)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
-	w = httptest.NewRecorder()
+	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusUnauthorized, w.Code)
