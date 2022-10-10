@@ -14,19 +14,19 @@ function Home(dataRoom) {
     console.log(getAllRoom);
     let AllRoom = [];
     getAllRoom == null ? "data kosong" :
-    getAllRoom.map((item, index) => (
-      AllRoom.push(
-        <CardRoom 
-        key={index}
-        idPenjual={item.penjualID}
-        idRoom={item.ID}
-        kodeRuangan={item.roomCode}
-        namaProduk={item.product.nama} 
-        deskripsiProduk={item.product.deskripsi} 
-        hargaProduk={item.product.harga} 
-        kuantitasProduk={item.product.kuantitas}/>
-      )
-    ))
+      getAllRoom.map((item, index) => (
+        AllRoom.push(
+          <CardRoom
+            key={index}
+            idPenjual={item.penjualID}
+            idRoom={item.ID}
+            kodeRuangan={item.roomCode}
+            namaProduk={item.product.nama}
+            deskripsiProduk={item.product.deskripsi}
+            hargaProduk={item.product.harga}
+            kuantitasProduk={item.product.kuantitas} />
+        )
+      ))
     return (
       <div className='container'>
         <div className='pt-5'>
@@ -80,14 +80,6 @@ export async function getServerSideProps({ req }) {
     } catch (error) {
       console.error();
     }
-  }
-  else {
-    return {
-      redirect: {
-        destination: '/api/auth/signin',
-        permanent: false,
-      }
-    };
   }
 
   return {
