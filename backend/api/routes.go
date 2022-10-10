@@ -58,7 +58,9 @@ func (s *server) SetupRouter() {
 	roomsRepo := rooms.NewRepository(s.DB)
 	roomsService := rooms.NewService(roomsRepo)
 	roomsHandler := rooms.NewHandler(roomsService)
+	s.Router.GET("/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoom)
 
 	s.Router.POST("/rooms", roomsHandler.CreateRoom)
 	s.Router.GET("/rooms/:id", roomsHandler.GetAllRooms)
+
 }

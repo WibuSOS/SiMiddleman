@@ -11,12 +11,15 @@ function Home( dataRoom) {
     const token = session['user'];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     let getAllRoom = dataRoom.dataRoom['data'];
+    console.log(getAllRoom);
     let AllRoom = [];
     getAllRoom == null ? "data kosong" :
     getAllRoom.map((item, index) => (
       AllRoom.push(
         <CardRoom 
         key={index}
+        idPenjual={item.penjualID}
+        idRoom={item.ID}
         kodeRuangan={item.roomCode}
         namaProduk={item.product.nama} 
         deskripsiProduk={item.product.deskripsi} 
