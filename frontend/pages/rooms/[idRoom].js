@@ -28,7 +28,7 @@ export default function Room( {user} ) {
         }
       });
       const data = await res.json();
-      // console.log(data.data.product.harga)
+      console.log(data.data)
       setData(data);
     } catch (error) {
       console.error();
@@ -70,7 +70,7 @@ export default function Room( {user} ) {
               {
                 pathname: '/Payment',
                 query: {
-                  harga: `${data?.data.product.harga}`,
+                  idRoom: `${data?.data.ID}`,
                 },
               }, '/Payment'
             )}}>Beli</Button>

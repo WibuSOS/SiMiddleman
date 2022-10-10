@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 function Pembayaran() {
     const router = useRouter();
-    const harga = router.query.harga;
+    const idRoom = router.query.idRoom;
     return (
         <div className='container pt-5' style={{backgroundColor: "#FFFFFF"}}>
             <Button type='submit'>Back</Button>
@@ -16,7 +16,7 @@ function Pembayaran() {
                 </div>
                 <div className='mx-auto mb-4' style={{fontSize: "30px"}}>
                     Total Pembayaran :
-                    <b> Rp. {harga}</b>
+                    <b> Rp. {idRoom}</b>
                 </div>
                 <div className='mx-auto mb-4' style={{fontSize: "24px"}}>
                     Silahkan lakukan pembayaran ke nomor yang ada diatas.
