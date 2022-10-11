@@ -16,7 +16,6 @@ export default function Room({ user }) {
   }, [])
 
   const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
-
   const getRoomDetails = async () => {
     const idRoom = router.query.id;
     const idPenjual = decoded.ID;
@@ -40,11 +39,11 @@ export default function Room({ user }) {
       <Button type='submit' className='me-3'>Close</Button>
       <ShowRoomCode roomCode={data?.data.roomCode}/>
       <hr></hr>
-      <h2>Detail Session: </h2>
+      {/* <h2>Detail Session: </h2>
       <p><strong>Token</strong>: {user}</p>
-      <p><strong>ID</strong>: {decoded.ID}</p>
-      <p><strong>Email</strong>: {decoded.Email}</p>
-      <p><strong>Role</strong>: {decoded.Role}</p>
+      <p><strong>ID</strong>: {decoded?.ID}</p>
+      <p><strong>Email</strong>: {decoded?.Email}</p>
+      <p><strong>Role</strong>: {decoded?.Role}</p> */}
       <hr></hr>
       <h2>Detail Room: </h2>
       <p><strong>Kode Room</strong>: {data?.data.roomCode}</p>
@@ -70,11 +69,11 @@ export default function Room({ user }) {
             <Button onClick={() => {
               router.push(
                 {
-                  pathname: '/Payment',
+                  pathname: '/rooms/payment/[idRoom]',
                   query: {
                     idRoom: `${data?.data.ID}`,
                   },
-                }, '/Payment'
+                }, '/rooms/payment/[idRoom]'
               )
             }}>Beli</Button>
           )}

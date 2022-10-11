@@ -33,11 +33,17 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
                     showConfirmButton: false,
                     timer: 1500,
                 })
+            } else if (data.message === "Sudah ada pembeli pada ruangan") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Join Room gagal',
+                    text: 'Sudah ada pembeli pada ruang tersebut',
+                })
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Join Room gagal',
-                    text: 'Terjadi kesalahan pada input anda',
+                    text: 'Terjadi kesalahan pada inputan',
                 })
             }
         }
