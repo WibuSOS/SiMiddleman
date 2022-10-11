@@ -45,5 +45,18 @@ func (r *repository) UpdateStatusDelivery(id string) *errors.RestError {
 }
 
 func (r *repository) GetPaymentDetails(idRoom int) (models.Rooms, *errors.RestError) {
-	return models.Rooms{}, nil
+	var room models.Rooms
+
+	res := r.db.Where("id = ?", idRoom).Preload("Product").Find(&room)
+	if res.Error != nil {
+		log.Println("Get Payment Details: Error while fetching data")
+		return models.Rooms{}, errors.NewInternalServerError("Error while fetching data")
+	}
+
+	if room.RoomCode == "" {
+		log.Println("Get Payment Details: Room not found")
+		return models.Rooms{}, errors.NewBadRequestError("Room not found")
+	}
+
+	return room, nil
 }
