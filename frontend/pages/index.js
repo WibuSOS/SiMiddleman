@@ -10,7 +10,7 @@ function Home(dataRoom) {
   const { data: session } = useSession();
   if (session) {
     const token = session['user'];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET);
     let getAllRoom = dataRoom.dataRoom['data'];
     console.log(getAllRoom);
     let AllRoom = [];
@@ -39,7 +39,7 @@ function Home(dataRoom) {
           </ul>
           <div className='d-flex justify-content-left'>
             <Button onClick={() => signOut()} className="mx-3">Sign out</Button>
-            <CreateRoom idPenjual={decoded.ID} className="mx-3" sessionToken={token} />
+            <CreateRoom idPenjual={decoded.ID} sessionToken={token} />
             <JoinRoom idPembeli={decoded.ID} sessionToken={token} />
           </div>
         </div>
@@ -69,7 +69,7 @@ export async function getServerSideProps({ req }) {
   let dataRoom = null;
   if (session) {
     const token = await session['user'];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.NEXT_PUBLIC_JWT_SECRET);
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/rooms/${decoded.ID}`, {
