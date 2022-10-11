@@ -237,3 +237,14 @@ nav .logo-navbar {
   }
 }
 /* css styling for navigation bar */
+
+/* css styling for footer */
+footer {
+  background-color: var(--primary);
+  height: 108px;
+}
+.link a {
+  text-decoration: none;
+  color: inherit;
+}
+/* css styling for footer */
