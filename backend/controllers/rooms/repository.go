@@ -127,7 +127,7 @@ func (r *repository) JoinRoomPembeli(room_id string, user_id string) *errors.Res
 	idRoom := uint(idroom64)
 
 	alreadyJoinRoom := r.db.
-		Where("room_code = ? AND pembeli_id = ?", room_id, idRoom).
+		Where("room_code = ? AND (penjual_id = ? OR pembeli_id = ?)", room_id, idRoom, idRoom).
 		First(&room)
 	if alreadyJoinRoom.Error == nil {
 		return errors.NewBadRequestError("Anda sudah masuk kedalam room ini")
