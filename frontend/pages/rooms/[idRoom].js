@@ -34,6 +34,20 @@ export default function Room({ user }) {
     }
   }
 
+  const handleConfirmation = async (e) => {
+    e.preventDefault();
+    const idRoom = router.query.id;
+    const idPenjual = decoded.ID;
+
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/template/${idRoom}/${idPenjual}`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': 'Bearer ' + user,
+      },
+      body: JSON.stringify({ status: e.currentTarget.value })
+    }).then(response => response.json()).then(data => setData(data)).catch(error => console.error('Error:', error));
+  }
+
   return (
     <div className='container pt-5'>
       <Button type='submit'>Close</Button>
@@ -62,20 +76,9 @@ export default function Room({ user }) {
           <p>{data?.data.product.deskripsi}</p>
         </div>
         <div className='pt-5'>
-          {decoded.ID === data?.data.penjualID ? (
-            <Button type='submit'>Edit Produk</Button>
-          ) : (
-            <Button onClick={() => {
-              router.push(
-                {
-                  pathname: '/Payment',
-                  query: {
-                    idRoom: `${data?.data.ID}`,
-                  },
-                }, '/Payment'
-              )
-            }}>Beli</Button>
-          )}
+          {data?.data.pembeliID === decoded.ID && data?.statuses.slice(0, -1).includes(data.data.status) && <Button onClick={() => { router.push({ pathname: '/Payment', query: { idRoom: `${data?.data.ID}` } }, '/Payment') }}>Beli</Button>}
+          {data?.data.penjualID === decoded.ID && data?.statuses.slice(1, -1).includes(data.data.status) && <Button onClick={() => { router.push({ pathname: '', query: { idRoom: `${data?.data.ID}` } }, '') }}>Kirim Barang</Button>}
+          {data?.data.pembeliID === decoded.ID && data?.statuses.slice(2, -1).includes(data.data.status) && <Button onClick={(e) => { handleConfirmation(e) }} value={data.statuses[-1]}>Barang Telah Sampai</Button>}
         </div>
       </div>
       <div className='pt-5'>
