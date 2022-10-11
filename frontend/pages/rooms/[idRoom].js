@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
 import jwt from "jsonwebtoken";
 import ShowRoomCode from '../ShowRoomCode';
+import Swal from 'sweetalert2';
 
 export default function Room({ user }) {
   const [data, setData] = useState(null);
@@ -32,6 +33,31 @@ export default function Room({ user }) {
       setData(data);
     } catch (error) {
       console.error();
+    }
+  }
+
+  const kirimBarang = async () => {
+    const idRoom = router.query.id;
+    let data2 = null
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatusdelivery/${idRoom}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'Bearer ' + user,
+        }
+      });
+      data2 = await res.json();
+    } catch (error) {
+      console.error();
+    }
+    if (data2.message === "success update status pengiriman barang") {
+      Swal.fire({
+        icon: 'success',
+        title: 'Status Barang Berhasil diubah',
+        showConfirmButton: false,
+        timer: 1500,
+      })
+      router.push("https://forms.gle/4uFn5cDSnYLW88ek9")
     }
   }
 
@@ -65,7 +91,7 @@ export default function Room({ user }) {
         </div>
         <div className='pt-5'>
           {decoded.ID === data?.data.penjualID ? (
-            <Button type='submit'>Edit Produk</Button>
+            <Button onClick={() => kirimBarang()}>Kirim Barang</Button>
           ) : (
             <Button onClick={() => {
               router.push(
