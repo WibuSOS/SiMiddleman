@@ -2,8 +2,10 @@ import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { getSession } from 'next-auth/react';
+import jwt from "jsonwebtoken";
 
-function Pembayaran() {
+function Pembayaran({ user }) {
     const router = useRouter();
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
@@ -12,6 +14,8 @@ function Pembayaran() {
     useEffect(() => {
         getHarga();
     }, [])
+
+    const decoded = jwt.verify(user, process.env.JWT_SECRET);
 
     const getHarga = async () => {
 
@@ -39,7 +43,7 @@ function Pembayaran() {
                 </div>
                 <div className='mx-auto mb-4' style={{ fontSize: "30px" }}>
                     Total Pembayaran :
-                    <b data-testid='harga'> Rp. {data?.data.harga}</b>
+                    <b data-testid='harga'> Rp. {data?.data.total}</b>
                 </div>
                 <div className='mx-auto mb-4' style={{ fontSize: "24px" }} data-testid='instruction_no_rek'>
                     Silahkan lakukan pembayaran ke nomor yang ada diatas.
@@ -56,6 +60,19 @@ function Pembayaran() {
             </div>
         </div>
     )
+}
+
+export async function getServerSideProps(ctx) {
+    const session = await getSession(ctx)
+    if (!session) {
+        return {
+            props: {}
+        }
+    }
+    const { user } = session;
+    return {
+        props: { user },
+    }
 }
 
 export default Pembayaran;
