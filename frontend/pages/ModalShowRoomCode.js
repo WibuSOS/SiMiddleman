@@ -14,10 +14,10 @@ export default function ModalShowRoomCode(props) {
         <Modal.Title className="ms-auto mt-4" data-testid="title">Room Code</Modal.Title>
       </Modal.Header>
       <Modal.Body className='mx-auto text-center'>
-        <div className='roomCode'>
+        <div className='roomCode' data-testid="roomCode">
           <p><strong>{props.roomCode}</strong></p>
         </div>
-        <Button onClick={() => {
+        <Button data-testid="buttonSalin" onClick={() => {
           navigator.clipboard.writeText(props.roomCode);
           Swal.fire({
             icon: 'success',
