@@ -8,6 +8,8 @@ import CardRoom from './CardRoom';
 import { useEffect, useState } from 'react';
 
 function Home({ user }) {
+  const [data, setData] = useState(null)
+  const [error, setError] = useState(null)
   if (!user) {
     return (
       <div className='container mx-10 my-7'>
@@ -18,9 +20,6 @@ function Home({ user }) {
       </div>
     )
   }
-
-  const [data, setData] = useState(null)
-  const [error, setError] = useState(null)
 
   useEffect(() => {
     GetAllRoom();
