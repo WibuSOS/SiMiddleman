@@ -75,3 +75,20 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 		"data":    room,
 	})
 }
+
+func (h *Handler) JoinRoomPembeli(c *gin.Context) {
+	room_id := c.Param("room_id")
+	user_id := c.Param("user_id")
+	err := h.Service.JoinRoomPembeli(room_id, user_id)
+	if err != nil {
+		errors.LogError(err)
+		c.JSON(err.Status, gin.H{
+			"message": err.Message,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "success",
+	})
+}
