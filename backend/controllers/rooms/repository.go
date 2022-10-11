@@ -118,26 +118,33 @@ func (r *repository) JoinRoom(room_id string, user_id string) (models.Rooms, *er
 }
 
 func (r *repository) JoinRoomPembeli(room_id string, user_id string) *errors.RestError {
+	var room models.Rooms
+
 	idroom64, err := strconv.ParseUint(user_id, 10, 32)
 	if err != nil {
 		log.Println(err.Error())
 	}
 	idRoom := uint(idroom64)
 
-	getRoom := r.db.
-		Where("room_code = ? AND pembeli_id != null", room_id).
-		First(models.Rooms{})
+	alreadyJoinRoom := r.db.
+		Where("room_code = ? AND pembeli_id = ?", room_id, idRoom).
+		First(&room)
+	if alreadyJoinRoom.Error == nil {
+		return errors.NewBadRequestError("Anda sudah masuk kedalam room ini")
+	}
 
-	if getRoom.Error != nil {
-		return errors.NewBadRequestError("Sudah ada pembeli pada ruangan")
+	roomAlreadyHasPembeli := r.db.
+		Where("room_code = ? AND pembeli_id IS NULL", room_id).
+		First(&room)
+	if roomAlreadyHasPembeli.Error != nil {
+		return errors.NewBadRequestError(roomAlreadyHasPembeli.Error.Error())
 	}
 
 	res := r.db.
-		Where("room_code = ? ", room_id).
+		Where("room_code = ? AND pembeli_id IS NULL", room_id).
 		Updates(models.Rooms{
 			PembeliID: &idRoom,
 		})
-
 	if res.Error != nil {
 		return errors.NewBadRequestError(res.Error.Error())
 	}
