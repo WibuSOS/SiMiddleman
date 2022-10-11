@@ -124,6 +124,14 @@ func (r *repository) JoinRoomPembeli(room_id string, user_id string) *errors.Res
 	}
 	idRoom := uint(idroom64)
 
+	getRoom := r.db.
+		Where("room_code = ? AND pembeli_id != null", room_id).
+		First(models.Rooms{})
+
+	if getRoom.Error != nil {
+		return errors.NewBadRequestError("Sudah ada pembeli pada ruangan")
+	}
+
 	res := r.db.
 		Where("room_code = ? ", room_id).
 		Updates(models.Rooms{
