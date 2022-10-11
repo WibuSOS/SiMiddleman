@@ -15,7 +15,7 @@ function Pembayaran({ user }) {
         getHarga();
     }, [])
 
-    const decoded = jwt.verify(user, process.env.JWT_SECRET);
+    const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
 
     const getHarga = async () => {
 
