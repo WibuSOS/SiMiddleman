@@ -34,28 +34,28 @@ function Pembayaran({ user }) {
     }
     return (
         <div className='container pt-5' style={{ backgroundColor: "#FFFFFF" }}>
-            <Button type='submit'>Back</Button>
+            <Button type='submit' data-testid='back_button'>Back</Button>
             <div className='d-flex flex-column justify-content-center'>
-                <h2 className='mx-auto mb-4' style={{ fontSize: "48px" }}>Sinarmas</h2>
-                <h3 className='mx-auto' style={{ fontSize: "36px" }}>0123456789</h3>
-                <div className='mx-auto mb-4' style={{ fontSize: "24px" }}>
+                <h2 className='mx-auto mb-4' style={{ fontSize: "48px" }} data-testid='sinarmas'>Sinarmas</h2>
+                <h3 className='mx-auto' style={{ fontSize: "36px" }} data-testid='no_rek'>0123456789</h3>
+                <div className='mx-auto mb-4' style={{ fontSize: "24px" }} data-testid='simiddleman'>
                     a/n Admin SiMiddleman
                 </div>
                 <div className='mx-auto mb-4' style={{ fontSize: "30px" }}>
                     Total Pembayaran :
-                    <b> Rp. {data?.data.total}</b>
+                    <b data-testid='harga'> Rp. {data?.data.total}</b>
                 </div>
-                <div className='mx-auto mb-4' style={{ fontSize: "24px" }}>
+                <div className='mx-auto mb-4' style={{ fontSize: "24px" }} data-testid='instruction_no_rek'>
                     Silahkan lakukan pembayaran ke nomor yang ada diatas.
                 </div>
-                <div className='mx-auto' style={{ fontSize: "24px" }}>
+                <div className='mx-auto' style={{ fontSize: "24px" }} data-testid='question_payment'>
                     Anda sudah melakukan pembayaran?
                 </div>
-                <div className='mx-auto mb-3' style={{ fontSize: "24px" }}>
+                <div className='mx-auto mb-3' style={{ fontSize: "24px" }} data-testid='instruction_receipt'>
                     Silahkan upload bukti pembayaran anda!
                 </div>
                 <Link href={`https://forms.gle/yAtYBvu583nuVqmN6`}>
-                    <Button className='mx-auto'>Upload Bukti Pembayaran</Button>
+                    <Button className='mx-auto' data-testid='upload_receipt_button'>Upload Bukti Pembayaran</Button>
                 </Link>
             </div>
         </div>
