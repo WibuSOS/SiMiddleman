@@ -1,6 +1,7 @@
 package rooms
 
 import (
+	"log"
 	"math/rand"
 	"strconv"
 	"time"
@@ -14,6 +15,7 @@ type Repository interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError)
 	JoinRoom(room_id string, user_id string) (models.Rooms, *errors.RestError)
+	JoinRoomPembeli(room_id string, user_id string) *errors.RestError
 }
 
 type repository struct {
@@ -113,4 +115,24 @@ func (r *repository) JoinRoom(room_id string, user_id string) (models.Rooms, *er
 	}
 
 	return room, nil
+}
+
+func (r *repository) JoinRoomPembeli(room_id string, user_id string) *errors.RestError {
+	idroom64, err := strconv.ParseUint(user_id, 10, 32)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	idRoom := uint(idroom64)
+
+	res := r.db.
+		Where("room_code = ? ", room_id).
+		Updates(models.Rooms{
+			PembeliID: &idRoom,
+		})
+
+	if res.Error != nil {
+		return errors.NewBadRequestError(res.Error.Error())
+	}
+
+	return nil
 }

@@ -9,6 +9,7 @@ type Service interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError)
 	JoinRoom(room_id string, user_id string) (models.Rooms, *errors.RestError)
+	JoinRoomPembeli(room_id string, user_id string) *errors.RestError
 }
 
 type service struct {
@@ -35,4 +36,12 @@ func (s *service) JoinRoom(room_id string, user_id string) (models.Rooms, *error
 		return models.Rooms{}, err
 	}
 	return room, nil
+}
+
+func (s *service) JoinRoomPembeli(room_id string, user_id string) *errors.RestError {
+	err := s.repo.JoinRoomPembeli(room_id, user_id)
+	if err != nil {
+		return err
+	}
+	return nil
 }

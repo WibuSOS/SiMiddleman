@@ -63,10 +63,12 @@ func (s *server) SetupRouter() {
 	s.Router.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomsHandler.CreateRoom)
 	s.Router.GET("/rooms/:id", authentication.Authentication, isConsumer.Authorize, roomsHandler.GetAllRooms)
 	s.Router.GET("/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoom)
+	s.Router.PUT("/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoomPembeli)
 
 	transactionRepo := transaction.NewRepository(s.DB)
 	transactionService := transaction.NewService(transactionRepo)
 	transactionHandler := transaction.NewHandler(transactionService)
 
-	s.Router.PUT("/updatestatusdelivery/:id", transactionHandler.UpdateStatusDelivery)
+	s.Router.PUT("/updatestatusdelivery/:id", authentication.Authentication, isConsumer.Authorize, transactionHandler.UpdateStatusDelivery)
+	s.Router.GET("/getHarga/:idroom", authentication.Authentication, isConsumer.Authorize, transactionHandler.GetPaymentDetails)
 }
