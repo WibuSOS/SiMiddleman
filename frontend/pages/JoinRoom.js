@@ -9,7 +9,7 @@ export default function JoinRoom(props) {
     const closeJoinRoomModal = () => setJoinRoomModal(false)
     return (
         <>
-            <Button onClick={() => openJoinRoomModal()} data-testid="joinRoomButton">Join Room</Button>
+            <Button onClick={() => openJoinRoomModal()} data-testid="joinRoomButton" className="mx-3">Join Room</Button>
             <ModalJoinRoom idPembeli={props.idPembeli} sessionToken={props.sessionToken} closeJoinRoomModal={closeJoinRoomModal} joinRoomModal={joinRoomModal} />
         </>
     )
