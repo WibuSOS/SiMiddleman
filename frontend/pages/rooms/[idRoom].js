@@ -9,19 +9,15 @@ import Swal from 'sweetalert2';
 export default function Room({ user }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-
   const router = useRouter();
-
   useEffect(() => {
     getRoomDetails();
   }, [])
-
   const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
 
   const getRoomDetails = async () => {
     const idRoom = router.query.id;
     const idPenjual = decoded.ID;
-
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${idRoom}/${idPenjual}`, {
         method: 'GET',
@@ -51,12 +47,7 @@ export default function Room({ user }) {
       console.error();
     }
     if (data2.message === "success update status pengiriman barang") {
-      Swal.fire({
-        icon: 'success',
-        title: 'Status Barang Berhasil diubah',
-        showConfirmButton: false,
-        timer: 1500,
-      })
+      Swal.fire({icon: 'success',title: 'Status Barang Berhasil diubah',showConfirmButton: false,timer: 1500,})
       router.push("https://forms.gle/4uFn5cDSnYLW88ek9")
     }
   }
@@ -65,28 +56,11 @@ export default function Room({ user }) {
     <div className='container pt-5'>
       <Button type='submit' className='me-3'>Close</Button>
       <ShowRoomCode roomCode={data?.data.roomCode}/>
-      <hr></hr>
-      <h2>Detail Session: </h2>
-      <p><strong>Token</strong>: {user}</p>
-      <p><strong>ID</strong>: {decoded.ID}</p>
-      <p><strong>Email</strong>: {decoded.Email}</p>
-      <p><strong>Role</strong>: {decoded.Role}</p>
-      <hr></hr>
-      <h2>Detail Room: </h2>
-      <p><strong>Kode Room</strong>: {data?.data.roomCode}</p>
-      <p><strong>ID Penjual</strong>: {data?.data.penjualID}</p>
-      <p><strong>ID Pembeli</strong>: {data?.data.pembeliID}</p>
-      <hr></hr>
       <div className="d-flex justify-content-between">
         <div className='pt-5'>
           <h2>Detail Produk</h2>
           {error && <div>Failed to load {error.toString()}</div>}
-          {
-            !data ? <div>Loading...</div>
-              : (
-                (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>
-              )
-          }
+          {!data ? <div>Loading...</div>: ((data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>)}
           <p>{data?.data.product.deskripsi}</p>
         </div>
         <div className='pt-5'>
@@ -94,14 +68,7 @@ export default function Room({ user }) {
             <Button onClick={() => kirimBarang()}>Kirim Barang</Button>
           ) : (
             <Button onClick={() => {
-              router.push(
-                {
-                  pathname: '/Payment',
-                  query: {
-                    idRoom: `${data?.data.ID}`,
-                  },
-                }, '/Payment'
-              )
+              router.push({pathname: '/Payment',query: {idRoom: `${data?.data.ID}`,},}, '/Payment')
             }}>Beli</Button>
           )}
         </div>
