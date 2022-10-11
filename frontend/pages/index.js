@@ -1,6 +1,7 @@
 import { Button } from 'react-bootstrap';
 import { signOut, signIn, useSession, getSession } from "next-auth/react";
 import CreateRoom from './CreateRoom';
+import JoinRoom from './JoinRoom';
 import RegisterForm from './register';
 import jwt from "jsonwebtoken";
 import CardRoom from './CardRoom';
@@ -38,7 +39,8 @@ function Home(dataRoom) {
           </ul>
           <div className='d-flex justify-content-left'>
             <Button onClick={() => signOut()} className="mx-3">Sign out</Button>
-            <CreateRoom idPenjual={decoded.ID} sessionToken={token} />
+            <CreateRoom idPenjual={decoded.ID} className="mx-3" sessionToken={token} />
+            <JoinRoom idPembeli={decoded.ID} sessionToken={token} />
           </div>
         </div>
         <div className='pt-5'>
@@ -80,6 +82,14 @@ export async function getServerSideProps({ req }) {
     } catch (error) {
       console.error();
     }
+  }
+  else {
+    return {
+      redirect: {
+        destination: '/api/auth/signin',
+        permanent: false,
+      }
+    };
   }
 
   return {
