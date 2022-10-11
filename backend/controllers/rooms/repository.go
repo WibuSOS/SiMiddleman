@@ -123,6 +123,7 @@ func (r *repository) JoinRoomPembeli(room_id string, user_id string) *errors.Res
 	idroom64, err := strconv.ParseUint(user_id, 10, 32)
 	if err != nil {
 		log.Println(err.Error())
+		return errors.NewBadRequestError("Invalid User ID")
 	}
 	idRoom := uint(idroom64)
 
