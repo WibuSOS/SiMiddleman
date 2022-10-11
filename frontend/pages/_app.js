@@ -1,6 +1,7 @@
 import { SessionProvider } from "next-auth/react"
 import '../styles/globals.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from './NavigationBar';
 
 // add bootstrap css 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -10,9 +11,12 @@ function App({
   pageProps: { session, ...pageProps },
 }) {
   return (
-    <SessionProvider session={pageProps.session}>
-      <Component {... pageProps} />
-    </SessionProvider>
+    <>
+      <Navbar/>
+      <SessionProvider session={pageProps.session}>
+        <Component {... pageProps} />
+      </SessionProvider>
+    </>
   );
 }
 
