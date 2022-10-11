@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
 import jwt from "jsonwebtoken";
+import ShowRoomCode from '../ShowRoomCode';
 
 export default function Room({ user }) {
   const [data, setData] = useState(null);
@@ -36,7 +37,8 @@ export default function Room({ user }) {
 
   return (
     <div className='container pt-5'>
-      <Button type='submit'>Close</Button>
+      <Button type='submit' className='me-3'>Close</Button>
+      <ShowRoomCode roomCode={data?.data.roomCode}/>
       <hr></hr>
       <h2>Detail Session: </h2>
       <p><strong>Token</strong>: {user}</p>
