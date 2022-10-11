@@ -8,7 +8,7 @@ const ShowRoomCode = ( props ) => {
     const closeShowRoomCodeModal = () => setShowRoomCodeModal(false)
     return (
       <>
-        <Button onClick={() => openShowRoomCodeModal()} className="mx-3">Show Room Code</Button>
+        <Button onClick={() => openShowRoomCodeModal()} className="mx-3" data-testid="buttonShowRoomCode">Show Room Code</Button>
         <ModalShowRoomCode roomCode={props.roomCode} closeShowRoomCodeModal={closeShowRoomCodeModal} showRoomCodeModal={ShowRoomCodeModal} />
       </>
     )
