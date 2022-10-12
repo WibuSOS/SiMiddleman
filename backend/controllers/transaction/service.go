@@ -33,10 +33,12 @@ func (s *service) GetPaymentDetails(idRoom int) (ResponsePaymentInfo, *errors.Re
 		return ResponsePaymentInfo{}, err
 	}
 
+	status := room.Status
 	total := int(room.Product.Harga) * int(room.Product.Kuantitas)
 
 	res := ResponsePaymentInfo{
-		Total: uint(total),
+		Total:  uint(total),
+		Status: status,
 	}
 
 	return res, nil
