@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -31,8 +32,10 @@ func (h *Handler) UpdateStatusDelivery(c *gin.Context) {
 		return
 	}
 
+	message := fmt.Sprintf("success update status %s", req.Status)
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": "success update status",
+		"message": message,
 	})
 }
 
