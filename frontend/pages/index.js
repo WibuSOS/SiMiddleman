@@ -11,10 +11,6 @@ function Home({ user }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
 
-  useEffect(() => {
-    GetAllRoom();
-  }, [])
-
   if (!user) {
     return (
       <div className='container mx-10 my-7'>
@@ -25,6 +21,9 @@ function Home({ user }) {
       </div>
     )
   }
+  useEffect(() => {
+    GetAllRoom();
+  }, [])
 
   const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
 
