@@ -3,7 +3,7 @@ package transaction
 import "github.com/WibuSOS/sinarmas/utils/errors"
 
 type Service interface {
-	UpdateStatusDelivery(id string) *errors.RestError
+	UpdateStatusDelivery(id string, req RequestUpdateStatus) *errors.RestError
 	GetPaymentDetails(idRoom int) (ResponsePaymentInfo, *errors.RestError)
 }
 
@@ -15,8 +15,12 @@ func NewService(repo Repository) *service {
 	return &service{repo}
 }
 
-func (s *service) UpdateStatusDelivery(id string) *errors.RestError {
-	err := s.repo.UpdateStatusDelivery(id)
+func (s *service) UpdateStatusDelivery(id string, req RequestUpdateStatus) *errors.RestError {
+	if err := req.Validation(); err != nil {
+		return err
+	}
+
+	err := s.repo.UpdateStatusDelivery(id, req)
 	if err != nil {
 		return err
 	}
@@ -29,10 +33,12 @@ func (s *service) GetPaymentDetails(idRoom int) (ResponsePaymentInfo, *errors.Re
 		return ResponsePaymentInfo{}, err
 	}
 
+	status := room.Status
 	total := int(room.Product.Harga) * int(room.Product.Kuantitas)
 
 	res := ResponsePaymentInfo{
-		Total: uint(total),
+		Total:  uint(total),
+		Status: status,
 	}
 
 	return res, nil

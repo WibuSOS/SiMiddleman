@@ -7,13 +7,13 @@ export default function FormRegister({ handleSubmitRegister, closeRegisterModal,
             aria-labelledby="contained-modal-title-vcenter"
             data-testid="modalRegister"
             centered>
-            <Modal.Header closeButton  data-testid="modalHeader">	
+            <Modal.Header closeButton data-testid="modalHeader">
                 <div className="avatar">
-                    <img src={logo.src} alt="logo SiMiddleman+" data-testid="logo"/>
+                    <img src={logo.src} alt="logo SiMiddleman+" data-testid="logo" />
                 </div>
                 <Modal.Title className="ms-auto" data-testid="title">Register</Modal.Title>
             </Modal.Header>
-  
+
             <Modal.Body data-testid="modalBody">
                 <Form onSubmit={handleSubmitRegister} data-testid="form">
                     <Form.Group className="mb-3">
@@ -28,7 +28,7 @@ export default function FormRegister({ handleSubmitRegister, closeRegisterModal,
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Control
-                            type="text"
+                            type="number"
                             placeholder="No HP"
                             name='noHp'
                             data-testid="noHp"
@@ -37,7 +37,7 @@ export default function FormRegister({ handleSubmitRegister, closeRegisterModal,
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Control
-                            type="text"
+                            type="number"
                             placeholder="No Rekening"
                             name='noRek'
                             data-testid="noRek"
@@ -79,6 +79,6 @@ export default function FormRegister({ handleSubmitRegister, closeRegisterModal,
                         data-testid="submitButton">Register</Button>
                 </Form>
             </Modal.Body>
-        </Modal> 
+        </Modal>
     )
 }

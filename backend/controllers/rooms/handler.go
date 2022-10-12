@@ -70,9 +70,12 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 		return
 	}
 
+	statusArr := []string{"mulai transaksi", "barang dibayar", "barang dikirim", "konfirmasi barang sampai"}
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": "success",
-		"data":    room,
+		"message":  "success",
+		"data":     room,
+		"statuses": statusArr,
 	})
 }
 

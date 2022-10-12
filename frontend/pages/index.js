@@ -86,7 +86,7 @@ function Home({ user }) {
           </div>
         </div>
         <div className='pt-5'>
-          <h2>Berikut merupakan room yang telah anda buatas</h2>
+          <h2>Berikut merupakan room yang telah anda buat</h2>
           <div className='row d-flex justify-content-between p-3'>
             {dataList}
           </div>
