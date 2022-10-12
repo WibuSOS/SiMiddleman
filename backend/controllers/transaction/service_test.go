@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"net/http"
 	"testing"
 
 	"github.com/WibuSOS/sinarmas/controllers/product"
@@ -14,9 +15,29 @@ func TestServiceUpdateStatus(t *testing.T) {
 	repo := NewRepository(db)
 	service := NewService(repo)
 
-	err := service.UpdateStatusDelivery("1")
+	req := RequestUpdateStatus{
+		Status: "barang dibayar",
+	}
+
+	err := service.UpdateStatusDelivery("1", req)
 	assert.Nil(t, err)
 
+}
+
+func TestServiceUpdateStatusInvalidStatus(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+	service := NewService(repo)
+
+	req := RequestUpdateStatus{
+		Status: "test",
+	}
+
+	err := service.UpdateStatusDelivery("1", req)
+	assert.NotNil(t, err)
+	assert.Equal(t, "Invalid Status", err.Message)
+	assert.Equal(t, http.StatusBadRequest, err.Status)
+	assert.Equal(t, "Bad_Request", err.Error)
 }
 
 func TestServiceUpdateStatusError(t *testing.T) {
@@ -24,11 +45,15 @@ func TestServiceUpdateStatusError(t *testing.T) {
 	repo := NewRepository(db)
 	service := NewService(repo)
 
-	err := service.UpdateStatusDelivery("asd")
+	req := RequestUpdateStatus{
+		Status: "barang dibayar",
+	}
+
+	err := service.UpdateStatusDelivery("asd", req)
 	assert.NotNil(t, err)
 	assert.Equal(t, "WHERE conditions required", err.Message)
-	assert.Equal(t, 400, err.Status)
-
+	assert.Equal(t, http.StatusBadRequest, err.Status)
+	assert.Equal(t, "Bad_Request", err.Error)
 }
 
 func TestGetPaymentDetailsServiceSuccess(t *testing.T) {
@@ -68,6 +93,6 @@ func TestGetPaymentDetailsServiceRoomNotFound(t *testing.T) {
 	_, err := service.GetPaymentDetails(int(idRoom))
 	assert.NotNil(t, err)
 	assert.Equal(t, "Room not found", err.Message)
-	assert.Equal(t, 400, err.Status)
+	assert.Equal(t, http.StatusBadRequest, err.Status)
 	assert.Equal(t, "Bad_Request", err.Error)
 }

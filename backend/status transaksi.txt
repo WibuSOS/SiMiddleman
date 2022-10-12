@@ -1,4 +1,4 @@
-status 1 = mulai transaksi
-status 2 = barang dibeli
-status 3 = barang dikirim
-status 4 = selesai
+status 0 = mulai transaksi
+status 1 = barang dibayar
+status 2 = barang dikirim
+status 3 = konfirmasi barang sampai

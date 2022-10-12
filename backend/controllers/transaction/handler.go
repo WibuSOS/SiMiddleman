@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -16,9 +17,14 @@ func NewHandler(service Service) *Handler {
 }
 
 func (h *Handler) UpdateStatusDelivery(c *gin.Context) {
-	id := c.Param("id")
+	id := c.Param("room_id")
+	var req RequestUpdateStatus
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-	err := h.Service.UpdateStatusDelivery(id)
+	err := h.Service.UpdateStatusDelivery(id, req)
 	if err != nil {
 		c.JSON(err.Status, gin.H{
 			"message": err.Message,
@@ -26,13 +32,15 @@ func (h *Handler) UpdateStatusDelivery(c *gin.Context) {
 		return
 	}
 
+	message := fmt.Sprintf("success update status %s", req.Status)
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": "success update status pengiriman barang",
+		"message": message,
 	})
 }
 
 func (h *Handler) GetPaymentDetails(c *gin.Context) {
-	idRoom := c.Param("idroom")
+	idRoom := c.Param("room_id")
 	id, errConvert := strconv.Atoi(idRoom)
 	if errConvert != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": errConvert.Error()})
