@@ -46,29 +46,29 @@ export default function Room({ user }) {
 
       if (res.message == `success update status ${data.statuses.at(-1)}`) {
         Swal.fire({ icon: 'success', title: 'Status Barang Berhasil Diubah', showConfirmButton: false, timer: 1500, })
-      }
-      getRoomDetails();
-    } else { Swal.fire({ icon: 'error', title: 'Status Barang Berhasil Diubah', showConfirmButton: false, timer: 1500, }) }
+        getRoomDetails();
+      } else { Swal.fire({ icon: 'error', title: 'Status Barang Tidak Dapat Diubah', showConfirmButton: false, timer: 1500 }) }
+    } else { Swal.fire({ icon: 'error', title: 'Status Barang Tidak Dapat Diubah', showConfirmButton: false, timer: 1500 }) }
   }
 
   const kirimBarang = async () => {
     const idRoom = router.query.id;
-    let data2 = null;
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatusdelivery/${idRoom}`, {
+    let res = null;
+
+    if (data.data.status == data.statuses.at(-3)) {
+      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
         method: 'PUT',
         headers: {
           'Authorization': 'Bearer ' + user,
-        }
-      });
-      data2 = await res.json();
-    } catch (error) {
-      console.error();
-    }
-    if (data2?.message === "success update status pengiriman barang") {
-      Swal.fire({ icon: 'success', title: 'Status Barang Berhasil diubah', showConfirmButton: false, timer: 1500, })
-      router.push("https://forms.gle/4uFn5cDSnYLW88ek9")
-    }
+        },
+        body: JSON.stringify({ status: data.statuses.at(-2) })
+      }).then(response => response.json()).then(data => res = data).catch(error => console.error('Error:', error));
+
+      if (res.message == `success update status ${data.statuses.at(-2)}`) {
+        Swal.fire({ icon: 'success', title: 'Status Barang Berhasil Diubah', showConfirmButton: false, timer: 1500 });
+        router.push('https://forms.gle/4uFn5cDSnYLW88ek9');
+      } else { Swal.fire({ icon: 'error', title: 'Status Barang Tidak Dapat Diubah', showConfirmButton: false, timer: 1500 }) }
+    } else { router.push('https://forms.gle/4uFn5cDSnYLW88ek9') }
   }
 
   return (
@@ -83,12 +83,11 @@ export default function Room({ user }) {
           <p>{data?.data.product.deskripsi}</p>
         </div>
         <div className='pt-5'>
-          {data?.data.pembeliID === decoded.ID && data?.statuses.slice(0, -1).includes(data.data.status) && <Button onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}`, status: data?.statuses[1] } }, '/rooms/payment/[idRoom]') }}>Beli</Button>}
-          {/* {data?.data.penjualID === decoded.ID && data?.statuses.slice(1, -1).includes(data.data.status) && <Button onClick={() => kirimBarang()}>Kirim Barang</Button>} */}
-          {/* {data?.data.pembeliID === decoded.ID && data?.statuses.slice(2, -1).includes(data.data.status) && <Button onClick={() => handleConfirmation()}>Barang Telah Sampai</Button>} */}
-          <Button onClick={() => handleConfirmation()}>Barang Telah Sampai</Button>
-        </div >
-      </div >
+          {data?.data.pembeliID === decoded.ID && data?.statuses.slice(0, -1).includes(data.data.status) && <Button className='me-3' onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}`, status: data?.statuses[1] } }, '/rooms/payment/[idRoom]') }}>Beli</Button>}
+          {data?.data.penjualID === decoded.ID && data?.statuses.slice(1, -1).includes(data.data.status) && <Button className='me-3' onClick={() => kirimBarang()}>Kirim Barang</Button>}
+          {data?.data.pembeliID === decoded.ID && data?.statuses.slice(2, -1).includes(data.data.status) && <Button className='me-3' onClick={() => handleConfirmation()}>Barang Telah Sampai</Button>}
+        </div>
+      </div>
       <div className='pt-5'>
         <h5> NAMA PRODUK : </h5>
         <p>{data?.data.product.nama}</p>
