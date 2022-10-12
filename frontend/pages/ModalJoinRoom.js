@@ -26,25 +26,15 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
             const data = await res.json();
 
             if (data.message === "success") {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil join room',
-                    text: 'Silahkan refresh untuk melihat room',
-                    showConfirmButton: false,
-                    timer: 1500,
-                })
+                Swal.fire({ icon: 'success', title: 'Berhasil join room', text: 'Silahkan refresh untuk melihat room', showConfirmButton: false, timer: 1500, })
             } else if (data.message === "Sudah ada pembeli pada ruangan") {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Join Room gagal',
-                    text: 'Sudah ada pembeli pada ruang tersebut',
-                })
+                Swal.fire({ icon: 'error', title: 'Join Room gagal', text: 'Sudah ada pembeli pada ruang tersebut', })
+            } else if (data.message === "Anda sudah masuk kedalam room ini") {
+                Swal.fire({ icon: 'error', title: 'Join Room gagal', text: 'Anda sudah masuk kedalam room ini', })
+            } else if (data.message === "record not found") {
+                Swal.fire({ icon: 'error', title: 'Join Room gagal', text: 'Ruangan tidak ada', })
             } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Join Room gagal',
-                    text: 'Terjadi kesalahan pada inputan',
-                })
+                Swal.fire({ icon: 'error', title: 'Join Room gagal', text: 'Terjadi kesalahan pada inputan', })
             }
         }
         catch (error) {
