@@ -52,7 +52,7 @@ export default function Room({ user }) {
   }
 
   return (
-    <div className='container pt-5'>
+    <div className='content container pt-5'>
       <Button type='submit' className='me-3'>Close</Button>
       <ShowRoomCode roomCode={data?.data.roomCode} />
       <div className="d-flex justify-content-between">

@@ -30,7 +30,7 @@ function Pembayaran({ user }) {
         }
     }
     return (
-        <div className='container pt-5' style={{ backgroundColor: "#FFFFFF" }}>
+        <div className='content container pt-5' style={{ backgroundColor: "#FFFFFF" }}>
             <Button type='submit'>Back</Button>
             <div className='d-flex flex-column justify-content-center'>
                 <h2 className='mx-auto mb-4' style={{ fontSize: "48px" }}>Sinarmas</h2>

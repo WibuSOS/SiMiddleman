@@ -44,6 +44,10 @@ a {
   --thirdy: #FEB600;
 }
 
+.content {
+  min-height: calc(100vh - 108px - 80px);
+}
+
 /* 
   CSS rules to specify color var
     color: var(--primary);
@@ -116,7 +120,6 @@ a {
 /* Css Styling for modal login */
 
 .test {
-  height: 100vh;
   position: relative;
 }
 
@@ -162,11 +165,14 @@ header {
   padding: 1rem 2rem;
   background-color: #fff;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  height: 80px;
 }
 
 .nav {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: 100%;
   align-items: center;
 }
 
@@ -238,7 +244,6 @@ nav .logo-navbar {
 }
 
 .center {
-  min-height: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
