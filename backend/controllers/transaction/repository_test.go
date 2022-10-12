@@ -51,7 +51,11 @@ func TestUpdateStatusSuccess(t *testing.T) {
 	db := newTestDB(t)
 	repo := NewRepository(db)
 
-	err := repo.UpdateStatusDelivery("1")
+	req := RequestUpdateStatus{
+		Status: "barang dibayar",
+	}
+
+	err := repo.UpdateStatusDelivery("1", req)
 	assert.Empty(t, err)
 
 }
@@ -60,7 +64,11 @@ func TestUpdateStatusErrorConvert(t *testing.T) {
 	db := newTestDB(t)
 	repo := NewRepository(db)
 
-	err := repo.UpdateStatusDelivery("ase")
+	req := RequestUpdateStatus{
+		Status: "barang dibayar",
+	}
+
+	err := repo.UpdateStatusDelivery("ase", req)
 	assert.NotNil(t, err)
 
 }
