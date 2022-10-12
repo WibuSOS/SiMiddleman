@@ -295,8 +295,19 @@ footer {
   height: 108px;
 }
 .link a {
+  font-family: 'Raleway', sans-serif;
   text-decoration: none;
   color: inherit;
+}
+
+.link a:hover {
+  font-weight: 800;
+  color: inherit;
+}
+
+footer .footer-content {
+  align-items: center;
+  height: 108px;
 }
 /* css styling for footer */
 
