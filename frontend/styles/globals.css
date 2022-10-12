@@ -248,3 +248,16 @@ footer {
   color: inherit;
 }
 /* css styling for footer */
+
+/* css styling for show room code modal */
+.roomCode {
+  background-color: var(--primary);
+  color: #fff;
+  padding: .5rem;
+  margin-bottom: 1rem;
+}
+
+.roomCode p {
+  font-size: 2rem;
+}
+/* css styling for show room code modal */
