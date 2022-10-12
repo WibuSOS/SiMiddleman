@@ -32,9 +32,10 @@ function Pembayaran({ user }) {
     }
 
     const changeStatus = async () => {
-        const statusNext = router.query.status;
+        const statusNext = router.query.statusAfter;
+        const statusBefore = router.query.statusBefore;
         const idRoom = router.query.idRoom;
-        if (data.data.status != statusNext) {
+        if (data.data.status != statusNext && statusBefore == data.data.status) {
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
                     method: 'PUT',

@@ -83,7 +83,7 @@ export default function Room({ user }) {
           <p>{data?.data.product.deskripsi}</p>
         </div>
         <div className='pt-5'>
-          {data?.data.pembeliID === decoded.ID && data?.statuses.slice(0, -1).includes(data.data.status) && <Button className='me-3' onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}`, status: data?.statuses[1] } }, '/rooms/payment/[idRoom]') }}>Beli</Button>}
+          {data?.data.pembeliID === decoded.ID && data?.statuses.slice(0, -1).includes(data.data.status) && <Button className='me-3' onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}`, statusAfter: data?.statuses[1], statusBefore: data?.statuses[0] } }, '/rooms/payment/[idRoom]') }}>Beli</Button>}
           {data?.data.penjualID === decoded.ID && data?.statuses.slice(1, -1).includes(data.data.status) && <Button className='me-3' onClick={() => kirimBarang()}>Kirim Barang</Button>}
           {data?.data.pembeliID === decoded.ID && data?.statuses.slice(2, -1).includes(data.data.status) && <Button className='me-3' onClick={() => handleConfirmation()}>Barang Telah Sampai</Button>}
         </div>
