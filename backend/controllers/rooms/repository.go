@@ -46,6 +46,7 @@ func (r *repository) CreateRoom(req *DataRequest) (models.Rooms, *errors.RestErr
 	roomCodeLength := 10
 	newRoom := models.Rooms{
 		PenjualID: req.PenjualID,
+		Status:    "mulai transaksi",
 		Product: &models.Products{
 			Nama:      req.Product.Nama,
 			Deskripsi: req.Product.Deskripsi,
