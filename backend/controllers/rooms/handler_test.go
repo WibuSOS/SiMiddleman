@@ -2,11 +2,14 @@ package rooms
 
 import (
 	"encoding/json"
+	"fmt"
+
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
 
+	"github.com/WibuSOS/sinarmas/controllers/users"
 	"github.com/WibuSOS/sinarmas/models"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
@@ -215,4 +218,286 @@ func TestGetAllRoomsHandlerErrorRequest(t *testing.T) {
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &getAllRoomsRes))
 	assert.Equal(t, "record not found", getAllRoomsRes.Message)
 	assert.Empty(t, getAllRoomsRes.Data)
+}
+
+func TestJoinRoomPembeliHandlerFail(t *testing.T) {
+	type response struct {
+		Message string       `json:"message"`
+		Data    models.Rooms `json:"data"`
+	}
+	var res response
+
+	db := newTestDB(t)
+	// Rooms Handler
+	roomsRepo := NewRepository(db)
+	roomsService := NewService(roomsRepo)
+	roomsHandler := NewHandler(roomsService)
+
+	// Users Handler
+	usersRepo := users.NewRepository(db)
+	usersService := users.NewService(usersRepo)
+	usersHandler := users.NewHandler(usersService)
+
+	// Set Routes
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.POST("/register" /*authentication.Authentication, isAdmin.Authorize,*/, usersHandler.CreateUser)
+	r.POST("/rooms", roomsHandler.CreateRoom)
+	r.PUT("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
+
+	// Create User 1
+	payload := `{
+		"nama": "klmno",
+		"email": "admin@klm.com",
+		"password": "123456781234567812",
+		"noHp": "+6281223440777",
+		"noRek": "1234"
+	}`
+	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "success", res.Message)
+
+	// Create User 2
+	payload = `{
+		"nama": "thea",
+		"email": "admin@admin.com",
+		"password": "123456781234567812",
+		"noHp": "+6281223440777",
+		"noRek": "1234"
+	}`
+	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "success", res.Message)
+
+	// Create Room 1
+	payload = `{
+		"id": 1,
+		"product" : {
+			"nama": "Razer Mouse",
+			"deskripsi": "Ini Razer Mouse",
+			"harga": 150000,
+			"kuantitas": 1
+		}
+	}`
+
+	req, err = http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "success", res.Message)
+
+	// Fail join room not found pembeli
+	req, err = http.NewRequest("PUT", "/joinroom/1/2", nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "record not found", res.Message)
+	assert.NotEmpty(t, res.Data)
+}
+
+func TestJoinRoomPembeliHandlerSuccess(t *testing.T) {
+	type responseCreateRoom struct {
+		Message string       `json:"message"`
+		Data    models.Rooms `json:"data"`
+	}
+	var resCreateRoom responseCreateRoom
+
+	type responseJoinRoom struct {
+		Message string `json:"message"`
+	}
+	var resJoinRoom responseJoinRoom
+
+	db := newTestDB(t)
+	// Rooms Handler
+	roomsRepo := NewRepository(db)
+	roomsService := NewService(roomsRepo)
+	roomsHandler := NewHandler(roomsService)
+
+	// Set Routes
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.POST("/rooms", roomsHandler.CreateRoom)
+	r.PUT("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
+
+	// Create Room 1
+	payload := (`{
+		"id": 1,
+		"product" : {
+			"nama": "Razer Mouse",
+			"deskripsi": "Ini Razer Mouse",
+			"harga": 150000,
+			"kuantitas": 1
+		}
+	}`)
+
+	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resCreateRoom))
+	assert.Equal(t, "success", resCreateRoom.Message)
+
+	roomCode := resCreateRoom.Data.RoomCode
+
+	url := fmt.Sprintf("/joinroom/%s/%d", roomCode, 2)
+	req, err = http.NewRequest("PUT", url, nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resJoinRoom))
+	assert.Equal(t, "success", resJoinRoom.Message)
+}
+
+func TestJoinRoomPembeliHandlerAlreadyInRoom(t *testing.T) {
+	type responseCreateRoom struct {
+		Message string       `json:"message"`
+		Data    models.Rooms `json:"data"`
+	}
+	var resCreateRoom responseCreateRoom
+
+	type responseJoinRoom struct {
+		Message string `json:"message"`
+	}
+	var resJoinRoom responseJoinRoom
+
+	db := newTestDB(t)
+	// Rooms Handler
+	roomsRepo := NewRepository(db)
+	roomsService := NewService(roomsRepo)
+	roomsHandler := NewHandler(roomsService)
+
+	// Set Routes
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.POST("/rooms", roomsHandler.CreateRoom)
+	r.PUT("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
+
+	// Create Room 1
+	payload := (`{
+		"id": 1,
+		"product" : {
+			"nama": "Razer Mouse",
+			"deskripsi": "Ini Razer Mouse",
+			"harga": 150000,
+			"kuantitas": 1
+		}
+	}`)
+
+	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resCreateRoom))
+	assert.Equal(t, "success", resCreateRoom.Message)
+
+	roomCode := resCreateRoom.Data.RoomCode
+
+	url := fmt.Sprintf("/joinroom/%s/%d", roomCode, 1)
+	req, err = http.NewRequest("PUT", url, nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resJoinRoom))
+	assert.Equal(t, "Anda sudah masuk kedalam room ini", resJoinRoom.Message)
+}
+
+func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
+	type responseCreateRoom struct {
+		Message string       `json:"message"`
+		Data    models.Rooms `json:"data"`
+	}
+	var resCreateRoom responseCreateRoom
+
+	type responseJoinRoom struct {
+		Message string `json:"message"`
+	}
+	var resJoinRoom responseJoinRoom
+
+	db := newTestDB(t)
+	// Rooms Handler
+	roomsRepo := NewRepository(db)
+	roomsService := NewService(roomsRepo)
+	roomsHandler := NewHandler(roomsService)
+
+	// Set Routes
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.POST("/rooms", roomsHandler.CreateRoom)
+	r.PUT("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
+
+	// Create Room 1
+	payload := (`{
+		"id": 1,
+		"product" : {
+			"nama": "Razer Mouse",
+			"deskripsi": "Ini Razer Mouse",
+			"harga": 150000,
+			"kuantitas": 1
+		}
+	}`)
+
+	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resCreateRoom))
+	assert.Equal(t, "success", resCreateRoom.Message)
+
+	roomCode := resCreateRoom.Data.RoomCode
+
+	url := fmt.Sprintf("/joinroom/%s/%s", roomCode, "abc")
+	req, err = http.NewRequest("PUT", url, nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resJoinRoom))
+	assert.Equal(t, "Invalid User ID", resJoinRoom.Message)
 }

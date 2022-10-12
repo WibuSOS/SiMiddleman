@@ -12,28 +12,9 @@ on:
       - staging
 
 jobs:
-  check-quality:
+  backend_test:
     runs-on: ubuntu-latest
-    name: Code quality check
-    steps:
-    - name: Check code meets quality standards
-      id: codiga
-      uses: codiga/github-action@master
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        codiga_api_token: ${{ secrets.CODIGA_API_TOKEN }}
-        force_ref: 'none'
-        min_quality_grade: 'WARNING'
-        min_quality_score: '50'
-        max_defects_rate: '0.0001'
-        max_complex_functions_rate: '0.0001'
-        max_long_functions_rate: '0.0001'
-        project_name: ''
-        max_timeout_sec: '600'
-  
-  test:
-    runs-on: ubuntu-latest
-    name: Golang test
+    name: Backend test
     defaults:
       run:
         working-directory: ./backend
@@ -47,5 +28,19 @@ jobs:
         run: go get .
       - name: Build
         run: go build -v ./...
-      - name: Test with the Go CLI
+      - name: Test with the Go CLI - Middleware Test
+        run: go test -cover -v ./middlewares/...
+      - name: Test with the Go CLI - Domain Test
         run: go test -cover -v ./controllers/...
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

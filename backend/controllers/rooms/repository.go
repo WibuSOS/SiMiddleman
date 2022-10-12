@@ -1,6 +1,7 @@
 package rooms
 
 import (
+	"log"
 	"math/rand"
 	"strconv"
 	"time"
@@ -14,6 +15,7 @@ type Repository interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError)
 	JoinRoom(room_id string, user_id string) (models.Rooms, *errors.RestError)
+	JoinRoomPembeli(room_id string, user_id string) *errors.RestError
 }
 
 type repository struct {
@@ -113,4 +115,40 @@ func (r *repository) JoinRoom(room_id string, user_id string) (models.Rooms, *er
 	}
 
 	return room, nil
+}
+
+func (r *repository) JoinRoomPembeli(room_id string, user_id string) *errors.RestError {
+	var room models.Rooms
+
+	idroom64, err := strconv.ParseUint(user_id, 10, 32)
+	if err != nil {
+		log.Println(err.Error())
+		return errors.NewBadRequestError("Invalid User ID")
+	}
+	idRoom := uint(idroom64)
+
+	alreadyJoinRoom := r.db.
+		Where("room_code = ? AND (penjual_id = ? OR pembeli_id = ?)", room_id, idRoom, idRoom).
+		First(&room)
+	if alreadyJoinRoom.Error == nil {
+		return errors.NewBadRequestError("Anda sudah masuk kedalam room ini")
+	}
+
+	roomAlreadyHasPembeli := r.db.
+		Where("room_code = ? AND pembeli_id IS NULL", room_id).
+		First(&room)
+	if roomAlreadyHasPembeli.Error != nil {
+		return errors.NewBadRequestError(roomAlreadyHasPembeli.Error.Error())
+	}
+
+	res := r.db.
+		Where("room_code = ? AND pembeli_id IS NULL", room_id).
+		Updates(models.Rooms{
+			PembeliID: &idRoom,
+		})
+	if res.Error != nil {
+		return errors.NewBadRequestError(res.Error.Error())
+	}
+
+	return nil
 }
