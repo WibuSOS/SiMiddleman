@@ -28,10 +28,34 @@ jobs:
         run: go get .
       - name: Build
         run: go build -v ./...
-      - name: Test with the Go CLI - Middleware Test
-        run: go test -cover -v ./middlewares/...
-      - name: Test with the Go CLI - Domain Test
-        run: go test -cover -v ./controllers/...
+
+      - name: Run Test  # Pass the `coverage.out` output to this action
+        run:
+          go test -v ./controllers/... -covermode count -coverprofile coverage.out
+          go tool cover -func coverage.out -o coverage.out
+
+      - name: Go Coverage Badge
+        uses: tj-actions/coverage-badge-go@v1
+        with:
+          filename: coverage.out
+
+      - name: Verify Changed files
+        uses: tj-actions/verify-changed-files@v8.1
+        id: verify-changed-files
+        with:
+          files: README.md
+
+      - name: Create Pull Request
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        uses: peter-evans/create-pull-request@v3
+        with:
+          base: "main"
+          title: "chore: updated coverage Badge"
+          branch: "chore/update-coverage"
+          commit-message: "chore: updated coverage Badge"
+          body: "updated coverage Badge"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
