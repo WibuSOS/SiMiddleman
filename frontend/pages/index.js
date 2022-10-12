@@ -11,6 +11,12 @@ function Home({ user }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
 
+  useEffect(() => {
+    if (user) {
+      GetAllRoom();
+    }
+  }, [user])
+
   if (!user) {
     return (
       <div className='container mx-10 my-7'>
@@ -21,9 +27,6 @@ function Home({ user }) {
       </div>
     )
   }
-  useEffect(() => {
-    GetAllRoom();
-  }, [])
 
   const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
 
@@ -42,6 +45,7 @@ function Home({ user }) {
       console.error();
     }
   }
+
 
   let dataList = []
   data?.data && data?.data?.map((item, index) => (
@@ -90,6 +94,7 @@ function Home({ user }) {
       </div>
     </div>
   )
+
 }
 
 export async function getServerSideProps(ctx) {
