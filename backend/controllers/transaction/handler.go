@@ -16,7 +16,7 @@ func NewHandler(service Service) *Handler {
 }
 
 func (h *Handler) UpdateStatusDelivery(c *gin.Context) {
-	id := c.Param("id")
+	id := c.Param("room_id")
 	var req RequestUpdateStatus
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -37,7 +37,7 @@ func (h *Handler) UpdateStatusDelivery(c *gin.Context) {
 }
 
 func (h *Handler) GetPaymentDetails(c *gin.Context) {
-	idRoom := c.Param("idroom")
+	idRoom := c.Param("room_id")
 	id, errConvert := strconv.Atoi(idRoom)
 	if errConvert != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": errConvert.Error()})

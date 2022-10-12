@@ -69,6 +69,6 @@ func (s *server) SetupRouter() {
 	transactionService := transaction.NewService(transactionRepo)
 	transactionHandler := transaction.NewHandler(transactionService)
 
-	s.Router.PUT("/updatestatusdelivery/:id", authentication.Authentication, isConsumer.Authorize, transactionHandler.UpdateStatusDelivery)
-	s.Router.GET("/getHarga/:idroom", authentication.Authentication, isConsumer.Authorize, transactionHandler.GetPaymentDetails)
+	s.Router.PUT("/updatestatus/:room_id", authentication.Authentication, isConsumer.Authorize, transactionHandler.UpdateStatusDelivery)
+	s.Router.GET("/getHarga/:room_id", authentication.Authentication, isConsumer.Authorize, transactionHandler.GetPaymentDetails)
 }
