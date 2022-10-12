@@ -8,8 +8,7 @@ on:
       - synchronize
       - edited
     branches:
-      - master
-      - staging
+      - TestCodeCoverage
 
 jobs:
   backend_test:
