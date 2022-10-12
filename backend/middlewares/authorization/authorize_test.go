@@ -30,8 +30,8 @@ func newTestDB(t *testing.T) *gorm.DB {
 	assert.NoError(t, err)
 
 	// User 1
-	password := "123456781234567812"
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+	p := "123456781234567812"
+	hash, err := bcrypt.GenerateFromPassword([]byte(p), 10)
 	assert.NoError(t, err)
 
 	user := models.Users{Email: "consumer@xyz.com", Password: string(hash)}
@@ -39,8 +39,8 @@ func newTestDB(t *testing.T) *gorm.DB {
 	assert.NoError(t, result.Error)
 
 	// User 2
-	password = "123456781234567812"
-	hash, err = bcrypt.GenerateFromPassword([]byte(password), 10)
+	p = "123456781234567812"
+	hash, err = bcrypt.GenerateFromPassword([]byte(p), 10)
 	assert.NoError(t, err)
 
 	user = models.Users{Email: "consumer@abc.com", Password: string(hash)}
@@ -48,8 +48,8 @@ func newTestDB(t *testing.T) *gorm.DB {
 	assert.NoError(t, result.Error)
 
 	// User 3
-	password = "123456781234567812"
-	hash, err = bcrypt.GenerateFromPassword([]byte(password), 10)
+	p = "123456781234567812"
+	hash, err = bcrypt.GenerateFromPassword([]byte(p), 10)
 	assert.NoError(t, err)
 
 	user = models.Users{Email: "consumer@ijk.com", Password: string(hash)}
