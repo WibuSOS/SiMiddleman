@@ -30,9 +30,13 @@ jobs:
         run: go build -v ./...
 
       - name: Run Test  # Pass the `coverage.out` output to this action
-        run:
-          go test -v ./controllers/... -covermode count -coverprofile coverage.out
-          go tool cover -func coverage.out -o coverage.out
+        run: go test -v ./controllers/... -covermode count -coverprofile coverage.out
+          
+      - name: Run Tool Cover Test
+        run: go tool cover -func coverage.out -o coverage.out
+
+      - name: ls
+        run: ls -a
 
       - name: Go Coverage Badge
         uses: tj-actions/coverage-badge-go@v1
