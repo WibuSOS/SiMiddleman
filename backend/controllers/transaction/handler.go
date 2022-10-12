@@ -17,8 +17,13 @@ func NewHandler(service Service) *Handler {
 
 func (h *Handler) UpdateStatusDelivery(c *gin.Context) {
 	id := c.Param("id")
+	var req RequestUpdateStatus
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-	err := h.Service.UpdateStatusDelivery(id)
+	err := h.Service.UpdateStatusDelivery(id, req)
 	if err != nil {
 		c.JSON(err.Status, gin.H{
 			"message": err.Message,
@@ -27,7 +32,7 @@ func (h *Handler) UpdateStatusDelivery(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "success update status pengiriman barang",
+		"message": "success update status",
 	})
 }
 
