@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/WibuSOS/sinarmas/controllers/product"
-	"github.com/WibuSOS/sinarmas/controllers/rooms"
-	"github.com/WibuSOS/sinarmas/models"
+	"github.com/WibuSOS/sinarmas/backend/controllers/product"
+	"github.com/WibuSOS/sinarmas/backend/controllers/rooms"
+	"github.com/WibuSOS/sinarmas/backend/models"
 
 	"github.com/glebarez/sqlite"
 	"github.com/stretchr/testify/assert"

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/WibuSOS/sinarmas/controllers/product"
+	"github.com/WibuSOS/sinarmas/backend/controllers/product"
 	"github.com/stretchr/testify/assert"
 )
 

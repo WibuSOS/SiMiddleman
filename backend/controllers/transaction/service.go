@@ -1,6 +1,6 @@
 package transaction
 
-import "github.com/WibuSOS/sinarmas/utils/errors"
+import "github.com/WibuSOS/sinarmas/backend/utils/errors"
 
 type Service interface {
 	UpdateStatusDelivery(id string, req RequestUpdateStatus) *errors.RestError
