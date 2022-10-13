@@ -11,6 +11,7 @@ export default function Room({ user }) {
   const [error] = useState(null);
   const router = useRouter();
   useEffect(() => {
+    console.log("useEffect chat room jalan");
     getRoomDetails();
   }, [])
   const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
@@ -27,6 +28,7 @@ export default function Room({ user }) {
       });
       const data = await res.json();
       setData(data);
+      console.log("getRoomDetails chat room jalan");
     } catch (error) {
       console.error();
     }
@@ -80,6 +82,7 @@ export default function Room({ user }) {
 
   return (
     <div className='content container pt-5'>
+      {console.log(data?.data)}
       {data?.data.status}
       <br />
       <Button type='submit' className='me-3'>Close</Button>

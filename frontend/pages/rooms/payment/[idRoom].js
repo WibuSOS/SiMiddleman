@@ -14,6 +14,7 @@ function Pembayaran({ user }) {
     const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
 
     useEffect(() => {
+        console.log("useEffect payment window jalan");
         getHarga();
         getRoomDetails();
     }, [])
