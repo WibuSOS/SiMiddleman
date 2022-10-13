@@ -1,9 +1,7 @@
-import Button from 'react-bootstrap/Button';
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
 import jwt from "jsonwebtoken";
-import ShowRoomCode from '../ShowRoomCode';
 import Swal from 'sweetalert2';
 import DetailProduk from './detailProduk';
 
@@ -80,13 +78,8 @@ export default function Room({ user }) {
   }
 
   return (
-    <div className='content container pt-5'>
-      <Button type='submit' className='me-3'>Close</Button>
-      <ShowRoomCode roomCode={data?.data.roomCode} />
+    <div className='content'>
       <DetailProduk data={data} error={error} decoded={decoded} router={router} kirimBarang={kirimBarang} handleConfirmation={handleConfirmation} />
-      <div className="row pt-5">
-        <Button type='submit'>Checkout</Button>
-      </div>
     </div >
   )
 }
