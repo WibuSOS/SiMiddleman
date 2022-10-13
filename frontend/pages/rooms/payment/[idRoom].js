@@ -8,11 +8,14 @@ import jwt from "jsonwebtoken";
 function Pembayaran({ user }) {
     const router = useRouter();
     const [data, setData] = useState(null);
+    const [dataRoom, setDataRoom] = useState(null);
     const [dataAfterChangeStatus, setDataAfterChangeStatus] = useState(null);
     const [error, setError] = useState(null);
+    const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
 
     useEffect(() => {
         getHarga();
+        getRoomDetails();
     }, [])
 
     const getHarga = async () => {
@@ -20,9 +23,7 @@ function Pembayaran({ user }) {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getHarga/${idRoom}`, {
                 method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + user,
-                }
+                headers: {'Authorization': 'Bearer ' + user,}
             });
             const data = await res.json();
             setData(data);
@@ -31,18 +32,28 @@ function Pembayaran({ user }) {
         }
     }
 
-    const changeStatus = async () => {
-        const statusNext = router.query.statusAfter;
-        const statusBefore = router.query.statusBefore;
+    const getRoomDetails = async () => {
         const idRoom = router.query.idRoom;
-        if (data.data.status != statusNext && statusBefore == data.data.status) {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${idRoom}/${decoded.ID}`, {
+                method: 'GET',
+                headers: {'Authorization': 'Bearer ' + user,}
+            });
+            const data = await res.json();
+            setDataRoom(data);
+        } catch (error) {
+            console.error();
+        }
+    }
+
+    const changeStatus = async () => {
+        const idRoom = router.query.idRoom;
+        if (data.data.status != dataRoom.statuses[1] && dataRoom.statuses[0] == data.data.status) {
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
                     method: 'PUT',
-                    headers: {
-                      'Authorization': 'Bearer ' + user,
-                    },
-                    body: JSON.stringify({ status: statusNext })
+                    headers: {'Authorization': 'Bearer ' + user,},
+                    body: JSON.stringify({ status: dataRoom.statuses[1] })
                 });
                 const data = await res.json();
                 setDataAfterChangeStatus(data);
