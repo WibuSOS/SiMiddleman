@@ -20,26 +20,22 @@ export default function RegisterForm() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    if (this.state.password !== this.state.confirmPassword) {
-      Swal.fire({ icon: 'error', title: 'Register gagal', text: 'Password tidak sesuai dengan Confirm Password', })
+    const body = {
+      nama: formData.get("nama"),
+      noHp: formData.get("noHp"),
+      noRek: formData.get("noRek"),
+      email: formData.get("email"),
+      password: formData.get("password"),
     }
-    else {
 
-      const body = {
-        nama: formData.get("nama"),
-        noHp: formData.get("noHp"),
-        noRek: formData.get("noRek"),
-        email: formData.get("email"),
-        password: formData.get("password"),
-      }
-
+    if (formData.get("confirmPassword") == formData.get("password")){
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
           method: 'POST',
           body: JSON.stringify(body)
         });
         const data = await res.json();
-
+  
         if (data.message === "success") {
           Swal.fire({ icon: 'success', title: 'Register berhasil, silahkan login', confirmButtonText: 'Login', }).then((result) => {
             if (result.isConfirmed) {
@@ -55,6 +51,8 @@ export default function RegisterForm() {
       catch (error) {
         console.log(error);
       }
+    } else {
+      Swal.fire({ icon: 'error', title: 'Register gagal', text: 'Password dan Confirm Password berbeda', })
     }
   }
 
