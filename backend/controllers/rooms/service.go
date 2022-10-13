@@ -7,9 +7,9 @@ import (
 
 type Service interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
-	GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError)
-	JoinRoom(room_id string, user_id string) (models.Rooms, *errors.RestError)
-	JoinRoomPembeli(room_id string, user_id string) *errors.RestError
+	GetAllRooms(userId string) ([]models.Rooms, *errors.RestError)
+	JoinRoom(roomId string, userId string) (models.Rooms, *errors.RestError)
+	JoinRoomPembeli(roomId string, userId string) *errors.RestError
 }
 
 type service struct {
@@ -25,21 +25,21 @@ func (s *service) CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	return newRoom, err
 }
 
-func (s *service) GetAllRooms(user_id string) ([]models.Rooms, *errors.RestError) {
-	newRooms, err := s.repo.GetAllRooms(user_id)
+func (s *service) GetAllRooms(userId string) ([]models.Rooms, *errors.RestError) {
+	newRooms, err := s.repo.GetAllRooms(userId)
 	return newRooms, err
 }
 
-func (s *service) JoinRoom(room_id string, user_id string) (models.Rooms, *errors.RestError) {
-	room, err := s.repo.JoinRoom(room_id, user_id)
+func (s *service) JoinRoom(roomId string, userId string) (models.Rooms, *errors.RestError) {
+	room, err := s.repo.JoinRoom(roomId, userId)
 	if err != nil {
 		return models.Rooms{}, err
 	}
 	return room, nil
 }
 
-func (s *service) JoinRoomPembeli(room_id string, user_id string) *errors.RestError {
-	err := s.repo.JoinRoomPembeli(room_id, user_id)
+func (s *service) JoinRoomPembeli(roomId string, userId string) *errors.RestError {
+	err := s.repo.JoinRoomPembeli(roomId, userId)
 	if err != nil {
 		return err
 	}
