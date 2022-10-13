@@ -1,13 +1,14 @@
 import Button from 'react-bootstrap/Button';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
+import Swal from 'sweetalert2';
 import jwt from "jsonwebtoken";
 
 function Pembayaran({ user }) {
     const router = useRouter();
     const [data, setData] = useState(null);
+    const [dataAfterChangeStatus, setDataAfterChangeStatus] = useState(null);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -29,8 +30,34 @@ function Pembayaran({ user }) {
             console.error();
         }
     }
+
+    const changeStatus = async () => {
+        const statusNext = router.query.statusAfter;
+        const statusBefore = router.query.statusBefore;
+        const idRoom = router.query.idRoom;
+        if (data.data.status != statusNext && statusBefore == data.data.status) {
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
+                    method: 'PUT',
+                    headers: {
+                      'Authorization': 'Bearer ' + user,
+                    },
+                    body: JSON.stringify({ status: statusNext })
+                });
+                const data = await res.json();
+                setDataAfterChangeStatus(data);
+            } catch (error) {
+                console.error();
+            }
+        }
+        if (dataAfterChangeStatus?.message !== null) {
+            Swal.fire({ icon: 'success', title: 'Status Pembelian Berhasil diubah', showConfirmButton: false, timer: 1500, })
+            router.push("https://forms.gle/yAtYBvu583nuVqmN6")
+        }
+    }
+
     return (
-        <div className='container pt-5' style={{ backgroundColor: "#FFFFFF" }}>
+        <div className='content container pt-5' style={{ backgroundColor: "#FFFFFF" }}>
             <Button type='submit'>Back</Button>
             <div className='d-flex flex-column justify-content-center'>
                 <h2 className='mx-auto mb-4' style={{ fontSize: "48px" }}>Sinarmas</h2>
@@ -58,9 +85,7 @@ function Pembayaran({ user }) {
                 <div className='mx-auto mb-3' style={{ fontSize: "24px" }}>
                     Silahkan upload bukti pembayaran anda!
                 </div>
-                <Link href={`https://forms.gle/yAtYBvu583nuVqmN6`}>
-                    <Button className='mx-auto'>Upload Bukti Pembayaran</Button>
-                </Link>
+                <Button onClick={() => changeStatus()} className='mx-auto'>Upload Bukti Pembayaran</Button>
             </div>
         </div>
     )

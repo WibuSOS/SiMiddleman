@@ -14,8 +14,6 @@ func (r Roles) Authorize(c *gin.Context) {
 	role := c.MustGet("role")
 	for i := 0; i < len(r.AllowedRoles); i++ {
 		if r.AllowedRoles[i] == role {
-			id := c.MustGet("id")
-			c.Set("ID", id)
 			c.Next()
 			return
 		}

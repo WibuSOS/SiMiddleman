@@ -38,7 +38,7 @@ export default function LoginForm() {
       })
   }
     return (   
-      <div className="test" data-testid="main">
+      <div className="content test" data-testid="main">
         <div className="centered-form text-center" data-testid="centeredForm">
           <div className="avatar text-center" data-testid="avatar">
               <img src={logo.src} alt="logo SiMiddleman+" data-testid="logo"/>

@@ -16,7 +16,7 @@ const Navbar = () => {
     <header>
       <nav className='nav'>
         <Link href={"/"}>
-          <a>
+          <a className="logo-brand">
             <img src={Logo.src} className='logo-navbar me-3'/>
             SiMiddleman+
           </a>
@@ -29,7 +29,7 @@ const Navbar = () => {
         <div className={`${navActive ? "active" : ""} nav__menu-list`}>
           {MENU_LIST.map((menu, idx) => {
             return (
-              <div key={menu.text} onClick={() => {
+              <div className="link-div" key={menu.text} onClick={() => {
                 setActiveIdx(idx);
                 setNavActive(false);
               }}>
