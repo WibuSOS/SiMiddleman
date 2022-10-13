@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/WibuSOS/sinarmas/controllers/users"
-	"github.com/WibuSOS/sinarmas/models"
+	"github.com/WibuSOS/sinarmas/backend/controllers/users"
+	"github.com/WibuSOS/sinarmas/backend/models"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )

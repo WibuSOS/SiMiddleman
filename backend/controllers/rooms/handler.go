@@ -3,7 +3,7 @@ package rooms
 import (
 	"net/http"
 
-	"github.com/WibuSOS/sinarmas/utils/errors"
+	"github.com/WibuSOS/sinarmas/backend/utils/errors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -41,8 +41,8 @@ func (h *Handler) CreateRoom(c *gin.Context) {
 }
 
 func (h *Handler) GetAllRooms(c *gin.Context) {
-	user_id := c.Param("id")
-	newRooms, err := h.Service.GetAllRooms(user_id)
+	userId := c.Param("id")
+	newRooms, err := h.Service.GetAllRooms(userId)
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{
@@ -59,9 +59,9 @@ func (h *Handler) GetAllRooms(c *gin.Context) {
 }
 
 func (h *Handler) JoinRoom(c *gin.Context) {
-	room_id := c.Param("room_id")
-	user_id := c.Param("user_id")
-	room, err := h.Service.JoinRoom(room_id, user_id)
+	roomId := c.Param("room_id")
+	userId := c.Param("user_id")
+	room, err := h.Service.JoinRoom(roomId, userId)
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{
@@ -80,9 +80,9 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 }
 
 func (h *Handler) JoinRoomPembeli(c *gin.Context) {
-	room_id := c.Param("room_id")
-	user_id := c.Param("user_id")
-	err := h.Service.JoinRoomPembeli(room_id, user_id)
+	roomId := c.Param("room_id")
+	userId := c.Param("user_id")
+	err := h.Service.JoinRoomPembeli(roomId, userId)
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{

@@ -23,9 +23,9 @@ function Home({ user }) {
   if (!user) {
     return (
       <div className='content'>
-        <WelcomeBanner/>
-        <AlasanSimiddleman/>
-        <SimiddlemanSummaries/>
+        <WelcomeBanner />
+        <AlasanSimiddleman />
+        <SimiddlemanSummaries />
       </div>
     )
   }

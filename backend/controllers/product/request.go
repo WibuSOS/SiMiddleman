@@ -1,6 +1,6 @@
 package product
 
-import "github.com/WibuSOS/sinarmas/utils/errors"
+import "github.com/WibuSOS/sinarmas/backend/utils/errors"
 
 type DataRequest struct {
 	Nama      string `json:"nama"`
