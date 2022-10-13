@@ -36,10 +36,10 @@ export default function RegisterForm() {
             signIn()
           }
         })
-      } else if (data.message === "no hp tidak memenuhi syarat") {
-        Swal.fire({ icon: 'error', title: 'Register gagal', text: 'No Hp tidak memenuhi syarat', })
+      } else if (data.message === "ERROR: duplicate key value violates unique constraint \"users_email_key\" (SQLSTATE 23505)") {
+        Swal.fire({ icon: 'error', title: 'Register gagal', text: 'Email sudah digunakan', })
       } else {
-        Swal.fire({ icon: 'error', title: 'Register gagal', text: 'Terjadi kesalahan pada input anda', })
+        Swal.fire({ icon: 'error', title: 'Register gagal', text: data.message, })
       }
     }
     catch (error) {
