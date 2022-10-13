@@ -40,7 +40,7 @@ function Pembayaran({ user }) {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
                     method: 'PUT',
                     headers: {
-                      'Authorization': 'Bearer ' + user,
+                        'Authorization': 'Bearer ' + user,
                     },
                     body: JSON.stringify({ status: statusNext })
                 });
@@ -58,6 +58,12 @@ function Pembayaran({ user }) {
 
     return (
         <div className='content container pt-5' style={{ backgroundColor: "#FFFFFF" }}>
+            {"current: " + data?.data?.status}
+            <br />
+            {"after: " + router.query.statusAfter}
+            <br />
+            {"before: " + router.query.statusBefore}
+            <br />
             <Button type='submit'>Back</Button>
             <div className='d-flex flex-column justify-content-center'>
                 <h2 className='mx-auto mb-4' style={{ fontSize: "48px" }}>Sinarmas</h2>
