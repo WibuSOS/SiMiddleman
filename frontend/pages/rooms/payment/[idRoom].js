@@ -77,9 +77,9 @@ function Pembayaran({ user }) {
         <div className='content container pt-5' style={{ backgroundColor: "#FFFFFF" }}>
             {"current: " + data?.data?.status}
             <br />
-            {"after: " + router.query.statusAfter}
+            {"before: " + dataRoom?.statuses[0]}
             <br />
-            {"before: " + router.query.statusBefore}
+            {"after: " + dataRoom?.statuses[1]}
             <br />
             <Button type='submit'>Back</Button>
             <div className='d-flex flex-column justify-content-center'>
