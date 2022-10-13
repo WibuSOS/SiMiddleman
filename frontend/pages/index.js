@@ -1,5 +1,5 @@
 import { Button } from 'react-bootstrap';
-import { signOut, signIn, useSession, getSession } from "next-auth/react";
+import { signOut, signIn, getSession } from "next-auth/react";
 import CreateRoom from './CreateRoom';
 import JoinRoom from './JoinRoom';
 import RegisterForm from './register';
@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 
 function Home({ user }) {
   const [data, setData] = useState(null)
-  const [error, setError] = useState(null)
+  const [error] = useState(null)
 
   useEffect(() => {
     if (user) {
@@ -19,7 +19,7 @@ function Home({ user }) {
 
   if (!user) {
     return (
-      <div className='container mx-10 my-7'>
+      <div className='content container mx-10 my-7'>
         <Button variant="primary" onClick={() => signIn()}>
           Login
         </Button>
@@ -62,7 +62,7 @@ function Home({ user }) {
     )))
 
   return (
-    <div>
+    <div className='content'>
       {error && <div>Failed to load {error.toString()}</div>}
       {
         !data ? <div>Loading...</div>

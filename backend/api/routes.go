@@ -27,6 +27,8 @@ func (s *server) SetupRouter() {
 	// isAdmin := authorization.Roles{AllowedRoles: admin[:]}
 	// isAll := authorization.Roles{AllowedRoles: all[:]}
 
+	roomAuth := authorization.NewRoomAuth(s.DB)
+
 	authRepo := auth.NewRepository(s.DB)
 	authService := auth.NewService(authRepo)
 	authHandler := auth.NewHandler(authService)
@@ -69,6 +71,6 @@ func (s *server) SetupRouter() {
 	transactionService := transaction.NewService(transactionRepo)
 	transactionHandler := transaction.NewHandler(transactionService)
 
-	s.Router.PUT("/updatestatus/:room_id", authentication.Authentication, isConsumer.Authorize, transactionHandler.UpdateStatusDelivery)
-	s.Router.GET("/getHarga/:room_id", authentication.Authentication, isConsumer.Authorize, transactionHandler.GetPaymentDetails)
+	s.Router.PUT("/updatestatus/:room_id", authentication.Authentication, isConsumer.Authorize, roomAuth.RoomAuthorize, transactionHandler.UpdateStatusDelivery)
+	s.Router.GET("/getHarga/:room_id", authentication.Authentication, isConsumer.Authorize, roomAuth.RoomAuthorize, transactionHandler.GetPaymentDetails)
 }

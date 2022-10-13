@@ -49,7 +49,7 @@ func TestUpdateStatusDelivery(t *testing.T) {
 
 	var res getUpdateStatusDelivery
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success update status", res.Message)
+	assert.Equal(t, "success update status barang dibayar", res.Message)
 }
 
 func TestUpdateStatusDeliveryInvalidJSON(t *testing.T) {

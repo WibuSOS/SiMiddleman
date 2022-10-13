@@ -1,8 +1,6 @@
 import { Form, Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
-import Home from '.';
-import { router } from 'next/router';
 
 export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRoomModal, createRoomModal }) {
   const handleSubmitCreateRoom = async (e) => {
@@ -33,16 +31,8 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
 
       if (data.message === "success") {
         Swal.fire({ icon: 'success', title: 'Room berhasil dibuat', showConfirmButton: false, timer: 1500, })
-      } else if (data.message === "Deskripsi tidak boleh kosong") {
-        Swal.fire({ icon: 'error', title: 'Buat Room gagal', text: 'Deskripsi tidak boleh kosong', })
-      } else if (data.message === "Nama tidak boleh kosong") {
-        Swal.fire({ icon: 'error', title: 'Buat Room gagal', text: 'Nama tidak boleh kosong', })
-      } else if (data.message === "Harga tidak boleh kosong") {
-        Swal.fire({ icon: 'error', title: 'Buat Room gagal', text: 'Harga tidak boleh kosong', })
-      } else if (data.message === "Kuantitas tidak boleh kosong") {
-        Swal.fire({ icon: 'error', title: 'Buat Room gagal', text: 'Kuantitas tidak boleh kosong', })
       } else {
-        Swal.fire({ icon: 'error', title: 'Buat Room gagal', text: 'Terjadi kesalahan dalam inputan anda', })
+        Swal.fire({ icon: 'error', title: 'Buat Room gagal', text: data.message, })
       }
     }
     catch (error) {
