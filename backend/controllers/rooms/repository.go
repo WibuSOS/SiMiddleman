@@ -2,12 +2,11 @@ package rooms
 
 import (
 	"log"
-	"math/rand"
 	"strconv"
-	"time"
 
 	"github.com/WibuSOS/sinarmas/models"
 	"github.com/WibuSOS/sinarmas/utils/errors"
+	"github.com/dchest/uniuri"
 	"gorm.io/gorm"
 )
 
@@ -27,15 +26,9 @@ func NewRepository(db *gorm.DB) *repository {
 }
 
 func generateRoomCode(n int) string {
-	rand.Seed(time.Now().UTC().UnixNano())
-	letterRunes := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
-	b := make([]rune, n)
+	s := uniuri.NewLen(n)
 
-	for i := range b {
-		b[i] = letterRunes[rand.Intn(len(letterRunes))]
-	}
-
-	return string(b)
+	return s
 }
 
 func (r *repository) CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError) {
