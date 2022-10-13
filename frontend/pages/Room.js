@@ -1,5 +1,4 @@
 import Button from 'react-bootstrap/Button';
-import { useRouter } from "next/router";
 
 function Room(RoomDetails) {
   return (
@@ -7,11 +6,11 @@ function Room(RoomDetails) {
       <Button type='submit'>Close</Button>
       <div className="d-flex justify-content-between">
         <div className='pt-5'>
-            <h2>Detail Produk</h2>
-            <h4></h4>
+          <h2>Detail Produk</h2>
+          <h4></h4>
         </div>
         <div className='pt-5'>
-            <Button type='submit'>Edit Produk</Button>
+          <Button type='submit'>Edit Produk</Button>
         </div>
       </div>
       <div className='pt-5'>
@@ -43,7 +42,7 @@ function Room(RoomDetails) {
   )
 }
 
-export async function getServerSideProps({query}) {
+export async function getServerSideProps({ query }) {
   const roomId = query.kodeRuangan;
   const userId = query.idPenjual;
   let roomDetails = null;
@@ -55,12 +54,12 @@ export async function getServerSideProps({query}) {
   } catch (error) {
     console.error();
   }
-  
+
   return {
     props: {
       roomDetails
     },
-  } 
+  }
 }
 
 export default Room;
