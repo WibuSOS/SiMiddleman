@@ -29,6 +29,9 @@ jobs:
       - name: Build
         run: go build -v ./...
 
+      - name: Run Test  # Pass the `coverage.out` output to this action
+        run: go test -v ./controllers/... -covermode count -coverprofile coverage.out
+
       - name: Analyze with SonarCloud
         uses: sonarsource/sonarcloud-github-action@master
         env:
