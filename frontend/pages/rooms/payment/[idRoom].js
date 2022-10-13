@@ -23,9 +23,7 @@ function Pembayaran({ user }) {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getHarga/${idRoom}`, {
                 method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + user,
-                }
+                headers: {'Authorization': 'Bearer ' + user,}
             });
             const data = await res.json();
             setData(data);
@@ -39,9 +37,7 @@ function Pembayaran({ user }) {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${idRoom}/${decoded.ID}`, {
                 method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + user,
-                }
+                headers: {'Authorization': 'Bearer ' + user,}
             });
             const data = await res.json();
             setDataRoom(data);
@@ -56,9 +52,7 @@ function Pembayaran({ user }) {
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
                     method: 'PUT',
-                    headers: {
-                        'Authorization': 'Bearer ' + user,
-                    },
+                    headers: {'Authorization': 'Bearer ' + user,},
                     body: JSON.stringify({ status: dataRoom.statuses[1] })
                 });
                 const data = await res.json();
