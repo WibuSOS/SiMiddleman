@@ -59,7 +59,7 @@ function Pembayaran({ user }) {
                     headers: {
                         'Authorization': 'Bearer ' + user,
                     },
-                    body: JSON.stringify({ status: statusNext })
+                    body: JSON.stringify({ status: dataRoom.statuses[1] })
                 });
                 const data = await res.json();
                 setDataAfterChangeStatus(data);
