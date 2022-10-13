@@ -23,27 +23,31 @@ export default function RegisterForm() {
       password: formData.get("password"),
     }
 
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
-        method: 'POST',
-        body: JSON.stringify(body)
-      });
-      const data = await res.json();
-
-      if (data.message === "success") {
-        Swal.fire({ icon: 'success', title: 'Register berhasil, silahkan login', confirmButtonText: 'Login', }).then((result) => {
-          if (result.isConfirmed) {
-            signIn()
-          }
-        })
-      } else if (data.message === "ERROR: duplicate key value violates unique constraint \"users_email_key\" (SQLSTATE 23505)") {
-        Swal.fire({ icon: 'error', title: 'Register gagal', text: 'Email sudah digunakan', })
-      } else {
-        Swal.fire({ icon: 'error', title: 'Register gagal', text: data.message, })
+    if (formData.get("confirmPassword") == formData.get("password")){
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
+          method: 'POST',
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+  
+        if (data.message === "success") {
+          Swal.fire({ icon: 'success', title: 'Register berhasil, silahkan login', confirmButtonText: 'Login', }).then((result) => {
+            if (result.isConfirmed) {
+              signIn()
+            }
+          })
+        } else if (data.message === "ERROR: duplicate key value violates unique constraint \"users_email_key\" (SQLSTATE 23505)") {
+          Swal.fire({ icon: 'error', title: 'Register gagal', text: 'Email sudah digunakan', })
+        } else {
+          Swal.fire({ icon: 'error', title: 'Register gagal', text: data.message, })
+        }
       }
-    }
-    catch (error) {
-      console.log(error);
+      catch (error) {
+        console.log(error);
+      }
+    } else {
+      Swal.fire({ icon: 'error', title: 'Register gagal', text: 'Password dan Confirm Password berbeda', })
     }
   }
 
