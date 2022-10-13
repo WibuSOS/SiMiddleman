@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/WibuSOS/sinarmas/models"
+	"github.com/WibuSOS/sinarmas/backend/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
