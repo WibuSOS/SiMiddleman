@@ -11,11 +11,6 @@ export default function RegisterForm() {
   const closeRegisterModal = () => setRegisterModal(false);
   const router = useRouter();
 
-  state = {
-    password: '',
-    confirmPassword: ''
-  }
-
   const handleSubmitRegister = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
