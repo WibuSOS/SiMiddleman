@@ -1,5 +1,4 @@
-import { useRef, useState } from 'react';
-import { Form, Modal, Button } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
 
@@ -24,8 +23,8 @@ export default function ModalShowRoomCode(props) {
             title: 'Kode ruangan berhasil disalin',
             showConfirmButton: false,
             timer: 1500,
-        })
-          }}>Salin Kode Ruangan</Button>
+          })
+        }}>Salin Kode Ruangan</Button>
       </Modal.Body>
     </Modal>
   )

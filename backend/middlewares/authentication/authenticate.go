@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/WibuSOS/sinarmas/utils/errors"
+	"github.com/WibuSOS/sinarmas/backend/utils/errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )

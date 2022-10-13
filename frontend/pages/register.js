@@ -49,8 +49,8 @@ export default function RegisterForm() {
 
   return (
     <>
-      <Button variant='merah' className='w-100' onClick={openRegisterModal} data-testid="buttonRegisterForm">
-        Daftar
+      <Button variant='link' onClick={openRegisterModal} data-testid="buttonRegisterForm">
+        Daftar Sekarang
       </Button>
 
       <RegisterModal handleSubmitRegister={handleSubmitRegister}

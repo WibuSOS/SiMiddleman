@@ -9,6 +9,9 @@
     - font-family: 'Poppins', sans-serif;
     - font-family: 'Ubuntu', sans-serif;
 */
+html {
+  scroll-behavior: smooth;
+}
 
 html,
 body {
@@ -132,7 +135,7 @@ a {
   padding: 5%;
   background: var(--secondary);
   border-radius: 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 4px 14px 0px;
 }
 
 .centered-form h2 {
@@ -204,14 +207,28 @@ header {
   transition: all 0.2s;
   font-family: 'Raleway', sans-serif;
   text-decoration: none;
-  color: #000;
+  color: rgba(117,117,117,.8);
+  font-weight: 700;
 }
 
 nav .logo-brand {
   font-size: 24px;
+  padding: .5rem;
   color: var(--primary);
   text-decoration: none;
   font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+}
+
+nav .logo-brand:hover {
+  color: var(--primary);
+  padding: .5rem;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.12), 
+              0 2px 2px rgba(0,0,0,0.12), 
+              0 4px 4px rgba(0,0,0,0.12), 
+              0 8px 8px rgba(0,0,0,0.12),
+              0 16px 16px rgba(0,0,0,0.12);
+  border-radius: 10px;
 }
 
 nav .logo-navbar {
@@ -238,7 +255,6 @@ nav .logo-navbar {
 }
 
 .nav__link:hover {
-  font-weight: 800;
   color: inherit;
 }
 
@@ -266,24 +282,6 @@ nav .logo-navbar {
     column-gap: 24px;
     align-items: center;
     filter: none;
-  }
-
-  .nav__link::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: var(--primary);
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
-  }
-  
-  .nav__link:hover:after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
   }
 
   .nav__link:hover {
@@ -327,3 +325,200 @@ footer .footer-content {
   font-size: 2rem;
 }
 /* css styling for show room code modal */
+
+/* css styling for banner page */
+.welcome-banner {
+  min-height: 50vh;
+  overflow: hidden;
+  background: linear-gradient(76.81deg,#CC0F0F 15.71%,#ff0025 68.97%,#fd195e 94.61%);
+}
+
+.banner-text-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.banner-text {
+  color: #fff;
+  text-align: center;
+}
+
+.banner-text h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  padding-top: 2rem;
+}
+
+.banner-text p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+.banner-image {
+  background-image: url(../pages/assets/Group\ 9.png);
+  height: 516px;
+  background-position: center;
+  filter: drop-shadow(1px 1px 1px #222);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: animatedBackground .5s linear infinite alternate;
+}
+
+@keyframes animatedBackground {
+  from {
+  }
+  to {
+    transform: rotate(1deg);
+  }
+}
+
+.banner-text .btn-white {
+  background-color: #fff;
+  color: var(--primary);
+  font-family: 'Raleway', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  border-radius: 10px;
+  border: 1px solid #fff;
+  transition: background-color .5s;
+  width: 100%;
+}
+
+.banner-text-wrap .banner-text .btn-white:hover, 
+.banner-text-wrap .banner-text .btn-white:focus{
+  background: var(--primary);
+  color: #fff;
+}
+
+.banner-text .btn-link {
+  color: var(--thirdy);
+  text-decoration: none;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+}
+
+.banner-text-wrap .banner-text .btn-link:hover {
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .welcome-banner {
+    border-bottom-left-radius: 25%;
+  }
+  
+  .banner-text h2 {
+    padding-top: 0;
+  }
+
+  .banner-text-wrap .banner-text .btn-white {
+    width: fit-content;
+  }
+
+  .banner-text-wrap .banner-text {
+    text-align: left;
+  }
+
+}
+/* css styling for banner page */
+
+/* css styling for alasan page */
+.alasan-simiddleman {
+  padding: 65px 0;
+}
+
+.alasan-simiddleman .container {
+  min-height: 516px;
+}
+
+.alasan-text-wrap {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.alasan-image {
+  height: 367px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.alasan-image.alasan-img-1 {
+  background-image: url(../pages/assets/alasanSatu.png);
+}
+
+.alasan-image.alasan-img-2 {
+  background-image: url(../pages/assets/alasanDua.jpg);
+}
+
+.alasan-image.alasan-img-3 {
+  background-image: url(../pages/assets/alasanTiga.jpg);
+}
+
+.alasan-simiddleman h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.alasan-text {
+  max-width: 390px;
+}
+
+.alasan-text h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.alasan-text p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+}
+/* css styling for alasan page */
+
+/* css styling for summaries page */
+.simiddleman-summaries {
+  padding: 65px 0;
+  background-color: var(--secondary);
+  border-top-left-radius: 25%;
+  border-top-right-radius: 25%;
+}
+
+.simiddleman-summaries h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.simiddleman-summaries .summaries-list {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 2rem;
+}
+
+.summaries-list h3 {
+  color: var(--primary);
+  font-family: 'Poppins', sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+}
+
+.summaries-list i {
+  color: var(--primary);
+  font-size: 64px;
+  font-weight: 700;
+  padding-bottom: 2rem;
+}
+
+.summaries-list span {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+}
+/* css styling for keamanan yang unggul */

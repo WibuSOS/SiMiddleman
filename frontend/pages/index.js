@@ -1,15 +1,17 @@
 import { Button } from 'react-bootstrap';
-import { signOut, signIn, useSession, getSession } from "next-auth/react";
+import { signOut, getSession } from "next-auth/react";
 import CreateRoom from './CreateRoom';
 import JoinRoom from './JoinRoom';
-import RegisterForm from './register';
 import jwt from "jsonwebtoken";
 import CardRoom from './CardRoom';
 import { useEffect, useState } from 'react';
+import WelcomeBanner from './WelcomeBanner';
+import AlasanSimiddleman from './AlasanSimiddleman';
+import SimiddlemanSummaries from './SimiddlemanSummaries';
 
 function Home({ user }) {
   const [data, setData] = useState(null)
-  const [error, setError] = useState(null)
+  const [error] = useState(null)
 
   useEffect(() => {
     if (user) {
@@ -19,11 +21,10 @@ function Home({ user }) {
 
   if (!user) {
     return (
-      <div className='content container mx-10 my-7'>
-        <Button variant="primary" onClick={() => signIn()}>
-          Login
-        </Button>
-        <RegisterForm />
+      <div className='content'>
+        <WelcomeBanner />
+        <AlasanSimiddleman />
+        <SimiddlemanSummaries />
       </div>
     )
   }
@@ -63,14 +64,6 @@ function Home({ user }) {
 
   return (
     <div className='content'>
-      {error && <div>Failed to load {error.toString()}</div>}
-      {
-        !data ? <div>Loading...</div>
-          : (
-            (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>
-          )
-      }
-
       <div className='container'>
         <div className='pt-5'>
           <h2>Halo Selamat Datang, berikut merupakan data anda:</h2>
@@ -88,6 +81,13 @@ function Home({ user }) {
         <div className='pt-5'>
           <h2>Berikut merupakan room yang telah anda buat</h2>
           <div className='row d-flex justify-content-between p-3'>
+            {error && <div>Failed to load {error.toString()}</div>}
+            {
+              !data ? <div>Loading...</div>
+                : (
+                  (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>
+                )
+            }
             {dataList}
           </div>
         </div>
