@@ -68,34 +68,36 @@ function Home({ user }) {
       <div className='pt-5' style={{ backgroundColor: "#CC0F0F", paddingBottom: "150px" }}>
         <h2 className='text-center' style={{ color: "white" }}>Halo, Selamat Datang di aplikasi SiMiddleman+</h2>
         <h3 className='text-center' style={{ color: "white" }}>Buat atau join Ruang obrolan pada tombol dibawah</h3>
-        <div className='d-flex position-absolute top-50 start-50 translate-middle pt-5'>
-          <Card style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
-            <Card.Body>
-              <Card.Title className='mb-5'>Create Room</Card.Title>
-              <Card.Text>
-                Kamu dapat membuat room untuk melakukan transaksi dengan pembeli.
-              </Card.Text>
-              <CreateRoom idPenjual={decoded.ID} sessionToken={user} />
-            </Card.Body>
-          </Card>
-          <Card className='mx-5' style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
-            <Card.Body>
-              <Card.Title className='mb-5'>Join Room</Card.Title>
-              <Card.Text>
-                Mendaftarkan room yang telah dibuat oleh penjual kedalam list room kamu.
-              </Card.Text>
-              <JoinRoom idPembeli={decoded.ID} sessionToken={user} />
-            </Card.Body>
-          </Card>
-          <Card style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
-            <Card.Body>
-              <Card.Title className='mb-5'>Sign Out</Card.Title>
-              <Card.Text>
-                Melakukan signout untuk keluar dari akun kamu.
-              </Card.Text>
-              <Button onClick={() => signOut()} className='w-100 btn-simiddleman'>Sign out</Button>
-            </Card.Body>
-          </Card>
+        <div className='position-relative'>
+          <div className='d-flex position-absolute start-50 translate-middle' style={{ paddingTop: "300px" }}>
+            <Card style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
+              <Card.Body>
+                <Card.Title className='mb-5'>Create Room</Card.Title>
+                <Card.Text>
+                  Kamu dapat membuat room untuk melakukan transaksi dengan pembeli.
+                </Card.Text>
+                <CreateRoom idPenjual={decoded.ID} sessionToken={user} />
+              </Card.Body>
+            </Card>
+            <Card className='mx-5' style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
+              <Card.Body>
+                <Card.Title className='mb-5'>Join Room</Card.Title>
+                <Card.Text>
+                  Mendaftarkan room yang telah dibuat oleh penjual kedalam list room kamu.
+                </Card.Text>
+                <JoinRoom idPembeli={decoded.ID} sessionToken={user} />
+              </Card.Body>
+            </Card>
+            <Card style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
+              <Card.Body>
+                <Card.Title className='mb-5'>Sign Out</Card.Title>
+                <Card.Text>
+                  Melakukan signout untuk keluar dari akun kamu.
+                </Card.Text>
+                <Button onClick={() => signOut()} className='w-100 btn-simiddleman'>Sign out</Button>
+              </Card.Body>
+            </Card>
+          </div>
         </div>
       </div>
       <div className='container'>

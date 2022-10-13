@@ -522,3 +522,192 @@ footer .footer-content {
   color: #000;
 }
 /* css styling for keamanan yang unggul */
+
+/* css styling for detail produk page */
+.detail-produk-header {
+  background: linear-gradient(76.81deg, rgb(185, 0, 36) 15.71%, rgb(255, 0, 37) 68.97%, rgb(253, 25, 94) 94.61%);
+  border-bottom-right-radius: 25%;
+  padding: 3rem 0;
+}
+
+.detail-produk-header h2 {
+  font-family: 'Ubuntu', sans-serif;
+  color: #fff;
+  font-size: 48px;
+}
+
+.detail-produk h3 {
+  font-size: 24px;
+  font-family: 'Poppins', sans-serif ;
+  font-weight: 700;
+}
+
+.detail-produk p {
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif ;
+}
+
+.detail-produk .nama-produk {
+  font-size: 36px;
+}
+
+.detail-produk .harga-produk {
+  color: #fff;
+  font-size: 36px;
+  background-color: var(--primary);
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow:
+  2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+  6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+  12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+  22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+  41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+  100px 100px 80px rgba(0, 0, 0, 0.07);
+  margin-bottom: 3rem;
+}
+
+.kuantitas-produk {
+  background-color: var(--thirdy);
+  padding: 1rem;
+  color: #fff;
+  border-radius: 20px;
+  box-shadow:
+  2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+  6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+  12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+  22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+  41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+  100px 100px 80px rgba(0, 0, 0, 0.07);
+}
+
+.status-transaksi-wrapper {
+  padding: 0 1rem;
+}
+
+.order-tracking{
+	text-align: center;
+	width: 33.33%;
+	position: relative;
+	display: block;
+}
+
+.order-tracking .is-complete{
+	display: block;
+	position: relative;
+	border-radius: 50%;
+	height: 30px;
+	width: 30px;
+	border: 0px solid #AFAFAF;
+	background-color: #f7be16;
+	margin: 0 auto;
+	transition: background 0.25s linear;
+	-webkit-transition: background 0.25s linear;
+	z-index: 2;
+}
+
+.order-tracking .is-complete:after {
+	display: block;
+	position: absolute;
+	content: '';
+	height: 14px;
+	width: 7px;
+	top: -2px;
+	bottom: 0;
+	left: 5px;
+	margin: auto 0;
+	border: 0px solid #AFAFAF;
+	border-width: 0px 2px 2px 0;
+	transform: rotate(45deg);
+	opacity: 0;
+}
+
+.order-tracking.completed .is-complete{
+	border-color: #27aa80;
+	border-width: 0px;
+	background-color: #27aa80;
+}
+
+.order-tracking.completed .is-complete:after {
+	border-color: #fff;
+	border-width: 0px 3px 3px 0;
+	width: 7px;
+	left: 11px;
+	opacity: 1;
+}
+
+.order-tracking p {
+	color: #A4A4A4;
+	font-size: 11px;
+	margin-top: 8px;
+	margin-bottom: 0;
+	line-height: 20px;
+}
+
+.order-tracking p span{font-size: 14px;}
+.order-tracking.completed p{color: #000;}
+.order-tracking::before {
+	content: '';
+	display: block;
+	height: 3px;
+	width: calc(100% - 40px);
+	background-color: #f7be16;
+	top: 13px;
+	position: absolute;
+	left: calc(-50% + 20px);
+	z-index: 0;
+}
+
+.order-tracking:first-child:before{display: none;}
+.order-tracking.completed:before{background-color: #27aa80;}
+
+.status-transaksi {
+  background-color: var(--secondary);
+  padding: 2rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+}
+
+@media screen and (min-width: 768px) {
+  .detail-produk-header h2 {
+    font-size: 64px;
+  }
+  
+  .detail-produk h3 {
+    font-size: 32px;
+  }
+  
+  .detail-produk p {
+    font-size: 24px;
+  }
+
+  .detail-produk .harga-produk {
+    margin-bottom: 0;
+  }
+
+  .order-tracking p {
+    font-size: 16px;
+  }
+}
+/* css styling for detail produk page */
+
+.btn-simiddleman {
+  border: 0.5px solid #CC0F0F !important;
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  border-radius: 10px !important;
+  font-family: 'Poppins', sans-serif !important;
+  padding: 1rem !important;
+}
+
+.btn-simiddleman:hover{
+  border: 0.5px solid #CC0F0F !important;
+  background-color: #CC0F0F !important;
+  color: #FFFFFF !important;
+}
+
+.btn-simiddleman:active{
+  border: 0.5px solid #f80f0f !important;
+  background-color: #f80f0f !important;
+  color: #FFFFFF !important;
+}
