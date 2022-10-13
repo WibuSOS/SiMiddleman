@@ -35,7 +35,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
                     <h3>Rp{data?.data.product.harga}</h3>
                   </div>
                   <div className='col-lg-4 col-sm-12'>
-                    {data?.data.pembeliID === decoded.ID && data?.statuses.slice(0, -1).includes(data.data.status) && <Button className='me-3' onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}` } }, '/rooms/payment/[idRoom]') }}>Beli</Button>}
+                    {data?.data.pembeliID === decoded?.ID && data?.statuses.slice(0, -1).includes(data.data.status) && <Button className='me-3' onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}` } }, '/rooms/payment/[idRoom]') }}>Beli</Button>}
                   </div>
                 </div>                                 
               </div>
@@ -47,8 +47,8 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
           </div>
           <div className='status-transaksi-wrapper'>
             <h3>Status Transaksi</h3>
-            {data?.data.penjualID === decoded.ID && data?.statuses.slice(1, -1).includes(data.data.status) && <Button variant='simiddleman' className='mb-4' onClick={() => kirimBarang()}>Kirim Barang</Button>}
-            {data?.data.pembeliID === decoded.ID && data?.statuses.slice(2, -1).includes(data.data.status) && <Button variant='simiddleman' className='mb-4' onClick={() => handleConfirmation()}>Konfirmasi Barang Telah Sampai</Button>}
+            {data?.data.penjualID === decoded?.ID && data?.statuses.slice(1, -1).includes(data.data.status) && <Button variant='simiddleman' className='mb-4' onClick={() => kirimBarang()}>Kirim Barang</Button>}
+            {data?.data.pembeliID === decoded?.ID && data?.statuses.slice(2, -1).includes(data.data.status) && <Button variant='simiddleman' className='mb-4' onClick={() => handleConfirmation()}>Konfirmasi Barang Telah Sampai</Button>}
             <div className='row d-flex justify-content-between status-transaksi'>
               {STATUS_TRANSAKSI.map((value, key) => {      
                 if (data?.data.status === value.text) {
