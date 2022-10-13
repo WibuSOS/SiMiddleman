@@ -14,7 +14,6 @@ function Pembayaran({ user }) {
     const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
 
     useEffect(() => {
-        console.log("useEffect payment window jalan");
         getHarga();
         getRoomDetails();
     }, [])
@@ -76,12 +75,6 @@ function Pembayaran({ user }) {
 
     return (
         <div className='content container pt-5' style={{ backgroundColor: "#FFFFFF" }}>
-            {"current: " + data?.data?.status}
-            <br />
-            {"before: " + dataRoom?.statuses[0]}
-            <br />
-            {"after: " + dataRoom?.statuses[1]}
-            <br />
             <Button type='submit'>Back</Button>
             <div className='d-flex flex-column justify-content-center'>
                 <h2 className='mx-auto mb-4' style={{ fontSize: "48px" }}>Sinarmas</h2>
