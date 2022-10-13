@@ -29,39 +29,33 @@ export default function RegisterForm() {
         body: JSON.stringify(body)
       });
       const data = await res.json();
-      
-      if (data.message === "success"){
-        Swal.fire({
-          icon: 'success',
-          title: 'Register berhasil, silahkan login',
-          confirmButtonText: 'Login',
-        }).then((result) => {
+
+      if (data.message === "success") {
+        Swal.fire({ icon: 'success', title: 'Register berhasil, silahkan login', confirmButtonText: 'Login', }).then((result) => {
           if (result.isConfirmed) {
             signIn()
           }
         })
-      }else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Register gagal',
-          text: 'Terjadi kesalahan pada input anda',
-        })
+      } else if (data.message === "no hp tidak memenuhi syarat") {
+        Swal.fire({ icon: 'error', title: 'Register gagal', text: 'No Hp tidak memenuhi syarat', })
+      } else {
+        Swal.fire({ icon: 'error', title: 'Register gagal', text: 'Terjadi kesalahan pada input anda', })
       }
     }
     catch (error) {
-        console.log(error);
+      console.log(error);
     }
   }
 
   return (
     <>
-      <Button variant='merah' className='w-100' onClick={openRegisterModal} data-testid="buttonRegisterForm">
+      <Button variant='link' onClick={openRegisterModal} data-testid="buttonRegisterForm">
         Daftar
       </Button>
 
       <RegisterModal handleSubmitRegister={handleSubmitRegister}
         closeRegisterModal={closeRegisterModal}
-        registerModal={registerModal}/>
+        registerModal={registerModal} />
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { Button } from 'react-bootstrap';
-import { signOut, signIn, useSession, getSession } from "next-auth/react";
+import { signOut, signIn, getSession } from "next-auth/react";
 import CreateRoom from './CreateRoom';
 import JoinRoom from './JoinRoom';
 import RegisterForm from './register';
@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 
 function Home({ user }) {
   const [data, setData] = useState(null)
-  const [error, setError] = useState(null)
+  const [error] = useState(null)
 
   useEffect(() => {
     if (user) {
@@ -19,11 +19,51 @@ function Home({ user }) {
 
   if (!user) {
     return (
-      <div className='container mx-10 my-7'>
-        <Button variant="primary" onClick={() => signIn()}>
-          Login
-        </Button>
-        <RegisterForm />
+      <div className='content'>
+        <div className='welcome-banner'>
+          <div className='row'>
+            <div className='col-lg-6 banner-text-wrap'>
+              <div className='banner-text'>
+                <h2>Akses yang mudah dan aman untuk bertransaksi dengan pihak ke 3</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+                <Button variant="white" onClick={() => signIn()}>Login</Button><br/>
+                <p>Belum punya akun?<RegisterForm /></p>
+              </div>
+            </div>
+            <div className='col-lg-6 banner-image'></div>
+          </div>
+        </div>
+        <div className='alasan-simiddleman'>
+          <div className='container'>
+            <h2>Kenapa menggunakan SiMiddleman+ ?</h2><br/>
+            <div className='row'>
+              <div className='col-lg-6 alasan-text-wrap'>
+                <div className='alasan-text'>
+                  <h3><strong>To build for people.</strong></h3><br/>
+                  <p>Whether you want to edit your Google Docs, resolve Jira issues, or collaborate over Zoom.<br/><br/>Circle has 100+ integrations with tools you already use and love.</p>
+                </div>
+              </div>
+              <div className='col-lg-6 alasan-image'></div>
+            </div>
+          </div>
+        </div>
+        <div className='simiddleman-keamanan'>
+          <div className='container'>
+            <h2>Keamanan yang unggul</h2><br/><br/>
+            <div className='keamanan-image'></div><br/>
+            <div className='row keamanan-summaries'>
+              <div className='col'>
+                <h3><i class="fa fa-check"></i> 18281 <span>signed up last month</span></h3>
+              </div>
+              <div className='col'>
+                <h3><i class="fa fa-check"></i> GPDR-&amp; CCPA- <span>ready</span></h3>
+              </div>
+              <div className='col'>
+                <h3><i class="fa fa-check"></i> Leader@G2 <span>Summer</span></h3>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
@@ -62,7 +102,7 @@ function Home({ user }) {
     )))
 
   return (
-    <div>
+    <div className='content'>
       {error && <div>Failed to load {error.toString()}</div>}
       {
         !data ? <div>Loading...</div>
@@ -86,7 +126,7 @@ function Home({ user }) {
           </div>
         </div>
         <div className='pt-5'>
-          <h2>Berikut merupakan room yang telah anda buatas</h2>
+          <h2>Berikut merupakan room yang telah anda buat</h2>
           <div className='row d-flex justify-content-between p-3'>
             {dataList}
           </div>

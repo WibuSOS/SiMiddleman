@@ -32,9 +32,9 @@ func TestUpdateStatusDelivery(t *testing.T) {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.PUT("/updatestatusdelivery/:id", handler.UpdateStatusDelivery)
+	r.PUT("/updatestatus/:room_id", handler.UpdateStatusDelivery)
 	payload := `{"status": "barang dibayar"}`
-	req, err := http.NewRequest("PUT", "/updatestatusdelivery/1", strings.NewReader(payload))
+	req, err := http.NewRequest("PUT", "/updatestatus/1", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -49,7 +49,7 @@ func TestUpdateStatusDelivery(t *testing.T) {
 
 	var res getUpdateStatusDelivery
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success update status", res.Message)
+	assert.Equal(t, "success update status barang dibayar", res.Message)
 }
 
 func TestUpdateStatusDeliveryInvalidJSON(t *testing.T) {
@@ -69,9 +69,9 @@ func TestUpdateStatusDeliveryInvalidJSON(t *testing.T) {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.PUT("/updatestatusdelivery/:id", handler.UpdateStatusDelivery)
+	r.PUT("/updatestatus/:room_id", handler.UpdateStatusDelivery)
 	payload := `{"status": 123}`
-	req, err := http.NewRequest("PUT", "/updatestatusdelivery/1", strings.NewReader(payload))
+	req, err := http.NewRequest("PUT", "/updatestatus/1", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -98,9 +98,9 @@ func TestUpdateErrorStatusDelivery(t *testing.T) {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.PUT("/updatestatusdelivery/:id", handler.UpdateStatusDelivery)
+	r.PUT("/updatestatus/:room_id", handler.UpdateStatusDelivery)
 	payload := `{"status": "barang dibayar"}`
-	req, err := http.NewRequest("PUT", "/updatestatusdelivery/asasdaweq", strings.NewReader(payload))
+	req, err := http.NewRequest("PUT", "/updatestatus/asasdaweq", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -131,7 +131,7 @@ func TestGetPaymentDetailsHandlerSuccess(t *testing.T) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.POST("/rooms", roomHandler.CreateRoom)
-	r.GET("/getHarga/:idroom", handler.GetPaymentDetails)
+	r.GET("/getHarga/:room_id", handler.GetPaymentDetails)
 
 	payload := `{
 		"id": 1,
@@ -190,7 +190,7 @@ func TestGetPaymentDetailsHandlerErrorQueryParam(t *testing.T) {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.GET("/getHarga/:idroom", handler.GetPaymentDetails)
+	r.GET("/getHarga/:room_id", handler.GetPaymentDetails)
 
 	url := fmt.Sprintf("/getHarga/%s", "abc")
 	req, err := http.NewRequest("GET", url, nil)
@@ -211,7 +211,7 @@ func TestGetPaymentDetailsHandlerRoomNotFound(t *testing.T) {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.GET("/getHarga/:idroom", handler.GetPaymentDetails)
+	r.GET("/getHarga/:room_id", handler.GetPaymentDetails)
 
 	url := fmt.Sprintf("/getHarga/%d", 3)
 	req, err := http.NewRequest("GET", url, nil)

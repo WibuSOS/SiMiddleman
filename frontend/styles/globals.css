@@ -1,3 +1,15 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+/* 
+  CSS rules to specify families 
+    - font-family: 'Raleway', sans-serif;
+    - font-family: 'Poppins', sans-serif;
+    - font-family: 'Ubuntu', sans-serif;
+*/
+
 html,
 body {
   padding: 0;
@@ -31,6 +43,18 @@ a {
   --secondary: #E6E6E6;
   --thirdy: #FEB600;
 }
+
+.content {
+  min-height: calc(100vh - 108px - 80px);
+}
+
+/* 
+  CSS rules to specify color var
+    color: var(--primary);
+    color: var(--secondary);
+    color: var(--thirdy);
+*/
+
 
 /* Css Styling for modal login */
 .avatar {
@@ -96,7 +120,6 @@ a {
 /* Css Styling for modal login */
 
 .test {
-  height: 100vh;
   position: relative;
 }
 
@@ -139,38 +162,56 @@ header {
   position: sticky;
   top: 0;
   z-index: 10;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  height: 80px;
 }
 
 .nav {
   display: flex;
-  padding: 16px;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
+  height: 100%;
 }
 
 .nav__menu-list {
-  display: flex;
+  display: none;
   flex-direction: column;
   position: fixed;
-  top: 60px;
-  width: 288px;
+  top: 85px;
+  width: 300px;
   row-gap: 24px;
-  right: -288px;
+  right: -300px;
   padding: 24px 16px;
-  transition: all 0.2s;
+  transition: all 0.5s;
   min-height: calc(100vh - 60px);
+  background-color: #fff;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.nav__menu-list.active {
+  right: 0;
+  color: var(--primary);
+  display: flex;
 }
 
 .nav__link {
-  font-size: 18px; 
+  font-size: 1rem;
   position: relative;
   transition: all 0.2s;
+  font-family: 'Raleway', sans-serif;
+  text-decoration: none;
+  color: #000;
 }
 
-.nav .nav__item {
+nav .logo-brand {
+  font-size: 24px;
+  color: var(--primary);
   text-decoration: none;
-  color: inherit;
+  font-family: 'Raleway', sans-serif;
 }
 
 nav .logo-navbar {
@@ -188,53 +229,67 @@ nav .logo-navbar {
 .nav__menu-bar div {
   width: 40px;
   height: 4px;
-  background-color: black;
+  background-color: var(--primary);
   border-radius: 2px;
 }
 
-.nav__menu-list.active {
-  right: 0;
+.nav__link.active {
+  color: var(--primary);
 }
 
 .nav__link:hover {
-  font-weight: bold;
+  font-weight: 800;
+  color: inherit;
 }
 
 .center {
-  min-height: 600px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 @media screen and (min-width: 768px) {
+  header {
+    padding: 0 2rem;
+  }
+
   .nav__menu-bar {
     display: none;
   }
 
   .nav__menu-list {
+    display: flex;
     position: unset;
     flex-direction: row;
     min-height: fit-content;
     width: fit-content;
     column-gap: 24px;
     align-items: center;
+    filter: none;
   }
 
-  .nav__link::before {
+  .nav__link::after {
     content: '';
     position: absolute;
-    width: 0%;
-    height: 6px;
-    bottom: -16px;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
     left: 0;
-    background-color: black;
-    transition: all 0.2s;
+    background-color: var(--primary);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
   }
   
-  .nav__link:hover:before {
-    width: 100%;
+  .nav__link:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
   }
+
+  .nav__link:hover {
+    color: var(--primary);
+  }
+
 }
 /* css styling for navigation bar */
 
@@ -244,8 +299,19 @@ footer {
   height: 108px;
 }
 .link a {
+  font-family: 'Raleway', sans-serif;
   text-decoration: none;
   color: inherit;
+}
+
+.link a:hover {
+  font-weight: 800;
+  color: inherit;
+}
+
+footer .footer-content {
+  align-items: center;
+  height: 108px;
 }
 /* css styling for footer */
 
@@ -261,3 +327,138 @@ footer {
   font-size: 2rem;
 }
 /* css styling for show room code modal */
+
+/* css styling for banner page */
+.welcome-banner {
+  background-color: var(--primary);
+  min-height: 516px;
+  overflow: hidden;
+}
+
+.banner-text-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-text {
+  color: #fff;
+}
+
+.banner-text h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.banner-text p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+.banner-image {
+  background-image: url(../pages/assets/image\ 21.jpg);
+  height: 516px;
+}
+
+.banner-text {
+  max-width: 400px;
+}
+
+.banner-text .btn-white {
+  background-color: #fff;
+  color: var(--primary);
+  font-family: 'Raleway', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  border-radius: 10px;
+}
+
+.banner-text .btn-link {
+  color: var(--thirdy);
+  text-decoration: none;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+}
+/* css styling for banner page */
+
+/* css styling for alasan page */
+.alasan-simiddleman {
+  padding: 65px 0;
+}
+
+.alasan-simiddleman .container {
+  min-height: 516px;
+}
+
+.alasan-text-wrap {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.alasan-image {
+  height: 367px;
+  background-image: url(../pages/assets/Rectangle\ 22.png);
+  background-repeat: no-repeat;
+}
+
+.alasan-simiddleman h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.alasan-text {
+  max-width: 390px;
+}
+
+.alasan-text h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.alasan-text p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+}
+/* css styling for alasan page */
+
+/* css styling for keamanan yang unggul */
+.simiddleman-keamanan {
+  padding: 65px 0;
+  background-color: var(--secondary);
+}
+
+.simiddleman-keamanan h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.keamanan-image {
+  height: 40px;
+  background-image: url(../pages/assets/Group\ 9.png);
+}
+
+.keamanan-summaries {
+  display: flex;
+  justify-content: left;
+}
+
+.keamanan-summaries h3 {
+  color: #0CBBC7;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.keamanan-summaries h3 span {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000;
+}
+/* css styling for keamanan yang unggul */
