@@ -1,8 +1,8 @@
 package rooms
 
 import (
-	"github.com/WibuSOS/sinarmas/controllers/product"
-	"github.com/WibuSOS/sinarmas/utils/errors"
+	"github.com/WibuSOS/sinarmas/backend/controllers/product"
+	"github.com/WibuSOS/sinarmas/backend/utils/errors"
 )
 
 type DataRequest struct {

@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"github.com/WibuSOS/sinarmas/utils/errors"
+	"github.com/WibuSOS/sinarmas/backend/utils/errors"
 )
 
 type DataRequest struct {
