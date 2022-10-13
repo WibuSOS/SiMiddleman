@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/WibuSOS/sinarmas/models"
-	"github.com/WibuSOS/sinarmas/utils/errors"
+	"github.com/WibuSOS/sinarmas/backend/models"
+	"github.com/WibuSOS/sinarmas/backend/utils/errors"
 	"gorm.io/gorm"
 )
 

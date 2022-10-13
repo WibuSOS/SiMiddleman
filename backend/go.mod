@@ -1,4 +1,4 @@
-module github.com/WibuSOS/sinarmas
+module github.com/WibuSOS/sinarmas/backend
 
 go 1.19
 

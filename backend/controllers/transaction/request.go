@@ -1,8 +1,8 @@
 package transaction
 
 import (
-	"github.com/WibuSOS/sinarmas/helpers"
-	"github.com/WibuSOS/sinarmas/utils/errors"
+	"github.com/WibuSOS/sinarmas/backend/helpers"
+	"github.com/WibuSOS/sinarmas/backend/utils/errors"
 )
 
 type RequestUpdateStatus struct {

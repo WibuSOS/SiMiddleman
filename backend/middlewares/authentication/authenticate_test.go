@@ -7,10 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/WibuSOS/sinarmas/controllers/auth"
-	"github.com/WibuSOS/sinarmas/controllers/rooms"
-	"github.com/WibuSOS/sinarmas/middlewares/authorization"
-	"github.com/WibuSOS/sinarmas/models"
+	"github.com/WibuSOS/sinarmas/backend/controllers/auth"
+	"github.com/WibuSOS/sinarmas/backend/controllers/rooms"
+	"github.com/WibuSOS/sinarmas/backend/middlewares/authorization"
+	"github.com/WibuSOS/sinarmas/backend/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/glebarez/sqlite"
