@@ -4,8 +4,8 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/WibuSOS/sinarmas/models"
-	"github.com/WibuSOS/sinarmas/utils/errors"
+	"github.com/WibuSOS/sinarmas/backend/models"
+	"github.com/WibuSOS/sinarmas/backend/utils/errors"
 	"github.com/dchest/uniuri"
 	"gorm.io/gorm"
 )

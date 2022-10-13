@@ -3,7 +3,7 @@ package rooms
 import (
 	"net/http"
 
-	"github.com/WibuSOS/sinarmas/utils/errors"
+	"github.com/WibuSOS/sinarmas/backend/utils/errors"
 	"github.com/gin-gonic/gin"
 )
 
