@@ -21,6 +21,31 @@ import (
 	"gorm.io/gorm"
 )
 
+var (
+	consumer  = []string{"consumer"}
+	admin     = []string{"admin"}
+	consumer1 = "consumer@xyz.com"
+	consumer2 = "consumer@abc.com"
+	consumer3 = "consumer@ijk.com"
+	p         = "123456781234567812"
+)
+
+type loginResponse struct {
+	Message string            `json:"message"`
+	Data    auth.DataResponse `json:"data"`
+	Token   string            `json:"token"`
+}
+
+type createRoomResponse struct {
+	Message string       `json:"message"`
+	Data    models.Rooms `json:"data"`
+}
+
+type getPaymentDetailsResponse struct {
+	Message string                          `json:"message"`
+	Data    transaction.ResponsePaymentInfo `json:"data"`
+}
+
 func newTestDB(t *testing.T) *gorm.DB {
 	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
 	assert.NoError(t, err)
@@ -29,37 +54,22 @@ func newTestDB(t *testing.T) *gorm.DB {
 	err = db.AutoMigrate(&models.Users{}, &models.Rooms{}, &models.Products{}, &models.Transactions{})
 	assert.NoError(t, err)
 
-	// User 1
-	p := "123456781234567812"
-	hash, err := bcrypt.GenerateFromPassword([]byte(p), 10)
-	assert.NoError(t, err)
+	consumerArr := []string{consumer1, consumer2, consumer3}
+	for i := 0; i < len(consumerArr); i++ {
+		hash, err := bcrypt.GenerateFromPassword([]byte(p), 10)
+		assert.NoError(t, err)
 
-	user := models.Users{Email: "consumer@xyz.com", Password: string(hash)}
-	result := db.Create(&user)
-	assert.NoError(t, result.Error)
-
-	// User 2
-	p = "123456781234567812"
-	hash, err = bcrypt.GenerateFromPassword([]byte(p), 10)
-	assert.NoError(t, err)
-
-	user = models.Users{Email: "consumer@abc.com", Password: string(hash)}
-	result = db.Create(&user)
-	assert.NoError(t, result.Error)
-
-	// User 3
-	p = "123456781234567812"
-	hash, err = bcrypt.GenerateFromPassword([]byte(p), 10)
-	assert.NoError(t, err)
-
-	user = models.Users{Email: "consumer@ijk.com", Password: string(hash)}
-	result = db.Create(&user)
-	assert.NoError(t, result.Error)
+		user := models.Users{Email: consumerArr[i], Password: string(hash)}
+		result := db.Create(&user)
+		assert.NoError(t, result.Error)
+	}
 
 	return db
 }
 
-func newTestLoginHandler(t *testing.T, email string) string {
+func newTestLoginHandler(t *testing.T, email string) loginResponse {
+	var res loginResponse
+
 	db := newTestDB(t)
 	repo := auth.NewRepository(db)
 	service := auth.NewService(repo)
@@ -78,135 +88,36 @@ func newTestLoginHandler(t *testing.T, email string) string {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	type response struct {
-		Message string            `json:"message"`
-		Data    auth.DataResponse `json:"data"`
-		Token   string            `json:"token"`
-	}
-	var res response
-
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
 	assert.Equal(t, "success", res.Message)
 	assert.NotEqual(t, "", res.Data.Email)
 	assert.NotEqual(t, "", res.Token)
 
-	return res.Token
+	return res
 }
 
-func TestCreateRoomWithAuthSuccess(t *testing.T) {
-	type createRoomsResponse struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
+func newTestGetPaymentDetailsHandlerWithRoomAuth(t *testing.T, allowedRoles []string, withID bool, roomID *string) (*httptest.ResponseRecorder, getPaymentDetailsResponse) {
+	var createRoomRes createRoomResponse
+	var res getPaymentDetailsResponse
 
-	var createRoomsRes createRoomsResponse
-
-	db := newTestDB(t)
-	consumer := []string{"consumer"}
-	isConsumer := Roles{AllowedRoles: consumer[:]}
-
-	// rooms Handler
-	roomRepo := rooms.NewRepository(db)
-	roomService := rooms.NewService(roomRepo)
-	roomHandler := rooms.NewHandler(roomService)
-
-	// Set Routes
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomHandler.CreateRoom)
-
-	// SUCCESS
-	payload := `{
-		"id": 1,
-		"product" : {
-			"nama": "Razer Mouse",
-			"deskripsi": "Ini Razer Mouse",
-			"harga": 150000,
-			"kuantitas": 1
-		}
-	}`
-
-	token := newTestLoginHandler(t, "consumer@xyz.com")
-
-	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
-	req.Header.Add("Authorization", token)
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
-
-	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createRoomsRes))
-	assert.Equal(t, "success", createRoomsRes.Message)
-}
-
-func TestCreateRoomWithAuthUnauthorize(t *testing.T) {
-	type createRoomsResponse struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
-
-	var createRoomsRes createRoomsResponse
-
-	db := newTestDB(t)
-	admin := []string{"admin"}
-	isAdmin := Roles{AllowedRoles: admin[:]}
-
-	// rooms Handler
-	roomRepo := rooms.NewRepository(db)
-	roomService := rooms.NewService(roomRepo)
-	roomHandler := rooms.NewHandler(roomService)
-
-	// Set Routes
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/rooms", authentication.Authentication, isAdmin.Authorize, roomHandler.CreateRoom)
-
-	// SUCCESS
-	payload := `{
-		"id": 1,
-		"product" : {
-			"nama": "Razer Mouse",
-			"deskripsi": "Ini Razer Mouse",
-			"harga": 150000,
-			"kuantitas": 1
-		}
-	}`
-
-	token := newTestLoginHandler(t, "consumer@xyz.com")
-
-	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
-	req.Header.Add("Authorization", token)
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
-
-	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusUnauthorized, w.Code)
-	assert.NotEqual(t, "success", createRoomsRes.Message)
-}
-
-func TestGetPaymentDetailsHandlerWithRoomAuthSuccess(t *testing.T) {
 	db := newTestDB(t)
 
 	roomAuth := NewRoomAuth(db)
-	consumer := []string{"consumer"}
+	roles := Roles{AllowedRoles: allowedRoles}
 	isConsumer := Roles{AllowedRoles: consumer[:]}
+
+	roomRepo := rooms.NewRepository(db)
+	roomService := rooms.NewService(roomRepo)
+	roomHandler := rooms.NewHandler(roomService)
 
 	repo := transaction.NewRepository(db)
 	service := transaction.NewService(repo)
 	handler := transaction.NewHandler(service)
 
-	roomRepo := rooms.NewRepository(db)
-	roomService := rooms.NewService(roomRepo)
-	roomHandler := rooms.NewHandler(roomService)
-
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomHandler.CreateRoom)
-	r.GET("/getHarga/:room_id", authentication.Authentication, isConsumer.Authorize, roomAuth.RoomAuthorize, handler.GetPaymentDetails)
+	r.GET("/getHarga/:room_id", authentication.Authentication, roles.Authorize, roomAuth.RoomAuthorize, handler.GetPaymentDetails)
 
 	payload := `{
 		"id": 1,
@@ -218,10 +129,10 @@ func TestGetPaymentDetailsHandlerWithRoomAuthSuccess(t *testing.T) {
 		}
 	}`
 
-	token := newTestLoginHandler(t, "consumer@xyz.com")
+	login := newTestLoginHandler(t, consumer1)
 
 	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
-	req.Header.Add("Authorization", token)
+	req.Header.Add("Authorization", login.Token)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -230,39 +141,81 @@ func TestGetPaymentDetailsHandlerWithRoomAuthSuccess(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	type createRoomResponse struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
-	var createRoomRes createRoomResponse
-
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createRoomRes))
 	assert.Equal(t, "success", createRoomRes.Message)
 	assert.NotEmpty(t, createRoomRes.Data.RoomCode)
 
-	url := fmt.Sprintf("/getHarga/%d", createRoomRes.Data.ID)
+	var url string
+	if withID {
+		url = fmt.Sprintf("/getHarga/%d", createRoomRes.Data.ID)
+	} else {
+		if roomID != nil {
+			url = fmt.Sprintf("/getHarga/%s", *roomID)
+		} else {
+			url = fmt.Sprintf("/getHarga/%s", createRoomRes.Data.RoomCode)
+		}
+	}
+
 	req, err = http.NewRequest("GET", url, nil)
-	req.Header.Add("Authorization", token)
+	req.Header.Add("Authorization", login.Token)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
 	w = httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 
+	return w, res
+}
+
+func TestGetPaymentDetailsHandlerWithRoomAuthSuccess(t *testing.T) {
+	w, paymentDetails := newTestGetPaymentDetailsHandlerWithRoomAuth(t, consumer, true, nil)
+
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	type response struct {
-		Message string                          `json:"message"`
-		Data    transaction.ResponsePaymentInfo `json:"data"`
-	}
-	var res response
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &paymentDetails))
+	assert.Equal(t, "success", paymentDetails.Message)
+	assert.Greater(t, int(paymentDetails.Data.Total), 0)
+}
 
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
-	assert.Greater(t, int(res.Data.Total), 0)
+func TestGetPaymentDetailsHandlerWithRoomAuthInvalidRoomID(t *testing.T) {
+	w, paymentDetails := newTestGetPaymentDetailsHandlerWithRoomAuth(t, consumer, false, nil)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &paymentDetails))
+	assert.Equal(t, "Invalid Room ID", paymentDetails.Message)
+}
+
+func TestGetPaymentDetailsHandlerWithRoomAuthRoomNotFound(t *testing.T) {
+	roomID := "7"
+	w, paymentDetails := newTestGetPaymentDetailsHandlerWithRoomAuth(t, consumer, false, &roomID)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &paymentDetails))
+	assert.Equal(t, "Room not found", paymentDetails.Message)
+}
+
+func TestGetPaymentDetailsHandlerWithRoomAuthUnauthorizeRole(t *testing.T) {
+	w, paymentDetails := newTestGetPaymentDetailsHandlerWithRoomAuth(t, admin, true, nil)
+
+	assert.Equal(t, http.StatusUnauthorized, w.Code)
+
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &paymentDetails))
+	assert.Equal(t, "Unauthorized", paymentDetails.Message)
+}
+
+func TestGetPaymentDetailsHandlerWithRoomAuthUnauthorizeRoom(t *testing.T) {
+	w, paymentDetails := newTestGetPaymentDetailsHandlerWithRoomAuth(t, admin, true, nil)
+
+	assert.Equal(t, http.StatusUnauthorized, w.Code)
+
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &paymentDetails))
+	assert.Equal(t, "Unauthorized", paymentDetails.Message)
 }
 
 func TestGetPaymentDetailsHandlerWithRoomAuthUnauthorize(t *testing.T) {
+	var createRoomRes createRoomResponse
 	db := newTestDB(t)
 
 	roomAuth := NewRoomAuth(db)
@@ -293,10 +246,10 @@ func TestGetPaymentDetailsHandlerWithRoomAuthUnauthorize(t *testing.T) {
 		}
 	}`
 
-	token := newTestLoginHandler(t, "consumer@xyz.com")
+	login := newTestLoginHandler(t, consumer1)
 
 	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
-	req.Header.Add("Authorization", token)
+	req.Header.Add("Authorization", login.Token)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -305,23 +258,17 @@ func TestGetPaymentDetailsHandlerWithRoomAuthUnauthorize(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	type createRoomResponse struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
-	var createRoomRes createRoomResponse
-
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createRoomRes))
 	assert.Equal(t, "success", createRoomRes.Message)
 	assert.NotEmpty(t, createRoomRes.Data.RoomCode)
 
-	token = newTestLoginHandler(t, "consumer@abc.com")
+	login = newTestLoginHandler(t, consumer2)
 
 	roomCode := createRoomRes.Data.RoomCode
 
 	url := fmt.Sprintf("/joinroom/%s/%d", roomCode, 2)
 	req, err = http.NewRequest("PUT", url, nil)
-	req.Header.Add("Authorization", token)
+	req.Header.Add("Authorization", login.Token)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -338,11 +285,11 @@ func TestGetPaymentDetailsHandlerWithRoomAuthUnauthorize(t *testing.T) {
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &joinRoomRes))
 	assert.Equal(t, "success", joinRoomRes.Message)
 
-	token = newTestLoginHandler(t, "consumer@ijk.com")
+	login = newTestLoginHandler(t, consumer3)
 
 	url = fmt.Sprintf("/getHarga/%d", createRoomRes.Data.ID)
 	req, err = http.NewRequest("GET", url, nil)
-	req.Header.Add("Authorization", token)
+	req.Header.Add("Authorization", login.Token)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -358,113 +305,4 @@ func TestGetPaymentDetailsHandlerWithRoomAuthUnauthorize(t *testing.T) {
 
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
 	assert.Equal(t, "Unauthorized", res.Message)
-}
-
-func TestGetPaymentDetailsHandlerWithRoomAuthInvalidRoomID(t *testing.T) {
-	db := newTestDB(t)
-
-	roomAuth := NewRoomAuth(db)
-	consumer := []string{"consumer"}
-	isConsumer := Roles{AllowedRoles: consumer[:]}
-
-	repo := transaction.NewRepository(db)
-	service := transaction.NewService(repo)
-	handler := transaction.NewHandler(service)
-
-	roomRepo := rooms.NewRepository(db)
-	roomService := rooms.NewService(roomRepo)
-	roomHandler := rooms.NewHandler(roomService)
-
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomHandler.CreateRoom)
-	r.GET("/getHarga/:room_id", authentication.Authentication, isConsumer.Authorize, roomAuth.RoomAuthorize, handler.GetPaymentDetails)
-
-	payload := `{
-		"id": 1,
-		"product" : {
-			"nama": "Razer Mouse",
-			"deskripsi": "Ini Razer Mouse",
-			"harga": 150000,
-			"kuantitas": 1
-		}
-	}`
-
-	token := newTestLoginHandler(t, "consumer@xyz.com")
-
-	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
-	req.Header.Add("Authorization", token)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, req)
-
-	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-
-	type createRoomResponse struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
-	var createRoomRes createRoomResponse
-
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createRoomRes))
-	assert.Equal(t, "success", createRoomRes.Message)
-	assert.NotEmpty(t, createRoomRes.Data.RoomCode)
-
-	url := fmt.Sprintf("/getHarga/%s", createRoomRes.Data.RoomCode)
-	req, err = http.NewRequest("GET", url, nil)
-	req.Header.Add("Authorization", token)
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
-
-	w = httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusBadRequest, w.Code)
-
-	type response struct {
-		Message string `json:"message"`
-	}
-	var res response
-
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "Invalid Room ID", res.Message)
-}
-
-func TestGetPaymentDetailsHandlerWithRoomAuthRoomNotFound(t *testing.T) {
-	db := newTestDB(t)
-
-	roomAuth := NewRoomAuth(db)
-	consumer := []string{"consumer"}
-	isConsumer := Roles{AllowedRoles: consumer[:]}
-
-	repo := transaction.NewRepository(db)
-	service := transaction.NewService(repo)
-	handler := transaction.NewHandler(service)
-
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.GET("/getHarga/:room_id", authentication.Authentication, isConsumer.Authorize, roomAuth.RoomAuthorize, handler.GetPaymentDetails)
-
-	token := newTestLoginHandler(t, "consumer@xyz.com")
-
-	url := fmt.Sprintf("/getHarga/%d", 7)
-	req, err := http.NewRequest("GET", url, nil)
-	req.Header.Add("Authorization", token)
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
-
-	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusBadRequest, w.Code)
-
-	type response struct {
-		Message string `json:"message"`
-	}
-	var res response
-
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "Room not found", res.Message)
 }
