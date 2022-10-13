@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button, Modal, Form } from "react-bootstrap";
-import logo from './assets/logo.png'
+import { Button } from "react-bootstrap";
 import ModalCreateRoom from "./ModalCreateRoom";
 
 export default function CreateRoom(props) {

@@ -1,5 +1,5 @@
 import { Button } from 'react-bootstrap';
-import { signOut, signIn, useSession, getSession } from "next-auth/react";
+import { signOut, signIn, getSession } from "next-auth/react";
 import CreateRoom from './CreateRoom';
 import JoinRoom from './JoinRoom';
 import RegisterForm from './register';
@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 
 function Home({ user }) {
   const [data, setData] = useState(null)
-  const [error, setError] = useState(null)
+  const [error] = useState(null)
 
   useEffect(() => {
     if (user) {

@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 
 export default function Room({ user }) {
   const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const router = useRouter();
   useEffect(() => {
     getRoomDetails();
