@@ -1,11 +1,14 @@
 import { Button } from 'react-bootstrap';
-import { signOut, signIn, getSession } from "next-auth/react";
+import { signOut, getSession } from "next-auth/react";
 import CreateRoom from './CreateRoom';
 import JoinRoom from './JoinRoom';
-import RegisterForm from './register';
 import jwt from "jsonwebtoken";
 import CardRoom from './CardRoom';
 import { useEffect, useState } from 'react';
+import WelcomeBanner from './WelcomeBanner';
+import AlasanSimiddleman from './AlasanSimiddleman';
+import SimiddlemanSummaries from './SimiddlemanSummaries';
+import Card from 'react-bootstrap/Card';
 
 function Home({ user }) {
   const [data, setData] = useState(null)
@@ -20,50 +23,9 @@ function Home({ user }) {
   if (!user) {
     return (
       <div className='content'>
-        <div className='welcome-banner'>
-          <div className='row'>
-            <div className='col-lg-6 banner-text-wrap'>
-              <div className='banner-text'>
-                <h2>Akses yang mudah dan aman untuk bertransaksi dengan pihak ke 3</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
-                <Button variant="white" onClick={() => signIn()}>Login</Button><br/>
-                <p>Belum punya akun?<RegisterForm /></p>
-              </div>
-            </div>
-            <div className='col-lg-6 banner-image'></div>
-          </div>
-        </div>
-        <div className='alasan-simiddleman'>
-          <div className='container'>
-            <h2>Kenapa menggunakan SiMiddleman+ ?</h2><br/>
-            <div className='row'>
-              <div className='col-lg-6 alasan-text-wrap'>
-                <div className='alasan-text'>
-                  <h3><strong>To build for people.</strong></h3><br/>
-                  <p>Whether you want to edit your Google Docs, resolve Jira issues, or collaborate over Zoom.<br/><br/>Circle has 100+ integrations with tools you already use and love.</p>
-                </div>
-              </div>
-              <div className='col-lg-6 alasan-image'></div>
-            </div>
-          </div>
-        </div>
-        <div className='simiddleman-keamanan'>
-          <div className='container'>
-            <h2>Keamanan yang unggul</h2><br/><br/>
-            <div className='keamanan-image'></div><br/>
-            <div className='row keamanan-summaries'>
-              <div className='col'>
-                <h3><i class="fa fa-check"></i> 18281 <span>signed up last month</span></h3>
-              </div>
-              <div className='col'>
-                <h3><i class="fa fa-check"></i> GPDR-&amp; CCPA- <span>ready</span></h3>
-              </div>
-              <div className='col'>
-                <h3><i class="fa fa-check"></i> Leader@G2 <span>Summer</span></h3>
-              </div>
-            </div>
-          </div>
-        </div>
+        <WelcomeBanner/>
+        <AlasanSimiddleman/>
+        <SimiddlemanSummaries/>
       </div>
     )
   }
@@ -103,31 +65,50 @@ function Home({ user }) {
 
   return (
     <div className='content'>
-      {error && <div>Failed to load {error.toString()}</div>}
-      {
-        !data ? <div>Loading...</div>
-          : (
-            (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>
-          )
-      }
-
-      <div className='container'>
-        <div className='pt-5'>
-          <h2>Halo Selamat Datang, berikut merupakan data anda:</h2>
-          <ul>
-            <li>Id: {decoded.ID}</li>
-            <li>Email: {decoded.Email}</li>
-            <li>Role: {decoded.Role}</li>
-          </ul>
-          <div className='d-flex justify-content-left'>
-            <Button onClick={() => signOut()} className="mx-3">Sign out</Button>
-            <CreateRoom idPenjual={decoded.ID} sessionToken={user} />
-            <JoinRoom idPembeli={decoded.ID} sessionToken={user} />
-          </div>
+      <div className='pt-5' style={{ backgroundColor: "#CC0F0F", paddingBottom: "150px" }}>
+        <h2 className='text-center' style={{ color: "white" }}>Halo, Selamat Datang di aplikasi SiMiddleman+</h2>
+        <h3 className='text-center' style={{ color: "white" }}>Buat atau join Ruang obrolan pada tombol dibawah</h3>
+        <div className='d-flex position-absolute top-50 start-50 translate-middle pt-5'>
+          <Card style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
+            <Card.Body>
+              <Card.Title className='mb-5'>Create Room</Card.Title>
+              <Card.Text>
+                Kamu dapat membuat room untuk melakukan transaksi dengan pembeli.
+              </Card.Text>
+              <CreateRoom idPenjual={decoded.ID} sessionToken={user} />
+            </Card.Body>
+          </Card>
+          <Card className='mx-5' style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
+            <Card.Body>
+              <Card.Title className='mb-5'>Join Room</Card.Title>
+              <Card.Text>
+                Mendaftarkan room yang telah dibuat oleh penjual kedalam list room kamu.
+              </Card.Text>
+              <JoinRoom idPembeli={decoded.ID} sessionToken={user} />
+            </Card.Body>
+          </Card>
+          <Card style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
+            <Card.Body>
+              <Card.Title className='mb-5'>Sign Out</Card.Title>
+              <Card.Text>
+                Melakukan signout untuk keluar dari akun kamu.
+              </Card.Text>
+              <Button onClick={() => signOut()} className='w-100 btn-simiddleman'>Sign out</Button>
+            </Card.Body>
+          </Card>
         </div>
-        <div className='pt-5'>
+      </div>
+      <div className='container'>
+        <div className='pb-5' style={{ paddingTop: "175px" }}>
           <h2>Berikut merupakan room yang telah anda buat</h2>
           <div className='row d-flex justify-content-between p-3'>
+            {error && <div>Failed to load {error.toString()}</div>}
+            {
+              !data ? <div>Loading...</div>
+                : (
+                  (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>
+                )
+            }
             {dataList}
           </div>
         </div>
