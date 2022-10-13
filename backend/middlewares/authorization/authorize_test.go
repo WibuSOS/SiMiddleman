@@ -8,11 +8,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/WibuSOS/sinarmas/controllers/auth"
-	"github.com/WibuSOS/sinarmas/controllers/rooms"
-	"github.com/WibuSOS/sinarmas/controllers/transaction"
-	"github.com/WibuSOS/sinarmas/middlewares/authentication"
-	"github.com/WibuSOS/sinarmas/models"
+	"github.com/WibuSOS/sinarmas/backend/controllers/auth"
+	"github.com/WibuSOS/sinarmas/backend/controllers/rooms"
+	"github.com/WibuSOS/sinarmas/backend/controllers/transaction"
+	"github.com/WibuSOS/sinarmas/backend/middlewares/authentication"
+	"github.com/WibuSOS/sinarmas/backend/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/glebarez/sqlite"
