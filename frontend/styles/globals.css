@@ -327,3 +327,138 @@ footer .footer-content {
   font-size: 2rem;
 }
 /* css styling for show room code modal */
+
+/* css styling for banner page */
+.welcome-banner {
+  background-color: var(--primary);
+  min-height: 516px;
+  overflow: hidden;
+}
+
+.banner-text-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-text {
+  color: #fff;
+}
+
+.banner-text h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.banner-text p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+.banner-image {
+  background-image: url(../pages/assets/image\ 21.jpg);
+  height: 516px;
+}
+
+.banner-text {
+  max-width: 400px;
+}
+
+.banner-text .btn-white {
+  background-color: #fff;
+  color: var(--primary);
+  font-family: 'Raleway', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  border-radius: 10px;
+}
+
+.banner-text .btn-link {
+  color: var(--thirdy);
+  text-decoration: none;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+}
+/* css styling for banner page */
+
+/* css styling for alasan page */
+.alasan-simiddleman {
+  padding: 65px 0;
+}
+
+.alasan-simiddleman .container {
+  min-height: 516px;
+}
+
+.alasan-text-wrap {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.alasan-image {
+  height: 367px;
+  background-image: url(../pages/assets/Rectangle\ 22.png);
+  background-repeat: no-repeat;
+}
+
+.alasan-simiddleman h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.alasan-text {
+  max-width: 390px;
+}
+
+.alasan-text h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.alasan-text p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+}
+/* css styling for alasan page */
+
+/* css styling for keamanan yang unggul */
+.simiddleman-keamanan {
+  padding: 65px 0;
+  background-color: var(--secondary);
+}
+
+.simiddleman-keamanan h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.keamanan-image {
+  height: 40px;
+  background-image: url(../pages/assets/Group\ 9.png);
+}
+
+.keamanan-summaries {
+  display: flex;
+  justify-content: left;
+}
+
+.keamanan-summaries h3 {
+  color: #0CBBC7;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.keamanan-summaries h3 span {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000;
+}
+/* css styling for keamanan yang unggul */
