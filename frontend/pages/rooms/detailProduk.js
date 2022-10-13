@@ -55,19 +55,19 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
                   currentStatus = false;
                   return (
                     <div key={key} className='col order-tracking completed'>
-                      <span class="is-complete"></span>
+                      <span className="is-complete"></span>
                       <p>{capitalizeFirstLetter(value.text)}</p>
                     </div>)}
                 if (currentStatus) {
                   return (
                     <div key={key} className='col order-tracking completed'>
-                      <span class="is-complete"></span>
+                      <span className="is-complete"></span>
                       <p>{capitalizeFirstLetter(value.text)}</p>
                     </div>)}
                 else {
                   return (
                     <div key={key} className='col order-tracking'>
-                        <span class="is-complete"></span>
+                        <span className="is-complete"></span>
                         <p>{capitalizeFirstLetter(value.text)}<br/></p>
                     </div>)}
               })}
