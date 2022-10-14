@@ -46,7 +46,7 @@ func SetupDb() (*gorm.DB, error) {
 			db, err = gorm.Open(postgres.Open(config), &gorm.Config{})
 
 			if err != nil {
-				return nil, fmt.Errorf("failed to connect database: %w", err)
+				return nil, fmt.Errorf("failed to connect to database: %w", err)
 			}
 		}
 	}
