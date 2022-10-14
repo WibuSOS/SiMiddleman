@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import WelcomeBanner from './WelcomeBanner';
 import AlasanSimiddleman from './AlasanSimiddleman';
 import SimiddlemanSummaries from './SimiddlemanSummaries';
+import Card from 'react-bootstrap/Card';
 
 function Home({ user }) {
   const [data, setData] = useState(null)
@@ -64,21 +65,43 @@ function Home({ user }) {
 
   return (
     <div className='content'>
-      <div className='container'>
-        <div className='pt-5'>
-          <h2>Halo Selamat Datang, berikut merupakan data anda:</h2>
-          <ul>
-            <li>Id: {decoded.ID}</li>
-            <li>Email: {decoded.Email}</li>
-            <li>Role: {decoded.Role}</li>
-          </ul>
-          <div className='d-flex justify-content-left'>
-            <Button onClick={() => signOut()} className="mx-3">Sign out</Button>
-            <CreateRoom idPenjual={decoded.ID} sessionToken={user} />
-            <JoinRoom idPembeli={decoded.ID} sessionToken={user} />
+      <div className='pt-5' style={{ backgroundColor: "#CC0F0F", paddingBottom: "150px" }}>
+        <h2 className='text-center' style={{ color: "white" }}>Halo, Selamat Datang di aplikasi SiMiddleman+</h2>
+        <h3 className='text-center' style={{ color: "white" }}>Buat atau join Ruang obrolan pada tombol dibawah</h3>
+        <div className='position-relative'>
+          <div className='d-flex position-absolute start-50 translate-middle' style={{ paddingTop: "300px" }}>
+            <Card style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
+              <Card.Body>
+                <Card.Title className='mb-5'>Create Room</Card.Title>
+                <Card.Text>
+                  Kamu dapat membuat room untuk melakukan transaksi dengan pembeli.
+                </Card.Text>
+                <CreateRoom idPenjual={decoded.ID} sessionToken={user} />
+              </Card.Body>
+            </Card>
+            <Card className='mx-5' style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
+              <Card.Body>
+                <Card.Title className='mb-5'>Join Room</Card.Title>
+                <Card.Text>
+                  Mendaftarkan room yang telah dibuat oleh penjual kedalam list room kamu.
+                </Card.Text>
+                <JoinRoom idPembeli={decoded.ID} sessionToken={user} />
+              </Card.Body>
+            </Card>
+            <Card style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
+              <Card.Body>
+                <Card.Title className='mb-5'>Sign Out</Card.Title>
+                <Card.Text>
+                  Melakukan signout untuk keluar dari akun kamu.
+                </Card.Text>
+                <Button onClick={() => signOut()} className='w-100 btn-simiddleman'>Sign out</Button>
+              </Card.Body>
+            </Card>
           </div>
         </div>
-        <div className='pt-5'>
+      </div>
+      <div className='container'>
+        <div className='pb-5' style={{ paddingTop: "175px" }}>
           <h2>Berikut merupakan room yang telah anda buat</h2>
           <div className='row d-flex justify-content-between p-3'>
             {error && <div>Failed to load {error.toString()}</div>}
