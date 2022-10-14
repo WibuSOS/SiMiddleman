@@ -10,32 +10,32 @@ on:
     branches:
       - staging
 
-jobs:
-  backend_test:
-    runs-on: ubuntu-latest
-    name: Backend test
-    defaults:
-      run:
-        working-directory: ./backend
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.19
-      - name: Install dependencies
-        run: go get .
-      - name: Build
-        run: go build -v ./...
+# jobs:
+  # backend_test:
+  #   runs-on: ubuntu-latest
+  #   name: Backend test
+  #   defaults:
+  #     run:
+  #       working-directory: ./backend
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Set up Go
+  #       uses: actions/setup-go@v3
+  #       with:
+  #         go-version: 1.19
+  #     - name: Install dependencies
+  #       run: go get .
+  #     - name: Build
+  #       run: go build -v ./...
 
-      - name: Run Test  # Pass the `coverage.out` output to this action
-        run: go test -v ./controllers/... -covermode count -coverprofile coverage.out
+  #     - name: Run Test  # Pass the `coverage.out` output to this action
+  #       run: go test -v ./controllers/... -covermode count -coverprofile coverage.out
 
-      - name: Analyze with SonarCloud
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #     - name: Analyze with SonarCloud
+  #       uses: sonarsource/sonarcloud-github-action@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   # heroku:
   #   needs: backend_test
   #   runs-on: ubuntu-latest
