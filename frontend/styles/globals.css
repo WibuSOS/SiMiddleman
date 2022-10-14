@@ -992,3 +992,40 @@ footer .footer-content {
   font-size: 24px;
 }
 /* css styling for card room page */
+
+/* css styling for detail pembayaran page */
+.detail-pembayaran {
+  background-color: #ededed;
+  border-radius: 20px;
+  margin-top: 2rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.detail-pembayaran h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  margin-bottom: 2rem;
+}
+
+.detail-pembayaran h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 48px;
+}
+
+.detail-pembayaran p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+}
+
+.detail-pembayaran .logo-bank-sinarmas {
+  width: 320px;
+}
+
+@media screen and (min-width: 768px) {
+  .detail-pembayaran {
+    width: fit-content;
+  }
+  
+}
+/* css styling for detail pembayaran page */
