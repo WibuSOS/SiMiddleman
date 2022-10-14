@@ -36,15 +36,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  heroku:
-    needs: backend_test
-    runs-on: ubuntu-latest
-    name: Heroku deployment
-    steps:
-      - uses: actions/checkout@v3
-      - name: Branch name
-        run: echo running on branch ${{ github.event.pull_request.head.sha }}
-      - name: Add api remote origin
-        run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_STAGING }}.git
-      - name: Deploy api to Heroku
-        run: git push heroku `git subtree split --prefix backend ${{ github.event.pull_request.head.sha }}`:refs/heads/master --force
+  # heroku:
+  #   needs: backend_test
+  #   runs-on: ubuntu-latest
+  #   name: Heroku deployment
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Branch name
+  #       run: echo running on branch ${{ github.event.pull_request.head.sha }}
+  #     - name: Add api remote origin
+  #       run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_STAGING }}.git
+  #     - name: Deploy api to Heroku
+  #       run: git push heroku `git subtree split --prefix backend ${{ github.event.pull_request.head.sha }}`:refs/heads/master --force
