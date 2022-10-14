@@ -566,6 +566,15 @@ footer .footer-content {
   margin-bottom: 3rem;
 }
 
+.harga-produk .btn-simiddleman {
+  color: var(--primary) !important;
+  font-weight: 700;
+}
+
+.harga-produk .btn-simiddleman:hover {
+  border: 1px solid #fff !important;
+}
+
 .kuantitas-produk {
   background-color: var(--thirdy);
   padding: 1rem;
@@ -866,7 +875,7 @@ footer .footer-content {
   }
   
   .detail-produk p {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .detail-produk .harga-produk {
@@ -907,7 +916,7 @@ footer .footer-content {
 }
 
 .btn-simiddleman:hover{
-  border: 0.5px solid #CC0F0F !important;
+  border: 1px solid #fff !important;
   background-color: #CC0F0F !important;
   color: #FFFFFF !important;
 }
@@ -983,3 +992,40 @@ footer .footer-content {
   font-size: 24px;
 }
 /* css styling for card room page */
+
+/* css styling for detail pembayaran page */
+.detail-pembayaran {
+  background-color: #ededed;
+  border-radius: 20px;
+  margin-top: 2rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.detail-pembayaran h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  margin-bottom: 2rem;
+}
+
+.detail-pembayaran h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 48px;
+}
+
+.detail-pembayaran p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+}
+
+.detail-pembayaran .logo-bank-sinarmas {
+  width: 320px;
+}
+
+@media screen and (min-width: 768px) {
+  .detail-pembayaran {
+    width: fit-content;
+  }
+  
+}
+/* css styling for detail pembayaran page */

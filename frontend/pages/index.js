@@ -104,7 +104,7 @@ function Home({ user }) {
       <div className='container'>
         <div className='pb-5' style={{ paddingTop: "175px" }}>
           <h2 className='room-anda'>Room Anda</h2>
-          <div className='row d-flex justify-content-left'>
+          <div className='row d-flex justify-content-center'>
             {error && <div>Failed to load {error.toString()}</div>}
             {
               !data ? <div>Loading...</div>
