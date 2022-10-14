@@ -1,0 +1,20 @@
+# name: Staging deployment
+
+# on:
+#   pull_request:
+#     types:
+#       - closed
+#     branches:
+#       - staging
+
+# jobs:
+#   heroku:
+#     if: github.event.pull_request.merged
+#     runs-on: ubuntu-latest
+#     name: Heroku deployment
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: Add api remote origin
+#         run: git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_STAGING }}.git
+#       - name: Deploy api to Heroku
+#         run: git push heroku `git subtree split --prefix backend staging`:refs/heads/master --force
