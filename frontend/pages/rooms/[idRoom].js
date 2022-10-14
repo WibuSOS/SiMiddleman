@@ -57,7 +57,6 @@ export default function Room({ user }) {
   const kirimBarang = async () => {
     const idRoom = router.query.id;
     let res = null;
-
     if (data.data.status != data.statuses.at(-3)) {
       router.push('https://forms.gle/4uFn5cDSnYLW88ek9');
       return
