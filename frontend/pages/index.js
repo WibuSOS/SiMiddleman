@@ -54,6 +54,7 @@ function Home({ user }) {
     dataList.push(
       <CardRoom
         key={index}
+        decoded={decoded.ID}
         idPenjual={item.penjualID}
         idRoom={item.ID}
         kodeRuangan={item.roomCode}
@@ -65,12 +66,12 @@ function Home({ user }) {
 
   return (
     <div className='content'>
-      <div className='pt-5' style={{ backgroundColor: "#CC0F0F", paddingBottom: "150px" }}>
-        <h2 className='text-center' style={{ color: "white" }}>Halo, Selamat Datang di aplikasi SiMiddleman+</h2>
-        <h3 className='text-center' style={{ color: "white" }}>Buat atau join Ruang obrolan pada tombol dibawah</h3>
+      <div className='pt-5' style={{ backgroundColor: "#CC0F0F", paddingBottom: "150px", borderBottomRightRadius: "20%", borderBottomLeftRadius: "20%", background: "linear-gradient(76.81deg,#CC0F0F 15.71%,#ff0025 68.97%,#fd195e 94.61%)" }}>
+        <h2 className='text-center' style={{ color: "white", fontFamily: "Ubuntu" }}>Halo, Selamat Datang di aplikasi SiMiddleman+</h2>
+        <h3 className='text-center' style={{ color: "white", fontFamily: "Ubuntu" }}>Buat atau join Ruang obrolan pada tombol dibawah</h3>
         <div className='position-relative'>
           <div className='d-flex position-absolute start-50 translate-middle' style={{ paddingTop: "300px" }}>
-            <Card style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
+            <Card className='user-action mx-3'>
               <Card.Body>
                 <Card.Title className='mb-5'>Create Room</Card.Title>
                 <Card.Text>
@@ -79,7 +80,7 @@ function Home({ user }) {
                 <CreateRoom idPenjual={decoded.ID} sessionToken={user} />
               </Card.Body>
             </Card>
-            <Card className='mx-5' style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
+            <Card className='user-action mx-3'>
               <Card.Body>
                 <Card.Title className='mb-5'>Join Room</Card.Title>
                 <Card.Text>
@@ -88,7 +89,7 @@ function Home({ user }) {
                 <JoinRoom idPembeli={decoded.ID} sessionToken={user} />
               </Card.Body>
             </Card>
-            <Card style={{ width: '358px', boxShadow: "0px 32px 50px -9px rgba(0, 0, 0, 0.25)", borderRadius: "10px", border: "none" }}>
+            <Card className='user-action mx-3'>
               <Card.Body>
                 <Card.Title className='mb-5'>Sign Out</Card.Title>
                 <Card.Text>
@@ -102,8 +103,8 @@ function Home({ user }) {
       </div>
       <div className='container'>
         <div className='pb-5' style={{ paddingTop: "175px" }}>
-          <h2>Berikut merupakan room yang telah anda buat</h2>
-          <div className='row d-flex justify-content-between p-3'>
+          <h2 className='room-anda'>Room Anda</h2>
+          <div className='row d-flex justify-content-left'>
             {error && <div>Failed to load {error.toString()}</div>}
             {
               !data ? <div>Loading...</div>
