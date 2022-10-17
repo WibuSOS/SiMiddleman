@@ -1,5 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import ShowRoomCode from '../ShowRoomCode';
+import UpdateProduct from '../UpdateProduct';
+import { useState } from 'react';
 
 const STATUS_TRANSAKSI = [
   { status: 1, text: "mulai transaksi" },
@@ -10,7 +12,10 @@ const STATUS_TRANSAKSI = [
 
 function capitalizeFirstLetter(string) { return string[0].toUpperCase() + string.slice(1) }
 
-export default function DetailProduk({ data, error, decoded, router, kirimBarang, handleConfirmation }) {
+export default function DetailProduk({ data, error, decoded, router, kirimBarang, handleConfirmation, user, namaProduk, setNamaProduk, hargaProduk, setHargaProduk, deskripsiProduk, setDeskripsiProduk, kuantitasProduk, setKuantitasProduk, getRoomDetails }) {
+  const [updateProductModal, setupdateProductModal] = useState(false);
+  const openUpdateProductModal = () => setupdateProductModal(true);
+  const closeUpdateProductModal = () => setupdateProductModal(false);
   let currentStatus = true;
   return (
     <div className='content'>
@@ -24,7 +29,11 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
         <div className='detail-produk'>
           {error && <div>Failed to load {error.toString()}</div>}
           {!data ? <div>Loading...</div> : ((data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>)}
-          <h3 className='nama-produk'>{data?.data.product.nama}</h3>
+          <h3 className='nama-produk'>
+            {data?.data.product.nama}
+            <Button className='ms-5 btn-simiddleman' onClick={openUpdateProductModal}>Update Product</Button>
+            <UpdateProduct closeUpdateProductModal={closeUpdateProductModal} updateProductModal={updateProductModal} data={data} user={user} namaProduk={namaProduk} setNamaProduk={setNamaProduk} hargaProduk={hargaProduk} setHargaProduk={setHargaProduk} deskripsiProduk={deskripsiProduk} setDeskripsiProduk={setDeskripsiProduk} kuantitasProduk={kuantitasProduk} setKuantitasProduk={setKuantitasProduk} getRoomDetails={getRoomDetails} />
+          </h3>
           <p>{data?.data.product.deskripsi}</p>
           <div className="py-5">
             <div className="container row d-flex justify-content-around">
