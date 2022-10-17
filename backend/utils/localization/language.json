@@ -1,8 +1,12 @@
 {
-    "en": {
-      "NoToken": "Unable to verify token"
-    },
-    "id": {
-      "NoToken": "Tidak dapat memverifikasi token"
-    }
+  "en": {
+    "NoToken": "Unable to verify token",
+    "TidakBisaMasukRuangan": "Cannot Enter Room",
+    "sudahmasukruangan": "Already Join This Room"
+  },
+  "id": {
+    "NoToken": "Tidak dapat memverifikasi token",
+    "TidakBisaMasukRuangan": "Tidak Bisa Memasuki Ruangan",
+    "sudahmasukruangan": "Anda Sudah Masuk Ruangan ini"
+  }
 }

@@ -6,6 +6,8 @@ import (
 
 	"github.com/WibuSOS/sinarmas/backend/models"
 	"github.com/WibuSOS/sinarmas/backend/utils/errors"
+	"github.com/WibuSOS/sinarmas/backend/utils/localization"
+
 	"github.com/dchest/uniuri"
 	"gorm.io/gorm"
 )
@@ -13,8 +15,8 @@ import (
 type Repository interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	GetAllRooms(userId string) ([]models.Rooms, *errors.RestError)
-	JoinRoom(roomId string, userId string) (models.Rooms, *errors.RestError)
-	JoinRoomPembeli(roomId string, userId string) *errors.RestError
+	JoinRoom(roomId string, userId string, message string) (models.Rooms, *errors.RestError)
+	JoinRoomPembeli(roomId string, userId string, mesasge string) *errors.RestError
 }
 
 type repository struct {
@@ -92,7 +94,7 @@ func (r *repository) GetAllRooms(userId string) ([]models.Rooms, *errors.RestErr
 	return newRooms, nil
 }
 
-func (r *repository) JoinRoom(roomId string, userId string) (models.Rooms, *errors.RestError) {
+func (r *repository) JoinRoom(roomId string, userId string, message string) (models.Rooms, *errors.RestError) {
 	var room models.Rooms
 
 	res := r.db.
@@ -105,13 +107,14 @@ func (r *repository) JoinRoom(roomId string, userId string) (models.Rooms, *erro
 	}
 
 	if room.ID == 0 {
-		return models.Rooms{}, errors.NewBadRequestError("Tidak bisa memasuki ruangan")
+		msg := localization.GetMessage(message, "TidakBisaMasukRuangan")
+		return models.Rooms{}, errors.NewBadRequestError(msg)
 	}
 
 	return room, nil
 }
 
-func (r *repository) JoinRoomPembeli(roomId string, userId string) *errors.RestError {
+func (r *repository) JoinRoomPembeli(roomId string, userId string, message string) *errors.RestError {
 	var room models.Rooms
 
 	idroom64, err := strconv.ParseUint(userId, 10, 32)
@@ -125,7 +128,8 @@ func (r *repository) JoinRoomPembeli(roomId string, userId string) *errors.RestE
 		Where("room_code = ? AND (penjual_id = ? OR pembeli_id = ?)", roomId, idRoom, idRoom).
 		First(&room)
 	if alreadyJoinRoom.Error == nil {
-		return errors.NewBadRequestError("Anda sudah masuk kedalam room ini")
+		msg := localization.GetMessage(message, "sudahmasukruangan")
+		return errors.NewBadRequestError(msg)
 	}
 
 	roomAlreadyHasPembeli := r.db.
