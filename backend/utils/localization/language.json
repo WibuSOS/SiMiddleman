@@ -2,11 +2,15 @@
   "en": {
     "NoToken": "Unable to verify token",
     "TidakBisaMasukRuangan": "Cannot Enter Room",
-    "sudahmasukruangan": "Already Join This Room"
+    "sudahmasukruangan": "Already Join This Room",
+    "invalididuser": "invalid id user",
+    "sudahadapembeli": "Already has Buyer in this room"
   },
   "id": {
     "NoToken": "Tidak dapat memverifikasi token",
     "TidakBisaMasukRuangan": "Tidak Bisa Memasuki Ruangan",
-    "sudahmasukruangan": "Anda Sudah Masuk Ruangan ini"
+    "sudahmasukruangan": "Anda Sudah Masuk Ruangan ini",
+    "invalididuser": "id user salah",
+    "sudahadapembeli": "Sudah ada Pembeli di ruangan"
   }
 }

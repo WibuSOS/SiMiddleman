@@ -120,7 +120,8 @@ func (r *repository) JoinRoomPembeli(roomId string, userId string, message strin
 	idroom64, err := strconv.ParseUint(userId, 10, 32)
 	if err != nil {
 		log.Println(err.Error())
-		return errors.NewBadRequestError("Invalid User ID")
+		msg := localization.GetMessage(message, "invalididuser")
+		return errors.NewBadRequestError(msg)
 	}
 	idRoom := uint(idroom64)
 
@@ -136,7 +137,8 @@ func (r *repository) JoinRoomPembeli(roomId string, userId string, message strin
 		Where("room_code = ? AND pembeli_id IS NULL", roomId).
 		First(&room)
 	if roomAlreadyHasPembeli.Error != nil {
-		return errors.NewBadRequestError(roomAlreadyHasPembeli.Error.Error())
+		msg := localization.GetMessage(message, "sudahadapembeli")
+		return errors.NewBadRequestError(msg)
 	}
 
 	res := r.db.
