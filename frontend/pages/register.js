@@ -3,13 +3,15 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 import { signIn } from "next-auth/react";
-import RegisterModal from './registerModal'
+import RegisterModal from './registerModal';
+import useTranslation from 'next-translate/useTranslation';;
 
 export default function RegisterForm() {
   const [registerModal, setRegisterModal] = useState(false);
   const openRegisterModal = () => setRegisterModal(true);
   const closeRegisterModal = () => setRegisterModal(false);
   const router = useRouter();
+  const { t, lang } = useTranslation('common');
 
   const handleSubmitRegister = async (e) => {
     e.preventDefault();
@@ -54,7 +56,7 @@ export default function RegisterForm() {
   return (
     <>
       <Button variant='link' onClick={openRegisterModal} data-testid="buttonRegisterForm">
-        Daftar Sekarang
+        {t("banner.button-signup")}
       </Button>
 
       <RegisterModal handleSubmitRegister={handleSubmitRegister}
