@@ -8,6 +8,10 @@ import DetailProduk from './detailProduk';
 export default function Room({ user }) {
   const [data, setData] = useState(null);
   const [error] = useState(null);
+  const [namaProduk , setNamaProduk] = useState("");
+  const [kuantitasProduk , setKuantitasProduk] = useState("");
+  const [deskripsiProduk , setDeskripsiProduk] = useState("");
+  const [hargaProduk , setHargaProduk] = useState("");
   const router = useRouter();
   useEffect(() => {
     getRoomDetails();
@@ -26,6 +30,10 @@ export default function Room({ user }) {
       });
       const data = await res.json();
       setData(data);
+      setNamaProduk(data?.data.product.nama);
+      setKuantitasProduk(data?.data.product.kuantitas);
+      setDeskripsiProduk(data?.data.product.deskripsi);
+      setHargaProduk(data?.data.product.harga);
     } catch (error) {
       console.error();
     }
@@ -78,7 +86,7 @@ export default function Room({ user }) {
 
   return (
     <div className='content'>
-      <DetailProduk data={data} error={error} decoded={decoded} router={router} kirimBarang={kirimBarang} handleConfirmation={handleConfirmation} />
+      <DetailProduk data={data} error={error} decoded={decoded} router={router} kirimBarang={kirimBarang} handleConfirmation={handleConfirmation} user={user} namaProduk={namaProduk} setNamaProduk={setNamaProduk} hargaProduk={hargaProduk} setHargaProduk={setHargaProduk} deskripsiProduk={deskripsiProduk} setDeskripsiProduk={setDeskripsiProduk} kuantitasProduk={kuantitasProduk} setKuantitasProduk={setKuantitasProduk} getRoomDetails={getRoomDetails} />
     </div >
   )
 }

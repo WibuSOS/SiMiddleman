@@ -1,6 +1,11 @@
 name: Staging workflow
 
 on:
+  push:
+    branches:
+      - staging
+      - coldfix
+
   pull_request:
     types:
       - opened
