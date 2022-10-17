@@ -25,8 +25,8 @@ func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func generateRoomCode(n int) string {
-	s := uniuri.NewLen(n)
+func GenerateRoomCode(length int, roomId uint) string {
+	s := uniuri.NewLen(length) + strconv.FormatUint(uint64(roomId), 10)
 
 	return s
 }
@@ -55,7 +55,7 @@ func (r *repository) CreateRoom(req *DataRequest) (models.Rooms, *errors.RestErr
 			return res.Error
 		}
 
-		res = tx.Model(&newRoom).Omit("Transaction").Update("RoomCode", generateRoomCode(roomCodeLength)+strconv.FormatUint(uint64(newRoom.ID), 10))
+		res = tx.Model(&newRoom).Omit("Transaction").Update("RoomCode", GenerateRoomCode(roomCodeLength, newRoom.ID))
 		if res.Error != nil {
 			return res.Error
 		}
