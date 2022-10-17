@@ -1,46 +1,47 @@
 package api
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
 
+	"github.com/WibuSOS/sinarmas/backend/controllers/rooms"
 	"github.com/WibuSOS/sinarmas/backend/models"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-func errorDbConn(err error) error {
-	return fmt.Errorf("failed to connect database: %w", err)
-}
-
-func callDbDev() (*gorm.DB, error) {
-	var db *gorm.DB
-	var err error
-
-	config := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_SUPER_USER"), os.Getenv("DB_SUPER_PASSWORD"), os.Getenv("DB_ROOT"))
-	dbRoot, errRoot := gorm.Open(postgres.Open(config), &gorm.Config{})
-
-	if errRoot != nil {
-		return nil, errorDbConn(errRoot)
-	}
-
-	db = dbRoot.Exec(fmt.Sprintf("CREATE DATABASE %s ;", os.Getenv("DB_NAME")))
-
-	if db.Error != nil {
-		log.Println("Unable to create DB, attempting to connect assuming it exists...")
-		config = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
-		db, err = gorm.Open(postgres.Open(config), &gorm.Config{})
-	}
+func SetupDb() (*gorm.DB, error) {
+	db, env, err := callDb()
 
 	if err != nil {
+		return nil, err
+	}
+
+	db, err = checkDbConn(db)
+	if err != nil {
+		return nil, err
+	}
+
+	db, err = migrateDb(db)
+	if err != nil {
 		return nil, errorDbConn(err)
+	}
+
+	if env != "PROD" {
+		seedDb(db)
 	}
 
 	return db, nil
 }
 
-func callDb() (*gorm.DB, error) {
+func errorDbConn(err error) error {
+	return fmt.Errorf("failed to connect database: %w", err)
+}
+
+func callDb() (*gorm.DB, string, error) {
 	var db *gorm.DB
 	var err error
 	env := os.Getenv("ENVIRONMENT")
@@ -51,19 +52,58 @@ func callDb() (*gorm.DB, error) {
 	}
 
 	if err != nil {
-		return nil, errorDbConn(err)
+		return nil, env, errorDbConn(err)
 	}
 
 	if db != nil {
-		return db, nil
+		log.Println("Call DB success")
+		return db, env, nil
 	}
 
 	db, err = callDbDev()
 
 	if err != nil {
+		return nil, env, errorDbConn(err)
+	}
+
+	log.Println("Call DB success")
+	return db, env, nil
+}
+
+func callDbDev() (*gorm.DB, error) {
+	var db *gorm.DB
+	var err error
+
+	// Open DB Root only for creating the intended DB
+	config := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_SUPER_USER"), os.Getenv("DB_SUPER_PASSWORD"), os.Getenv("DB_ROOT"))
+	dbRoot, errRoot := gorm.Open(postgres.Open(config), &gorm.Config{})
+
+	if errRoot != nil {
+		return nil, errorDbConn(errRoot)
+	}
+
+	// Implicitly silences error in case the intended DB already exists
+	dbRoot.Exec(fmt.Sprintf("CREATE DATABASE %s;", os.Getenv("DB_NAME")))
+
+	// Close DB Root
+	sqlDbRoot, errRoot := dbRoot.DB()
+	if errRoot != nil {
+		return nil, errRoot
+	}
+	errRoot = sqlDbRoot.Close()
+	if errRoot != nil {
+		return nil, errRoot
+	}
+
+	// Open the intended DB
+	config = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
+	db, err = gorm.Open(postgres.Open(config), &gorm.Config{})
+
+	if err != nil {
 		return nil, errorDbConn(err)
 	}
 
+	log.Println("Call DB Dev success")
 	return db, nil
 }
 
@@ -77,24 +117,92 @@ func checkDbConn(db *gorm.DB) (*gorm.DB, error) {
 		return nil, errorDbConn(err)
 	}
 
+	log.Println("Check DB connection success")
 	return db, nil
 }
 
-func SetupDb() (*gorm.DB, error) {
-	db, err := callDb()
-
-	if err != nil {
-		return nil, err
-	}
-
-	db, err = checkDbConn(db)
-	if err != nil {
-		return nil, err
-	}
-
+func migrateDb(db *gorm.DB) (*gorm.DB, error) {
 	if err := db.AutoMigrate(&models.Users{}, &models.Rooms{}, &models.Products{}, &models.Transactions{}); err != nil {
 		return nil, errorDbConn(err)
 	}
 
+	log.Println("Migrate DB success")
 	return db, nil
+}
+
+func seedDb(db *gorm.DB) {
+	pb, _ := bcrypt.GenerateFromPassword([]byte("12345678"), 8)
+	newUsers := []models.Users{
+		{Nama: "Penjual", Role: "consumer", NoHp: "+6285775066878", Email: "penjual@custom.com", Password: string(pb), NoRek: "1234567890"},
+		{Nama: "Pembeli", Role: "consumer", NoHp: "+6281586173213", Email: "pembeli@custom.com", Password: string(pb), NoRek: "0987654321"},
+	}
+	seedTable(db, &models.Users{}, &newUsers)
+
+	penjualID := uint(1)
+	pembeliID := uint(2)
+	roomCodeLength := 10
+	newRooms := []models.Rooms{
+		{
+			PenjualID: penjualID,
+			PembeliID: &pembeliID,
+			RoomCode:  rooms.GenerateRoomCode(roomCodeLength, 1),
+			Status:    "mulai transaksi",
+			Product: &models.Products{
+				Nama:      "Durian",
+				Deskripsi: "Durian Monthong yang sudah matang",
+				Harga:     10000,
+				Kuantitas: 10,
+			},
+		},
+		{
+			PenjualID: penjualID,
+			PembeliID: &pembeliID,
+			RoomCode:  rooms.GenerateRoomCode(roomCodeLength, 2),
+			Status:    "mulai transaksi",
+			Product: &models.Products{
+				Nama:      "Gundam",
+				Deskripsi: "Gundam PG",
+				Harga:     800000,
+				Kuantitas: 1,
+			},
+		},
+		{
+			PenjualID: pembeliID,
+			PembeliID: &penjualID,
+			RoomCode:  rooms.GenerateRoomCode(roomCodeLength, 3),
+			Status:    "mulai transaksi",
+			Product: &models.Products{
+				Nama:      "Buah Naga",
+				Deskripsi: "Buah Naga yang sudah matang",
+				Harga:     5000,
+				Kuantitas: 10,
+			},
+		},
+		{
+			PenjualID: pembeliID,
+			PembeliID: &penjualID,
+			RoomCode:  rooms.GenerateRoomCode(roomCodeLength, 4),
+			Status:    "mulai transaksi",
+			Product: &models.Products{
+				Nama:      "Nendoroid",
+				Deskripsi: "One Piece Nendoroid",
+				Harga:     500000,
+				Kuantitas: 1,
+			},
+		},
+	}
+	seedTable(db, &models.Rooms{}, &newRooms)
+}
+
+func seedTable(db *gorm.DB, table any, newRecords any) {
+	if !db.Migrator().HasTable(table) {
+		return
+	}
+
+	if err := db.First(table).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+		res := db.Create(newRecords)
+		if res.Error != nil {
+			log.Println(res.Error.Error())
+		}
+	}
 }
