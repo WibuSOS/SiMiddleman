@@ -24,5 +24,29 @@
     "text" : [
       "Pengguna", "Total Transaksi", "Transaksi Berhasil"
     ]
+  },
+  "logged-in": {
+    "banner": {
+      "title": "Halo, Selamat Datang di SiMiddleman",
+      "text": "Buat atau Gabung Ruang Obrolan pada Tombol di Bawah"
+    },
+    "user-action": {
+      "title": [
+        "Buat Ruangan", "Gabung Ruangan", "Keluar"
+      ],
+      "text": [
+        "Kamu dapat membuat room untuk melakukan transaksi dengan pembeli.",
+        "Mendaftarkan room yang telah dibuat oleh penjual kedalam list room kamu.",
+        "Keluar dari akun kamu"
+      ]
+    },
+    "room-list": {
+      "title": "Daftar Ruang Obrolan Anda"
+    },
+    "error": {
+      "load-fail": "Gagal untuk memuat data",
+      "loading": "Memuat data... harap tunggu",
+      "list-empty": "Anda tidak memiliki ruang obrolan"
+    }
   }
 }
