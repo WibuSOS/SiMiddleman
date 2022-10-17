@@ -9,10 +9,14 @@ import WelcomeBanner from './WelcomeBanner';
 import AlasanSimiddleman from './AlasanSimiddleman';
 import SimiddlemanSummaries from './SimiddlemanSummaries';
 import Card from 'react-bootstrap/Card';
+import useTranslation from 'next-translate/useTranslation';
 
 function Home({ user }) {
   const [data, setData] = useState(null)
   const [error] = useState(null)
+
+  const { t, lang } = useTranslation('common');
+  const test = t('testing');
 
   useEffect(() => {
     if (user) {
@@ -23,6 +27,7 @@ function Home({ user }) {
   if (!user) {
     return (
       <div className='content'>
+        <h1>{test}</h1>
         <WelcomeBanner />
         <AlasanSimiddleman />
         <SimiddlemanSummaries />

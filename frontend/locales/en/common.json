@@ -1,0 +1,28 @@
+{
+  "testing": "testing in english",
+  "banner": {
+    "title": "Easy & safe transaction",
+    "text": "You can enjoy the convenience of buying and selling transactions with a sense of security with a joint account system in one platform",
+    "button-signin": "Sign in to",
+    "signup-text": "or you don't have an account yet",
+    "button-signup": "sign up now"
+  },
+  "simiddleman": {
+    "title": "Why use",
+    "sub-title":
+      [
+        "Integrated Payments", "Mutual Benefit", "Under Agreement"
+      ],
+    "text": [
+      "Providing a payment system that has been integrated with the seller to avoid the seller going through a manual transaction process after the buyer has confirmed the goods.",
+      "Arrange so that the withdrawal process can be carried out when the seller and buyer have fulfilled certain agreements.",
+      "Providing a discussion space between the seller and the buyer to make a transaction agreement."
+    ]
+  },
+  "achievement" : {
+    "title": "Has Reached",
+    "text" : [
+      "Users", "Total Transactions", "Successful Transactions"
+    ]
+  }
+}
