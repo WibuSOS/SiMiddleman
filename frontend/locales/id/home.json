@@ -1,0 +1,28 @@
+{
+  "percobaan": "namanya juga percobaan",
+  "banner": {
+    "title": "Transaksi yang mudah & aman",
+    "text": "Anda dapat menikmati kemudahan dalam melakukan transaksi jual beli dengan rasa aman dengan sistem rekening bersama dalam satu platform",
+    "button-signin": "Masuk ke",
+    "signup-text": "atau Anda belum punya akun",
+    "button-signup": "daftar sekarang"
+  },
+  "simiddleman": {
+    "title": "Kenapa menggunakan",
+    "sub-title":
+      [
+        "Pembayaran Terintegrasi", "Saling Menguntungkan", "Berdasarkan Kesepakatan"
+      ],
+    "text": [
+      "Menyediakan sistem pembayaran yang sudah terintegrasi dengan penjual untuk menghindari penjual melewati proses transaksi manual setelah pembeli mengkonfirmasi barang.",
+      "Mengatur agar proses pencairan (withdraw) dapat dilakukan ketika penjual dan pembeli sudah memenuhi kesepakatan tertentu.",
+      "Menyediakan ruang diskusi antara penjual dan pembeli untuk membuat sebuah kesepakatan transaksi."
+    ]
+  },
+  "achievement" : {
+    "title": "Telah Mencapai",
+    "text" : [
+      "Pengguna", "Total Transaksi", "Transaksi Berhasil"
+    ]
+  }
+}
