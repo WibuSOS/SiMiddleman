@@ -5,7 +5,6 @@ import Logo from './assets/logo2.png';
 
 const MENU_LIST = [
   { text: "Home", href: "/" },
-  { text: "Customer Service", href: "/customerservice"},
 ];
 
 const Navbar = () => {
