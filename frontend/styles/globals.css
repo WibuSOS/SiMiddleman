@@ -9,6 +9,9 @@
     - font-family: 'Poppins', sans-serif;
     - font-family: 'Ubuntu', sans-serif;
 */
+html {
+  scroll-behavior: smooth;
+}
 
 html,
 body {
@@ -132,7 +135,7 @@ a {
   padding: 5%;
   background: var(--secondary);
   border-radius: 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 4px 14px 0px;
 }
 
 .centered-form h2 {
@@ -204,14 +207,28 @@ header {
   transition: all 0.2s;
   font-family: 'Raleway', sans-serif;
   text-decoration: none;
-  color: #000;
+  color: rgba(117,117,117,.8);
+  font-weight: 700;
 }
 
 nav .logo-brand {
   font-size: 24px;
+  padding: .5rem;
   color: var(--primary);
   text-decoration: none;
   font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+}
+
+nav .logo-brand:hover {
+  color: var(--primary);
+  padding: .5rem;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.12), 
+              0 2px 2px rgba(0,0,0,0.12), 
+              0 4px 4px rgba(0,0,0,0.12), 
+              0 8px 8px rgba(0,0,0,0.12),
+              0 16px 16px rgba(0,0,0,0.12);
+  border-radius: 10px;
 }
 
 nav .logo-navbar {
@@ -238,7 +255,6 @@ nav .logo-navbar {
 }
 
 .nav__link:hover {
-  font-weight: 800;
   color: inherit;
 }
 
@@ -266,24 +282,6 @@ nav .logo-navbar {
     column-gap: 24px;
     align-items: center;
     filter: none;
-  }
-
-  .nav__link::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: var(--primary);
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
-  }
-  
-  .nav__link:hover:after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
   }
 
   .nav__link:hover {
@@ -327,3 +325,707 @@ footer .footer-content {
   font-size: 2rem;
 }
 /* css styling for show room code modal */
+
+/* css styling for banner page */
+.welcome-banner {
+  min-height: 50vh;
+  overflow: hidden;
+  background: linear-gradient(76.81deg,#CC0F0F 15.71%,#ff0025 68.97%,#fd195e 94.61%);
+}
+
+.banner-text-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.banner-text {
+  color: #fff;
+  text-align: center;
+}
+
+.banner-text h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  padding-top: 2rem;
+}
+
+.banner-text p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+.banner-image {
+  background-image: url(../pages/assets/Group\ 9.png);
+  height: 516px;
+  background-position: center;
+  filter: drop-shadow(1px 1px 1px #222);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: animatedBackground .5s linear infinite alternate;
+}
+
+@keyframes animatedBackground {
+  from {
+  }
+  to {
+    transform: rotate(1deg);
+  }
+}
+
+.banner-text .btn-white {
+  background-color: #fff;
+  color: var(--primary);
+  font-family: 'Raleway', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  border-radius: 10px;
+  border: 1px solid #fff;
+  transition: background-color .5s;
+  width: 100%;
+}
+
+.banner-text-wrap .banner-text .btn-white:hover, 
+.banner-text-wrap .banner-text .btn-white:focus{
+  background: var(--primary);
+  color: #fff;
+}
+
+.banner-text .btn-link {
+  color: var(--thirdy);
+  text-decoration: none;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+}
+
+.banner-text-wrap .banner-text .btn-link:hover {
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .welcome-banner {
+    border-bottom-left-radius: 25%;
+  }
+  
+  .banner-text h2 {
+    padding-top: 0;
+  }
+
+  .banner-text-wrap .banner-text .btn-white {
+    width: fit-content;
+  }
+
+  .banner-text-wrap .banner-text {
+    text-align: left;
+  }
+
+}
+/* css styling for banner page */
+
+/* css styling for alasan page */
+.alasan-simiddleman {
+  padding: 65px 0;
+}
+
+.alasan-simiddleman .container {
+  min-height: 516px;
+}
+
+.alasan-text-wrap {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.alasan-image {
+  height: 367px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.alasan-image.alasan-img-1 {
+  background-image: url(../pages/assets/alasanSatu.png);
+}
+
+.alasan-image.alasan-img-2 {
+  background-image: url(../pages/assets/alasanDua.jpg);
+}
+
+.alasan-image.alasan-img-3 {
+  background-image: url(../pages/assets/alasanTiga.jpg);
+}
+
+.alasan-simiddleman h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.alasan-text {
+  max-width: 390px;
+}
+
+.alasan-text h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.alasan-text p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+}
+/* css styling for alasan page */
+
+/* css styling for summaries page */
+.simiddleman-summaries {
+  padding: 65px 0;
+  background-color: var(--secondary);
+  border-top-left-radius: 25%;
+  border-top-right-radius: 25%;
+}
+
+.simiddleman-summaries h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.simiddleman-summaries .summaries-list {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 2rem;
+}
+
+.summaries-list h3 {
+  color: var(--primary);
+  font-family: 'Poppins', sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+}
+
+.summaries-list i {
+  color: var(--primary);
+  font-size: 64px;
+  font-weight: 700;
+  padding-bottom: 2rem;
+}
+
+.summaries-list span {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+}
+/* css styling for keamanan yang unggul */
+/* css styling for detail produk page */
+.detail-produk-header {
+  background: linear-gradient(76.81deg, rgb(185, 0, 36) 15.71%, rgb(255, 0, 37) 68.97%, rgb(253, 25, 94) 94.61%);
+  border-bottom-right-radius: 25%;
+  padding: 3rem 0;
+}
+
+.detail-produk-header h2 {
+  font-family: 'Ubuntu', sans-serif;
+  color: #fff;
+  font-size: 48px;
+}
+
+.detail-produk h3 {
+  font-size: 24px;
+  font-family: 'Poppins', sans-serif ;
+  font-weight: 700;
+}
+
+.detail-produk p {
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif ;
+}
+
+.detail-produk .nama-produk {
+  font-size: 36px;
+}
+
+.detail-produk .harga-produk {
+  color: #fff;
+  font-size: 36px;
+  background-color: var(--primary);
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow:
+  2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+  6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+  12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+  22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+  41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+  100px 100px 80px rgba(0, 0, 0, 0.07);
+  margin-bottom: 3rem;
+}
+
+.harga-produk .btn-simiddleman {
+  color: var(--primary) !important;
+  font-weight: 700;
+}
+
+.harga-produk .btn-simiddleman:hover {
+  border: 1px solid #fff !important;
+}
+
+.kuantitas-produk {
+  background-color: var(--thirdy);
+  padding: 1rem;
+  color: #fff;
+  border-radius: 20px;
+  box-shadow:
+  2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+  6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+  12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+  22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+  41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+  100px 100px 80px rgba(0, 0, 0, 0.07);
+}
+
+.status-transaksi-wrapper {
+  padding: 0 1rem;
+}
+
+.order-tracking{
+	text-align: center;
+	width: 33.33%;
+	position: relative;
+	display: block;
+}
+
+.order-tracking .is-complete{
+	display: block;
+	position: relative;
+	border-radius: 50%;
+	height: 30px;
+	width: 30px;
+	border: 0px solid #AFAFAF;
+	background-color: #f7be16;
+	margin: 0 auto;
+	transition: background 0.25s linear;
+	-webkit-transition: background 0.25s linear;
+	z-index: 2;
+}
+
+.order-tracking .is-complete:after {
+	display: block;
+	position: absolute;
+	content: '';
+	height: 14px;
+	width: 7px;
+	top: -2px;
+	bottom: 0;
+	left: 5px;
+	margin: auto 0;
+	border: 0px solid #AFAFAF;
+	border-width: 0px 2px 2px 0;
+	transform: rotate(45deg);
+	opacity: 0;
+}
+
+.order-tracking.completed .is-complete{
+	border-color: #27aa80;
+	border-width: 0px;
+	background-color: #27aa80;
+}
+
+.order-tracking.completed .is-complete:after {
+	border-color: #fff;
+	border-width: 0px 3px 3px 0;
+	width: 7px;
+	left: 11px;
+	opacity: 1;
+}
+
+.order-tracking p {
+	color: #A4A4A4;
+	font-size: 11px;
+	margin-top: 8px;
+	margin-bottom: 0;
+	line-height: 20px;
+}
+
+.order-tracking p span{font-size: 14px;}
+.order-tracking.completed p{color: #000;}
+.order-tracking::before {
+	content: '';
+	display: block;
+	height: 3px;
+	width: calc(100% - 40px);
+	background-color: #f7be16;
+	top: 13px;
+	position: absolute;
+	left: calc(-50% + 20px);
+	z-index: 0;
+}
+
+.order-tracking:first-child:before{display: none;}
+.order-tracking.completed:before{background-color: #27aa80;}
+
+.status-transaksi {
+  background-color: var(--secondary);
+  padding: 2rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+}
+
+@media screen and (min-width: 768px) {
+  .detail-produk-header h2 {
+    font-size: 64px;
+  }
+  
+  .detail-produk h3 {
+    font-size: 32px;
+  }
+  
+  .detail-produk p {
+    font-size: 24px;
+  }
+
+  .detail-produk .harga-produk {
+    margin-bottom: 0;
+  }
+
+  .order-tracking p {
+    font-size: 16px;
+  }
+}
+/* css styling for detail produk page */
+
+.btn-simiddleman {
+  border: 0.5px solid #CC0F0F !important;
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  border-radius: 10px !important;
+  font-family: 'Poppins', sans-serif !important;
+  padding: 1rem !important;
+}
+
+.btn-simiddleman:hover{
+  border: 0.5px solid #CC0F0F !important;
+  background-color: #CC0F0F !important;
+  color: #FFFFFF !important;
+}
+
+.btn-simiddleman:active{
+  border: 0.5px solid #f80f0f !important;
+  background-color: #f80f0f !important;
+  color: #FFFFFF !important;
+}
+
+/* css styling for detail produk page */
+.detail-produk-header {
+  background: linear-gradient(76.81deg, rgb(185, 0, 36) 15.71%, rgb(255, 0, 37) 68.97%, rgb(253, 25, 94) 94.61%);
+  border-bottom-right-radius: 25%;
+  padding: 3rem 0;
+}
+
+.detail-produk-header h2 {
+  font-family: 'Ubuntu', sans-serif;
+  color: #fff;
+  font-size: 48px;
+}
+
+.detail-produk h3 {
+  font-size: 24px;
+  font-family: 'Poppins', sans-serif ;
+  font-weight: 700;
+}
+
+.detail-produk p {
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif ;
+}
+
+.detail-produk .nama-produk {
+  font-size: 36px;
+}
+
+.detail-produk .harga-produk {
+  color: #fff;
+  font-size: 36px;
+  background-color: var(--primary);
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow:
+  2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+  6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+  12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+  22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+  41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+  100px 100px 80px rgba(0, 0, 0, 0.07);
+  margin-bottom: 3rem;
+}
+
+.kuantitas-produk {
+  background-color: var(--thirdy);
+  padding: 1rem;
+  color: #fff;
+  border-radius: 20px;
+  box-shadow:
+  2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+  6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+  12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+  22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+  41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+  100px 100px 80px rgba(0, 0, 0, 0.07);
+}
+
+.status-transaksi-wrapper {
+  padding: 0 1rem;
+}
+
+.order-tracking{
+	text-align: center;
+	width: 33.33%;
+	position: relative;
+	display: block;
+}
+
+.order-tracking .is-complete{
+	display: block;
+	position: relative;
+	border-radius: 50%;
+	height: 30px;
+	width: 30px;
+	border: 0px solid #AFAFAF;
+	background-color: #f7be16;
+	margin: 0 auto;
+	transition: background 0.25s linear;
+	-webkit-transition: background 0.25s linear;
+	z-index: 2;
+}
+
+.order-tracking .is-complete:after {
+	display: block;
+	position: absolute;
+	content: '';
+	height: 14px;
+	width: 7px;
+	top: -2px;
+	bottom: 0;
+	left: 5px;
+	margin: auto 0;
+	border: 0px solid #AFAFAF;
+	border-width: 0px 2px 2px 0;
+	transform: rotate(45deg);
+	opacity: 0;
+}
+
+.order-tracking.completed .is-complete{
+	border-color: #27aa80;
+	border-width: 0px;
+	background-color: #27aa80;
+}
+
+.order-tracking.completed .is-complete:after {
+	border-color: #fff;
+	border-width: 0px 3px 3px 0;
+	width: 7px;
+	left: 11px;
+	opacity: 1;
+}
+
+.order-tracking p {
+	color: #A4A4A4;
+	font-size: 11px;
+	margin-top: 8px;
+	margin-bottom: 0;
+	line-height: 20px;
+}
+
+.order-tracking p span{font-size: 14px;}
+.order-tracking.completed p{color: #000;}
+.order-tracking::before {
+	content: '';
+	display: block;
+	height: 3px;
+	width: calc(100% - 40px);
+	background-color: #f7be16;
+	top: 13px;
+	position: absolute;
+	left: calc(-50% + 20px);
+	z-index: 0;
+}
+
+.order-tracking:first-child:before{display: none;}
+.order-tracking.completed:before{background-color: #27aa80;}
+
+.status-transaksi {
+  background-color: var(--secondary);
+  padding: 2rem;
+  border-radius: 20px;
+  margin-bottom: 2rem;
+}
+
+@media screen and (min-width: 768px) {
+  .detail-produk-header h2 {
+    font-size: 64px;
+  }
+  
+  .detail-produk h3 {
+    font-size: 32px;
+  }
+  
+  .detail-produk p {
+    font-size: 20px;
+  }
+
+  .detail-produk .harga-produk {
+    margin-bottom: 0;
+  }
+
+  .order-tracking p {
+    font-size: 16px;
+  }
+}
+/* css styling for detail produk page */
+
+.content .user-action {
+  width: 358px;
+  box-shadow: 0px 32px 50px -9px rgba(0, 0, 0, 0.25); 
+  border-radius: 10px; 
+  border: none;
+}
+
+.content .user-action .card-title {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.content .user-action .card-text {
+  font-family: 'Poppins', sans-serif;
+}
+
+
+.btn-simiddleman {
+  border: 0.5px solid #CC0F0F !important;
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  border-radius: 10px !important;
+  font-family: 'Poppins', sans-serif !important;
+  padding: 1rem !important;
+}
+
+.btn-simiddleman:hover{
+  border: 1px solid #fff !important;
+  background-color: #CC0F0F !important;
+  color: #FFFFFF !important;
+}
+
+.btn-simiddleman:active{
+  border: 0.5px solid #f80f0f !important;
+  background-color: #f80f0f !important;
+  color: #FFFFFF !important;
+}
+/* css styling for card room page */
+.room-anda {
+  text-align: center;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.room-card {
+  border: none !important;
+  background-color: #FBFAF5 !important;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+.room-card .card-title {
+  background-color: #EDEDED;
+  border-radius: 20px;
+  padding-top: 1rem;
+  padding-bottom: .1rem;
+  padding-left: 1rem;
+}
+
+.room-card .card-title {
+  margin-bottom: none !important;
+}
+
+.room-card .card-title p {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  display: inline-block;
+  padding-left: 1rem;
+}
+
+.room-card .card-title .seller-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.room-card .card-text {
+  font-family: 'Poppins', sans-serif;
+}
+
+.room-card .card-text .card-nama-produk {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* number of lines to show */
+  line-clamp: 1; 
+  -webkit-box-orient: vertical;
+}
+
+.room-card .card-text .card-deskripsi-produk {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-clamp: 2; 
+  -webkit-box-orient: vertical;
+}
+
+.room-card .card-text .card-harga-produk {
+  font-weight: 700;
+  font-size: 24px;
+}
+/* css styling for card room page */
+
+/* css styling for detail pembayaran page */
+.detail-pembayaran {
+  background-color: #ededed;
+  border-radius: 20px;
+  margin-top: 2rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.detail-pembayaran h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+  margin-bottom: 2rem;
+}
+
+.detail-pembayaran h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 48px;
+}
+
+.detail-pembayaran p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+}
+
+.detail-pembayaran .logo-bank-sinarmas {
+  width: 320px;
+}
+
+@media screen and (min-width: 768px) {
+  .detail-pembayaran {
+    width: fit-content;
+  }
+  
+}
+/* css styling for detail pembayaran page */

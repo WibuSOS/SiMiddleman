@@ -1,8 +1,9 @@
-module github.com/WibuSOS/sinarmas
+module github.com/WibuSOS/sinarmas/backend
 
 go 1.19
 
 require (
+	github.com/dchest/uniuri v1.2.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.1

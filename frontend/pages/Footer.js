@@ -9,7 +9,7 @@ const Footer = () => {
             <div className="col-lg-4 col-md-6 col-sm-6 text-white text-center"> 
               &#169; 2022, Made with Team 2 for a better web.
             </div>
-            <div className="col-lg-4 col-md-6 col-sm-6 text-white">
+            <div className="col-lg-4 col-md-6 col-sm-6 text-white" hidden>
               <div className="row d-flex justify-content-between link">
                 <div className="col-sm-6 text-center">
                   <Link href="/">Privacy Policy</Link>

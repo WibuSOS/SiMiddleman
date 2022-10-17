@@ -1,14 +1,14 @@
 package api
 
 import (
-	"github.com/WibuSOS/sinarmas/middlewares/authentication"
-	"github.com/WibuSOS/sinarmas/middlewares/authorization"
+	"github.com/WibuSOS/sinarmas/backend/middlewares/authentication"
+	"github.com/WibuSOS/sinarmas/backend/middlewares/authorization"
 
-	"github.com/WibuSOS/sinarmas/controllers/auth"
-	"github.com/WibuSOS/sinarmas/controllers/product"
-	"github.com/WibuSOS/sinarmas/controllers/rooms"
-	"github.com/WibuSOS/sinarmas/controllers/transaction"
-	"github.com/WibuSOS/sinarmas/controllers/users"
+	"github.com/WibuSOS/sinarmas/backend/controllers/auth"
+	"github.com/WibuSOS/sinarmas/backend/controllers/product"
+	"github.com/WibuSOS/sinarmas/backend/controllers/rooms"
+	"github.com/WibuSOS/sinarmas/backend/controllers/transaction"
+	"github.com/WibuSOS/sinarmas/backend/controllers/users"
 	"github.com/gin-contrib/cors"
 )
 
@@ -16,7 +16,7 @@ func (s *server) SetupRouter() {
 	s.Router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
-		AllowHeaders: []string{"Accept", "Content-Type", "Authorization"},
+		AllowHeaders: []string{"Origin", "Accept", "Content-Type", "Authorization", "Access-Control-Allow-Origin"},
 	}))
 
 	consumer := []string{"consumer"}

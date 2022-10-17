@@ -5,7 +5,6 @@ import Logo from './assets/logo2.png';
 
 const MENU_LIST = [
   { text: "Home", href: "/" },
-  { text: "Customer Service", href: "/customerservice"},
 ];
 
 const Navbar = () => {
@@ -14,7 +13,7 @@ const Navbar = () => {
 
   return (
     <header>
-      <nav className='nav'>
+      <nav className='container nav'>
         <Link href={"/"}>
           <a className="logo-brand">
             <img src={Logo.src} className='logo-navbar me-3'/>
