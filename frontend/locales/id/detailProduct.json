@@ -2,6 +2,9 @@
     "header": "Detail Produk",
     "updateProductButton": "Perbaharui Produk",
     "showRoomCodeButton": "Tunjukkan Kode Ruangan",
+    "buyButton": "Beli",
+    "sentButton": "Kirim Barang",
+    "confirmButton": "Konfirmasi Barang Telah Sampai",
     "price": "Harga",
     "quantity": "Kuantitas",
     "transactionStatus" : "Status Transaksi",
@@ -18,5 +21,10 @@
             "Nama Produk", "Harga Produk", "Kuantitas Produk", "Deskripsi Produk"
         ],
         "updateProductBtnModal": "Perbaharui Produk"
+    },
+    "load": {
+        "load-fail": "Gagal untuk memuat data",
+        "loading": "Memuat data... harap tunggu",
+        "list-empty": "Data Kosong"
     }
 }

@@ -6,5 +6,10 @@
         "Anda sudah melakukan pembayaran?",
         "Silahkan upload bukti pembayaran anda!"
     ],
-    "buttonUpload": "Upload Bukti Pembayaran"
+    "buttonUpload": "Upload Bukti Pembayaran",
+    "load": {
+        "load-fail": "Gagal untuk memuat data",
+        "loading": "Memuat data... harap tunggu",
+        "list-empty": "Data Kosong"
+    }
 }

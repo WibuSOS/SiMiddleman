@@ -29,8 +29,8 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
       </div>
       <div className='container pt-5'>
         <div className='detail-produk'>
-          {error && <div>Failed to load {error.toString()}</div>}
-          {!data ? <div>Loading...</div> : ((data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>)}
+          {error && <div>{t("load-fail")} {error.toString()}</div>}
+          {!data ? <div>{t("loading")}</div> : ((data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>{t("list-empty")}</p>)}
           <h3 className='nama-produk'>
             {data?.data.product.nama}
             <Button className='ms-5 btn-simiddleman' onClick={openUpdateProductModal}>{t("updateProductButton")}</Button>
@@ -46,7 +46,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
                     <h3>Rp{data?.data.product.harga}</h3>
                   </div>
                   <div className='col-lg-4 col-sm-12'>
-                    {data?.data.pembeliID === decoded?.ID && data?.statuses.slice(0, -1).includes(data.data.status) && <Button className='w-100' variant='simiddleman' onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}` } }) }}>Beli</Button>}
+                    {data?.data.pembeliID === decoded?.ID && data?.statuses.slice(0, -1).includes(data.data.status) && <Button className='w-100' variant='simiddleman' onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}` } }) }}>{t("buyButton")}</Button>}
                   </div>
                 </div>                                 
               </div>
@@ -58,8 +58,8 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
           </div>
           <div className='status-transaksi-wrapper'>
             <h3>{t("transactionStatus")}</h3>
-            {data?.data.penjualID === decoded?.ID && data?.statuses.slice(1, -1).includes(data.data.status) && <Button variant='simiddleman' className='mb-4' onClick={() => kirimBarang()}>Kirim Barang</Button>}
-            {data?.data.pembeliID === decoded?.ID && data?.statuses.slice(2, -1).includes(data.data.status) && <Button variant='simiddleman' className='mb-4' onClick={() => handleConfirmation()}>Konfirmasi Barang Telah Sampai</Button>}
+            {data?.data.penjualID === decoded?.ID && data?.statuses.slice(1, -1).includes(data.data.status) && <Button variant='simiddleman' className='mb-4' onClick={() => kirimBarang()}>{t("sentButton")}</Button>}
+            {data?.data.pembeliID === decoded?.ID && data?.statuses.slice(2, -1).includes(data.data.status) && <Button variant='simiddleman' className='mb-4' onClick={() => handleConfirmation()}>{t("confirmButton")}</Button>}
             <div className='row d-flex justify-content-between status-transaksi'>
               {STATUS_TRANSAKSI.map((value, key) => {      
                 if (data?.data.status === value.text) {

@@ -2,6 +2,9 @@
     "header": "Product Detail",
     "updateProductButton": "Update Product",
     "showRoomCodeButton": "Show Room Code",
+    "buyButton": "Buy",
+    "sentButton": "Sent Product",
+    "confirmButton": "Product Confirmation",
     "price": "Price",
     "quantity": "Quantity",
     "transactionStatus" : "Transaction Status",
@@ -18,5 +21,10 @@
             "Product Name", "Product Price", "Product Quantity", "Product Description"
         ],
         "updateProductBtnModal": "Update Product"
+    },
+    "load": {
+        "load-fail": "Failed to load room list",
+        "loading": "Loading data... please wait",
+        "list-empty": "Data Empty"
     }
 }
