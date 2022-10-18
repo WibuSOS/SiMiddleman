@@ -46,9 +46,9 @@ const Navbar = () => {
             {setFlagAndName(router.locale)}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              {pilihanBahasa.map(locale => (
-                <Dropdown.Item>
-                  <Link href={router.asPath} locale={locale} key={locale}>
+              {pilihanBahasa.map((locale, key) => (
+                <Dropdown.Item key={key}>
+                  <Link href={router.asPath} locale={locale}>
                   {setFlagAndName(locale)}
                   </Link>
                 </Dropdown.Item>
