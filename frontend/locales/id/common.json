@@ -74,5 +74,10 @@
       "confirm-password": "Masukkan kembali kata sandi anda"
     },
     "btn-register": "Daftar"
+  },
+  "footer": {
+    "copyright": "Dibuat oleh tim 2 untuk web yang lebih baik.",
+    "privacyPolicy": "Kebijakan Pribadi",
+    "termsCondition": "Syarat & Ketentuan"
   }
 }
