@@ -47,9 +47,18 @@ func callDb() (*gorm.DB, string, error) {
 	var err error
 	env := os.Getenv("ENVIRONMENT")
 
-	if env == "PROD" || env == "STAGING" {
+	if env == "PROD" {
 		dbUrl := os.Getenv("DATABASE_URL")
 		db, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
+	}
+
+	if env == "STAGING" {
+		dbUrl := os.Getenv("DATABASE_URL")
+		db, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
+		db.Exec(fmt.Sprintf("DROP TABLE %v;", "product"))
+		db.Exec(fmt.Sprintf("DROP TABLE %v;", "transaction"))
+		db.Exec(fmt.Sprintf("DROP TABLE %v;", "room"))
+		db.Exec(fmt.Sprintf("DROP TABLE %v;", "user"))
 	}
 
 	if env == "TEST" {

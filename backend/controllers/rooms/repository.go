@@ -52,12 +52,12 @@ func (r *repository) CreateRoom(req *DataRequest) (models.Rooms, *errors.RestErr
 
 	err := r.db.Transaction(func(tx *gorm.DB) error {
 		// do some database operations in the transaction (use 'tx' from this point, not 'db')
-		res := tx.Omit("Transaction").Create(&newRoom)
+		res := tx.Omit("Transaction", "Penjual", "Pembeli").Create(&newRoom)
 		if res.Error != nil {
 			return res.Error
 		}
 
-		res = tx.Model(&newRoom).Omit("Transaction").Update("RoomCode", GenerateRoomCode(roomCodeLength, newRoom.ID))
+		res = tx.Model(&newRoom).Omit("Transaction", "Penjual", "Pembeli").Update("RoomCode", GenerateRoomCode(roomCodeLength, newRoom.ID))
 		if res.Error != nil {
 			return res.Error
 		}
@@ -99,6 +99,8 @@ func (r *repository) JoinRoom(roomId string, userId string, message string) (mod
 
 	res := r.db.
 		Preload("Product").
+		Preload("Penjual").
+		Preload("Pembeli").
 		Where("id = ? AND (penjual_id = ? OR pembeli_id = ?)", roomId, userId, userId).
 		Find(&room)
 
