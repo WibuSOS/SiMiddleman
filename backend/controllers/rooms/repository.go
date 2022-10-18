@@ -15,7 +15,7 @@ import (
 type Repository interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	GetAllRooms(userId string) ([]models.Rooms, *errors.RestError)
-	JoinRoom(roomId string, userId string, message string) (models.Rooms, *errors.RestError)
+	JoinRoom(roomId string, userId string) (models.Rooms, *errors.RestError)
 	JoinRoomPembeli(roomId string, userId string, mesasge string) *errors.RestError
 }
 
@@ -94,7 +94,7 @@ func (r *repository) GetAllRooms(userId string) ([]models.Rooms, *errors.RestErr
 	return newRooms, nil
 }
 
-func (r *repository) JoinRoom(roomId string, userId string, message string) (models.Rooms, *errors.RestError) {
+func (r *repository) JoinRoom(roomId string, userId string) (models.Rooms, *errors.RestError) {
 	var room models.Rooms
 
 	res := r.db.
@@ -105,12 +105,11 @@ func (r *repository) JoinRoom(roomId string, userId string, message string) (mod
 		Find(&room)
 
 	if res.Error != nil {
-		return models.Rooms{}, errors.NewBadRequestError(res.Error.Error())
+		return models.Rooms{}, errors.NewInternalServerError("internalServer")
 	}
 
 	if room.ID == 0 {
-		msg := localization.GetMessage(message, "TidakBisaMasukRuangan")
-		return models.Rooms{}, errors.NewBadRequestError(msg)
+		return models.Rooms{}, errors.NewBadRequestError("tidakBisaMasukRuangan")
 	}
 
 	return room, nil

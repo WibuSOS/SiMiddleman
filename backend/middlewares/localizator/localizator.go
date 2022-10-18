@@ -39,7 +39,8 @@ func initialize() (*language.Config, error) {
 }
 
 func (h *Handler) PassLocalizator(c *gin.Context) {
-	c.Set("localization", h)
+	c.Set("localizator", h)
+	c.Next()
 }
 
 func (h *Handler) GetMessage(langReq, id string) string {
