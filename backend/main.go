@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-	//test
 	file, err := os.OpenFile("./logs.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 	if err != nil {
 		log.Fatalln(err.Error())
