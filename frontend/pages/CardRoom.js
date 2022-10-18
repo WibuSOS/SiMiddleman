@@ -41,8 +41,8 @@ export default function CardRoom(props) {
               query: {
                 id: `${props.idRoom}`,
                 idRoom: `${props.kodeRuangan}`,
-              },
-            }, '/rooms/[idRoom]'
+              }
+            }
           )
         }}>{t("masukButton")}</Button>
       </Card.Body>
