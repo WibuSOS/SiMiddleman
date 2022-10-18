@@ -80,6 +80,8 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
             <h3>{t("transactionStatus")}</h3>
             {data?.data.penjualID === decoded?.ID && data?.statuses.slice(1, -1).includes(data.data.status) && <Button variant='simiddleman' className='mb-4' onClick={() => kirimBarang()}>{t("sentButton")}</Button>}
             {data?.data.pembeliID === decoded?.ID && data?.statuses.slice(2, -1).includes(data.data.status) && <Button variant='simiddleman' className='mb-4' onClick={() => handleConfirmation()}>{t("confirmButton")}</Button>}
+            {data?.data.pembeliID === decoded?.ID && data?.statuses[0] === data?.data.status ? t("statusExplanationBuyer.0") : data?.data.pembeliID === decoded?.ID && data?.statuses[1] === data?.data.status ? t("statusExplanationBuyer.1") : data?.data.pembeliID === decoded?.ID && data?.statuses[2] === data?.data.status ? t("statusExplanationBuyer.2") : data?.data.pembeliID === decoded?.ID && data?.statuses[3] === data?.data.status ? t("statusExplanationBuyer.3") : ""}
+            {data?.data.penjualID === decoded?.ID && data?.statuses[0] === data?.data.status ? t("statusExplanationSeller.0") : data?.data.penjualID === decoded?.ID && data?.statuses[1] === data?.data.status ? t("statusExplanationSeller.1") : data?.data.penjualID === decoded?.ID && data?.statuses[2] === data?.data.status ? t("statusExplanationSeller.2") : data?.data.penjualID === decoded?.ID && data?.statuses[3] === data?.data.status ? t("statusExplanationSeller.3") : ""}
             <div className='row d-flex justify-content-between status-transaksi'>
               {STATUS_TRANSAKSI.map((value, key) => {
                 if (data?.data.status === value.text) {
