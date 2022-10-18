@@ -7,5 +7,16 @@
     "transactionStatus" : "Transaction Status",
     "transaction": [
         "start transaction", "product paid", "product sent", "product confirmation arrived"
-    ]
+    ],
+    "showRoomCode": {
+        "roomCode": "Room Code",
+        "copyRoomCode": "Copy Room Code"
+    },
+    "updateProductModal": {
+        "modalTitle": "Update Product",
+        "placeholder": [
+            "Product Name", "Product Price", "Product Quantity", "Product Description"
+        ],
+        "updateProductBtnModal": "Update Product"
+    }
 }

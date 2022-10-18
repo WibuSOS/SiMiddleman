@@ -1,8 +1,11 @@
 import { Form, Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
+import useTranslation from 'next-translate/useTranslation';
 
 export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRoomModal, createRoomModal }) {
+  const { t, lang } = useTranslation('createRoom');
+
   const handleSubmitCreateRoom = async (e) => {
     closeCreateRoomModal();
     e.preventDefault();
@@ -48,14 +51,14 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
         <div className="avatar" data-testid="avatar">
           <img src={logo.src} alt="logo SiMiddleman+" data-testid="logo" />
         </div>
-        <Modal.Title className="ms-auto" data-testid="title">Create Room</Modal.Title>
+        <Modal.Title className="ms-auto" data-testid="title">{t("modalTitle")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmitCreateRoom} id="createRoomForm">
           <Form.Group className="mb-3">
             <Form.Control
               type="text"
-              placeholder="Nama Produk"
+              placeholder={t("placeholder.0")}
               data-testid="namaProduk"
               name="namaProduk"
               autoFocus
@@ -64,7 +67,7 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
           <Form.Group className="mb-3">
             <Form.Control
               type="number"
-              placeholder="Harga Produk"
+              placeholder={t("placeholder.1")}
               data-testid="hargaProduk"
               name="hargaProduk"
               autoFocus
@@ -73,7 +76,7 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
           <Form.Group className="mb-3">
             <Form.Control
               type="number"
-              placeholder="Kuantitas Produk"
+              placeholder={t("placeholder.2")}
               data-testid="kuantitasProduk"
               name="kuantitasProduk"
               autoFocus
@@ -81,7 +84,7 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Control
-              placeholder="Deskripsi Produk"
+              placeholder={t("placeholder.3")}
               as="textarea"
               rows={5}
               data-testid="deskripsiProduk"
@@ -93,7 +96,7 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
             className='w-100'
             type='submit'
             form='createRoomForm'
-            data-testid="buttonCreateRoom">Buat Room</Button>
+            data-testid="buttonCreateRoom">{t("createRoomBtnModal")}</Button>
         </Form>
       </Modal.Body>
     </Modal>

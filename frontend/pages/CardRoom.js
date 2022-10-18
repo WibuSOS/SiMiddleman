@@ -3,22 +3,23 @@ import Card from 'react-bootstrap/Card';
 import { useRouter } from 'next/router';
 import sellerIcon from './assets/seller.png';
 import buyerIcon from './assets/buyer.png'
-
+import useTranslation from 'next-translate/useTranslation';
 
 export default function CardRoom(props) {
   const router = useRouter();
   console.log(props.decoded);
+  const { t, lang } = useTranslation('cardRoom');
   const isSeller = (idPenjual) => {
     if (idPenjual === props.decoded) return (
       <>
         <img src={sellerIcon.src} className='seller-icon'></img>
-        <p>Seller</p> 
+        <p>{t("Seller")}</p> 
       </>
     )
     else return (
       <>
         <img src={buyerIcon.src} className='seller-icon'></img>
-        <p>Buyer</p> 
+        <p>{t("Buyer")}</p> 
       </>
     )
   }
@@ -43,7 +44,7 @@ export default function CardRoom(props) {
               },
             }, '/rooms/[idRoom]'
           )
-        }}>Masuk Room</Button>
+        }}>{t("masukButton")}</Button>
       </Card.Body>
     </Card>
   );

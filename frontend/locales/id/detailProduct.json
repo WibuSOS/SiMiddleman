@@ -1,11 +1,22 @@
 {
     "header": "Detail Produk",
-    "updateProductButton": "Update Produk",
+    "updateProductButton": "Perbaharui Produk",
     "showRoomCodeButton": "Tunjukkan Kode Ruangan",
     "price": "Harga",
     "quantity": "Kuantitas",
     "transactionStatus" : "Status Transaksi",
     "transaction": [
         "mulai transaksi", "barang dibayar", "barang dikirim", "konfirmasi barang sampai"
-    ]
+    ],
+    "showRoomCode": {
+        "roomCode": "Kode Ruangan",
+        "copyRoomCode": "Salin Kode Ruangan"
+    },
+    "updateProductModal": {
+        "modalTitle": "Perbaharui Produk",
+        "placeholder": [
+            "Nama Produk", "Harga Produk", "Kuantitas Produk", "Deskripsi Produk"
+        ],
+        "updateProductBtnModal": "Perbaharui Produk"
+    }
 }
