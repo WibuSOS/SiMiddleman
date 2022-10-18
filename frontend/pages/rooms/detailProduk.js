@@ -43,8 +43,8 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
           <h2>{t("header")}</h2>
           <ShowRoomCode roomCode={data?.data.roomCode} />
           {console.log(data?.data.penjual.noHp)}
-          {data?.data?.pembeli && data?.data.penjualID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' target={'_blank'}>Chat Pembeli</a>}
-          {data?.data?.pembeli && data?.data.pembeliID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' target={'_blank'}>Chat Penjual</a>}
+          {data?.data?.pembeli && data?.data.penjualID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' rel='noreferrer' target={'_blank'}>Chat Pembeli</a>}
+          {data?.data?.pembeli && data?.data.pembeliID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' rel='noreferrer' target={'_blank'}>Chat Penjual</a>}
         </div>
       </div>
       <div className='container pt-5'>
