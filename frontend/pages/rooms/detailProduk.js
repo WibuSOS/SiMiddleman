@@ -45,8 +45,8 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
           {data?.data.penjualID === decoded?.ID && data?.statuses[0] === data?.data.status ? <Button className='ms-5 btn-simiddleman' onClick={openUpdateProductModal}>{t("updateProductButton")}</Button> : "" }
           <UpdateProduct closeUpdateProductModal={closeUpdateProductModal} updateProductModal={updateProductModal} data={data} user={user} namaProduk={namaProduk} setNamaProduk={setNamaProduk} hargaProduk={hargaProduk} setHargaProduk={setHargaProduk} deskripsiProduk={deskripsiProduk} setDeskripsiProduk={setDeskripsiProduk} kuantitasProduk={kuantitasProduk} setKuantitasProduk={setKuantitasProduk} getRoomDetails={getRoomDetails} />
           {console.log(data?.data.penjual.noHp)}
-          {data?.data?.pembeli && data?.data.penjualID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' target={'_blank'}>Chat Pembeli</a>}
-          {data?.data?.pembeli && data?.data.pembeliID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' target={'_blank'}>Chat Penjual</a>}
+          {data?.data?.pembeli && data?.data.penjualID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' rel='noreferrer' target={'_blank'}>Chat Pembeli</a>}
+          {data?.data?.pembeli && data?.data.pembeliID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' rel='noreferrer' target={'_blank'}>Chat Penjual</a>}
         </div>
       </div>
       <div className='container pt-5'>
