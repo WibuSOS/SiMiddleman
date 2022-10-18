@@ -26,7 +26,7 @@ func Authentication(c *gin.Context) {
 	})
 
 	if err != nil {
-		log.Println("Authentication: Unable to verify Token")
+		log.Println(err)
 
 		message := localization.GetMessage(c.Param("lang"), "NoToken")
 
