@@ -4,6 +4,7 @@
   "pages": {
     "*": ["common"],
     "/": ["home"],
-    "/rooms/[idRoom]": ["detailProduct"]
+    "/rooms/[idRoom]": ["detailProduct"],
+    "/rooms/payment/[idRoom]": ["payment"]
   }
 }

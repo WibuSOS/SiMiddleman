@@ -5,6 +5,7 @@ import { getSession } from 'next-auth/react';
 import Swal from 'sweetalert2';
 import jwt from "jsonwebtoken";
 import LogoBankSinarmas from '../../assets/logoBankSinarmas.png'
+import useTranslation from 'next-translate/useTranslation';
 
 function Pembayaran({ user }) {
     const router = useRouter();
@@ -13,6 +14,7 @@ function Pembayaran({ user }) {
     const [dataAfterChangeStatus, setDataAfterChangeStatus] = useState(null);
     const [error, setError] = useState(null);
     const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
+    const { t, lang } = useTranslation('payment');
 
     useEffect(() => {
         getHarga();
@@ -72,7 +74,7 @@ function Pembayaran({ user }) {
         <div className='content'>
             <div className="detail-produk-header">
                 <div className='container'>
-                    <h2>Detail Pembayaran</h2>
+                    <h2>{t("header")}</h2>
                 </div>
             </div>
             <div className='container'>
@@ -87,11 +89,11 @@ function Pembayaran({ user }) {
                             (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>
                         )
                     }
-                    <p>Total Pembayaran : <b>Rp{data?.data.total}</b></p>
-                    <p className='mt-5'>Silahkan lakukan pembayaran ke nomor yang ada diatas.</p>
-                    <p className='mt-5'>Anda sudah melakukan pembayaran?</p>
-                    <p>Silahkan upload bukti pembayaran anda!</p>
-                    <Button variant='simiddleman' onClick={() => changeStatus()}>Upload Bukti Pembayaran</Button>
+                    <p>{t("totalPembayaran")} : <b>Rp{data?.data.total}</b></p>
+                    <p className='mt-5'>{t("detail.0")}</p>
+                    <p className='mt-5'>{t("detail.1")}</p>
+                    <p>{t("detail.2")}</p>
+                    <Button variant='simiddleman' onClick={() => changeStatus()}>{t("buttonUpload")}</Button>
                 </div>
             </div>
         </div>
