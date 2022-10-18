@@ -2,10 +2,42 @@
     "header": "Product Detail",
     "updateProductButton": "Update Product",
     "showRoomCodeButton": "Show Room Code",
+    "buyButton": "Buy",
+    "sentButton": "Sent Product",
+    "confirmButton": "Product Confirmation",
     "price": "Price",
     "quantity": "Quantity",
     "transactionStatus" : "Transaction Status",
     "transaction": [
         "start transaction", "product paid", "product sent", "product confirmation arrived"
-    ]
+    ],
+    "showRoomCode": {
+        "roomCode": "Room Code",
+        "copyRoomCode": "Copy Room Code"
+    },
+    "updateProductModal": {
+        "modalTitle": "Update Product",
+        "placeholder": [
+            "Product Name", "Product Price", "Product Quantity", "Product Description"
+        ],
+        "updateProductBtnModal": "Update Product"
+    },
+    "statusExplanationBuyer": [
+        "Please negotiate with seller using whatsapp. If you feel you are sure to make a transaction, please click the buy button",
+        "Your product purchase status is paid. If you have not uploaded proof of payment, please press the button 'Upload Payment Proof'. Please wait for the seller to send the product you purchased.",
+        "The product has been sent by the seller. Please wait for your product to arrive at its destination. If you have received the product, please press the 'Product Confirmation' button to complete the order.",
+        "Your order has been completed."
+    ],
+    "statusExplanationSeller": [
+        "Please negotiate with the buyer using whatsapp. If you want to change the product info, you can press the 'Update Product' button. Please wait for the buyer to make payment. The admin will inform via whatsapp if the payment is successful.",
+        "Please wait for confirmation of successful payment from admin via whatsapp before sending your product. If the admin has confirmed the payment, then you can press the 'Send Product' button to change the status to 'Product sent'.",
+        "Your order has been sent. If you have not provided a receipt, please send a receipt by pressing the 'Send Product' button. If you have provided a receipt, please wait for the goods to arrive and be confirmed by the buyer.",
+        "Your order has been completed."
+    ],
+    "load": {
+        "load-fail": "Failed to load room list",
+        "loading": "Loading data... please wait",
+        "list-empty": "Data Empty"
+    },
+    "buttonUpload": "Upload Payment Proof"
 }

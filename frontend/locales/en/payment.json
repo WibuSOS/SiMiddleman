@@ -6,5 +6,10 @@
         "Have you already pay??",
         "Please upload your proof of payment!"
     ],
-    "buttonUpload": "Upload Payment Proof"
+    "buttonUpload": "Upload Payment Proof",
+    "load": {
+        "load-fail": "Failed to load room list",
+        "loading": "Loading data... please wait",
+        "list-empty": "Data Empty"
+    }
 }

@@ -1,8 +1,11 @@
 import { Form, Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
+import useTranslation from 'next-translate/useTranslation';
 
 export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomModal, joinRoomModal }) {
+    const { t, lang } = useTranslation('joinRoom');
+
     const handleSubmitJoinRoom = async (e) => {
         closeJoinRoomModal();
         e.preventDefault();
@@ -42,14 +45,14 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
                 <div className="avatar" data-testid="avatar">
                     <img src={logo.src} alt="logo SiMiddleman+" data-testid="logo" />
                 </div>
-                <Modal.Title className="ms-auto mt-4" data-testid="title">Join Room</Modal.Title>
+                <Modal.Title className="ms-auto mt-4" data-testid="title">{t("modalTitle")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmitJoinRoom} id="joinRoomForm">
                     <Form.Group className="mb-3">
                         <Form.Control
                             type="text"
-                            placeholder="Kode Ruangan"
+                            placeholder={t("placeholder")}
                             data-testid="kodeRuangan"
                             name="kodeRuangan"
                             autoFocus
@@ -59,7 +62,7 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
                         className='w-100'
                         type='submit'
                         form='joinRoomForm'
-                        data-testid="buttonJoinRoom">Join Room
+                        data-testid="buttonJoinRoom">{t("joinRoomBtnModal")}
                     </Button>
                 </Form>
             </Modal.Body>
