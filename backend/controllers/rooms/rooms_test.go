@@ -36,7 +36,7 @@ func TestJoinRoom(t *testing.T) {
 	r := gin.Default()
 	r.POST("/register" /*authentication.Authentication, isAdmin.Authorize,*/, usersHandler.CreateUser)
 	r.POST("/rooms", roomsHandler.CreateRoom)
-	r.GET("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoom)
+	r.GET("/en/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoom)
 
 	// Create User 1
 	payload := `{
@@ -80,7 +80,7 @@ func TestJoinRoom(t *testing.T) {
 	assert.Equal(t, "success", res.Message)
 
 	// Success join room
-	req, err = http.NewRequest("GET", "/joinroom/1/1", nil)
+	req, err = http.NewRequest("GET", "/en/joinroom/1/1", nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -93,7 +93,7 @@ func TestJoinRoom(t *testing.T) {
 	assert.NotEmpty(t, res.Data)
 
 	// Id penjual / pembeli tidak sesuai
-	req, err = http.NewRequest("GET", "/joinroom/1/2", nil)
+	req, err = http.NewRequest("GET", "/en/joinroom/1/2", nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -106,7 +106,7 @@ func TestJoinRoom(t *testing.T) {
 	assert.NotEmpty(t, res.Data)
 
 	// Error Inputan salah
-	req, err = http.NewRequest("GET", "/joinroom/~@/test123", nil)
+	req, err = http.NewRequest("GET", "/en/joinroom/~@/test123", nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 

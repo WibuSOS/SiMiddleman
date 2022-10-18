@@ -1,7 +1,9 @@
 import { Form, Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
+import useTranslation from 'next-translate/useTranslation';
 
 export default function FormRegister({ handleSubmitRegister, closeRegisterModal, registerModal }) {
+  const { t } = useTranslation('common');
     return (
         <Modal show={registerModal} onHide={closeRegisterModal}
             aria-labelledby="contained-modal-title-vcenter"
@@ -11,7 +13,7 @@ export default function FormRegister({ handleSubmitRegister, closeRegisterModal,
                 <div className="avatar">
                     <img src={logo.src} alt="logo SiMiddleman+" data-testid="logo" />
                 </div>
-                <Modal.Title className="ms-auto" data-testid="title">Register</Modal.Title>
+                <Modal.Title className="ms-auto" data-testid="title">{t('register-modal.btn-register')}</Modal.Title>
             </Modal.Header>
 
             <Modal.Body data-testid="modalBody">
@@ -19,7 +21,7 @@ export default function FormRegister({ handleSubmitRegister, closeRegisterModal,
                     <Form.Group className="mb-3">
                         <Form.Control
                             type="text"
-                            placeholder="Nama"
+                            placeholder={t('register-modal.placeholder.name')}
                             name='nama'
                             data-testid="nama"
                             autoFocus
@@ -29,7 +31,7 @@ export default function FormRegister({ handleSubmitRegister, closeRegisterModal,
                     <Form.Group className="mb-3">
                         <Form.Control
                             type="number"
-                            placeholder="No HP"
+                            placeholder={t('register-modal.placeholder.phone-number')}
                             name='noHp'
                             data-testid="noHp"
                             required
@@ -38,7 +40,7 @@ export default function FormRegister({ handleSubmitRegister, closeRegisterModal,
                     <Form.Group className="mb-3">
                         <Form.Control
                             type="number"
-                            placeholder="No Rekening"
+                            placeholder={t('register-modal.placeholder.account-number')}
                             name='noRek'
                             data-testid="noRek"
                             required
@@ -47,7 +49,7 @@ export default function FormRegister({ handleSubmitRegister, closeRegisterModal,
                     <Form.Group className="mb-3">
                         <Form.Control
                             type="email"
-                            placeholder="Email"
+                            placeholder={t('register-modal.placeholder.email')}
                             name='email'
                             data-testid="email"
                             required
@@ -56,7 +58,7 @@ export default function FormRegister({ handleSubmitRegister, closeRegisterModal,
                     <Form.Group className="mb-3">
                         <Form.Control
                             type="password"
-                            placeholder="Password"
+                            placeholder={t('register-modal.placeholder.password')}
                             name='password'
                             data-testid="password"
                             required
@@ -66,7 +68,7 @@ export default function FormRegister({ handleSubmitRegister, closeRegisterModal,
                     <Form.Group className="mb-3">
                         <Form.Control
                             type="password"
-                            placeholder="Confirm Password"
+                            placeholder={t('register-modal.placeholder.confirm-password')}
                             name='confirmPassword'
                             data-testid="confirm"
                             required
@@ -76,7 +78,7 @@ export default function FormRegister({ handleSubmitRegister, closeRegisterModal,
                     <Button variant='merah'
                         type='submit'
                         className='w-100'
-                        data-testid="submitButton">Register</Button>
+                        data-testid="submitButton">{t('register-modal.btn-register')}</Button>
                 </Form>
             </Modal.Body>
         </Modal>

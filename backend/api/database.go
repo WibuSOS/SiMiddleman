@@ -8,6 +8,7 @@ import (
 
 	"github.com/WibuSOS/sinarmas/backend/controllers/rooms"
 	"github.com/WibuSOS/sinarmas/backend/models"
+	"github.com/glebarez/sqlite"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -49,6 +50,10 @@ func callDb() (*gorm.DB, string, error) {
 	if env == "PROD" || env == "STAGING" {
 		dbUrl := os.Getenv("DATABASE_URL")
 		db, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
+	}
+
+	if env == "TEST" {
+		db, err = gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
 	}
 
 	if err != nil {

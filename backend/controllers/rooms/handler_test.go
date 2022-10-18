@@ -243,7 +243,7 @@ func TestJoinRoomPembeliHandlerFail(t *testing.T) {
 	r := gin.Default()
 	r.POST("/register" /*authentication.Authentication, isAdmin.Authorize,*/, usersHandler.CreateUser)
 	r.POST("/rooms", roomsHandler.CreateRoom)
-	r.PUT("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
+	r.PUT("/en/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
 
 	// Create User 1
 	payload := `{
@@ -306,7 +306,7 @@ func TestJoinRoomPembeliHandlerFail(t *testing.T) {
 	assert.Equal(t, "success", res.Message)
 
 	// Fail join room not found pembeli
-	req, err = http.NewRequest("PUT", "/joinroom/1/2", nil)
+	req, err = http.NewRequest("PUT", "/en/joinroom/1/2", nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -341,7 +341,7 @@ func TestJoinRoomPembeliHandlerSuccess(t *testing.T) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.POST("/rooms", roomsHandler.CreateRoom)
-	r.PUT("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
+	r.PUT("/en/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
 
 	// Create Room 1
 	payload := (`{
@@ -367,7 +367,7 @@ func TestJoinRoomPembeliHandlerSuccess(t *testing.T) {
 
 	roomCode := resCreateRoom.Data.RoomCode
 
-	url := fmt.Sprintf("/joinroom/%s/%d", roomCode, 2)
+	url := fmt.Sprintf("/en/joinroom/%s/%d", roomCode, 2)
 	req, err = http.NewRequest("PUT", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
@@ -402,7 +402,7 @@ func TestJoinRoomPembeliHandlerAlreadyInRoom(t *testing.T) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.POST("/rooms", roomsHandler.CreateRoom)
-	r.PUT("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
+	r.PUT("/en/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
 
 	// Create Room 1
 	payload := (`{
@@ -428,7 +428,7 @@ func TestJoinRoomPembeliHandlerAlreadyInRoom(t *testing.T) {
 
 	roomCode := resCreateRoom.Data.RoomCode
 
-	url := fmt.Sprintf("/joinroom/%s/%d", roomCode, 1)
+	url := fmt.Sprintf("/en/joinroom/%s/%d", roomCode, 1)
 	req, err = http.NewRequest("PUT", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
@@ -463,7 +463,7 @@ func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.POST("/rooms", roomsHandler.CreateRoom)
-	r.PUT("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
+	r.PUT("/en/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
 
 	// Create Room 1
 	payload := (`{
@@ -489,7 +489,7 @@ func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
 
 	roomCode := resCreateRoom.Data.RoomCode
 
-	url := fmt.Sprintf("/joinroom/%s/%s", roomCode, "abc")
+	url := fmt.Sprintf("/en/joinroom/%s/%s", roomCode, "abc")
 	req, err = http.NewRequest("PUT", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)

@@ -1,0 +1,10 @@
+{
+    "header": "Payment Detail",
+    "totalPembayaran": "Total Payment",
+    "detail": [
+        "Please make payment to the account number above.",
+        "Have you already pay??",
+        "Please upload your proof of payment!"
+    ],
+    "buttonUpload": "Upload Payment Proof"
+}

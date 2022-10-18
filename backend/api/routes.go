@@ -64,8 +64,8 @@ func (s *server) SetupRouter() {
 
 	s.Router.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomsHandler.CreateRoom)
 	s.Router.GET("/rooms/:id", authentication.Authentication, isConsumer.Authorize, roomsHandler.GetAllRooms)
-	s.Router.GET("/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoom)
-	s.Router.PUT("/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoomPembeli)
+	s.Router.GET("/:lang/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoom)
+	s.Router.PUT("/:lang/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoomPembeli)
 
 	transactionRepo := transaction.NewRepository(s.DB)
 	transactionService := transaction.NewService(transactionRepo)

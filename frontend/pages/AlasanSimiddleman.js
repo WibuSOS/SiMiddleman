@@ -1,13 +1,17 @@
+import useTranslation from 'next-translate/useTranslation';
+
 export default function AlasanSimiddleman() {
+  const { t, lang } = useTranslation('common');
+
   return (
     <div className='alasan-simiddleman'>
       <div className='container'>
-        <h2 className='text-center'>Kenapa menggunakan SiMiddleman+ ?</h2><br/>
+        <h2 className='text-center'>{t("simiddleman.title")} SiMiddleman+ ?</h2><br/>
         <div className='row'>
           <div className='col-lg-6 alasan-text-wrap'>
             <div className='alasan-text'>
-              <h3><strong>Pembayaran Terintegrasi.</strong></h3><br/>
-              <p>Menyediakan sistem pembayaran yang sudah terintegrasi dengan penjual untuk menghindari penjual melewati proses transaksi manual setelah pembeli mengkonfirmasi barang.</p>
+              <h3><strong>{t("simiddleman.sub-title.0")}.</strong></h3><br/>
+              <p>{t("simiddleman.text.0")}</p>
             </div>
           </div>
           <div className='col-lg-6 alasan-image alasan-img-1'></div>
@@ -17,8 +21,8 @@ export default function AlasanSimiddleman() {
           <div className='col-lg-6 alasan-image alasan-img-2'></div>
           <div className='col-lg-6 alasan-text-wrap'>
             <div className='alasan-text'>
-              <h3><strong>Saling Menguntungkan.</strong></h3><br/>
-              <p>Mengatur agar proses pencairan (withdraw) dapat dilakukan ketika penjual dan pembeli sudah memenuhi kesepakatan tertentu.</p>
+              <h3><strong>{t("simiddleman.sub-title.1")}.</strong></h3><br/>
+              <p>{t("simiddleman.text.1")}</p>
             </div>
           </div>
 
@@ -26,8 +30,8 @@ export default function AlasanSimiddleman() {
 
           <div className='col-lg-6 alasan-text-wrap'>
             <div className='alasan-text'>
-              <h3><strong>Berdasarkan Kesepakatan.</strong></h3><br/>
-              <p>Menyediakan ruang diskusi antara penjual dan pembeli untuk membuat sebuah kesepakatan transaksi.</p>
+              <h3><strong>{t("simiddleman.sub-title.2")}.</strong></h3><br/>
+              <p>{t("simiddleman.text.2")}</p>
             </div>
           </div>
           <div className='col-lg-6 alasan-image alasan-img-3'></div>
