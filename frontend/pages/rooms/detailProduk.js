@@ -19,12 +19,31 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
   const closeUpdateProductModal = () => setupdateProductModal(false);
   const { t, lang } = useTranslation('detailProduct');
   let currentStatus = true;
+
+  const contactNumber = (idPenjual) => {
+
+    if (idPenjual === decoded) {
+      let text = data?.data?.pembeli.NoHp + ""
+      let hp = text.substring(1)
+      let href = "https://wa.me/" + hp + "?text=I'm%20interested%20in%20your%20product%20for%20sale"
+      return href
+    }
+    else {
+      let text = data?.data?.penjual.NoHp + ""
+      let hp = text.substring(1)
+      let href = "https://wa.me/" + hp + "?text=I'm%20interested%20in%20your%20product%20for%20sale"
+      return href
+    }
+  }
+
   return (
     <div className='content'>
       <div className="detail-produk-header">
-        <div className='container'>
+        <div className='container col'>
           <h2>{t("header")}</h2>
           <ShowRoomCode roomCode={data?.data.roomCode} />
+          {data?.data?.pembeli && data?.data.penjualID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' target={'_blank'}>Chat Pembeli</a>}
+          {data?.data?.pembeli && data?.data.pembeliID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' target={'_blank'}>Chat Penjual</a>}
         </div>
       </div>
       <div className='container pt-5'>
@@ -48,7 +67,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
                   <div className='col-lg-4 col-sm-12'>
                     {data?.data.pembeliID === decoded?.ID && data?.statuses.slice(0, -1).includes(data.data.status) && <Button className='w-100' variant='simiddleman' onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}` } }, '/rooms/payment/[idRoom]') }}>Beli</Button>}
                   </div>
-                </div>                                 
+                </div>
               </div>
               <div className="col-lg-4 col-sm-12 kuantitas-produk">
                 <h3>{t("quantity")}</h3>
@@ -61,26 +80,29 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
             {data?.data.penjualID === decoded?.ID && data?.statuses.slice(1, -1).includes(data.data.status) && <Button variant='simiddleman' className='mb-4' onClick={() => kirimBarang()}>Kirim Barang</Button>}
             {data?.data.pembeliID === decoded?.ID && data?.statuses.slice(2, -1).includes(data.data.status) && <Button variant='simiddleman' className='mb-4' onClick={() => handleConfirmation()}>Konfirmasi Barang Telah Sampai</Button>}
             <div className='row d-flex justify-content-between status-transaksi'>
-              {STATUS_TRANSAKSI.map((value, key) => {      
+              {STATUS_TRANSAKSI.map((value, key) => {
                 if (data?.data.status === value.text) {
                   currentStatus = false;
                   return (
                     <div key={key} className='col order-tracking completed'>
                       <span className="is-complete"></span>
-                      <p>{capitalizeFirstLetter(t("transaction."+key))}</p>
-                    </div>)}
+                      <p>{capitalizeFirstLetter(t("transaction." + key))}</p>
+                    </div>)
+                }
                 if (currentStatus) {
                   return (
                     <div key={key} className='col order-tracking completed'>
                       <span className="is-complete"></span>
-                      <p>{capitalizeFirstLetter(t("transaction."+key))}</p>
-                    </div>)}
+                      <p>{capitalizeFirstLetter(t("transaction." + key))}</p>
+                    </div>)
+                }
                 else {
                   return (
                     <div key={key} className='col order-tracking'>
-                        <span className="is-complete"></span>
-                        <p>{capitalizeFirstLetter(t("transaction."+key))}<br/></p>
-                    </div>)}
+                      <span className="is-complete"></span>
+                      <p>{capitalizeFirstLetter(t("transaction." + key))}<br /></p>
+                    </div>)
+                }
               })}
             </div>
           </div>

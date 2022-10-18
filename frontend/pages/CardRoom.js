@@ -12,13 +12,13 @@ export default function CardRoom(props) {
     if (idPenjual === props.decoded) return (
       <>
         <img src={sellerIcon.src} className='seller-icon'></img>
-        <p>Seller</p> 
+        <p>Seller</p>
       </>
     )
     else return (
       <>
         <img src={buyerIcon.src} className='seller-icon'></img>
-        <p>Buyer</p> 
+        <p>Buyer</p>
       </>
     )
   }
@@ -26,7 +26,7 @@ export default function CardRoom(props) {
     <Card className='me-4 mb-4 room-card' style={{ width: '22rem' }}>
       <Card.Body>
         <Card.Title className='mb-5'>
-        {isSeller(props.idPenjual)}
+          {isSeller(props.idPenjual)}
         </Card.Title>
         <Card.Text>
           <p className='card-nama-produk'>{props.namaProduk}</p>
