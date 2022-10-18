@@ -24,7 +24,7 @@ function Pembayaran({ user }) {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getHarga/${idRoom}`, {
                 method: 'GET',
-                headers: {'Authorization': 'Bearer ' + user,}
+                headers: { 'Authorization': 'Bearer ' + user, }
             });
             const data = await res.json();
             setData(data);
@@ -38,7 +38,7 @@ function Pembayaran({ user }) {
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${idRoom}/${decoded.ID}`, {
                 method: 'GET',
-                headers: {'Authorization': 'Bearer ' + user,}
+                headers: { 'Authorization': 'Bearer ' + user, }
             });
             const data = await res.json();
             setDataRoom(data);
@@ -53,7 +53,7 @@ function Pembayaran({ user }) {
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
                     method: 'PUT',
-                    headers: {'Authorization': 'Bearer ' + user,},
+                    headers: { 'Authorization': 'Bearer ' + user, },
                     body: JSON.stringify({ status: dataRoom.statuses[1] })
                 });
                 const data = await res.json();
@@ -70,31 +70,31 @@ function Pembayaran({ user }) {
 
     return (
         <div className='content'>
-          <div className="detail-produk-header">
+            <div className="detail-produk-header">
+                <div className='container'>
+                    <h2>Detail Pembayaran</h2>
+                </div>
+            </div>
             <div className='container'>
-              <h2>Detail Pembayaran</h2>
+                <div className='d-flex flex-column justify-content-left detail-pembayaran align-items-center mx-auto'>
+                    <img className='logo-bank-sinarmas' src={LogoBankSinarmas.src}></img>
+                    {/* <h2>Bank Sinarmas</h2> */}
+                    <h3 className='mt-5'>0056221875</h3>
+                    <p>(Admin SiMiddleman)</p>
+                    {error && <div>Failed to load {error.toString()}</div>}
+                    {
+                        !data ? <div>Loading...</div> : (
+                            (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>
+                        )
+                    }
+                    <p>Total Pembayaran : <b>Rp{data?.data.total}</b></p>
+                    <p className='mt-5'>Silahkan lakukan pembayaran ke nomor yang ada diatas.</p>
+                    <p className='mt-5'>Anda sudah melakukan pembayaran?</p>
+                    <p>Silahkan upload bukti pembayaran anda!</p>
+                    <Button variant='simiddleman' onClick={() => changeStatus()}>Upload Bukti Pembayaran</Button>
+                </div>
             </div>
-          </div>
-          <div className='container'>
-            <div className='d-flex flex-column justify-content-left detail-pembayaran align-items-center mx-auto'>
-              <img className='logo-bank-sinarmas' src={LogoBankSinarmas.src}></img>
-              {/* <h2>Bank Sinarmas</h2> */}
-              <h3 className='mt-5'>0056221875</h3>
-              <p>(Admin SiMiddleman)</p>
-              {error && <div>Failed to load {error.toString()}</div>}
-              {
-                !data ? <div>Loading...</div> : (
-                  (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>
-                )
-              }
-              <p>Total Pembayaran : <b>Rp{data?.data.total}</b></p>
-              <p className='mt-5'>Silahkan lakukan pembayaran ke nomor yang ada diatas.</p>
-              <p className='mt-5'>Anda sudah melakukan pembayaran?</p>
-              <p>Silahkan upload bukti pembayaran anda!</p>
-              <Button variant='simiddleman' onClick={() => changeStatus()}>Upload Bukti Pembayaran</Button>
-            </div>
-          </div>
-      </div>
+        </div>
     )
 }
 
@@ -102,7 +102,7 @@ export async function getServerSideProps(ctx) {
     const session = await getSession(ctx)
     if (!session) {
         return {
-            props: {}
+            redirect: { permanent: false, destination: "/api/auth/signin" }
         }
     }
     const { user } = session;
