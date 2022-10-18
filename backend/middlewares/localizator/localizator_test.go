@@ -28,8 +28,9 @@ func TestLocalizeSuccess(t *testing.T) {
 	var res response
 
 	// LOCALIZATION HANDLER
-	localizatorHandler := NewHandler()
+	localizatorHandler, err := NewHandler()
 	assert.NotNil(t, localizatorHandler)
+	assert.NoError(t, err)
 
 	// USERS HANDLER
 	usersRepo := users.NewRepository(db)
@@ -74,8 +75,9 @@ func TestLocalizeFail(t *testing.T) {
 	var res response
 
 	// LOCALIZATION HANDLER
-	localizatorHandler := NewHandler()
+	localizatorHandler, err := NewHandler()
 	assert.NotNil(t, localizatorHandler)
+	assert.NoError(t, err)
 
 	// USERS HANDLER
 	usersRepo := users.NewRepository(db)
