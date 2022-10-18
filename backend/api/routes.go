@@ -23,11 +23,8 @@ func (s *server) SetupRouter() {
 	// admin := []string{"admin"}
 	// all := []string{"consumer, admin"}
 
-	isConsumer := authorization.Roles{AllowedRoles: consumer[:]}
-	// isAdmin := authorization.Roles{AllowedRoles: admin[:]}
-	// isAll := authorization.Roles{AllowedRoles: all[:]}
-
-	roomAuth := authorization.NewRoomAuth(s.DB)
+	consumerService := authorization.NewServiceAuthorization(s.DB, consumer)
+	consumerHandler := authorization.NewHandlerAuthorization(consumerService)
 
 	authRepo := auth.NewRepository(s.DB)
 	authService := auth.NewService(authRepo)
@@ -54,7 +51,7 @@ func (s *server) SetupRouter() {
 	// s.Router.GET("/product/:idroom", productHandler.GetSpesifikProduct)
 	// s.Router.POST("/createproduct/:idroom", productHandler.CreateProduct)
 	// s.Router.POST("/createproductreturnid/:idroom", productHandler.CreateProductReturnID)
-	s.Router.PUT("/updateproduct/:id", authentication.Authentication, isConsumer.Authorize, productHandler.UpdateProduct)
+	s.Router.PUT("/updateproduct/:id", authentication.Authentication /*isConsumer.Authorize,*/, productHandler.UpdateProduct)
 	// s.Router.DELETE("/deleteproduct/:id", productHandler.DeleteProduct)
 
 	// rooms controller (create)
@@ -62,15 +59,15 @@ func (s *server) SetupRouter() {
 	roomsService := rooms.NewService(roomsRepo)
 	roomsHandler := rooms.NewHandler(roomsService)
 
-	s.Router.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomsHandler.CreateRoom)
-	s.Router.GET("/rooms/:id", authentication.Authentication, isConsumer.Authorize, roomsHandler.GetAllRooms)
-	s.Router.GET("/:lang/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoom)
-	s.Router.PUT("/:lang/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoomPembeli)
+	s.Router.POST("/rooms", authentication.Authentication, consumerHandler.RoleAuthorize, roomsHandler.CreateRoom)
+	s.Router.GET("/rooms/:id", authentication.Authentication, consumerHandler.RoleAuthorize, roomsHandler.GetAllRooms)
+	s.Router.GET("/:lang/joinroom/:room_id/:user_id", authentication.Authentication, consumerHandler.RoleAuthorize, roomsHandler.JoinRoom)
+	s.Router.PUT("/:lang/joinroom/:room_id/:user_id", authentication.Authentication, consumerHandler.RoleAuthorize, roomsHandler.JoinRoomPembeli)
 
 	transactionRepo := transaction.NewRepository(s.DB)
 	transactionService := transaction.NewService(transactionRepo)
 	transactionHandler := transaction.NewHandler(transactionService)
 
-	s.Router.PUT("/updatestatus/:room_id", authentication.Authentication, isConsumer.Authorize, roomAuth.RoomAuthorize, transactionHandler.UpdateStatusDelivery)
-	s.Router.GET("/:lang/getHarga/:room_id", authentication.Authentication, isConsumer.Authorize, roomAuth.RoomAuthorize, transactionHandler.GetPaymentDetails)
+	s.Router.PUT("/updatestatus/:room_id", authentication.Authentication, consumerHandler.RoleAuthorize, consumerHandler.RoomAuthorize, transactionHandler.UpdateStatusDelivery)
+	s.Router.GET("/:lang/getHarga/:room_id", authentication.Authentication, consumerHandler.RoleAuthorize, consumerHandler.RoomAuthorize, transactionHandler.GetPaymentDetails)
 }
