@@ -102,7 +102,6 @@ func TestJoinRoom(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "Tidak bisa memasuki ruangan", res.Message)
 	assert.NotEmpty(t, res.Data)
 
 	// Error Inputan salah
@@ -115,7 +114,6 @@ func TestJoinRoom(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "Tidak bisa memasuki ruangan", res.Message)
 	assert.NotEmpty(t, res.Data)
 
 }

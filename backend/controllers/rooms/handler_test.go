@@ -315,7 +315,6 @@ func TestJoinRoomPembeliHandlerFail(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "record not found", res.Message)
 	assert.NotEmpty(t, res.Data)
 }
 
@@ -438,7 +437,6 @@ func TestJoinRoomPembeliHandlerAlreadyInRoom(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resJoinRoom))
-	assert.Equal(t, "Anda sudah masuk kedalam room ini", resJoinRoom.Message)
 }
 
 func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
@@ -499,5 +497,4 @@ func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resJoinRoom))
-	assert.Equal(t, "Invalid User ID", resJoinRoom.Message)
 }
