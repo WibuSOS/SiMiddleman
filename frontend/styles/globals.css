@@ -48,7 +48,7 @@ a {
 }
 
 .content {
-  min-height: calc(100vh - 108px - 80px);
+  min-height: calc(100vh - 108px - 100px);
 }
 
 /* 
@@ -168,7 +168,7 @@ header {
   padding: 1rem 2rem;
   background-color: #fff;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  height: 80px;
+  height: 100px;
 }
 
 .nav {
@@ -186,7 +186,7 @@ header {
   width: 300px;
   row-gap: 24px;
   right: -300px;
-  padding: 24px 16px;
+  padding: 16px 16px;
   transition: all 0.5s;
   min-height: calc(100vh - 60px);
   background-color: #fff;
@@ -256,6 +256,26 @@ nav .logo-navbar {
 
 .nav__link:hover {
   color: inherit;
+}
+
+.logoBendera {
+  width: 32px;
+  margin-right: 1rem;
+}
+
+.nav__menu-list .dropdown a {
+  text-decoration: none;
+  color: inherit;
+  font-family: 'Poppins';
+}
+
+.nav__menu-list .dropdown-menu {
+  padding: .5rem;
+}
+
+.nav__menu-list .dropdown-item {
+  padding: .5rem;
+  border-radius: 20px;
 }
 
 .center {

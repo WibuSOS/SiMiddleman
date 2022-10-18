@@ -26,7 +26,6 @@ function Home({ user }) {
   if (!user) {
     return (
       <div className='content'>
-        <h1>{t('testing')}</h1>
         <WelcomeBanner />
         <AlasanSimiddleman />
         <SimiddlemanSummaries />
