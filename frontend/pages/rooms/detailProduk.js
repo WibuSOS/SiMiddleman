@@ -23,14 +23,14 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
   const contactNumber = (idPenjual) => {
 
     if (idPenjual === decoded) {
-      let text = data?.data?.pembeli.NoHp + ""
-      let hp = text.substring(1)
+      let text = data?.data?.pembeli.noHp + ""
+      let hp = "62" + text.substring(1)
       let href = "https://wa.me/" + hp + "?text=I'm%20interested%20in%20your%20product%20for%20sale"
       return href
     }
     else {
-      let text = data?.data?.penjual.NoHp + ""
-      let hp = text.substring(1)
+      let text = data?.data?.penjual.noHp + ""
+      let hp = "62" + text.substring(1)
       let href = "https://wa.me/" + hp + "?text=I'm%20interested%20in%20your%20product%20for%20sale"
       return href
     }
@@ -42,6 +42,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
         <div className='container col'>
           <h2>{t("header")}</h2>
           <ShowRoomCode roomCode={data?.data.roomCode} />
+          {console.log(data?.data.penjual.noHp)}
           {data?.data?.pembeli && data?.data.penjualID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' target={'_blank'}>Chat Pembeli</a>}
           {data?.data?.pembeli && data?.data.pembeliID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' target={'_blank'}>Chat Penjual</a>}
         </div>
