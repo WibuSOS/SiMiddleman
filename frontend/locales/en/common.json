@@ -48,5 +48,20 @@
       "loading": "Loading data... please wait",
       "list-empty": "You don't have any room chat"
     }
+  },
+  "login-page": {
+    "title": "Login",
+    "email-placeholder": "Your email",
+    "password-placeholder": "Your password",
+    "forget-password": "Forgot password?",
+    "btn-login": "Login",
+    "or": "OR",
+    "swal": {
+      "success": "Login success!", 
+      "failed": {
+        "title": "Login failed!",
+        "text": "Incorrect email or password"
+      }
+    }
   }
 }

@@ -48,5 +48,20 @@
       "loading": "Memuat data... harap tunggu",
       "list-empty": "Anda tidak memiliki ruang obrolan"
     }
+  },
+  "login-page": {
+    "title": "Masuk",
+    "email-placeholder": "Email anda",
+    "password-placeholder": "Password anda",
+    "forget-password": "Lupa kata sandi?",
+    "btn-login": "Masuk",
+    "or": "ATAU",
+    "swal": {
+      "success": "Berhasil masuk!", 
+      "failed": {
+        "title": "Gagal masuk!",
+        "text": "Email atau sandi salah"
+      }
+    }
   }
 }
