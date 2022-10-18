@@ -271,6 +271,8 @@ nav .logo-navbar {
 
 .nav__menu-list .dropdown-menu {
   padding: .5rem;
+  border: none;
+  border-radius: 20px;
 }
 
 .nav__menu-list .dropdown-item {
@@ -1017,11 +1019,11 @@ footer .footer-content {
   height: 32px;
 }
 
-.room-card .card-text {
+.room-card .card-body {
   font-family: 'Poppins', sans-serif;
 }
 
-.room-card .card-text .card-nama-produk {
+.room-card .card-body .card-nama-produk {
   font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1032,7 +1034,7 @@ footer .footer-content {
   -webkit-box-orient: vertical;
 }
 
-.room-card .card-text .card-deskripsi-produk {
+.room-card .card-body .card-deskripsi-produk {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -1042,7 +1044,7 @@ footer .footer-content {
   -webkit-box-orient: vertical;
 }
 
-.room-card .card-text .card-harga-produk {
+.room-card .card-body .card-harga-produk {
   font-weight: 700;
   font-size: 24px;
 }
@@ -1090,3 +1092,51 @@ footer .footer-content {
 }
 
 /* css styling for detail pembayaran page */
+
+/* css styling for index page if user already logged in */
+.user-action-wrapper .card {
+  margin-bottom: 1rem;
+}
+.content .home-banner {
+  padding-bottom: 150px; 
+  border-bottom-right-radius: 5%;
+  border-bottom-left-radius: 5%;
+  background: linear-gradient(76.81deg,#CC0F0F 15.71%,#ff0025 68.97%,#fd195e 94.61%);
+  padding-top: 3rem;
+  height: 360px;
+}
+
+.content .home-banner h2,
+.content .home-banner h3 {
+  color: #fff;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.user-action-wrapper {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  margin-top: -10rem;
+}
+
+.room-role {
+  background-color: #f0f3fe;
+  width: 400px;
+  padding: 1rem;
+  border-radius: 20px;
+  margin-bottom: 3rem;
+}
+
+.room-role .btn-simiddleman {
+  width: fit-content;
+  background-color: #f0f3fe !important;
+  border: none !important;
+  font-weight: bolder;
+}
+
+.room-role .btn-simiddleman.active,
+.room-role .btn-simiddleman:hover {
+  background-color: var(--primary) !important;
+  color: #fff !important;
+}
+/* css styling for index page if user already logged in */

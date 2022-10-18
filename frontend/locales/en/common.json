@@ -41,7 +41,7 @@
       ]
     },
     "room-list": {
-      "title": "Your Room List"
+      "title": "Room List"
     },
     "error": {
       "load-fail": "Failed to load room list",

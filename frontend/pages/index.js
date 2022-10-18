@@ -14,6 +14,8 @@ import useTranslation from 'next-translate/useTranslation';
 function Home({ user }) {
   const [data, setData] = useState(null)
   const [error] = useState(null)
+  const [showSeller, setShowSeller] = useState(false);
+  const [showBuyer, setShowBuyer] = useState(false);
 
   const { t } = useTranslation('common');
 
@@ -51,9 +53,12 @@ function Home({ user }) {
     }
   }
 
+  console.log(showSeller)
+  console.log(decoded.ID)
 
   let dataList = []
   data?.data && data?.data?.map((item, index) => (
+    (showSeller && decoded.ID === item.penjualID) ?
     dataList.push(
       <CardRoom
         key={index}
@@ -64,55 +69,75 @@ function Home({ user }) {
         namaProduk={item.product.nama}
         deskripsiProduk={item.product.deskripsi}
         hargaProduk={item.product.harga}
-        kuantitasProduk={item.product.kuantitas} />
-    )))
+        kuantitasProduk={item.product.kuantitas}/>
+    ) : (showBuyer && decoded.ID !== item.penjualID) ? dataList.push(
+      <CardRoom
+        key={index}
+        decoded={decoded.ID}
+        idPenjual={item.penjualID}
+        idRoom={item.ID}
+        kodeRuangan={item.roomCode}
+        namaProduk={item.product.nama}
+        deskripsiProduk={item.product.deskripsi}
+        hargaProduk={item.product.harga}
+        kuantitasProduk={item.product.kuantitas}/>
+    ) : ""
+  ))
 
   return (
     <div className='content'>
-      <div className='pt-5' style={{ backgroundColor: "#CC0F0F", paddingBottom: "150px", borderBottomRightRadius: "20%", borderBottomLeftRadius: "20%", background: "linear-gradient(76.81deg,#CC0F0F 15.71%,#ff0025 68.97%,#fd195e 94.61%)" }}>
-        <h2 className='text-center' style={{ color: "white", fontFamily: "Ubuntu" }}>{t('logged-in.banner.title')}</h2>
-        <h3 className='text-center' style={{ color: "white", fontFamily: "Ubuntu" }}>{t('logged-in.banner.text')}</h3>
-        <div className='position-relative'>
-          <div className='d-flex position-absolute start-50 translate-middle' style={{ paddingTop: "300px" }}>
-            <Card className='user-action mx-3'>
-              <Card.Body>
-                <Card.Title className='mb-5'>{t('logged-in.user-action.title.0')}</Card.Title>
-                <Card.Text>
-                {t('logged-in.user-action.text.0')}
-                </Card.Text>
-                <CreateRoom idPenjual={decoded.ID} sessionToken={user} />
-              </Card.Body>
-            </Card>
-            <Card className='user-action mx-3'>
-              <Card.Body>
-                <Card.Title className='mb-5'>{t('logged-in.user-action.title.1')}</Card.Title>
-                <Card.Text>
-                {t('logged-in.user-action.text.1')}
-                </Card.Text>
-                <JoinRoom idPembeli={decoded.ID} sessionToken={user} />
-              </Card.Body>
-            </Card>
-            <Card className='user-action mx-3'>
-              <Card.Body>
-                <Card.Title className='mb-5'>{t('logged-in.user-action.title.2')}</Card.Title>
-                <Card.Text>
-                {t('logged-in.user-action.text.2')}
-                </Card.Text>
-                <Button onClick={() => signOut()} className='w-100 btn-simiddleman'>{t('logged-in.user-action.title.2')}</Button>
-              </Card.Body>
-            </Card>
-          </div>
+      <div className='home-banner text-center'>
+        <h2>{t('logged-in.banner.title')}</h2>
+        <h3>{t('logged-in.banner.text')}</h3>
+      </div>
+      <div className='user-action-wrapper'>
+        <div className='row d-flex justify-content-around p-2'>
+          <Card className='user-action col-lg-4 col-md-12 col-sm-12'>
+            <Card.Body>
+              <Card.Title className='mb-5'>{t('logged-in.user-action.title.0')}</Card.Title>
+              <Card.Text>
+              {t('logged-in.user-action.text.0')}
+              </Card.Text>
+              <CreateRoom idPenjual={decoded.ID} sessionToken={user} />
+            </Card.Body>
+          </Card>
+          <Card className='user-action col-lg-4 col-md-12 col-sm-12'>
+            <Card.Body>
+              <Card.Title className='mb-5'>{t('logged-in.user-action.title.1')}</Card.Title>
+              <Card.Text>
+              {t('logged-in.user-action.text.1')}
+              </Card.Text>
+              <JoinRoom idPembeli={decoded.ID} sessionToken={user} />
+            </Card.Body>
+          </Card>
+          <Card className='user-action col-lg-4 col-md-12 col-sm-12'>
+            <Card.Body>
+              <Card.Title className='mb-5'>{t('logged-in.user-action.title.2')}</Card.Title>
+              <Card.Text>
+              {t('logged-in.user-action.text.2')}
+              </Card.Text>
+              <Button onClick={() => signOut()} className='w-100 btn-simiddleman'>{t('logged-in.user-action.title.2')}</Button>
+            </Card.Body>
+          </Card>
         </div>
       </div>
       <div className='container'>
-        <div className='pb-5' style={{ paddingTop: "175px" }}>
+        <div className='pb-5' style={{ paddingTop: "64px" }}>
           <h2 className='room-anda'>{t('logged-in.room-list.title')}</h2>
+          <div className='row d-flex justify-content-center'>
+            <div className='col-lg-4'>
+              <div className='row d-flex justify-content-around room-role'>
+                  <Button className={showSeller ? "active" : ""} variant='simiddleman' onClick={() => {setShowSeller(current => !current);setShowBuyer(false)}}>You are seller</Button>
+                  <Button className={showBuyer ? "active" : ""} variant='simiddleman' onClick={() => {setShowBuyer(current => !current);setShowSeller(false)}}>You are buyer</Button>
+              </div>
+            </div>
+          </div>
           <div className='row d-flex justify-content-center'>
             {error && <div> {t('logged-in.error.load-fail')} {error.toString()}</div>}
             {
-              !data ? <div>{t('logged-in.error.loadingt')}</div>
+              !data ? <div>{t('logged-in.error.loading')}</div>
                 : (
-                  (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>{t('logged-in.error.list-empty')}</p>
+                  (data?.data ?? []).length === 0 && t('logged-in.error.list-empty')
                 )
             }
             {dataList}
