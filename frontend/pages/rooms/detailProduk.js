@@ -25,7 +25,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
     if (idPenjual === decoded) {
       let text = data?.data?.pembeli.noHp + ""
       let hp = "62" + text.substring(1)
-      let href = "https://wa.me/" + hp + "?text=I'm%20interested%20in%20your%20product%20for%20sale"
+      let href = "https://wa.me/" + hp
       return href
     }
     else {
