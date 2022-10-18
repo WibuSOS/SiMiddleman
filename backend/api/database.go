@@ -63,6 +63,11 @@ func callDb() (*gorm.DB, string, error) {
 
 	if env == "TEST" {
 		db, err = gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
+		if err != nil {
+			return nil, env, errorDbConn(err)
+		}
+
+		err = db.Exec("PRAGMA foreign_keys = ON", nil).Error
 	}
 
 	if err != nil {

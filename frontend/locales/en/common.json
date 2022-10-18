@@ -75,5 +75,10 @@
       "confirm-password": "Re-type your password"
     },
     "btn-register": "Register"
+  },
+  "footer": {
+    "copyright": "Made with Team 2 for a better web.",
+    "privacyPolicy": "Privacy Policy",
+    "termsCondition": "Terms & Conditions"
   }
 }
