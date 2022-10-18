@@ -53,7 +53,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
           {!data ? <div>{t("loading")}</div> : ((data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>{t("list-empty")}</p>)}
           <h3 className='nama-produk'>
             {data?.data.product.nama}
-            <Button className='ms-5 btn-simiddleman' onClick={openUpdateProductModal}>{t("updateProductButton")}</Button>
+            {data?.data.penjualID === decoded?.ID && data?.statuses[0] === data?.data.status ? <Button className='ms-5 btn-simiddleman' onClick={openUpdateProductModal}>{t("updateProductButton")}</Button> : "" }
             <UpdateProduct closeUpdateProductModal={closeUpdateProductModal} updateProductModal={updateProductModal} data={data} user={user} namaProduk={namaProduk} setNamaProduk={setNamaProduk} hargaProduk={hargaProduk} setHargaProduk={setHargaProduk} deskripsiProduk={deskripsiProduk} setDeskripsiProduk={setDeskripsiProduk} kuantitasProduk={kuantitasProduk} setKuantitasProduk={setKuantitasProduk} getRoomDetails={getRoomDetails} />
           </h3>
           <p>{data?.data.product.deskripsi}</p>
