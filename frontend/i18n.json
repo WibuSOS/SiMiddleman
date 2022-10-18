@@ -4,6 +4,7 @@
   "pages": {
     "*": ["common"],
     "/": ["home"],
+    "api/auth/signin": ["common"],
     "/rooms/[idRoom]": ["detailProduct"]
   }
 }
