@@ -63,5 +63,17 @@
         "text": "Incorrect email or password"
       }
     }
+  },
+  "register-modal": {
+    "title": "Register",
+    "placeholder": {
+      "name": "Your name",
+      "phone-number": "Your phone number",
+      "account-number": "Your account number",
+      "email": "Your email",
+      "password": "Your passwrod",
+      "confirm-password": "Re-type your password"
+    },
+    "btn-register": "Register"
   }
 }

@@ -63,5 +63,16 @@
         "text": "Email atau sandi salah"
       }
     }
+  },
+  "register-modal": {
+    "placeholder": {
+      "name": "Nama anda",
+      "phone-number": "Nomor telepon anda",
+      "account-number": "Nomor rekening anda",
+      "email": "Email anda",
+      "password": "Kata sandi anda",
+      "confirm-password": "Masukkan kembali kata sandi anda"
+    },
+    "btn-register": "Daftar"
   }
 }
