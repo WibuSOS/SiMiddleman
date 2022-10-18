@@ -1,0 +1,11 @@
+{
+    "header": "Detail Produk",
+    "updateProductButton": "Update Produk",
+    "showRoomCodeButton": "Tunjukkan Kode Ruangan",
+    "price": "Harga",
+    "quantity": "Kuantitas",
+    "transactionStatus" : "Status Transaksi",
+    "transaction": [
+        "mulai transaksi", "barang dibayar", "barang dikirim", "konfirmasi barang sampai"
+    ]
+}

@@ -64,13 +64,13 @@ func (s *server) SetupRouter() {
 
 	s.Router.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomsHandler.CreateRoom)
 	s.Router.GET("/rooms/:id", authentication.Authentication, isConsumer.Authorize, roomsHandler.GetAllRooms)
-	s.Router.GET("/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoom)
-	s.Router.PUT("/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoomPembeli)
+	s.Router.GET("/:lang/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoom)
+	s.Router.PUT("/:lang/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomsHandler.JoinRoomPembeli)
 
 	transactionRepo := transaction.NewRepository(s.DB)
 	transactionService := transaction.NewService(transactionRepo)
 	transactionHandler := transaction.NewHandler(transactionService)
 
 	s.Router.PUT("/updatestatus/:room_id", authentication.Authentication, isConsumer.Authorize, roomAuth.RoomAuthorize, transactionHandler.UpdateStatusDelivery)
-	s.Router.GET("/getHarga/:room_id", authentication.Authentication, isConsumer.Authorize, roomAuth.RoomAuthorize, transactionHandler.GetPaymentDetails)
+	s.Router.GET("/:lang/getHarga/:room_id", authentication.Authentication, isConsumer.Authorize, roomAuth.RoomAuthorize, transactionHandler.GetPaymentDetails)
 }

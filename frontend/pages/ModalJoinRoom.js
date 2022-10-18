@@ -13,7 +13,7 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
             roomcode: formData.get("kodeRuangan"),
         }
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${body.roomcode}/${body.id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/en/joinroom/${body.roomcode}/${body.id}`, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',

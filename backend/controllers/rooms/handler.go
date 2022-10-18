@@ -61,7 +61,8 @@ func (h *Handler) GetAllRooms(c *gin.Context) {
 func (h *Handler) JoinRoom(c *gin.Context) {
 	roomId := c.Param("room_id")
 	userId := c.Param("user_id")
-	room, err := h.Service.JoinRoom(roomId, userId)
+	message := c.Param("lang")
+	room, err := h.Service.JoinRoom(roomId, userId, message)
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{
@@ -82,7 +83,8 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 func (h *Handler) JoinRoomPembeli(c *gin.Context) {
 	roomId := c.Param("room_id")
 	userId := c.Param("user_id")
-	err := h.Service.JoinRoomPembeli(roomId, userId)
+	message := c.Param("lang")
+	err := h.Service.JoinRoomPembeli(roomId, userId, message)
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{

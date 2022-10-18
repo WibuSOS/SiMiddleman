@@ -8,6 +8,8 @@ import (
 	"strings"
 
 	"github.com/WibuSOS/sinarmas/backend/utils/errors"
+	"github.com/WibuSOS/sinarmas/backend/utils/localization"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
@@ -24,8 +26,11 @@ func Authentication(c *gin.Context) {
 	})
 
 	if err != nil {
-		log.Println("Authentication: Unable to verify Token")
-		restErr := errors.NewUnauthorized("Unable to verify Token")
+		log.Println(err)
+
+		message := localization.GetMessage(c.Param("lang"), "NoToken")
+
+		restErr := errors.NewUnauthorized(message)
 		c.JSON(restErr.Status, gin.H{
 			"message": restErr.Message,
 		})

@@ -9,6 +9,7 @@ require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/glebarez/sqlite v1.4.8
 	github.com/joho/godotenv v1.4.0
+	github.com/moemoe89/go-localization v1.0.0
 	github.com/stretchr/testify v1.8.0
 	golang.org/x/crypto v0.0.0-20220926161630-eccd6366d1be
 	gorm.io/driver/postgres v1.3.10

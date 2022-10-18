@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
-import { getSession } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 import jwt from "jsonwebtoken";
 import Swal from 'sweetalert2';
 import DetailProduk from './detailProduk';
@@ -8,10 +8,10 @@ import DetailProduk from './detailProduk';
 export default function Room({ user }) {
   const [data, setData] = useState(null);
   const [error] = useState(null);
-  const [namaProduk , setNamaProduk] = useState("");
-  const [kuantitasProduk , setKuantitasProduk] = useState("");
-  const [deskripsiProduk , setDeskripsiProduk] = useState("");
-  const [hargaProduk , setHargaProduk] = useState("");
+  const [namaProduk, setNamaProduk] = useState("");
+  const [kuantitasProduk, setKuantitasProduk] = useState("");
+  const [deskripsiProduk, setDeskripsiProduk] = useState("");
+  const [hargaProduk, setHargaProduk] = useState("");
   const router = useRouter();
   useEffect(() => {
     getRoomDetails();
@@ -22,7 +22,7 @@ export default function Room({ user }) {
     const idRoom = router.query.id;
     const idPenjual = decoded.ID;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${idRoom}/${idPenjual}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/en/joinroom/${idRoom}/${idPenjual}`, {
         method: 'GET',
         headers: {
           'Authorization': 'Bearer ' + user,
@@ -95,7 +95,7 @@ export async function getServerSideProps(ctx) {
   const session = await getSession(ctx)
   if (!session) {
     return {
-      props: {}
+      redirect: { permanent: false, destination: "/api/auth/signin" }
     }
   }
   const { user } = session;

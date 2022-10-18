@@ -8,6 +8,7 @@ import (
 
 	"github.com/WibuSOS/sinarmas/backend/controllers/rooms"
 	"github.com/WibuSOS/sinarmas/backend/models"
+	"github.com/glebarez/sqlite"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -46,9 +47,22 @@ func callDb() (*gorm.DB, string, error) {
 	var err error
 	env := os.Getenv("ENVIRONMENT")
 
-	if env == "PROD" || env == "STAGING" {
+	if env == "PROD" {
 		dbUrl := os.Getenv("DATABASE_URL")
 		db, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
+	}
+
+	if env == "STAGING" {
+		dbUrl := os.Getenv("DATABASE_URL")
+		db, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
+		db.Exec(fmt.Sprintf("DROP TABLE %v;", "product"))
+		db.Exec(fmt.Sprintf("DROP TABLE %v;", "transaction"))
+		db.Exec(fmt.Sprintf("DROP TABLE %v;", "room"))
+		db.Exec(fmt.Sprintf("DROP TABLE %v;", "user"))
+	}
+
+	if env == "TEST" {
+		db, err = gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
 	}
 
 	if err != nil {

@@ -1,0 +1,11 @@
+{
+    "header": "Product Detail",
+    "updateProductButton": "Update Product",
+    "showRoomCodeButton": "Show Room Code",
+    "price": "Price",
+    "quantity": "Quantity",
+    "transactionStatus" : "Transaction Status",
+    "transaction": [
+        "start transaction", "product paid", "product sent", "product confirmation arrived"
+    ]
+}

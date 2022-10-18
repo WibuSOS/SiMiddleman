@@ -1,0 +1,78 @@
+{
+  "testing": "testing dalam bahasa",
+  "banner": {
+    "title": "Transaksi yang mudah & aman",
+    "text": "Anda dapat menikmati kemudahan dalam melakukan transaksi jual beli dengan rasa aman dengan sistem rekening bersama dalam satu platform",
+    "button-signin": "Masuk ke",
+    "signup-text": "atau Anda belum punya akun",
+    "button-signup": "daftar sekarang"
+  },
+  "simiddleman": {
+    "title": "Kenapa menggunakan",
+    "sub-title":
+      [
+        "Pembayaran Terintegrasi", "Saling Menguntungkan", "Berdasarkan Kesepakatan"
+      ],
+    "text": [
+      "Menyediakan sistem pembayaran yang sudah terintegrasi dengan penjual untuk menghindari penjual melewati proses transaksi manual setelah pembeli mengkonfirmasi barang.",
+      "Mengatur agar proses pencairan (withdraw) dapat dilakukan ketika penjual dan pembeli sudah memenuhi kesepakatan tertentu.",
+      "Menyediakan ruang diskusi antara penjual dan pembeli untuk membuat sebuah kesepakatan transaksi."
+    ]
+  },
+  "achievement" : {
+    "title": "Telah Mencapai",
+    "text" : [
+      "Pengguna", "Total Transaksi", "Transaksi Berhasil"
+    ]
+  },
+  "logged-in": {
+    "banner": {
+      "title": "Halo, Selamat Datang di SiMiddleman",
+      "text": "Buat atau Gabung Ruang Obrolan pada Tombol di Bawah"
+    },
+    "user-action": {
+      "title": [
+        "Buat Ruangan", "Gabung Ruangan", "Keluar"
+      ],
+      "text": [
+        "Kamu dapat membuat room untuk melakukan transaksi dengan pembeli.",
+        "Mendaftarkan room yang telah dibuat oleh penjual kedalam list room kamu.",
+        "Keluar dari akun kamu"
+      ]
+    },
+    "room-list": {
+      "title": "Daftar Ruang Obrolan Anda"
+    },
+    "error": {
+      "load-fail": "Gagal untuk memuat data",
+      "loading": "Memuat data... harap tunggu",
+      "list-empty": "Anda tidak memiliki ruang obrolan"
+    }
+  },
+  "login-page": {
+    "title": "Masuk",
+    "email-placeholder": "Email anda",
+    "password-placeholder": "Password anda",
+    "forget-password": "Lupa kata sandi?",
+    "btn-login": "Masuk",
+    "or": "ATAU",
+    "swal": {
+      "success": "Berhasil masuk!", 
+      "failed": {
+        "title": "Gagal masuk!",
+        "text": "Email atau sandi salah"
+      }
+    }
+  },
+  "register-modal": {
+    "placeholder": {
+      "name": "Nama anda",
+      "phone-number": "Nomor telepon anda",
+      "account-number": "Nomor rekening anda",
+      "email": "Email anda",
+      "password": "Kata sandi anda",
+      "confirm-password": "Masukkan kembali kata sandi anda"
+    },
+    "btn-register": "Daftar"
+  }
+}
