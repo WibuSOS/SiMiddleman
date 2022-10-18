@@ -24,5 +24,56 @@
     "text" : [
       "Users", "Total Transactions", "Successful Transactions"
     ]
+  },
+  "logged-in": {
+    "banner": {
+      "title": "Hello, Welcome to SiMiddleman+",
+      "text": "Create or Join Chat Rooms on Button Below"
+    },
+    "user-action": {
+      "title": [
+        "Create Room", "Join Room", "Sign Out"
+      ],
+      "text": [
+        "You can create a room to make transactions with buyers.",
+        "Register the room that has been created by the seller into your room list.",
+        "Signing out to log out of your account."
+      ]
+    },
+    "room-list": {
+      "title": "Your Room List"
+    },
+    "error": {
+      "load-fail": "Failed to load room list",
+      "loading": "Loading data... please wait",
+      "list-empty": "You don't have any room chat"
+    }
+  },
+  "login-page": {
+    "title": "Login",
+    "email-placeholder": "Your email",
+    "password-placeholder": "Your password",
+    "forget-password": "Forgot password?",
+    "btn-login": "Login",
+    "or": "OR",
+    "swal": {
+      "success": "Login success!", 
+      "failed": {
+        "title": "Login failed!",
+        "text": "Incorrect email or password"
+      }
+    }
+  },
+  "register-modal": {
+    "title": "Register",
+    "placeholder": {
+      "name": "Your name",
+      "phone-number": "Your phone number",
+      "account-number": "Your account number",
+      "email": "Your email",
+      "password": "Your passwrod",
+      "confirm-password": "Re-type your password"
+    },
+    "btn-register": "Register"
   }
 }

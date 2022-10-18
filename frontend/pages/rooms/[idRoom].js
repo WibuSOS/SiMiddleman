@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
-import { getSession } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 import jwt from "jsonwebtoken";
 import Swal from 'sweetalert2';
 import DetailProduk from './detailProduk';
@@ -95,7 +95,7 @@ export async function getServerSideProps(ctx) {
   const session = await getSession(ctx)
   if (!session) {
     return {
-      props: {}
+      redirect: { permanent: false, destination: "/api/auth/signin" }
     }
   }
   const { user } = session;

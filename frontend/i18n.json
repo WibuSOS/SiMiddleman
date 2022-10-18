@@ -3,6 +3,8 @@
   "defaultLocale": "en",
   "pages": {
     "*": ["common"],
-    "/": ["home"]
+    "/": ["home"],
+    "/rooms/[idRoom]": ["detailProduct"],
+    "/rooms/payment/[idRoom]": ["payment"]
   }
 }
