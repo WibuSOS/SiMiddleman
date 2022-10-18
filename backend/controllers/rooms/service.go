@@ -9,7 +9,7 @@ import (
 type Service interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	GetAllRooms(userId string) ([]models.Rooms, *errors.RestError)
-	JoinRoom(roomId string, userId string, message string) (DataResponse, *errors.RestError)
+	JoinRoom(roomId string, userId string) (DataResponse, *errors.RestError)
 	JoinRoomPembeli(roomId string, userId string, message string) *errors.RestError
 }
 
@@ -31,9 +31,9 @@ func (s *service) GetAllRooms(userId string) ([]models.Rooms, *errors.RestError)
 	return newRooms, err
 }
 
-func (s *service) JoinRoom(roomId string, userId string, message string) (DataResponse, *errors.RestError) {
+func (s *service) JoinRoom(roomId string, userId string) (DataResponse, *errors.RestError) {
 	var res DataResponse
-	room, err := s.repo.JoinRoom(roomId, userId, message)
+	room, err := s.repo.JoinRoom(roomId, userId)
 	if err != nil {
 		return DataResponse{}, err
 	}

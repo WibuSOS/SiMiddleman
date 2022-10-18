@@ -3,6 +3,7 @@ package rooms
 import (
 	"net/http"
 
+	"github.com/WibuSOS/sinarmas/backend/middlewares/localizator"
 	"github.com/WibuSOS/sinarmas/backend/utils/errors"
 	"github.com/gin-gonic/gin"
 )
@@ -61,9 +62,12 @@ func (h *Handler) GetAllRooms(c *gin.Context) {
 func (h *Handler) JoinRoom(c *gin.Context) {
 	roomId := c.Param("room_id")
 	userId := c.Param("user_id")
-	message := c.Param("lang")
-	room, err := h.Service.JoinRoom(roomId, userId, message)
+	langReq := c.Param("lang")
+	localizatorHandler := c.MustGet("localizator")
+
+	room, err := h.Service.JoinRoom(roomId, userId)
 	if err != nil {
+		// msg := localizatorHandler.(*localizator.Handler).GetMessage(langReq, err.Message)
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{
 			"message": err.Message,
@@ -74,7 +78,7 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 	statusArr := []string{"mulai transaksi", "barang dibayar", "barang dikirim", "konfirmasi barang sampai"}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":  "success",
+		"message":  localizatorHandler.(*localizator.Handler).GetMessage(langReq, "success"),
 		"data":     room,
 		"statuses": statusArr,
 	})
