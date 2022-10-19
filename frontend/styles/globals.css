@@ -555,7 +555,7 @@ footer .footer-content {
 .detail-produk-header {
   background: linear-gradient(76.81deg, rgb(185, 0, 36) 15.71%, rgb(255, 0, 37) 68.97%, rgb(253, 25, 94) 94.61%);
   border-bottom-right-radius: 25%;
-  padding: 3rem 0;
+  padding: 2rem 0;
 }
 
 .detail-produk-header h2 {
@@ -765,13 +765,13 @@ footer .footer-content {
 .detail-produk-header {
   background: linear-gradient(76.81deg, rgb(185, 0, 36) 15.71%, rgb(255, 0, 37) 68.97%, rgb(253, 25, 94) 94.61%);
   border-bottom-right-radius: 25%;
-  padding: 3rem 0;
+  padding: 1.5rem 0;
 }
 
 .detail-produk-header h2 {
   font-family: 'Ubuntu', sans-serif;
   color: #fff;
-  font-size: 48px;
+  font-size: 36px;
 }
 
 .detail-produk h3 {
@@ -919,7 +919,7 @@ footer .footer-content {
 
 @media screen and (min-width: 768px) {
   .detail-produk-header h2 {
-    font-size: 64px;
+    font-size: 48px;
   }
 
   .detail-produk h3 {
@@ -1078,7 +1078,7 @@ footer .footer-content {
 }
 
 .detail-pembayaran .logo-bank-sinarmas {
-  width: 320px;
+  width: 275px;
 }
 
 .wa {
