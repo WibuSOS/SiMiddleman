@@ -26,7 +26,7 @@ func NewServiceAuthorization(db *gorm.DB, roles []string) *serviceAuthorization 
 
 func (s *serviceAuthorization) RoleAuthorize(role string) *errors.RestError {
 	if !helpers.Contains(s.allowedRoles, role) {
-		return errors.NewUnauthorized("Unauthorized")
+		return errors.NewUnauthorized("unauthorized")
 	}
 
 	return nil
@@ -37,12 +37,12 @@ func (s *serviceAuthorization) RoomAuthorize(user_id float64, room_id string) *e
 
 	roomID, err := strconv.ParseUint(room_id, 10, 64)
 	if err != nil {
-		return errors.NewBadRequestError("Invalid Room ID")
+		return errors.NewBadRequestError("invalidRoomID")
 	}
 
 	res := s.db.Where("id = ?", roomID).First(&room)
 	if res.Error != nil {
-		return errors.NewBadRequestError("Room not found")
+		return errors.NewBadRequestError("roomNotFound")
 	}
 
 	isPenjual := uint(user_id) == room.PenjualID
@@ -54,7 +54,7 @@ func (s *serviceAuthorization) RoomAuthorize(user_id float64, room_id string) *e
 	}
 
 	if !(isPenjual || isPembeli) {
-		return errors.NewUnauthorized("Unauthorized")
+		return errors.NewUnauthorized("unauthorized")
 	}
 
 	return nil
