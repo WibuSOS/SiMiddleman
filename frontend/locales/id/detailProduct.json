@@ -32,12 +32,14 @@
         "Silahkan bernegosiasi dengan pembeli menggunakan whatsapp. Jika anda ingin mengubah info produk, anda dapat menekan tombol 'Perbaharui Produk'. Mohon tunggu pembeli untuk melakukan pembayaran. Admin akan menginformasikan melaui whatsapp apabila pembayaran berhasil.",
         "Mohon tunggu konfirmasi pembayaran berhasil dari admin melalui whatsapp sebelum mengirimkan produk anda. Apabila admin telah mengonfirmasi pembayaran, maka anda dapat menekan tombol 'Kirim Barang' untuk mengubah status menjadi 'Barang dikirim'.",
         "Pesanan telah anda kirimkan. Jika anda belum memberikan resi, dimohon untuk mengirimkan resi dengan menekan tombol 'Kirim Barang'. Jika anda telah memberikan resi, mohon untuk menunggu barang sampai dan dikonfirmasi oleh pembeli.",
-        "Pesanan anda telah selesai."
+        "Pesanan anda telah selesai. Mohon untuk menunggu admin mentransfer dana yang telah dibayar oleh pembeli ke rekining anda."
     ],
     "load": {
         "load-fail": "Gagal untuk memuat data",
         "loading": "Memuat data... harap tunggu",
         "list-empty": "Data Kosong"
     },
-    "buttonUpload": "Upload Bukti Pembayaran"
+    "buttonUpload": "Upload Bukti Pembayaran",
+    "chatPenjual": "Chat Penjual",
+    "chatPembeli": "Chat Pembeli"
 }

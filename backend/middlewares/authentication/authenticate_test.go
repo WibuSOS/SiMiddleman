@@ -81,8 +81,7 @@ func newTestCreateRoomWithAuth(t *testing.T, withToken bool) (*httptest.Response
 	var createRoomsRes createRoomsResponse
 	db := newTestDB(t)
 	consumer := []string{"consumer"}
-	consumerService := authorization.NewServiceAuthorization(db, consumer)
-	consumerHandler := authorization.NewHandlerAuthorization(consumerService)
+	isConsumer := authorization.Roles{AllowedRoles: consumer[:]}
 
 	// rooms Handler
 	roomRepo := rooms.NewRepository(db)
@@ -92,7 +91,7 @@ func newTestCreateRoomWithAuth(t *testing.T, withToken bool) (*httptest.Response
 	// Set Routes
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.POST("/rooms", Authentication, consumerHandler.RoleAuthorize, roomHandler.CreateRoom)
+	r.POST("/rooms", Authentication, isConsumer.Authorize, roomHandler.CreateRoom)
 
 	// SUCCESS
 	payload := `{

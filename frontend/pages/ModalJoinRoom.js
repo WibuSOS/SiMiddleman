@@ -2,9 +2,11 @@ import { Form, Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
 import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from 'next/router';
 
 export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomModal, joinRoomModal }) {
     const { t, lang } = useTranslation('joinRoom');
+    const router = useRouter();
 
     const handleSubmitJoinRoom = async (e) => {
         closeJoinRoomModal();
@@ -16,7 +18,7 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
             roomcode: formData.get("kodeRuangan"),
         }
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/en/joinroom/${body.roomcode}/${body.id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/joinroom/${body.roomcode}/${body.id}`, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -25,6 +27,7 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
                 }
             });
             const data = await res.json();
+            console.log(data);
 
             if (data.message === "success") {
                 Swal.fire({ icon: 'success', title: 'Berhasil join room', text: 'Silahkan refresh untuk melihat room', showConfirmButton: false, timer: 1500, })

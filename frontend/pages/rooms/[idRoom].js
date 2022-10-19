@@ -22,7 +22,7 @@ export default function Room({ user }) {
     const idRoom = router.query.id;
     const idPenjual = decoded.ID;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/en/joinroom/${idRoom}/${idPenjual}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/joinroom/${idRoom}/${idPenjual}`, {
         method: 'GET',
         headers: {
           'Authorization': 'Bearer ' + user,

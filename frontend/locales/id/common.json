@@ -41,7 +41,7 @@
       ]
     },
     "room-list": {
-      "title": "Daftar Ruang Obrolan Anda"
+      "title": "Daftar Ruang Obrolan"
     },
     "error": {
       "load-fail": "Gagal untuk memuat data",
@@ -75,6 +75,8 @@
     },
     "btn-register": "Daftar"
   },
+  "seller" : "Kamu Pembeli",
+  "buyer" : "Kamu Penjual",
   "footer": {
     "copyright": "Dibuat oleh tim 2 untuk web yang lebih baik.",
     "privacyPolicy": "Kebijakan Pribadi",

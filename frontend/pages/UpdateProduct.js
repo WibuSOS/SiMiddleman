@@ -1,7 +1,10 @@
 import Swal from 'sweetalert2';
 import ModalUpdateProduct from './ModalUpdateProduct';
+import { useRouter } from 'next/router';
 
 export default function UpdateProduct({ closeUpdateProductModal, updateProductModal, data, user, namaProduk, setNamaProduk, hargaProduk, setHargaProduk, deskripsiProduk, setDeskripsiProduk, kuantitasProduk, setKuantitasProduk, getRoomDetails }) {
+    const router = useRouter();
+
     const handleSubmitUpdateProduct = async (e) => {
         closeUpdateProductModal();
         e.preventDefault();

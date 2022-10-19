@@ -24,7 +24,7 @@ function Pembayaran({ user }) {
     const getHarga = async () => {
         const idRoom = router.query.idRoom;
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getHarga/${idRoom}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/getHarga/${idRoom}`, {
                 method: 'GET',
                 headers: { 'Authorization': 'Bearer ' + user, }
             });
@@ -38,7 +38,7 @@ function Pembayaran({ user }) {
     const getRoomDetails = async () => {
         const idRoom = router.query.idRoom;
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${idRoom}/${decoded.ID}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/joinroom/${idRoom}/${decoded.ID}`, {
                 method: 'GET',
                 headers: { 'Authorization': 'Bearer ' + user, }
             });
@@ -81,7 +81,7 @@ function Pembayaran({ user }) {
                 <div className='d-flex flex-column justify-content-left detail-pembayaran align-items-center mx-auto'>
                     <img className='logo-bank-sinarmas' src={LogoBankSinarmas.src}></img>
                     {/* <h2>Bank Sinarmas</h2> */}
-                    <h3 className='mt-5'>0056221875</h3>
+                    <h3 className='mt-3'>0056221875</h3>
                     <p>(Admin SiMiddleman)</p>
                     {error && <div>{t("load-fail")} {error.toString()}</div>}
                     {
@@ -89,9 +89,9 @@ function Pembayaran({ user }) {
                             (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>{t("list-empty")}</p>
                         )
                     }
-                    <p>{t("totalPembayaran")} : <b>Rp{data?.data.total}</b></p>
-                    <p className='mt-5'>{t("detail.0")}</p>
-                    <p className='mt-5'>{t("detail.1")}</p>
+                    <p>{t("totalPembayaran")} : <b>Rp{data?.data.total.toLocaleString()}</b></p>
+                    <p className='mt-3'>{t("detail.0")}</p>
+                    <p className='mt-3'>{t("detail.1")}</p>
                     <p>{t("detail.2")}</p>
                     <Button variant='simiddleman' onClick={() => changeStatus()}>{t("buttonUpload")}</Button>
                 </div>

@@ -2,9 +2,11 @@ import { Form, Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
 import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from "next/router";
 
 export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRoomModal, createRoomModal }) {
   const { t, lang } = useTranslation('createRoom');
+  const router = useRouter();
 
   const handleSubmitCreateRoom = async (e) => {
     closeCreateRoomModal();

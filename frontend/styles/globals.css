@@ -48,7 +48,7 @@ a {
 }
 
 .content {
-  min-height: calc(100vh - 108px - 100px);
+  min-height: calc(100vh - 60px - 100px);
 }
 
 /* 
@@ -60,16 +60,6 @@ a {
 
 
 /* Css Styling for modal login */
-.avatar {
-  position: absolute;
-  top: -10%;
-  left: 40%;
-}
-
-.avatar img {
-  width: 100%;
-}
-
 .or {
   overflow: hidden;
   text-align: center;
@@ -118,6 +108,41 @@ a {
 
 .modal-dialog .modal-content {
   background-color: #E6E6E6;
+}
+
+.content .login-illustration {
+  background-image: url(../pages/assets/loginIlustration.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 20vh;
+  border-bottom-left-radius: 30%;
+  border-bottom-right-radius: 30%;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.10));
+}
+
+.login-form-wrapper h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+}
+
+.login-form-wrapper p {
+  font-family: 'Poppins', sans-serif;
+  /* color: red !important; */
+  font-weight: bolder;
+}
+
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  opacity: 1; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
 
 /* Css Styling for modal login */
@@ -271,6 +296,8 @@ nav .logo-navbar {
 
 .nav__menu-list .dropdown-menu {
   padding: .5rem;
+  border: none;
+  border-radius: 20px;
 }
 
 .nav__menu-list .dropdown-item {
@@ -308,6 +335,13 @@ nav .logo-navbar {
     color: var(--primary);
   }
 
+  .content .login-illustration {
+    height: calc(100vh - 100px - 60px);
+    border-radius: 0%;
+    filter: none;
+    background-size: contain;
+  }
+
 }
 
 /* css styling for navigation bar */
@@ -315,7 +349,7 @@ nav .logo-navbar {
 /* css styling for footer */
 footer {
   background-color: var(--primary);
-  height: 108px;
+  height: 60px;
 }
 
 .link a {
@@ -331,7 +365,7 @@ footer {
 
 footer .footer-content {
   align-items: center;
-  height: 108px;
+  height: 60px;
 }
 
 /* css styling for footer */
@@ -445,6 +479,10 @@ footer .footer-content {
     text-align: left;
   }
 
+  .user-action-wrapper {
+    margin-top: -10rem;
+  }
+
 }
 
 /* css styling for banner page */
@@ -553,7 +591,7 @@ footer .footer-content {
 .detail-produk-header {
   background: linear-gradient(76.81deg, rgb(185, 0, 36) 15.71%, rgb(255, 0, 37) 68.97%, rgb(253, 25, 94) 94.61%);
   border-bottom-right-radius: 25%;
-  padding: 3rem 0;
+  padding: 2rem 0;
 }
 
 .detail-produk-header h2 {
@@ -618,6 +656,10 @@ footer .footer-content {
 
 .status-transaksi-wrapper {
   padding: 0 1rem;
+}
+
+.status-transaksi-wrapper .b-4 p {
+  font-family: 'Poppins' !important;
 }
 
 .order-tracking {
@@ -763,13 +805,13 @@ footer .footer-content {
 .detail-produk-header {
   background: linear-gradient(76.81deg, rgb(185, 0, 36) 15.71%, rgb(255, 0, 37) 68.97%, rgb(253, 25, 94) 94.61%);
   border-bottom-right-radius: 25%;
-  padding: 3rem 0;
+  padding: 1.5rem 0;
 }
 
 .detail-produk-header h2 {
   font-family: 'Ubuntu', sans-serif;
   color: #fff;
-  font-size: 48px;
+  font-size: 36px;
 }
 
 .detail-produk h3 {
@@ -803,18 +845,12 @@ footer .footer-content {
   margin-bottom: 3rem;
 }
 
-.kuantitas-produk {
-  background-color: var(--thirdy);
-  padding: 1rem;
-  color: #fff;
-  border-radius: 20px;
-  box-shadow:
-    2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
-    6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
-    12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
-    22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
-    41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
-    100px 100px 80px rgba(0, 0, 0, 0.07);
+.harga-produk .harga {
+  border-right: 1px solid #fff;
+}
+
+.harga-produk .kuantitas {
+  border-left: 1px solid #fff;
 }
 
 .status-transaksi-wrapper {
@@ -917,7 +953,7 @@ footer .footer-content {
 
 @media screen and (min-width: 768px) {
   .detail-produk-header h2 {
-    font-size: 64px;
+    font-size: 48px;
   }
 
   .detail-produk h3 {
@@ -940,10 +976,16 @@ footer .footer-content {
 /* css styling for detail produk page */
 
 .content .user-action {
-  width: 358px;
   box-shadow: 0px 32px 50px -9px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   border: none;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+  transition: all ease 0.5s;
+}
+
+.content .user-action:hover {
+transform: translateY(-10px);
+box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.35);
 }
 
 .content .user-action .card-title {
@@ -988,8 +1030,14 @@ footer .footer-content {
 
 .room-card {
   border: none !important;
-  background-color: #FBFAF5 !important;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  background-color: #fff !important;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+  transition: all ease 0.5s;
+}
+
+.room-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.35);
 }
 
 .room-card .card-title {
@@ -1017,12 +1065,13 @@ footer .footer-content {
   height: 32px;
 }
 
-.room-card .card-text {
+.room-card .card-body {
   font-family: 'Poppins', sans-serif;
 }
 
-.room-card .card-text .card-nama-produk {
+.room-card .card-body .card-nama-produk {
   font-weight: 700;
+  font-size: 24px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -1032,7 +1081,7 @@ footer .footer-content {
   -webkit-box-orient: vertical;
 }
 
-.room-card .card-text .card-deskripsi-produk {
+.room-card .card-body .card-deskripsi-produk {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -1042,7 +1091,7 @@ footer .footer-content {
   -webkit-box-orient: vertical;
 }
 
-.room-card .card-text .card-harga-produk {
+.room-card .card-body .card-harga-produk {
   font-weight: 700;
   font-size: 24px;
 }
@@ -1075,7 +1124,7 @@ footer .footer-content {
 }
 
 .detail-pembayaran .logo-bank-sinarmas {
-  width: 320px;
+  width: 275px;
 }
 
 .wa {
@@ -1090,3 +1139,51 @@ footer .footer-content {
 }
 
 /* css styling for detail pembayaran page */
+
+/* css styling for index page if user already logged in */
+.user-action-wrapper .card {
+  margin-bottom: 1rem;
+}
+.content .home-banner {
+  padding-bottom: 150px; 
+  border-bottom-right-radius: 5%;
+  border-bottom-left-radius: 5%;
+  background: linear-gradient(76.81deg,#CC0F0F 15.71%,#ff0025 68.97%,#fd195e 94.61%);
+  padding-top: 3rem;
+  height: 360px;
+}
+
+.content .home-banner h2,
+.content .home-banner h3 {
+  color: #fff;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.user-action-wrapper {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  margin-top: -8rem;
+}
+
+.room-role {
+  background-color: #f0f3fe;
+  width: 400px;
+  padding: 1rem;
+  border-radius: 20px;
+  margin-bottom: 3rem;
+}
+
+.room-role .btn-simiddleman {
+  width: fit-content;
+  background-color: #f0f3fe !important;
+  border: none !important;
+  font-weight: bolder;
+}
+
+.room-role .btn-simiddleman.active,
+.room-role .btn-simiddleman:hover {
+  background-color: var(--primary) !important;
+  color: #fff !important;
+}
+/* css styling for index page if user already logged in */
