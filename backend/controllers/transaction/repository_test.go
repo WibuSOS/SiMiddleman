@@ -97,7 +97,7 @@ func TestGetDetailsPaymentErrorFetchingData(t *testing.T) {
 
 	_, err := repo.GetPaymentDetails(0)
 	assert.NotNil(t, err)
-	assert.Equal(t, "Error while fetching data", err.Message)
+	assert.Equal(t, "errorfetchingdata", err.Message)
 	assert.Equal(t, http.StatusInternalServerError, err.Status)
 	assert.Equal(t, "Internal_Server_Error", err.Error)
 }
@@ -110,7 +110,7 @@ func TestGetDetailsRoomNotFound(t *testing.T) {
 
 	_, err := repo.GetPaymentDetails(idRoom)
 	assert.NotNil(t, err)
-	assert.Equal(t, "Room not found", err.Message)
+	assert.Equal(t, "roomnotfound", err.Message)
 	assert.Equal(t, http.StatusBadRequest, err.Status)
 	assert.Equal(t, "Bad_Request", err.Error)
 }
