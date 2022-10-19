@@ -4,14 +4,12 @@ import { useEffect, useState } from 'react';
 import WelcomeBanner from './WelcomeBanner';
 import AlasanSimiddleman from './AlasanSimiddleman';
 import SimiddlemanSummaries from './SimiddlemanSummaries';
-import { useRouter } from "next/router";
 import UserAction from './UserAction';
 import ShowRoomList from './ShowRoomList';
 import UserBanner from './UserBanner';
 
 function Home({ user }) {
   const [data, setData] = useState(null);
-  const router = useRouter();
   
   useEffect(() => {
     if (user) GetAllRoom();
@@ -28,7 +26,7 @@ function Home({ user }) {
   const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
   const GetAllRoom = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/${decoded.ID}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/rooms/${decoded.ID}`, {
         method: 'GET',
         headers: {
           'Authorization': 'Bearer ' + user
