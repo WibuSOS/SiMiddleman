@@ -18,6 +18,8 @@ func NewHandler(service Service) *Handler {
 
 func (h *Handler) CreateRoom(c *gin.Context) {
 	var req DataRequest
+	langReq := c.Param("lang")
+	localizator := c.MustGet("localizator")
 	if err := c.ShouldBindJSON(&req); err != nil {
 		error := errors.NewBadRequestError(err.Error())
 		errors.LogError(error)
@@ -29,32 +31,34 @@ func (h *Handler) CreateRoom(c *gin.Context) {
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{
-			"message": err.Message,
+			"message": localizator.(*language.Config).Lookup(langReq, err.Message),
 			"data":    newRoom,
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "success",
+		"message": localizator.(*language.Config).Lookup(langReq, "success"),
 		"data":    newRoom,
 	})
 }
 
 func (h *Handler) GetAllRooms(c *gin.Context) {
 	userId := c.Param("id")
+	langReq := c.Param("lang")
+	localizator := c.MustGet("localizator")
 	newRooms, err := h.Service.GetAllRooms(userId)
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{
-			"message": err.Message,
+			"message": localizator.(*language.Config).Lookup(langReq, err.Message),
 			"data":    newRooms,
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "success",
+		"message": localizator.(*language.Config).Lookup(langReq, "success"),
 		"data":    newRooms,
 	})
 }
@@ -86,17 +90,18 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 func (h *Handler) JoinRoomPembeli(c *gin.Context) {
 	roomId := c.Param("room_id")
 	userId := c.Param("user_id")
-	message := c.Param("lang")
-	err := h.Service.JoinRoomPembeli(roomId, userId, message)
+	langReq := c.Param("lang")
+	localizator := c.MustGet("localizator")
+	err := h.Service.JoinRoomPembeli(roomId, userId)
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{
-			"message": err.Message,
+			"message": localizator.(*language.Config).Lookup(langReq, err.Message),
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "success",
+		"message": localizator.(*language.Config).Lookup(langReq, "success"),
 	})
 }
