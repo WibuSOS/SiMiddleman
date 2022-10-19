@@ -51,6 +51,7 @@ func (s *server) SetupRouter() error {
 
 	langRoutes := s.Router.Group("/:lang")
 	{
+		langRoutes.Use(localizatorHandler.PassLocalizator)
 		roomRoutes := langRoutes.Group("/rooms", authentication.Authentication, consumerHandler.RoleAuthorize)
 		{
 			roomRoutes.POST("/", roomsHandler.CreateRoom)
