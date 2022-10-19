@@ -105,6 +105,7 @@ func (r *repository) JoinRoom(roomId string, userId string) (models.Rooms, *erro
 		Find(&room)
 
 	if res.Error != nil {
+		log.Println(res.Error.Error())
 		return models.Rooms{}, errors.NewInternalServerError("internalServer")
 	}
 
