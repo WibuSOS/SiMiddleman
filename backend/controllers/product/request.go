@@ -11,19 +11,19 @@ type DataRequest struct {
 
 func (r *DataRequest) ValidateReq() *errors.RestError {
 	if r.Nama == "" {
-		return errors.NewBadRequestError("Nama tidak boleh kosong")
+		return errors.NewBadRequestError("emptyname")
 	}
 
 	if r.Harga <= 0 {
-		return errors.NewBadRequestError("Harga tidak boleh kosong")
+		return errors.NewBadRequestError("emptyprice")
 	}
 
 	if r.Kuantitas <= 0 {
-		return errors.NewBadRequestError("Kuantitas tidak boleh kosong")
+		return errors.NewBadRequestError("emptyquantity")
 	}
 
 	if r.Deskripsi == "" {
-		return errors.NewBadRequestError("Deskripsi tidak boleh kosong")
+		return errors.NewBadRequestError("emptydescription")
 	}
 
 	return nil

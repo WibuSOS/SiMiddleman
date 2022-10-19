@@ -6,7 +6,12 @@
     "invalididuser": "invalid id user",
     "alreadyhavebuyer": "Already has Buyer in this room",
     "internalServer": "Internal Server Error",
-    "success": "success"
+    "success": "success",
+    "successupdate": "Success Update Product",
+    "emptyname": "Name Cannot Be Empty",
+    "emptyprice": "Price Cannot Be Empty",
+    "emptyquantity": "Quantity Cannot Be Empty",
+    "emptydescription": "Description Cannot Be Empty"
   },
   "id": {
     "NoToken": "Tidak dapat memverifikasi token",
@@ -15,6 +20,11 @@
     "invalididuser": "id user salah",
     "alreadyhavebuyer": "Sudah ada Pembeli di ruangan",
     "internalServer": "Kesalahan di dalam server",
-    "success": "sukses"
+    "success": "sukses",
+    "successupdate": "Berhasil mengubah data",
+    "emptyname": "Nama tidak boleh kosong",
+    "emptyprice": "Harga tidak boleh kosong",
+    "emptyquantity": "Kuantitas tidak boleh kosong",
+    "emptydescription": "Deskripsi tidak boleh kosong"
   }
 }
