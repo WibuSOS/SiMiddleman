@@ -102,9 +102,11 @@ func newTestGetPaymentDetailsHandlerWithRoomAuth(t *testing.T, allowedRoles []st
 
 	db := newTestDB(t)
 
-	roomAuth := NewRoomAuth(db)
-	roles := Roles{AllowedRoles: allowedRoles}
-	isConsumer := Roles{AllowedRoles: consumer[:]}
+	reqService := NewServiceAuthorization(db, allowedRoles)
+	reqHandler := NewHandlerAuthorization(reqService)
+
+	consumerService := NewServiceAuthorization(db, consumer)
+	consumerHandler := NewHandlerAuthorization(consumerService)
 
 	roomRepo := rooms.NewRepository(db)
 	roomService := rooms.NewService(roomRepo)
@@ -116,8 +118,8 @@ func newTestGetPaymentDetailsHandlerWithRoomAuth(t *testing.T, allowedRoles []st
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomHandler.CreateRoom)
-	r.GET("/getHarga/:room_id", authentication.Authentication, roles.Authorize, roomAuth.RoomAuthorize, handler.GetPaymentDetails)
+	r.POST("/rooms", authentication.Authentication, consumerHandler.RoleAuthorize, roomHandler.CreateRoom)
+	r.GET("/getHarga/:room_id", authentication.Authentication, reqHandler.RoleAuthorize, reqHandler.RoomAuthorize, handler.GetPaymentDetails)
 
 	payload := `{
 		"id": 1,
@@ -218,9 +220,8 @@ func TestGetPaymentDetailsHandlerWithRoomAuthUnauthorize(t *testing.T) {
 	var createRoomRes createRoomResponse
 	db := newTestDB(t)
 
-	roomAuth := NewRoomAuth(db)
-	consumer := []string{"consumer"}
-	isConsumer := Roles{AllowedRoles: consumer[:]}
+	consumerService := NewServiceAuthorization(db, consumer)
+	consumerHandler := NewHandlerAuthorization(consumerService)
 
 	repo := transaction.NewRepository(db)
 	service := transaction.NewService(repo)
@@ -232,9 +233,9 @@ func TestGetPaymentDetailsHandlerWithRoomAuthUnauthorize(t *testing.T) {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.POST("/rooms", authentication.Authentication, isConsumer.Authorize, roomHandler.CreateRoom)
-	r.PUT("/joinroom/:room_id/:user_id", authentication.Authentication, isConsumer.Authorize, roomHandler.JoinRoomPembeli)
-	r.GET("/getHarga/:room_id", authentication.Authentication, isConsumer.Authorize, roomAuth.RoomAuthorize, handler.GetPaymentDetails)
+	r.POST("/rooms", authentication.Authentication, consumerHandler.RoleAuthorize, roomHandler.CreateRoom)
+	r.PUT("/joinroom/:room_id/:user_id", authentication.Authentication, consumerHandler.RoleAuthorize, roomHandler.JoinRoomPembeli)
+	r.GET("/getHarga/:room_id", authentication.Authentication, consumerHandler.RoleAuthorize, consumerHandler.RoomAuthorize, handler.GetPaymentDetails)
 
 	payload := `{
 		"id": 1,
