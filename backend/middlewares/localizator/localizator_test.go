@@ -84,33 +84,33 @@ func TestLocalizeSuccess(t *testing.T) {
 	assert.Equal(t, "sukses", res.Message)
 }
 
-// func TestLocalizeFail(t *testing.T) {
-// 	os.Setenv("ENVIRONMENT", "TEST")
+func TestLocalizeFail(t *testing.T) {
+	os.Setenv("ENVIRONMENT", "TEST")
 
-// 	// DB INITIALIZATION
-// 	db := newTestDB(t)
+	// DB INITIALIZATION
+	db := newTestDB(t)
 
-// 	var res response
+	var res response
 
-// 	// LOCALIZATION HANDLER
-// 	localizationHandler := setLocalizationHandler(t)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
 
-// 	// END-POINT HANDLER
-// 	endPointHandler := setEndPointHandler(t, db)
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
 
-// 	// ROUTES INITIALIZATION
-// 	gin.SetMode(gin.ReleaseMode)
-// 	r := gin.Default()
-// 	r.Use(localizationHandler.PassLocalizator)
-// 	r.GET("/:lang/joinroom/:room_id/:user_id", endPointHandler.JoinRoom)
+	// ROUTES INITIALIZATION
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.Use(localizationHandler.PassLocalizator)
+	r.GET("/:lang/joinroom/:room_id/:user_id", endPointHandler.JoinRoom)
 
-// 	// SUCCESS
-// 	req, err := http.NewRequest("GET", "/id/joinroom/1/1", nil)
-// 	assert.NoError(t, err)
-// 	assert.NotNil(t, req)
+	// SUCCESS
+	req, err := http.NewRequest("GET", "/fr/joinroom/1/1", nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
 
-// 	w := httptest.NewRecorder()
-// 	r.ServeHTTP(w, req)
-// 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-// 	assert.Equal(t, "sukses", res.Message)
-// }
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "success", res.Message)
+}
