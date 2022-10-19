@@ -18,6 +18,7 @@ func NewHandler() (*Handler, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return &Handler{Service: lang}, nil
 }
 
