@@ -30,8 +30,8 @@ export default function CardRoom(props) {
             <p className='card-deskripsi-produk'>{props.deskripsiProduk}</p>
           </div>
           <div>
-            {/* <p className='card-harga-produk'>Rp {props.hargaProduk.toLocaleString()}</p> */}
-            <p className='card-harga-produk'>Rp {props.hargaProduk}</p>
+            <p className='card-harga-produk'>Rp {props.hargaProduk.toLocaleString()}</p>
+            {/* <p className='card-harga-produk'>Rp {props.hargaProduk}</p> */}
           </div>
         </Card.Body>
         <Button variant="simiddleman" className='w-100' onClick={() => {router.push({ pathname: '/rooms/[idRoom]', query: {id: `${props.idRoom}`, idRoom: `${props.kodeRuangan}`,}})}}>{t("masukButton")}</Button>
