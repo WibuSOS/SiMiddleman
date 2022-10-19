@@ -67,7 +67,8 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
               <div className='row pt-3'>
                 <div className='col-6 harga text-center'>
                   <h3>{t("price")}</h3>
-                  <p>Rp {data?.data.product.harga.toLocaleString()}</p>
+                  {/* <p>Rp {data?.data.product.harga.toLocaleString()}</p> */}
+                  <p>Rp {data?.data.product.harga}</p>
                 </div>
                 <div className='col-6 kuantitas text-center'>
                   <h3>{t("quantity")}</h3>

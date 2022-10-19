@@ -89,7 +89,8 @@ function Pembayaran({ user }) {
                             (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>{t("list-empty")}</p>
                         )
                     }
-                    <p>{t("totalPembayaran")} : <b>Rp{data?.data.total.toLocaleString()}</b></p>
+                    {/* <p>{t("totalPembayaran")} : <b>Rp{data?.data.total.toLocaleString()}</b></p> */}
+                    <p>{t("totalPembayaran")} : <b>Rp{data?.data.total}</b></p>
                     <p className='mt-3'>{t("detail.0")}</p>
                     <p className='mt-3'>{t("detail.1")}</p>
                     <p>{t("detail.2")}</p>
