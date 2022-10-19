@@ -47,13 +47,27 @@ func callDb() (*gorm.DB, string, error) {
 	var err error
 	env := os.Getenv("ENVIRONMENT")
 
-	if env == "PROD" || env == "STAGING" {
+	if env == "PROD" {
 		dbUrl := os.Getenv("DATABASE_URL")
 		db, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
 	}
 
+	if env == "STAGING" {
+		dbUrl := os.Getenv("DATABASE_URL")
+		db, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
+		db.Exec("DROP TABLE products")
+		db.Exec("DROP TABLE transactions")
+		db.Exec("DROP TABLE rooms")
+		db.Exec("DROP TABLE users")
+	}
+
 	if env == "TEST" {
 		db, err = gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
+		if err != nil {
+			return nil, env, errorDbConn(err)
+		}
+
+		err = db.Exec("PRAGMA foreign_keys = ON", nil).Error
 	}
 
 	if err != nil {

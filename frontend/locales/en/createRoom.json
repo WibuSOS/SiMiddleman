@@ -1,0 +1,8 @@
+{
+    "createRoomBtnCard": "Create Room",
+    "modalTitle": "Create Room",
+    "placeholder": [
+        "Product Name", "Product Price", "Product Quantity", "Product Description"
+    ],
+    "createRoomBtnModal": "Create Room"
+}

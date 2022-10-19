@@ -3,7 +3,7 @@
   "defaultLocale": "en",
   "pages": {
     "*": ["common"],
-    "/": ["home"],
+    "/": ["home", "cardRoom", "createRoom", "joinRoom"],
     "/rooms/[idRoom]": ["detailProduct"],
     "/rooms/payment/[idRoom]": ["payment"]
   }

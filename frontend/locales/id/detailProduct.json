@@ -1,11 +1,43 @@
 {
     "header": "Detail Produk",
-    "updateProductButton": "Update Produk",
+    "updateProductButton": "Perbaharui Produk",
     "showRoomCodeButton": "Tunjukkan Kode Ruangan",
+    "buyButton": "Beli",
+    "sentButton": "Kirim Barang",
+    "confirmButton": "Konfirmasi Barang Telah Sampai",
     "price": "Harga",
     "quantity": "Kuantitas",
     "transactionStatus" : "Status Transaksi",
     "transaction": [
         "mulai transaksi", "barang dibayar", "barang dikirim", "konfirmasi barang sampai"
-    ]
+    ],
+    "showRoomCode": {
+        "roomCode": "Kode Ruangan",
+        "copyRoomCode": "Salin Kode Ruangan"
+    },
+    "updateProductModal": {
+        "modalTitle": "Perbaharui Produk",
+        "placeholder": [
+            "Nama Produk", "Harga Produk", "Kuantitas Produk", "Deskripsi Produk"
+        ],
+        "updateProductBtnModal": "Perbaharui Produk"
+    },
+    "statusExplanationBuyer": [
+        "Silahkan bernegosiasi dengan penjual menggunakan whatsapp. Jika merasa sudah yakin untuk melakukan transaksi silahkan mengklik tombol beli.",
+        "Status pembelian produk anda adalah dibayar. Jika anda belum mengupload bukti pembayaran, silahkan tekan tombol upload bukti pembayaran yang tersedia. Mohon untuk menunggu penjual mengirimkan produk yang anda beli.",
+        "Produk telah dikirim oleh penjual. Silahkan menunggu produk anda sampai tujuan. Apabila anda telah menerima produk, mohon untuk menekan tombol 'Konfirmasi Barang Telah Sampai' untuk menyelesaikan pesanan.",
+        "Pesanan anda telah selesai."
+    ],
+    "statusExplanationSeller": [
+        "Silahkan bernegosiasi dengan pembeli menggunakan whatsapp. Jika anda ingin mengubah info produk, anda dapat menekan tombol 'Perbaharui Produk'. Mohon tunggu pembeli untuk melakukan pembayaran. Admin akan menginformasikan melaui whatsapp apabila pembayaran berhasil.",
+        "Mohon tunggu konfirmasi pembayaran berhasil dari admin melalui whatsapp sebelum mengirimkan produk anda. Apabila admin telah mengonfirmasi pembayaran, maka anda dapat menekan tombol 'Kirim Barang' untuk mengubah status menjadi 'Barang dikirim'.",
+        "Pesanan telah anda kirimkan. Jika anda belum memberikan resi, dimohon untuk mengirimkan resi dengan menekan tombol 'Kirim Barang'. Jika anda telah memberikan resi, mohon untuk menunggu barang sampai dan dikonfirmasi oleh pembeli.",
+        "Pesanan anda telah selesai."
+    ],
+    "load": {
+        "load-fail": "Gagal untuk memuat data",
+        "loading": "Memuat data... harap tunggu",
+        "list-empty": "Data Kosong"
+    },
+    "buttonUpload": "Upload Bukti Pembayaran"
 }

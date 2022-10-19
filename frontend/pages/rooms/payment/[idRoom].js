@@ -83,10 +83,10 @@ function Pembayaran({ user }) {
                     {/* <h2>Bank Sinarmas</h2> */}
                     <h3 className='mt-5'>0056221875</h3>
                     <p>(Admin SiMiddleman)</p>
-                    {error && <div>Failed to load {error.toString()}</div>}
+                    {error && <div>{t("load-fail")} {error.toString()}</div>}
                     {
-                        !data ? <div>Loading...</div> : (
-                            (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>
+                        !data ? <div>{t("loading")}</div> : (
+                            (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>{t("list-empty")}</p>
                         )
                     }
                     <p>{t("totalPembayaran")} : <b>Rp{data?.data.total}</b></p>

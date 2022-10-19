@@ -8,7 +8,7 @@ import (
 	language "github.com/moemoe89/go-localization"
 )
 
-func initialize() (*language.Config, error) {
+func Initialize() (*language.Config, error) {
 	dir, _ := os.Getwd()
 	strDir := strings.ReplaceAll(dir, `\`, `/`)
 	path := fmt.Sprintf("%s/utils/localization/language.json", strDir)
@@ -26,7 +26,7 @@ func initialize() (*language.Config, error) {
 }
 
 func GetMessage(langReq, id string) string {
-	lang, err := initialize()
+	lang, err := Initialize()
 	if err != nil {
 		fmt.Println(err)
 		return ""

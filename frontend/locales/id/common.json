@@ -52,7 +52,7 @@
   "login-page": {
     "title": "Masuk",
     "email-placeholder": "Email anda",
-    "password-placeholder": "Password anda",
+    "password-placeholder": "Kata sandi anda",
     "forget-password": "Lupa kata sandi?",
     "btn-login": "Masuk",
     "or": "ATAU",
@@ -74,5 +74,10 @@
       "confirm-password": "Masukkan kembali kata sandi anda"
     },
     "btn-register": "Daftar"
+  },
+  "footer": {
+    "copyright": "Dibuat oleh tim 2 untuk web yang lebih baik.",
+    "privacyPolicy": "Kebijakan Pribadi",
+    "termsCondition": "Syarat & Ketentuan"
   }
 }
