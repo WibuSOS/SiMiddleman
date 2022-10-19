@@ -3,8 +3,6 @@ import '../styles/globals.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './NavigationBar';
 import Footer from "./Footer";
-import Head from 'next/head';
-import Link from "next/link";
 
 function App({
   Component,

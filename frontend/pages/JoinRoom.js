@@ -7,7 +7,7 @@ export default function JoinRoom(props) {
     const [joinRoomModal, setJoinRoomModal] = useState(false);
     const openJoinRoomModal = () => setJoinRoomModal(true)
     const closeJoinRoomModal = () => setJoinRoomModal(false)
-    const { t, lang } = useTranslation('joinRoom');
+    const { t } = useTranslation('joinRoom');
     return (
         <>
             <Button onClick={() => openJoinRoomModal()} data-testid="joinRoomButton" className='w-100 btn-simiddleman'>{t("joinRoomBtnCard")}</Button>
