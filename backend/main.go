@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/WibuSOS/sinarmas/backend/api"
+	"github.com/WibuSOS/sinarmas/backend/database"
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -15,7 +16,7 @@ func main() {
 	}
 	log.SetOutput(file)
 
-	db, err := api.SetupDb()
+	db, err := database.SetupDb()
 	if err != nil {
 		log.Panicln(err.Error())
 	}
