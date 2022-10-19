@@ -39,14 +39,19 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
   return (
     <div className='content'>
       <div className="detail-produk-header">
-        <div className='container col'>
+        <div className='container'>
           <h2>{t("header")}</h2>
-          <ShowRoomCode roomCode={data?.data.roomCode} />
-          {data?.data.penjualID === decoded?.ID && data?.statuses[0] === data?.data.status ? <Button className='ms-5 btn-simiddleman' onClick={openUpdateProductModal}>{t("updateProductButton")}</Button> : "" }
-          <UpdateProduct closeUpdateProductModal={closeUpdateProductModal} updateProductModal={updateProductModal} data={data} user={user} namaProduk={namaProduk} setNamaProduk={setNamaProduk} hargaProduk={hargaProduk} setHargaProduk={setHargaProduk} deskripsiProduk={deskripsiProduk} setDeskripsiProduk={setDeskripsiProduk} kuantitasProduk={kuantitasProduk} setKuantitasProduk={setKuantitasProduk} getRoomDetails={getRoomDetails} />
-          {console.log(data?.data.penjual.noHp)}
-          {data?.data?.pembeli && data?.data.penjualID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' rel='noreferrer' target={'_blank'}>{t("chatPembeli")}</a>}
-          {data?.data?.pembeli && data?.data.pembeliID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' rel='noreferrer' target={'_blank'}>{t("chatPenjual")}</a>}
+          <div className='row d-flex justify-content-start'>
+            <div className='col-lg-4 col-md-5 col-sm-12'>
+              <ShowRoomCode roomCode={data?.data.roomCode} />
+              {data?.data.penjualID === decoded?.ID && data?.statuses[0] === data?.data.status ? <Button className='btn-simiddleman' onClick={openUpdateProductModal}>{t("updateProductButton")}</Button> : "" }
+            </div>
+            <div className='col-lg-4 col-md-5 col-sm-12'>
+              <UpdateProduct closeUpdateProductModal={closeUpdateProductModal} updateProductModal={updateProductModal} data={data} user={user} namaProduk={namaProduk} setNamaProduk={setNamaProduk} hargaProduk={hargaProduk} setHargaProduk={setHargaProduk} deskripsiProduk={deskripsiProduk} setDeskripsiProduk={setDeskripsiProduk} kuantitasProduk={kuantitasProduk} setKuantitasProduk={setKuantitasProduk} getRoomDetails={getRoomDetails} />
+              {data?.data?.pembeli && data?.data.penjualID === decoded?.ID && <Button href={contactNumber(data?.data.idPenjual)} variant="simiddleman" className='wa' rel='noreferrer' target={'_blank'}>Chat Pembeli</Button>}
+              {data?.data?.pembeli && data?.data.pembeliID === decoded?.ID && <Button href={contactNumber(data?.data.idPenjual)} variant="simiddleman" className='wa' rel='noreferrer' target={'_blank'}>Chat Penjual</Button>}
+            </div>
+          </div>
         </div>
       </div>
       <div className='container pt-5'>
