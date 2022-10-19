@@ -8,7 +8,7 @@ type Users struct {
 	Role         string  `gorm:"not null;type:varchar(15);default:consumer"`
 	NoHp         string  `gorm:"type:varchar(18)"`
 	Email        string  `gorm:"unique;not null;type:varchar(30)"`
-	Password     string  `gorm:"not null;type:varchar(128)"`
+	Password     string  `json:"-" gorm:"not null;type:varchar(128)"`
 	NoRek        string  `gorm:"type:varchar(18)"`
 	PenjualRooms []Rooms `gorm:"foreignKey:PenjualID"`
 	PembeliRooms []Rooms `gorm:"foreignKey:PembeliID"`
