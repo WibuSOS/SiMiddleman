@@ -1,10 +1,10 @@
 {
   "en": {
     "noToken": "Unable to verify token",
-    "tidakBisaMasukRuangan": "Cannot Enter Room",
-    "sudahmasukruangan": "Already Join This Room",
+    "cannotjoinroom": "Cannot Enter Room",
+    "alreadyjoinroom": "Already Join This Room",
     "invalididuser": "invalid id user",
-    "sudahadapembeli": "Already has Buyer in this room",
+    "alreadyhavebuyer": "Already has Buyer in this room",
     "internalServer": "Internal Server Error",
     "success": "success",
     "invalidToken": "Token is not valid",
@@ -19,10 +19,11 @@
   },
   "id": {
     "noToken": "Tidak dapat memverifikasi token",
-    "tidakBisaMasukRuangan": "Tidak Bisa Memasuki Ruangan",
-    "sudahmasukruangan": "Anda Sudah Masuk Ruangan ini",
+    "cannotjoinroom": "Tidak Bisa Memasuki Ruangan",
+    "alreadyjoinroom": "Anda Sudah Masuk Ruangan ini",
     "invalididuser": "id user salah",
-    "sudahadapembeli": "Sudah ada Pembeli di ruangan",
+    "alreadyhavebuyer": "Sudah ada Pembeli di ruangan",
+    "internalServer": "Kesalahan di dalam server",
     "success": "sukses",
     "validToken": "Token tidak valid",
     "unauthorized": "Tidak terotorisasi",
