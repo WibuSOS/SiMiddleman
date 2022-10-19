@@ -129,8 +129,8 @@ function Home({ user }) {
           <h2 className='room-anda'>{t('logged-in.room-list.title')}</h2>
           <div className='d-flex justify-content-center'>
               <div className='row d-flex justify-content-around room-role'>
-                  <Button className={showSeller ? "active" : ""} variant='simiddleman' onClick={() => {setShowSeller(current => !current);setShowBuyer(false)}}>{t("buyer")}</Button>
-                  <Button className={showBuyer ? "active" : ""} variant='simiddleman' onClick={() => {setShowBuyer(current => !current);setShowSeller(false)}}>{t("seller")}</Button>
+                  <Button className={showSeller ? "active" : ""} variant='simiddleman' onClick={() => {setShowSeller(current => !current);setShowBuyer(false)}}>{t("seller")}</Button>
+                  <Button className={showBuyer ? "active" : ""} variant='simiddleman' onClick={() => {setShowBuyer(current => !current);setShowSeller(false)}}>{t("buyer")}</Button>
               </div>
           </div>
           <div className='row d-flex justify-content-around px-3'>

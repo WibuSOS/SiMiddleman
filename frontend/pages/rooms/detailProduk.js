@@ -57,8 +57,26 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
             {data?.data.product.nama}
           </h3>
           <p>{data?.data.product.deskripsi}</p>
-          <div className="py-5">
-            <div className="container row d-flex justify-content-around">
+          <div className="py-3">
+            <div className='harga-produk'>
+              <div className='row pt-3'>
+                <div className='col-6 harga text-center'>
+                  <h3>{t("price")}</h3>
+                  <p>Rp {data?.data.product.harga}</p>
+                </div>
+                <div className='col-6 kuantitas text-center'>
+                  <h3>{t("quantity")}</h3>
+                  <p>{data?.data.product.kuantitas} PCS</p>
+                </div>
+              </div>
+              <div className='row pt-3 d-flex justify-content-center'>
+                <div className='col-3'>
+                  {data?.data.pembeliID === decoded?.ID && data?.statuses[0] === data?.data.status && <Button className='w-100' variant='simiddleman' onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}` } }) }}>{t("buyButton")}</Button>}
+                    {data?.data.pembeliID === decoded?.ID && data?.statuses[0] != data?.data.status && data?.statuses[3] != data?.data.status && <Button className='w-100' variant='simiddleman' onClick={() => { router.push("https://forms.gle/yAtYBvu583nuVqmN6") }}>{t("buttonUpload")}</Button>}
+                </div>
+              </div>
+            </div>
+            {/* <div className="container row d-flex justify-content-around">
               <div className="col-lg-6 harga-produk">
                 <div className='row'>
                   <div className='col-lg-8 col-sm-12'>
@@ -75,7 +93,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
                 <h3>{t("quantity")}</h3>
                 <p> {data?.data.product.kuantitas} PCS</p>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className='status-transaksi-wrapper'>
             <div className='d-flex flex-row justify-content-between mb-2'>
@@ -83,8 +101,8 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
               {data?.data.penjualID === decoded?.ID && data?.statuses.slice(1, -1).includes(data.data.status) && <Button variant='simiddleman' onClick={() => kirimBarang()}>{t("sentButton")}</Button>}
               {data?.data.pembeliID === decoded?.ID && data?.statuses.slice(2, -1).includes(data.data.status) && <Button variant='simiddleman' onClick={() => handleConfirmation()}>{t("confirmButton")}</Button>}
             </div>
-            {data?.data.pembeliID === decoded?.ID && data?.statuses[0] === data?.data.status ? <div className='mb-4'>{t("statusExplanationBuyer.0")}</div> : data?.data.pembeliID === decoded?.ID && data?.statuses[1] === data?.data.status ? <div className='mb-4'>{t("statusExplanationBuyer.1")}</div> : data?.data.pembeliID === decoded?.ID && data?.statuses[2] === data?.data.status ? <div className='mb-4'>{t("statusExplanationBuyer.2")}</div> : data?.data.pembeliID === decoded?.ID && data?.statuses[3] === data?.data.status ? <div className='mb-4'>{t("statusExplanationBuyer.3")}</div> : ""}
-            {data?.data.penjualID === decoded?.ID && data?.statuses[0] === data?.data.status ? <div className='mb-4'>{t("statusExplanationSeller.0")}</div> : data?.data.penjualID === decoded?.ID && data?.statuses[1] === data?.data.status ? <div className='mb-4'>{t("statusExplanationSeller.1")}</div> : data?.data.penjualID === decoded?.ID && data?.statuses[2] === data?.data.status ? <div className='mb-4'>{t("statusExplanationSeller.2")}</div> : data?.data.penjualID === decoded?.ID && data?.statuses[3] === data?.data.status ? <div className='mb-4'>{t("statusExplanationSeller.3")}</div> : ""}
+            {data?.data.pembeliID === decoded?.ID && data?.statuses[0] === data?.data.status ? <div className='mb-4'><p>{t("statusExplanationBuyer.0")}</p></div> : data?.data.pembeliID === decoded?.ID && data?.statuses[1] === data?.data.status ? <div className='mb-4'><p>{t("statusExplanationBuyer.1")}</p></div> : data?.data.pembeliID === decoded?.ID && data?.statuses[2] === data?.data.status ? <div className='mb-4'><p>{t("statusExplanationBuyer.2")}</p></div> : data?.data.pembeliID === decoded?.ID && data?.statuses[3] === data?.data.status ? <div className='mb-4'><p>{t("statusExplanationBuyer.3")}</p></div> : ""}
+            {data?.data.penjualID === decoded?.ID && data?.statuses[0] === data?.data.status ? <div className='mb-4'><p>{t("statusExplanationSeller.0")}</p></div> : data?.data.penjualID === decoded?.ID && data?.statuses[1] === data?.data.status ? <div className='mb-4'><p>{t("statusExplanationSeller.1")}</p></div> : data?.data.penjualID === decoded?.ID && data?.statuses[2] === data?.data.status ? <div className='mb-4'><p>{t("statusExplanationSeller.2")}</p></div> : data?.data.penjualID === decoded?.ID && data?.statuses[3] === data?.data.status ? <div className='mb-4'><p>{t("statusExplanationSeller.3")}</p></div> : ""}
             <div className='row d-flex justify-content-between status-transaksi'>
               {STATUS_TRANSAKSI.map((value, key) => {
                 if (data?.data.status === value.text) {
