@@ -55,10 +55,10 @@ func callDb() (*gorm.DB, string, error) {
 	if env == "STAGING" {
 		dbUrl := os.Getenv("DATABASE_URL")
 		db, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
-		db.Exec(fmt.Sprintf("DROP TABLE %v;", "product"))
-		db.Exec(fmt.Sprintf("DROP TABLE %v;", "transaction"))
-		db.Exec(fmt.Sprintf("DROP TABLE %v;", "room"))
-		db.Exec(fmt.Sprintf("DROP TABLE %v;", "user"))
+		db.Exec("DROP TABLE products")
+		db.Exec("DROP TABLE transactions")
+		db.Exec("DROP TABLE rooms")
+		db.Exec("DROP TABLE users")
 	}
 
 	if env == "TEST" {

@@ -23,13 +23,13 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
   const contactNumber = (idPenjual) => {
 
     if (idPenjual === decoded) {
-      let text = data?.data?.pembeli.noHp + ""
+      let text = data?.data?.pembeli.NoHp + ""
       let hp = "62" + text.substring(1)
       let href = "https://wa.me/" + hp
       return href
     }
     else {
-      let text = data?.data?.penjual.noHp + ""
+      let text = data?.data?.penjual.NoHp + ""
       let hp = "62" + text.substring(1)
       let href = "https://wa.me/" + hp + "?text=I'm%20interested%20in%20your%20product%20for%20sale"
       return href
@@ -44,7 +44,6 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
           <ShowRoomCode roomCode={data?.data.roomCode} />
           {data?.data.penjualID === decoded?.ID && data?.statuses[0] === data?.data.status ? <Button className='ms-5 btn-simiddleman' onClick={openUpdateProductModal}>{t("updateProductButton")}</Button> : "" }
           <UpdateProduct closeUpdateProductModal={closeUpdateProductModal} updateProductModal={updateProductModal} data={data} user={user} namaProduk={namaProduk} setNamaProduk={setNamaProduk} hargaProduk={hargaProduk} setHargaProduk={setHargaProduk} deskripsiProduk={deskripsiProduk} setDeskripsiProduk={setDeskripsiProduk} kuantitasProduk={kuantitasProduk} setKuantitasProduk={setKuantitasProduk} getRoomDetails={getRoomDetails} />
-          {console.log(data?.data.penjual.noHp)}
           {data?.data?.pembeli && data?.data.penjualID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' rel='noreferrer' target={'_blank'}>Chat Pembeli</a>}
           {data?.data?.pembeli && data?.data.pembeliID === decoded?.ID && <a href={contactNumber(data?.data.idPenjual)} className='ms-5 btn-simiddleman wa' rel='noreferrer' target={'_blank'}>Chat Penjual</a>}
         </div>
