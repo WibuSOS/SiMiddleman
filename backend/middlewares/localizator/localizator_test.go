@@ -53,6 +53,15 @@ func setLocalizationHandler(t *testing.T) *Handler {
 	return handler
 }
 
+func setRoutes(localizationHandler *Handler, endPointHandler *rooms.Handler) *gin.Engine {
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.Use(localizationHandler.PassLocalizator)
+	r.GET("/:lang/joinroom/:room_id/:user_id", endPointHandler.JoinRoom)
+
+	return r
+}
+
 func TestLocalizeSuccess(t *testing.T) {
 	os.Setenv("ENVIRONMENT", "TEST")
 
@@ -68,12 +77,9 @@ func TestLocalizeSuccess(t *testing.T) {
 	endPointHandler := setEndPointHandler(t, db)
 
 	// ROUTES INITIALIZATION
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.Use(localizationHandler.PassLocalizator)
-	r.GET("/:lang/joinroom/:room_id/:user_id", endPointHandler.JoinRoom)
+	r := setRoutes(localizationHandler, endPointHandler)
 
-	// SUCCESS
+	// SUCCESS ID LANGUAGE
 	req, err := http.NewRequest("GET", "/id/joinroom/1/1", nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
@@ -84,7 +90,7 @@ func TestLocalizeSuccess(t *testing.T) {
 	assert.Equal(t, "sukses", res.Message)
 }
 
-func TestLocalizeFail(t *testing.T) {
+func TestLocalizeDefaultLanguage(t *testing.T) {
 	os.Setenv("ENVIRONMENT", "TEST")
 
 	// DB INITIALIZATION
@@ -99,12 +105,9 @@ func TestLocalizeFail(t *testing.T) {
 	endPointHandler := setEndPointHandler(t, db)
 
 	// ROUTES INITIALIZATION
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.Use(localizationHandler.PassLocalizator)
-	r.GET("/:lang/joinroom/:room_id/:user_id", endPointHandler.JoinRoom)
+	r := setRoutes(localizationHandler, endPointHandler)
 
-	// SUCCESS
+	// SUCCESS DEFAULT LANGUAGE
 	req, err := http.NewRequest("GET", "/fr/joinroom/1/1", nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
