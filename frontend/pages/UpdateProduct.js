@@ -1,7 +1,10 @@
 import Swal from 'sweetalert2';
 import ModalUpdateProduct from './ModalUpdateProduct';
+import { useRouter } from 'next/router';
 
 export default function UpdateProduct({ closeUpdateProductModal, updateProductModal, data, user, namaProduk, setNamaProduk, hargaProduk, setHargaProduk, deskripsiProduk, setDeskripsiProduk, kuantitasProduk, setKuantitasProduk, getRoomDetails }) {
+    const router = useRouter();
+
     const handleSubmitUpdateProduct = async (e) => {
         closeUpdateProductModal();
         e.preventDefault();
@@ -13,7 +16,7 @@ export default function UpdateProduct({ closeUpdateProductModal, updateProductMo
             Kuantitas: parseInt(kuantitasProduk),
         }
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updateproduct/${data?.data.product.ID}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/updateproduct/${data?.data.product.ID}`, {
                 method: 'PUT',
                 body: JSON.stringify(body),
                 headers: {

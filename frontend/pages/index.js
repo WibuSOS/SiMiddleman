@@ -10,12 +10,14 @@ import AlasanSimiddleman from './AlasanSimiddleman';
 import SimiddlemanSummaries from './SimiddlemanSummaries';
 import Card from 'react-bootstrap/Card';
 import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from "next/router";
 
 function Home({ user }) {
   const [data, setData] = useState(null)
   const [error] = useState(null)
   const [showSeller, setShowSeller] = useState(false);
   const [showBuyer, setShowBuyer] = useState(false);
+  const router = useRouter();
 
   const { t } = useTranslation('common');
 
@@ -40,7 +42,7 @@ function Home({ user }) {
   const GetAllRoom = async () => {
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/rooms/${decoded.ID}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/${decoded.ID}`, {
         method: 'GET',
         headers: {
           'Authorization': 'Bearer ' + user

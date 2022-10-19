@@ -53,7 +53,7 @@ function Pembayaran({ user }) {
         const idRoom = router.query.idRoom;
         if (data.data.status != dataRoom.statuses[1] && dataRoom.statuses[0] == data.data.status) {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/updatestatus/${idRoom}`, {
                     method: 'PUT',
                     headers: { 'Authorization': 'Bearer ' + user, },
                     body: JSON.stringify({ status: dataRoom.statuses[1] })

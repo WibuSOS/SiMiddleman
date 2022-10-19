@@ -48,7 +48,7 @@ export default function Room({ user }) {
       return
     }
 
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/updatestatus/${idRoom}`, {
       method: 'PUT',
       headers: {
         'Authorization': 'Bearer ' + user,
@@ -70,7 +70,7 @@ export default function Room({ user }) {
       return
     }
 
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/updatestatus/${idRoom}`, {
       method: 'PUT',
       headers: {
         'Authorization': 'Bearer ' + user,
