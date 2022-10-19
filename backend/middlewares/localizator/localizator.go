@@ -3,8 +3,8 @@ package localizator
 import (
 	"fmt"
 	"os"
-	"strings"
 
+	"github.com/WibuSOS/sinarmas/backend/helpers"
 	"github.com/gin-gonic/gin"
 	language "github.com/moemoe89/go-localization"
 )
@@ -23,9 +23,8 @@ func NewHandler() (*Handler, error) {
 }
 
 func initialize() (*language.Config, error) {
-	dir, _ := os.Getwd()
-	strDir := strings.ReplaceAll(dir, `\`, `/`)
-	path := fmt.Sprintf("%s/language.json", strDir)
+	dir := helpers.GetRootPath() + os.Getenv("LOCALIZATOR_PATH")
+	path := fmt.Sprintf("%s/language.json", dir)
 
 	cfg := language.New()
 	cfg.BindPath(path)

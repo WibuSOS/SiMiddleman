@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/WibuSOS/sinarmas/backend/middlewares/authentication"
 	"github.com/WibuSOS/sinarmas/backend/middlewares/authorization"
+	"github.com/WibuSOS/sinarmas/backend/middlewares/localizator"
 
 	"github.com/WibuSOS/sinarmas/backend/controllers/auth"
 	"github.com/WibuSOS/sinarmas/backend/controllers/product"
@@ -12,12 +13,17 @@ import (
 	"github.com/gin-contrib/cors"
 )
 
-func (s *server) SetupRouter() {
+func (s *server) SetupRouter() error {
+	localizatorHandler, err := localizator.NewHandler()
+	if err != nil {
+		return err
+	}
+
 	s.Router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
 		AllowHeaders: []string{"Origin", "Accept", "Content-Type", "Authorization", "Access-Control-Allow-Origin"},
-	}))
+	}), localizatorHandler.PassLocalizator)
 
 	consumer := []string{"consumer"}
 	// admin := []string{"admin"}
@@ -70,4 +76,6 @@ func (s *server) SetupRouter() {
 
 	s.Router.PUT("/updatestatus/:room_id", authentication.Authentication, consumerHandler.RoleAuthorize, consumerHandler.RoomAuthorize, transactionHandler.UpdateStatusDelivery)
 	s.Router.GET("/:lang/getHarga/:room_id", authentication.Authentication, consumerHandler.RoleAuthorize, consumerHandler.RoomAuthorize, transactionHandler.GetPaymentDetails)
+
+	return nil
 }
