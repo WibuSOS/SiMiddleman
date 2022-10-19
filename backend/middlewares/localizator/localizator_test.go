@@ -7,8 +7,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/WibuSOS/sinarmas/backend/api"
 	"github.com/WibuSOS/sinarmas/backend/controllers/rooms"
+	"github.com/WibuSOS/sinarmas/backend/database"
 	"github.com/WibuSOS/sinarmas/backend/models"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
@@ -26,8 +26,13 @@ type response struct {
 // 	log.SetOutput(file)
 // }
 
+func setEnv() {
+	os.Setenv("ENVIRONMENT", "TEST")
+	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+}
+
 func newTestDB(t *testing.T) *gorm.DB {
-	db, err := api.SetupDb()
+	db, err := database.SetupDb()
 	assert.NoError(t, err)
 	assert.NotNil(t, db)
 
@@ -63,7 +68,8 @@ func setRoutes(localizationHandler *Handler, endPointHandler *rooms.Handler) *gi
 }
 
 func TestLocalizeSuccess(t *testing.T) {
-	os.Setenv("ENVIRONMENT", "TEST")
+	// SET ALL ENVIRONMENT VARIABLES
+	setEnv()
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -91,7 +97,8 @@ func TestLocalizeSuccess(t *testing.T) {
 }
 
 func TestLocalizeDefaultLanguage(t *testing.T) {
-	os.Setenv("ENVIRONMENT", "TEST")
+	// SET ALL ENVIRONMENT VARIABLES
+	setEnv()
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
