@@ -11,7 +11,9 @@
     "emptyname": "Name Cannot Be Empty",
     "emptyprice": "Price Cannot Be Empty",
     "emptyquantity": "Quantity Cannot Be Empty",
-    "emptydescription": "Description Cannot Be Empty"
+    "emptydescription": "Description Cannot Be Empty",
+    "roomnotfound": "Room Not Found",
+    "errorfetchingdata": "Error while fetching data"
   },
   "id": {
     "NoToken": "Tidak dapat memverifikasi token",
@@ -25,6 +27,8 @@
     "emptyname": "Nama tidak boleh kosong",
     "emptyprice": "Harga tidak boleh kosong",
     "emptyquantity": "Kuantitas tidak boleh kosong",
-    "emptydescription": "Deskripsi tidak boleh kosong"
+    "emptydescription": "Deskripsi tidak boleh kosong",
+    "roomnotfound": "Ruangan tidak ditemukan",
+    "errorfetchingdata": "Error ketika mengambil data"
   }
 }

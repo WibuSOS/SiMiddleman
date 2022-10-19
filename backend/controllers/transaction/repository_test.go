@@ -6,6 +6,7 @@ import (
 
 	"github.com/WibuSOS/sinarmas/backend/controllers/product"
 	"github.com/WibuSOS/sinarmas/backend/controllers/rooms"
+	"github.com/WibuSOS/sinarmas/backend/database"
 	"github.com/WibuSOS/sinarmas/backend/models"
 
 	"github.com/glebarez/sqlite"
@@ -14,16 +15,9 @@ import (
 )
 
 func newTestDB(t *testing.T) *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
+	db, err := database.SetupDb()
 	assert.NoError(t, err)
 	assert.NotNil(t, db)
-
-	err = db.AutoMigrate(&models.Users{}, &models.Rooms{}, &models.Products{}, &models.Transactions{})
-	assert.NoError(t, err)
-
-	db.Create(&models.Rooms{
-		PenjualID: 1,
-	})
 
 	return db
 }
