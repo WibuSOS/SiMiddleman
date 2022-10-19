@@ -2,9 +2,11 @@ import { Form, Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
 import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from 'next/router';
 
 export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomModal, joinRoomModal }) {
     const { t, lang } = useTranslation('joinRoom');
+    const router = useRouter();
 
     const handleSubmitJoinRoom = async (e) => {
         closeJoinRoomModal();

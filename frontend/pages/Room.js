@@ -1,6 +1,8 @@
 import Button from 'react-bootstrap/Button';
+import { useRouter } from 'next/router';
 
 function Room(RoomDetails) {
+  const router = useRouter();
   return (
     <div className='container pt-5'>
       <Button type='submit'>Close</Button>
