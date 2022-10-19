@@ -6,7 +6,6 @@ import (
 
 	"github.com/WibuSOS/sinarmas/backend/models"
 	"github.com/WibuSOS/sinarmas/backend/utils/errors"
-	"github.com/WibuSOS/sinarmas/backend/utils/localization"
 
 	"github.com/dchest/uniuri"
 	"gorm.io/gorm"
@@ -16,7 +15,7 @@ type Repository interface {
 	CreateRoom(req *DataRequest) (models.Rooms, *errors.RestError)
 	GetAllRooms(userId string) ([]models.Rooms, *errors.RestError)
 	JoinRoom(roomId string, userId string) (models.Rooms, *errors.RestError)
-	JoinRoomPembeli(roomId string, userId string, mesasge string) *errors.RestError
+	JoinRoomPembeli(roomId string, userId string) *errors.RestError
 }
 
 type repository struct {
@@ -110,20 +109,19 @@ func (r *repository) JoinRoom(roomId string, userId string) (models.Rooms, *erro
 	}
 
 	if room.ID == 0 {
-		return models.Rooms{}, errors.NewBadRequestError("tidakBisaMasukRuangan")
+		return models.Rooms{}, errors.NewBadRequestError("cannotjoinroom")
 	}
 
 	return room, nil
 }
 
-func (r *repository) JoinRoomPembeli(roomId string, userId string, message string) *errors.RestError {
+func (r *repository) JoinRoomPembeli(roomId string, userId string) *errors.RestError {
 	var room models.Rooms
 
 	idroom64, err := strconv.ParseUint(userId, 10, 32)
 	if err != nil {
 		log.Println(err.Error())
-		msg := localization.GetMessage(message, "invalididuser")
-		return errors.NewBadRequestError(msg)
+		return errors.NewBadRequestError("invalididuser")
 	}
 	idRoom := uint(idroom64)
 
@@ -131,16 +129,14 @@ func (r *repository) JoinRoomPembeli(roomId string, userId string, message strin
 		Where("room_code = ? AND (penjual_id = ? OR pembeli_id = ?)", roomId, idRoom, idRoom).
 		First(&room)
 	if alreadyJoinRoom.Error == nil {
-		msg := localization.GetMessage(message, "sudahmasukruangan")
-		return errors.NewBadRequestError(msg)
+		return errors.NewBadRequestError("alreadyjoinroom")
 	}
 
 	roomAlreadyHasPembeli := r.db.
 		Where("room_code = ? AND pembeli_id IS NULL", roomId).
 		First(&room)
 	if roomAlreadyHasPembeli.Error != nil {
-		msg := localization.GetMessage(message, "sudahadapembeli")
-		return errors.NewBadRequestError(msg)
+		return errors.NewBadRequestError("alreadyhavebuyer")
 	}
 
 	res := r.db.
