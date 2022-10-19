@@ -1,19 +1,37 @@
 {
   "en": {
-    "NoToken": "Unable to verify token",
+    "noToken": "Unable to verify token",
     "tidakBisaMasukRuangan": "Cannot Enter Room",
     "sudahmasukruangan": "Already Join This Room",
     "invalididuser": "invalid id user",
     "sudahadapembeli": "Already has Buyer in this room",
     "internalServer": "Internal Server Error",
-    "success": "success"
+    "success": "success",
+    "invalidToken": "Token is not valid",
+    "unauthorized": "Unauthorized",
+    "invalidRoomID": "Invalid room ID",
+    "roomNotFound": "Room not found",
+    "userNotFound": "User not found",
+    "authFailed": "Authentication failed",
+    "invalidEmail": "Email is not valid",
+    "invalidPassword": "Password is not valid",
+    "invalidJSON": "Invalid JSON"
   },
   "id": {
-    "NoToken": "Tidak dapat memverifikasi token",
+    "noToken": "Tidak dapat memverifikasi token",
     "tidakBisaMasukRuangan": "Tidak Bisa Memasuki Ruangan",
     "sudahmasukruangan": "Anda Sudah Masuk Ruangan ini",
     "invalididuser": "id user salah",
     "sudahadapembeli": "Sudah ada Pembeli di ruangan",
-    "success": "sukses"
+    "success": "sukses",
+    "validToken": "Token tidak valid",
+    "unauthorized": "Tidak terotorisasi",
+    "invalidRoomID": "ID room tidak valid",
+    "roomNotFound": "Room tidak ditemukan",
+    "userNotFound": "User tidak ditemukan",
+    "authFailed": "Autentikasi gagal",
+    "invalidEmail": "Email tidak valid",
+    "invalidPassword": "Password tidak valid",
+    "invalidJSON": "JSON tidak valid"
   }
 }

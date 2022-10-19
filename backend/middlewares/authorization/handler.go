@@ -2,6 +2,7 @@ package authorization
 
 import (
 	"github.com/gin-gonic/gin"
+	language "github.com/moemoe89/go-localization"
 )
 
 type HandlerAuthorization struct {
@@ -13,13 +14,16 @@ func NewHandlerAuthorization(service ServiceAuthorization) *HandlerAuthorization
 }
 
 func (h *HandlerAuthorization) RoleAuthorize(c *gin.Context) {
+	localizator := c.MustGet("localizator")
+
 	role := c.MustGet("role")
 	roleStr := role.(string)
 
 	err := h.AuthorizationService.RoleAuthorize(roleStr)
 	if err != nil {
+		msg := localizator.(*language.Config).Lookup(c.Param("lang"), err.Message)
 		c.JSON(err.Status, gin.H{
-			"message": err.Message,
+			"message": msg,
 		})
 		c.Abort()
 		return
@@ -29,6 +33,7 @@ func (h *HandlerAuthorization) RoleAuthorize(c *gin.Context) {
 }
 
 func (h *HandlerAuthorization) RoomAuthorize(c *gin.Context) {
+	localizator := c.MustGet("localizator")
 
 	user_id := c.MustGet("id")
 	userID := user_id.(float64)
@@ -36,8 +41,9 @@ func (h *HandlerAuthorization) RoomAuthorize(c *gin.Context) {
 
 	err := h.AuthorizationService.RoomAuthorize(userID, room_id)
 	if err != nil {
+		msg := localizator.(*language.Config).Lookup(c.Param("lang"), err.Message)
 		c.JSON(err.Status, gin.H{
-			"message": err.Message,
+			"message": msg,
 		})
 		c.Abort()
 		return

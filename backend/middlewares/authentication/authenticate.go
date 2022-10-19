@@ -8,13 +8,14 @@ import (
 	"strings"
 
 	"github.com/WibuSOS/sinarmas/backend/utils/errors"
-	"github.com/WibuSOS/sinarmas/backend/utils/localization"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	language "github.com/moemoe89/go-localization"
 )
 
 func Authentication(c *gin.Context) {
+	localizator := c.MustGet("localizator")
 	tokenString := c.Request.Header.Get("Authorization")
 	str := tokenString
 	str = strings.ReplaceAll(str, "Bearer ", "")
@@ -27,10 +28,8 @@ func Authentication(c *gin.Context) {
 
 	if err != nil {
 		log.Println(err)
-
-		message := localization.GetMessage(c.Param("lang"), "NoToken")
-
-		restErr := errors.NewUnauthorized(message)
+		msg := localizator.(*language.Config).Lookup(c.Param("lang"), "noToken")
+		restErr := errors.NewUnauthorized(msg)
 		c.JSON(restErr.Status, gin.H{
 			"message": restErr.Message,
 		})
@@ -41,8 +40,9 @@ func Authentication(c *gin.Context) {
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok || !token.Valid {
+		msg := localizator.(*language.Config).Lookup(c.Param("lang"), "invalidToken")
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Bad Request",
+			"message": msg,
 		})
 		c.Abort()
 		return
