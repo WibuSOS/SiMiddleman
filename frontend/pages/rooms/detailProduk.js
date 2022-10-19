@@ -57,7 +57,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
       <div className='container pt-5'>
         <div className='detail-produk'>
           {error && <div>{t("load-fail")} {error.toString()}</div>}
-          {!data ? <div>{t("loading")}</div> : ((data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>{t("list-empty")}</p>)}
+          {!data ? <div>{t("load.loading")}</div> : ((data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>{t("list-empty")}</p>)}
           <h3 className='nama-produk'>
             {data?.data.product.nama}
           </h3>
