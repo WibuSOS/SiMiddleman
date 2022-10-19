@@ -42,7 +42,3 @@ func (h *Handler) PassLocalizator(c *gin.Context) {
 	c.Set("localizator", h.Service)
 	c.Next()
 }
-
-func (h *Handler) GetMessage(langReq, id string) string {
-	return h.Service.Lookup(langReq, id)
-}
