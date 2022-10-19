@@ -47,7 +47,7 @@ export async function getServerSideProps({ query }) {
   const userId = query.idPenjual;
   let roomDetails = null;
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${roomId}/${userId}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/joinroom/${roomId}/${userId}`, {
       method: 'GET',
     });
     roomDetails = await res.json();
