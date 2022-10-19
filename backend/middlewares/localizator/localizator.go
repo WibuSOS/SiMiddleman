@@ -39,7 +39,7 @@ func initialize() (*language.Config, error) {
 }
 
 func (h *Handler) PassLocalizator(c *gin.Context) {
-	c.Set("localizator", h)
+	c.Set("localizator", h.Service)
 	c.Next()
 }
 
