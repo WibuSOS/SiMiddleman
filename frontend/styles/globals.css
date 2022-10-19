@@ -48,7 +48,7 @@ a {
 }
 
 .content {
-  min-height: calc(100vh - 108px - 100px);
+  min-height: calc(100vh - 60px - 100px);
 }
 
 /* 
@@ -60,16 +60,6 @@ a {
 
 
 /* Css Styling for modal login */
-.avatar {
-  position: absolute;
-  top: -10%;
-  left: 40%;
-}
-
-.avatar img {
-  width: 100%;
-}
-
 .or {
   overflow: hidden;
   text-align: center;
@@ -118,6 +108,41 @@ a {
 
 .modal-dialog .modal-content {
   background-color: #E6E6E6;
+}
+
+.content .login-illustration {
+  background-image: url(../pages/assets/loginIlustration.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 20vh;
+  border-bottom-left-radius: 30%;
+  border-bottom-right-radius: 30%;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.10));
+}
+
+.login-form-wrapper h2 {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 36px;
+}
+
+.login-form-wrapper p {
+  font-family: 'Poppins', sans-serif;
+  /* color: red !important; */
+  font-weight: bolder;
+}
+
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  opacity: 1; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
 
 /* Css Styling for modal login */
@@ -310,6 +335,13 @@ nav .logo-navbar {
     color: var(--primary);
   }
 
+  .content .login-illustration {
+    height: calc(100vh - 100px - 60px);
+    border-radius: 0%;
+    filter: none;
+    background-size: contain;
+  }
+
 }
 
 /* css styling for navigation bar */
@@ -317,7 +349,7 @@ nav .logo-navbar {
 /* css styling for footer */
 footer {
   background-color: var(--primary);
-  height: 108px;
+  height: 60px;
 }
 
 .link a {
@@ -333,7 +365,7 @@ footer {
 
 footer .footer-content {
   align-items: center;
-  height: 108px;
+  height: 60px;
 }
 
 /* css styling for footer */
