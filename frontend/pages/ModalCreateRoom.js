@@ -23,7 +23,7 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
       }
     }
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/rooms`, {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {

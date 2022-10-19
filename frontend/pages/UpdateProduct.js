@@ -16,7 +16,7 @@ export default function UpdateProduct({ closeUpdateProductModal, updateProductMo
             Kuantitas: parseInt(kuantitasProduk),
         }
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/updateproduct/${data?.data.product.ID}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updateproduct/${data?.data.product.ID}`, {
                 method: 'PUT',
                 body: JSON.stringify(body),
                 headers: {

@@ -24,7 +24,7 @@ function Pembayaran({ user }) {
     const getHarga = async () => {
         const idRoom = router.query.idRoom;
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/getHarga/${idRoom}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getHarga/${idRoom}`, {
                 method: 'GET',
                 headers: { 'Authorization': 'Bearer ' + user, }
             });
@@ -38,7 +38,7 @@ function Pembayaran({ user }) {
     const getRoomDetails = async () => {
         const idRoom = router.query.idRoom;
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/joinroom/${idRoom}/${decoded.ID}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${idRoom}/${decoded.ID}`, {
                 method: 'GET',
                 headers: { 'Authorization': 'Bearer ' + user, }
             });
@@ -53,7 +53,7 @@ function Pembayaran({ user }) {
         const idRoom = router.query.idRoom;
         if (data.data.status != dataRoom.statuses[1] && dataRoom.statuses[0] == data.data.status) {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/updatestatus/${idRoom}`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
                     method: 'PUT',
                     headers: { 'Authorization': 'Bearer ' + user, },
                     body: JSON.stringify({ status: dataRoom.statuses[1] })

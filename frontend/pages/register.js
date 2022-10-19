@@ -18,7 +18,7 @@ export default function RegisterForm() {
 
     if (formData.get("confirmPassword") == formData.get("password")){
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/register`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/register`, {
           method: 'POST',
           body: JSON.stringify(body)
         });
