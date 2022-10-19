@@ -81,6 +81,17 @@ function Home({ user }) {
         deskripsiProduk={item.product.deskripsi}
         hargaProduk={item.product.harga}
         kuantitasProduk={item.product.kuantitas}/>
+    ) : (!showBuyer && !showSeller) ? dataList.push(
+      <CardRoom
+        key={index}
+        decoded={decoded.ID}
+        idPenjual={item.penjualID}
+        idRoom={item.ID}
+        kodeRuangan={item.roomCode}
+        namaProduk={item.product.nama}
+        deskripsiProduk={item.product.deskripsi}
+        hargaProduk={item.product.harga}
+        kuantitasProduk={item.product.kuantitas}/>
     ) : ""
   ))
 
