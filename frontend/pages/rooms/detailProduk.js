@@ -62,7 +62,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
               <div className='row pt-3'>
                 <div className='col-6 harga text-center'>
                   <h3>{t("price")}</h3>
-                  <p>Rp {data?.data.product.harga}</p>
+                  <p>Rp {data?.data.product.harga.toLocaleString()}</p>
                 </div>
                 <div className='col-6 kuantitas text-center'>
                   <h3>{t("quantity")}</h3>
@@ -81,7 +81,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
                 <div className='row'>
                   <div className='col-lg-8 col-sm-12'>
                     <h3>{t("price")}</h3>
-                    <h3>Rp{data?.data.product.harga}</h3>
+                    <h3>Rp{data?.data.product.harga.toLocaleString()}</h3>
                   </div>
                   <div className='col-lg-4 col-sm-12'>
                     {data?.data.pembeliID === decoded?.ID && data?.statuses[0] === data?.data.status && <Button className='w-100' variant='simiddleman' onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}` } }) }}>{t("buyButton")}</Button>}

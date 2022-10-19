@@ -8,6 +8,7 @@ import useTranslation from 'next-translate/useTranslation';
 export default function CardRoom(props) {
   const router = useRouter();
   const { t, lang } = useTranslation('cardRoom');
+
   const isSeller = (idPenjual) => {
     if (idPenjual === props.decoded) return (
       <>
@@ -34,7 +35,7 @@ export default function CardRoom(props) {
             <p className='card-deskripsi-produk'>{props.deskripsiProduk}</p>
           </div>
           <div>
-            <p className='card-harga-produk'>Rp{props.hargaProduk}</p>
+            <p className='card-harga-produk'>Rp {props.hargaProduk.toLocaleString()}</p>
           </div>
         </Card.Body>
         <Button variant="simiddleman" className='w-100' onClick={() => {
