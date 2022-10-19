@@ -23,8 +23,12 @@ func MakeServer(db *gorm.DB) *server {
 }
 
 func (s *server) RunServer() {
-	s.SetupRouter()
 	port := os.Getenv("PORT")
+
+	if err := s.SetupRouter(); err != nil {
+		log.Panicln(err.Error())
+	}
+
 	if err := s.Router.Run(":" + port); err != nil {
 		log.Panicln(err.Error())
 	}
