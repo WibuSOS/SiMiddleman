@@ -1025,6 +1025,7 @@ footer .footer-content {
 
 .room-card .card-body .card-nama-produk {
   font-weight: 700;
+  font-size: 24px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

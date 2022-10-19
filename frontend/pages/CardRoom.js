@@ -24,14 +24,18 @@ export default function CardRoom(props) {
   }
   return (
     <Card className='me-4 mb-4 room-card' style={{ width: '22rem' }}>
-      <Card.Body>
-        <Card.Title className='mb-5'>
+      <Card.Body className='d-flex flex-column justify-content-between'>
+        <Card.Title className='mb-1'>
           {isSeller(props.idPenjual)}
         </Card.Title>
-        <Card.Body>
-          <p className='card-nama-produk'>{props.namaProduk}</p>
-          <p className='card-deskripsi-produk'>{props.deskripsiProduk}</p>
-          <p className='card-harga-produk'>Rp{props.hargaProduk}</p>
+        <Card.Body className='d-flex flex-column justify-content-between'>
+          <div>
+            <p className='card-nama-produk'>{props.namaProduk}</p>
+            <p className='card-deskripsi-produk'>{props.deskripsiProduk}</p>
+          </div>
+          <div>
+            <p className='card-harga-produk'>Rp{props.hargaProduk}</p>
+          </div>
         </Card.Body>
         <Button variant="simiddleman" className='w-100' onClick={() => {
           router.push(

@@ -104,7 +104,7 @@ function Home({ user }) {
       <div className='user-action-wrapper'>
         <div className='row d-flex justify-content-around p-2'>
           <Card className='user-action col-lg-4 col-md-12 col-sm-12'>
-            <Card.Body>
+            <Card.Body className='d-flex flex-column justify-content-between'>
               <Card.Title className='mb-5'>{t('logged-in.user-action.title.0')}</Card.Title>
               <Card.Text>
               {t('logged-in.user-action.text.0')}
@@ -113,7 +113,7 @@ function Home({ user }) {
             </Card.Body>
           </Card>
           <Card className='user-action col-lg-4 col-md-12 col-sm-12'>
-            <Card.Body>
+            <Card.Body className='d-flex flex-column justify-content-between'>
               <Card.Title className='mb-5'>{t('logged-in.user-action.title.1')}</Card.Title>
               <Card.Text>
               {t('logged-in.user-action.text.1')}
@@ -122,7 +122,7 @@ function Home({ user }) {
             </Card.Body>
           </Card>
           <Card className='user-action col-lg-4 col-md-12 col-sm-12'>
-            <Card.Body>
+            <Card.Body className='d-flex flex-column justify-content-between'>
               <Card.Title className='mb-5'>{t('logged-in.user-action.title.2')}</Card.Title>
               <Card.Text>
               {t('logged-in.user-action.text.2')}
