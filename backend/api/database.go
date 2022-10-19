@@ -1,4 +1,4 @@
-package database
+package api
 
 import (
 	"errors"

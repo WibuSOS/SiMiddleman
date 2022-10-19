@@ -1,16 +1,16 @@
 {
   "en": {
     "NoToken": "Unable to verify token",
-    "cannotjoinroom": "Cannot Enter Room",
-    "alreadyjoinroom": "Already Join This Room",
+    "TidakBisaMasukRuangan": "Cannot Enter Room",
+    "sudahmasukruangan": "Already Join This Room",
     "invalididuser": "invalid id user",
-    "alreadyhavebuyer": "Already has Buyer in this room"
+    "sudahadapembeli": "Already has Buyer in this room"
   },
   "id": {
     "NoToken": "Tidak dapat memverifikasi token",
-    "cannotjoinroom": "Tidak Bisa Memasuki Ruangan",
-    "alreadyjoinroom": "Anda Sudah Masuk Ruangan ini",
+    "TidakBisaMasukRuangan": "Tidak Bisa Memasuki Ruangan",
+    "sudahmasukruangan": "Anda Sudah Masuk Ruangan ini",
     "invalididuser": "id user salah",
-    "alreadyhavebuyer": "Sudah ada Pembeli di ruangan"
+    "sudahadapembeli": "Sudah ada Pembeli di ruangan"
   }
 }
