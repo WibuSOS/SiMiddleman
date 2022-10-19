@@ -76,6 +76,8 @@
     },
     "btn-register": "Register"
   },
+  "seller" : "You're the Seller",
+  "buyer" : "You're the Buyer",
   "footer": {
     "copyright": "Made with Team 2 for a better web.",
     "privacyPolicy": "Privacy Policy",

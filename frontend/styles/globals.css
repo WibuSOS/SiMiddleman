@@ -479,6 +479,10 @@ footer .footer-content {
     text-align: left;
   }
 
+  .user-action-wrapper {
+    margin-top: -10rem;
+  }
+
 }
 
 /* css styling for banner page */
@@ -974,10 +978,16 @@ footer .footer-content {
 /* css styling for detail produk page */
 
 .content .user-action {
-  width: 358px;
   box-shadow: 0px 32px 50px -9px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   border: none;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+  transition: all ease 0.5s;
+}
+
+.content .user-action:hover {
+transform: translateY(-10px);
+box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.35);
 }
 
 .content .user-action .card-title {
@@ -1022,8 +1032,14 @@ footer .footer-content {
 
 .room-card {
   border: none !important;
-  background-color: #FBFAF5 !important;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  background-color: #fff !important;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+  transition: all ease 0.5s;
+}
+
+.room-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.35);
 }
 
 .room-card .card-title {
@@ -1149,7 +1165,7 @@ footer .footer-content {
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1rem;
-  margin-top: -10rem;
+  margin-top: -8rem;
 }
 
 .room-role {

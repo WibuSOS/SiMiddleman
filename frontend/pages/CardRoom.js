@@ -23,7 +23,7 @@ export default function CardRoom(props) {
     )
   }
   return (
-    <Card className='me-4 mb-4 room-card' style={{ width: '22rem' }}>
+    <Card className='room-card col-lg-5 col-md-5 col-sm-12 mt-5'>
       <Card.Body className='d-flex flex-column justify-content-between'>
         <Card.Title className='mb-1'>
           {isSeller(props.idPenjual)}

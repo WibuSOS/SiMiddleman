@@ -100,11 +100,12 @@ function Home({ user }) {
       <div className='home-banner text-center'>
         <h2>{t('logged-in.banner.title')}</h2>
         <h3>{t('logged-in.banner.text')}</h3>
+        <Button onClick={() => signOut()} className='btn-simiddleman'>{t('logged-in.user-action.title.2')}</Button>
       </div>
       <div className='user-action-wrapper'>
         <div className='row d-flex justify-content-around p-2'>
-          <Card className='user-action col-lg-4 col-md-12 col-sm-12'>
-            <Card.Body className='d-flex flex-column justify-content-between'>
+          <Card className='user-action col-lg-4 col-md-5 col-sm-12'>
+            <Card.Body className='d-flex flex-column justify-content-around'>
               <Card.Title className='mb-5'>{t('logged-in.user-action.title.0')}</Card.Title>
               <Card.Text>
               {t('logged-in.user-action.text.0')}
@@ -112,8 +113,8 @@ function Home({ user }) {
               <CreateRoom idPenjual={decoded.ID} sessionToken={user} />
             </Card.Body>
           </Card>
-          <Card className='user-action col-lg-4 col-md-12 col-sm-12'>
-            <Card.Body className='d-flex flex-column justify-content-between'>
+          <Card className='user-action col-lg-4 col-md-5 col-sm-12'>
+            <Card.Body className='d-flex flex-column justify-content-around'>
               <Card.Title className='mb-5'>{t('logged-in.user-action.title.1')}</Card.Title>
               <Card.Text>
               {t('logged-in.user-action.text.1')}
@@ -121,29 +122,18 @@ function Home({ user }) {
               <JoinRoom idPembeli={decoded.ID} sessionToken={user} />
             </Card.Body>
           </Card>
-          <Card className='user-action col-lg-4 col-md-12 col-sm-12'>
-            <Card.Body className='d-flex flex-column justify-content-between'>
-              <Card.Title className='mb-5'>{t('logged-in.user-action.title.2')}</Card.Title>
-              <Card.Text>
-              {t('logged-in.user-action.text.2')}
-              </Card.Text>
-              <Button onClick={() => signOut()} className='w-100 btn-simiddleman'>{t('logged-in.user-action.title.2')}</Button>
-            </Card.Body>
-          </Card>
         </div>
       </div>
       <div className='container'>
-        <div className='pb-5' style={{ paddingTop: "64px" }}>
+        <div className='pb-5 pt-5'>
           <h2 className='room-anda'>{t('logged-in.room-list.title')}</h2>
-          <div className='row d-flex justify-content-center'>
-            <div className='col-lg-4'>
+          <div className='d-flex justify-content-center'>
               <div className='row d-flex justify-content-around room-role'>
-                  <Button className={showSeller ? "active" : ""} variant='simiddleman' onClick={() => {setShowSeller(current => !current);setShowBuyer(false)}}>You are seller</Button>
-                  <Button className={showBuyer ? "active" : ""} variant='simiddleman' onClick={() => {setShowBuyer(current => !current);setShowSeller(false)}}>You are buyer</Button>
+                  <Button className={showSeller ? "active" : ""} variant='simiddleman' onClick={() => {setShowSeller(current => !current);setShowBuyer(false)}}>{t("buyer")}</Button>
+                  <Button className={showBuyer ? "active" : ""} variant='simiddleman' onClick={() => {setShowBuyer(current => !current);setShowSeller(false)}}>{t("seller")}</Button>
               </div>
-            </div>
           </div>
-          <div className='row d-flex justify-content-center'>
+          <div className='row d-flex justify-content-around px-3'>
             {error && <div> {t('logged-in.error.load-fail')} {error.toString()}</div>}
             {
               !data ? <div>{t('logged-in.error.loading')}</div>
