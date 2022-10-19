@@ -7,7 +7,6 @@ import useTranslation from 'next-translate/useTranslation';
 
 export default function CardRoom(props) {
   const router = useRouter();
-  console.log(props.decoded);
   const { t, lang } = useTranslation('cardRoom');
   const isSeller = (idPenjual) => {
     if (idPenjual === props.decoded) return (
@@ -29,11 +28,11 @@ export default function CardRoom(props) {
         <Card.Title className='mb-5'>
           {isSeller(props.idPenjual)}
         </Card.Title>
-        <Card.Text>
+        <Card.Body>
           <p className='card-nama-produk'>{props.namaProduk}</p>
           <p className='card-deskripsi-produk'>{props.deskripsiProduk}</p>
           <p className='card-harga-produk'>Rp{props.hargaProduk}</p>
-        </Card.Text>
+        </Card.Body>
         <Button variant="simiddleman" className='w-100' onClick={() => {
           router.push(
             {
