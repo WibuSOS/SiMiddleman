@@ -71,11 +71,11 @@ func (s *server) SetupRouter() error {
 			roomRoutes.GET("/join/:room_id/:user_id", roomsHandler.JoinRoom)
 			roomRoutes.PUT("/join/:room_id/:user_id", roomsHandler.JoinRoomPembeli)
 
-			detailRoutes := roomRoutes.Group("/details", consumerHandler.RoomAuthorize)
+			detailRoutes := roomRoutes.Group("/details")
 			{
-				detailRoutes.PUT("/updateproduct/:id", productHandler.UpdateProduct)
-				detailRoutes.PUT("/updatestatus/:room_id", transactionHandler.UpdateStatusDelivery)
-				detailRoutes.GET("/getHarga/:room_id", transactionHandler.GetPaymentDetails)
+				detailRoutes.PUT("/updateproduct/:product_id", productHandler.UpdateProduct)
+				detailRoutes.PUT("/updatestatus/:room_id", consumerHandler.RoomAuthorize, consumerHandler.RoomAuthorize, transactionHandler.UpdateStatusDelivery)
+				detailRoutes.GET("/getHarga/:room_id", consumerHandler.RoomAuthorize, transactionHandler.GetPaymentDetails)
 			}
 		}
 	}
