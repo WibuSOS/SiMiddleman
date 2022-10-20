@@ -2,7 +2,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from 'react';
 import { getSession, signIn } from 'next-auth/react';
 import jwt from "jsonwebtoken";
-import UserProfile from './UserProfile'
+import UserProfile from './UserProfile';
+import Swal from 'sweetalert2';
 
 export default function Profile({ user }) {
     const [data, setData] = useState(null);
@@ -54,14 +55,17 @@ export default function Profile({ user }) {
     const handleSubmitUpdateProfile = async (e) => {
         closeUpdateProfileModal();
         e.preventDefault();
+        const idUser = decoded.ID;
+        const email = decoded.Email;
     
         const body = {
             Nama: nama,
             NoHp: noHp,
+            Email: email,
             NoRek: noRek
         }
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updateproduct/${data?.data.product.ID}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/user/${idUser}`, {
                 method: 'PUT',
                 body: JSON.stringify(body),
                 headers: {
@@ -72,8 +76,8 @@ export default function Profile({ user }) {
             });
             const dataRes = await res.json();
     
-            if (dataRes?.message === "berhasil mengupdate data") {
-                Swal.fire({ icon: 'success', title: 'Profile Berhasil diupdate', showConfirmButton: false, timer: 1500, })
+            if (dataRes?.message === "success") {
+                Swal.fire({ icon: 'success', title: 'Profile Berhasil diupdate', text: dataRes?.message, showConfirmButton: false, timer: 1500, })
                 getUserDetails();
             } else {
                 Swal.fire({ icon: 'error', title: 'Profile Gagal Diupdate', text: dataRes?.message, })
