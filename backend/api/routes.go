@@ -74,7 +74,7 @@ func (s *server) SetupRouter() error {
 			detailRoutes := roomRoutes.Group("/details")
 			{
 				detailRoutes.PUT("/updateproduct/:product_id", productHandler.UpdateProduct)
-				detailRoutes.PUT("/updatestatus/:room_id", consumerHandler.RoomAuthorize, consumerHandler.RoomAuthorize, transactionHandler.UpdateStatusDelivery)
+				detailRoutes.PUT("/updatestatus/:room_id", consumerHandler.RoomAuthorize, transactionHandler.UpdateStatusDelivery)
 				detailRoutes.GET("/getHarga/:room_id", consumerHandler.RoomAuthorize, transactionHandler.GetPaymentDetails)
 			}
 		}

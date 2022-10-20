@@ -93,7 +93,7 @@ func TestLocalizeSuccess(t *testing.T) {
 	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "sukses", res.Message)
+	assert.Equal(t, "Berhasil masuk ruangan, silahkan refresh untuk menampilkan ruangan", res.Message)
 }
 
 func TestLocalizeDefaultLanguage(t *testing.T) {
@@ -122,5 +122,5 @@ func TestLocalizeDefaultLanguage(t *testing.T) {
 	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
+	assert.Equal(t, "Success join room, please refresh to view room", res.Message)
 }
