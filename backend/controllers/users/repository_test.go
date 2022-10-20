@@ -25,6 +25,14 @@ func newTestDB(t *testing.T) *gorm.DB {
 	return db
 }
 
+func newTestDBError(t *testing.T) *gorm.DB {
+	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
+	assert.NoError(t, err)
+	assert.NotNil(t, db)
+
+	return db
+}
+
 func TestCreateUserRepositorySuccess(t *testing.T) {
 	db := newTestDB(t)
 	repo := NewRepository(db)
@@ -178,4 +186,47 @@ func TestCreateUserRepositoryErrorNoRek(t *testing.T) {
 	assert.NotEmpty(t, err)
 	assert.Equal(t, http.StatusBadRequest, err.Status)
 	assert.Equal(t, "no rek tidak memenuhi syarat", err.Message)
+}
+
+func TestGetUserDetailsRepository(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+
+	req := DataRequest{
+		Nama:     "Julyus Andreas",
+		NoHp:     "+6281234567890",
+		Email:    "julyusmanurung@gmail.com",
+		Password: "julyus123",
+		NoRek:    "6181801052",
+	}
+
+	createUser := repo.CreateUser(&req)
+	assert.Nil(t, createUser)
+
+	userDetails, err := repo.GetUserDetails("1")
+	assert.NotEmpty(t, userDetails)
+	assert.Nil(t, err)
+}
+
+func TestGetUserDetailsErrorFetchingData(t *testing.T) {
+	dbError := newTestDBError(t)
+	db := newTestDB(t)
+	repo := NewRepository(db)
+	repo2 := NewRepository(dbError)
+
+	req := DataRequest{
+		Nama:     "Julyus Andreas",
+		NoHp:     "+6281234567890",
+		Email:    "julyusmanurung@gmail.com",
+		Password: "julyus123",
+		NoRek:    "6181801052",
+	}
+
+	createUser := repo.CreateUser(&req)
+	assert.Nil(t, createUser)
+
+	userDetails, err := repo2.GetUserDetails("1")
+	assert.Empty(t, userDetails)
+	assert.NotNil(t, err)
+	assert.Equal(t, "Error while fetching data", err.Message)
 }
