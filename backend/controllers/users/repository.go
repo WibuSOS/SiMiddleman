@@ -1,6 +1,9 @@
 package users
 
 import (
+	"log"
+	"strconv"
+
 	"github.com/WibuSOS/sinarmas/backend/models"
 	"github.com/WibuSOS/sinarmas/backend/utils/errors"
 	"golang.org/x/crypto/bcrypt"
@@ -10,6 +13,7 @@ import (
 
 type Repository interface {
 	CreateUser(req *DataRequest) *errors.RestError
+	GetUserDetails(userId string) (models.Users, *errors.RestError)
 }
 
 type repository struct {
@@ -41,4 +45,18 @@ func (r *repository) CreateUser(req *DataRequest) *errors.RestError {
 	}
 
 	return nil
+}
+
+func (r *repository) GetUserDetails(userId string) (models.Users, *errors.RestError) {
+	var user models.Users
+
+	id, _ := strconv.ParseUint(userId, 10, 64)
+	res := r.db.Where("id = ?", id).Find(&user)
+
+	if res.Error != nil {
+		log.Println("Get User Details: Error while fetching data")
+		return models.Users{}, errors.NewInternalServerError("Error while fetching data")
+	}
+
+	return user, nil
 }

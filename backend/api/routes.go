@@ -43,6 +43,7 @@ func (s *server) SetupRouter() {
 
 	// s.Router.GET("/", usersHandler.GetUser)
 	s.Router.POST("/register", usersHandler.CreateUser)
+	s.Router.GET("/:lang/user/:user_id", usersHandler.GetUserDetails)
 	// s.Router.PATCH("/updateCheck/:task_id", usersHandler.UpdateUser)
 	// s.Router.DELETE("/:task_id", usersHandler.DeleteUser)
 

@@ -37,3 +37,20 @@ func (h *Handler) CreateUser(c *gin.Context) {
 		"message": "success",
 	})
 }
+
+func (h *Handler) GetUserDetails(c *gin.Context) {
+	idRoom := c.Param("user_id")
+
+	res, err := h.Service.GetUserDetails(idRoom)
+	if err != nil {
+		c.JSON(err.Status, gin.H{
+			"message": err.Message,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "success",
+		"data":    res,
+	})
+}
