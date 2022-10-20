@@ -12,7 +12,7 @@
     },
     "id": {
         "successjoinroombuyer": "Berhasil masuk ruangan penjual",
-        "success joinroom": "Berhasil masuk ruangan, silahkan refresh untuk menampilkan ruangan",
+        "successjoinroom": "Berhasil masuk ruangan, silahkan refresh untuk menampilkan ruangan",
         "successgetallroom": "Berhasil mengambil semua data ruangan",
         "successcreateroom": "Berhasil membuat ruangan, silahkan refresh untuk menampilkan ruangan",
         "internalServer": "Tidak ada data",
