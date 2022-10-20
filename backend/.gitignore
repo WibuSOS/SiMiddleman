@@ -1,6 +1,6 @@
 /.env
 /logs.txt
 /tmp/*
-/middlewares/localizator/language.json
+# /middlewares/localizator/language.json
 
 /**/*.db
