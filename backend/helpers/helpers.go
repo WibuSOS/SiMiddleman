@@ -1,7 +1,8 @@
 package helpers
 
 import (
-	"os"
+	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -16,11 +17,11 @@ func Contains(s []string, str string) bool {
 }
 
 func GetRootPath() string {
-	// _, b, _, _ := runtime.Caller(0)
-	b, _ := os.Getwd()
+	_, b, _, _ := runtime.Caller(0)
+	// b, _ := os.Getwd()
 	// Root folder of this project
-	// root := strings.ReplaceAll(filepath.Join(filepath.Dir(b), ""), `\`, `/`)
-	root := strings.ReplaceAll(b, `\`, `/`)
+	root := strings.ReplaceAll(filepath.Join(filepath.Dir(b), ""), `\`, `/`)
+	// root := strings.ReplaceAll(b, `\`, `/`)
 
 	return root
 }
