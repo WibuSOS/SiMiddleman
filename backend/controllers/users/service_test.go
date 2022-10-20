@@ -130,12 +130,11 @@ func TestUserUpdate(t *testing.T) {
 	err := service.CreateUser(&req)
 	assert.Empty(t, err)
 
-	reqUpdateUser := DataRequest{
-		Nama:     "Ferdi Sambo",
-		NoHp:     "+6281234567891",
-		Email:    "fsambo@gmail.com",
-		Password: "sambo123",
-		NoRek:    "618101052",
+	reqUpdateUser := DataRequestUpdateProfile{
+		Nama:  "Ferdi Sambo",
+		NoHp:  "+6281234567891",
+		Email: "fsambo@gmail.com",
+		NoRek: "618101052",
 	}
 
 	err2 := service.UpdateUser("1", reqUpdateUser)
@@ -161,12 +160,11 @@ func TestServiceUpdateUserError(t *testing.T) {
 	err := service.CreateUser(&req)
 	assert.Empty(t, err)
 
-	reqUpdateUser := DataRequest{
-		Nama:     "Ferdi Sambo",
-		NoHp:     "+6281234567891",
-		Email:    "fsambo@gmail.com",
-		Password: "sambo123",
-		NoRek:    "618101052",
+	reqUpdateUser := DataRequestUpdateProfile{
+		Nama:  "Ferdi Sambo",
+		NoHp:  "+6281234567891",
+		Email: "fsambo@gmail.com",
+		NoRek: "618101052",
 	}
 
 	err2 := serviceError.UpdateUser("abc", reqUpdateUser)

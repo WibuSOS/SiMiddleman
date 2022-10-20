@@ -286,7 +286,6 @@ func TestUpdateUserHandlerSuccessRequest(t *testing.T) {
 		"nama":     "abcde",
 		"noHp":     "+6282876443890",
 		"email":    "admin@xyz.com",
-		"password": "123456781234567812",
 		"noRek":    "6789"
 	}`
 	req, err = http.NewRequest("PUT", "/user/1", strings.NewReader(payload))
@@ -388,7 +387,6 @@ func TestUpdateUserHandlerErrorIDRequest(t *testing.T) {
 		"nama":     "abcde",
 		"noHp":     "+6282876443890",
 		"email":    "admin@xyz.com",
-		"password": "123456781234567812",
 		"noRek":    "6789"
 	}`
 	req, err = http.NewRequest("PUT", "/user/1000", strings.NewReader(payload))
