@@ -50,13 +50,13 @@ func (s *server) SetupRouter() error {
 	transactionService := transaction.NewService(transactionRepo)
 	transactionHandler := transaction.NewHandler(transactionService)
 
+	s.Router.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
+		AllowHeaders: []string{"Origin", "Accept", "Content-Type", "Authorization", "Access-Control-Allow-Origin"},
+	}), localizatorHandler.PassLocalizator)
 	langRoutes := s.Router.Group("/:lang")
 	{
-		langRoutes.Use(cors.New(cors.Config{
-			AllowOrigins: []string{"*"},
-			AllowMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
-			AllowHeaders: []string{"Origin", "Accept", "Content-Type", "Authorization", "Access-Control-Allow-Origin"},
-		}), localizatorHandler.PassLocalizator)
 
 		// auth controller (login)
 		langRoutes.POST("/login", authHandler.Login)
@@ -66,7 +66,7 @@ func (s *server) SetupRouter() error {
 
 		roomRoutes := langRoutes.Group("/rooms", authentication.Authentication, consumerHandler.RoleAuthorize)
 		{
-			roomRoutes.POST("/", roomsHandler.CreateRoom)
+			roomRoutes.POST("", roomsHandler.CreateRoom)
 			roomRoutes.GET("/:id", roomsHandler.GetAllRooms)
 			roomRoutes.GET("/join/:room_id/:user_id", roomsHandler.JoinRoom)
 			roomRoutes.PUT("/join/:room_id/:user_id", roomsHandler.JoinRoomPembeli)

@@ -22,7 +22,7 @@ export default function Room({ user }) {
     const idRoom = router.query.id;
     const idPenjual = decoded.ID;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/joinroom/${idRoom}/${idPenjual}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/join/${idRoom}/${idPenjual}`, {
         method: 'GET',
         headers: {
           'Authorization': 'Bearer ' + user,
@@ -48,7 +48,7 @@ export default function Room({ user }) {
       return
     }
 
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/details/updatestatus/${idRoom}`, {
       method: 'PUT',
       headers: {
         'Authorization': 'Bearer ' + user,
@@ -56,7 +56,7 @@ export default function Room({ user }) {
       body: JSON.stringify({ status: data.statuses.at(-1) })
     }).then(response => response.json()).then(data => res = data).catch(error => console.error('Error:', error));
 
-    if (res?.message == `success update status ${data.statuses.at(-1)}`) {
+    if (res?.message) {
       Swal.fire({ icon: 'success', title: 'Status Barang Berhasil Diubah', showConfirmButton: false, timer: 1500, })
       getRoomDetails();
     } else { Swal.fire({ icon: 'error', title: 'Status Barang Tidak Dapat Diubah', showConfirmButton: false, timer: 1500 }) }
@@ -70,7 +70,7 @@ export default function Room({ user }) {
       return
     }
 
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/details/updatestatus/${idRoom}`, {
       method: 'PUT',
       headers: {
         'Authorization': 'Bearer ' + user,
@@ -78,7 +78,7 @@ export default function Room({ user }) {
       body: JSON.stringify({ status: data.statuses.at(-2) })
     }).then(response => response.json()).then(data => res = data).catch(error => console.error('Error:', error));
 
-    if (res?.message == `success update status ${data.statuses.at(-2)}`) {
+    if (res?.message) {
       Swal.fire({ icon: 'success', title: 'Status Barang Berhasil Diubah', showConfirmButton: false, timer: 1500 });
       router.push('https://forms.gle/4uFn5cDSnYLW88ek9');
     } else { Swal.fire({ icon: 'error', title: 'Status Barang Tidak Dapat Diubah', showConfirmButton: false, timer: 1500 }) }

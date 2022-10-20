@@ -3,13 +3,16 @@ import Swal from 'sweetalert2';
 import router from "next/router";
 import { signIn } from "next-auth/react";
 import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from "next/router";
 
 export default function LoginForm () {
+  const router = useRouter();
+
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const body = { email: formData.get("email"), password: formData.get("password")}
-    signIn("credentials", { email: body.email, password: body.password, redirect: false, callbackUrl: "/"},).then(({ ok, error }) => {
+    signIn("credentials", { email: body.email, password: body.password, redirect: false, callbackUrl: "/", locale: router.locale},).then(({ ok, error }) => {
       if (ok) {
         Swal.fire({ icon: 'success', title: t('login-page.swal.success'), showConfirmButton: false, timer: 1500,})
         router.push("/");

@@ -7,9 +7,11 @@ import SimiddlemanSummaries from './SimiddlemanSummaries';
 import UserAction from './UserAction';
 import ShowRoomList from './ShowRoomList';
 import UserBanner from './UserBanner';
+import { useRouter } from "next/router";
 
 function Home({ user }) {
   const [data, setData] = useState(null);
+  const router = useRouter();
   
   useEffect(() => {
     if (user) GetAllRoom();
@@ -26,10 +28,11 @@ function Home({ user }) {
   const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
   const GetAllRoom = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/rooms/${decoded.ID}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/${decoded.ID}`, {
         method: 'GET',
         headers: {
-          'Authorization': 'Bearer ' + user
+          'Authorization': 'Bearer ' + user,
+          'origin' : "http://localhost:3000/"
         },
       });
       const data = await res.json();
