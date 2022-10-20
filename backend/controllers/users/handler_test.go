@@ -4,27 +4,69 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 
+	"github.com/WibuSOS/sinarmas/backend/middlewares/localizator"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"gorm.io/gorm"
 )
 
-func TestCreateUserHandlerSuccess(t *testing.T) {
-	type response struct {
-		Message string `json:"message"`
-	}
-	var res response
+type response struct {
+	Message string `json:"message"`
+}
 
-	db := newTestDB(t)
+func setEndPointHandler(t *testing.T, db *gorm.DB) *Handler {
 	repo := NewRepository(db)
+	assert.NotNil(t, repo)
 	service := NewService(repo)
+	assert.NotNil(t, service)
 	handler := NewHandler(service)
+	assert.NotNil(t, handler)
 
+	return handler
+}
+
+func setLocalizationHandler(t *testing.T) *localizator.Handler {
+	handler, err := localizator.NewHandler()
+	assert.NotNil(t, handler)
+	assert.NoError(t, err)
+
+	return handler
+}
+
+func setRoutes(localizationHandler *localizator.Handler, endPointHandler *Handler) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.POST("/register", handler.CreateUser)
+	r.Use(localizationHandler.PassLocalizator)
+	r.POST("/:lang/register", endPointHandler.CreateUser)
+
+	return r
+}
+
+func setEnv() {
+	os.Setenv("ENVIRONMENT", "TEST")
+	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+}
+
+func TestCreateUserHandlerSuccess(t *testing.T) {
+	setEnv()
+
+	// DB INITIALIZATION
+	db := newTestDB(t)
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	var res response
 
 	// SUCCESS USER 1
 	payload := `{
@@ -34,7 +76,7 @@ func TestCreateUserHandlerSuccess(t *testing.T) {
 		"password": "123456781234567812",
 		"noRek":    "1234"
 	}`
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/register", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -53,7 +95,7 @@ func TestCreateUserHandlerSuccess(t *testing.T) {
 		"password": "123456781234567812",
 		"noRek":    "6789"
 	}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err = http.NewRequest("POST", "/en/register", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -66,19 +108,21 @@ func TestCreateUserHandlerSuccess(t *testing.T) {
 }
 
 func TestCreateUserHandlerErrorBind(t *testing.T) {
-	type response struct {
-		Message string `json:"message"`
-	}
-	var res response
+	setEnv()
 
+	// DB INITIALIZATION
 	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/register", handler.CreateUser)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	var res response
 
 	// SUCCESS USER 1
 	payload := `{
@@ -88,7 +132,7 @@ func TestCreateUserHandlerErrorBind(t *testing.T) {
 		"password": "123456781234567812",
 		"noRek":    "1234"
 	}`
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/register", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -107,7 +151,7 @@ func TestCreateUserHandlerErrorBind(t *testing.T) {
 		"password": "123456781234567812",
 		"noRek":    "6789"
 	}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err = http.NewRequest("POST", "/en/register", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -120,19 +164,21 @@ func TestCreateUserHandlerErrorBind(t *testing.T) {
 }
 
 func TestCreateUserHandlerErrorRequest(t *testing.T) {
-	type response struct {
-		Message string `json:"message"`
-	}
-	var res response
+	setEnv()
 
+	// DB INITIALIZATION
 	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/register", handler.CreateUser)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	var res response
 
 	// SUCCESS USER 1
 	payload := `{
@@ -142,7 +188,7 @@ func TestCreateUserHandlerErrorRequest(t *testing.T) {
 		"password": "123456781234567812",
 		"noRek":    "1234"
 	}`
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/register", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -161,7 +207,7 @@ func TestCreateUserHandlerErrorRequest(t *testing.T) {
 		"password": "123456781234567812",
 		"noRek":    "6789"
 	}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err = http.NewRequest("POST", "/en/register", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -170,5 +216,5 @@ func TestCreateUserHandlerErrorRequest(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "constraint failed: UNIQUE constraint failed: users.email (2067)", res.Message)
+	assert.Equal(t, "badRequest", res.Message)
 }
