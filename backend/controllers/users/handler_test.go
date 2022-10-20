@@ -245,3 +245,160 @@ func TestGetUserDetailsHandlerError(t *testing.T) {
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &userDetails))
 	assert.Equal(t, "Error while fetching data", userDetails.Message)
 }
+
+func TestUpdateUserHandlerSuccessRequest(t *testing.T) {
+	type response struct {
+		Message string `json:"message"`
+	}
+	var res response
+
+	db := newTestDB(t)
+	repo := NewRepository(db)
+	service := NewService(repo)
+	handler := NewHandler(service)
+
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.POST("/register", handler.CreateUser)
+	r.PUT("/user/:user_id", handler.UpdateUser)
+
+	// SUCCESS USER 1
+	payload := `{
+		"nama":     "vwxyz",
+		"noHp":     "+6283785332789",
+		"email":    "admin@xyz.com",
+		"password": "123456781234567812",
+		"noRek":    "1234"
+	}`
+	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "success", res.Message)
+
+	// UPDATE USER
+	payload = `{
+		"nama":     "abcde",
+		"noHp":     "+6282876443890",
+		"email":    "admin@xyz.com",
+		"password": "123456781234567812",
+		"noRek":    "6789"
+	}`
+	req, err = http.NewRequest("PUT", "/user/1", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "success", res.Message)
+}
+
+func TestUpdateUserHandlerErrorRequest(t *testing.T) {
+	type response struct {
+		Message string `json:"message"`
+	}
+	var res response
+
+	db := newTestDB(t)
+	repo := NewRepository(db)
+	service := NewService(repo)
+	handler := NewHandler(service)
+
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.POST("/register", handler.CreateUser)
+	r.PUT("/user/:user_id", handler.UpdateUser)
+
+	// SUCCESS USER 1
+	payload := `{
+		"nama":     "vwxyz",
+		"noHp":     "+6283785332789",
+		"email":    "admin@xyz.com",
+		"password": "123456781234567812",
+		"noRek":    "1234"
+	}`
+	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "success", res.Message)
+
+	req, err = http.NewRequest("PUT", "/user/1", nil)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "invalid request", res.Message)
+}
+
+func TestUpdateUserHandlerErrorIDRequest(t *testing.T) {
+	type response struct {
+		Message string `json:"message"`
+	}
+	var res response
+
+	db := newTestDB(t)
+	repo := NewRepository(db)
+	service := NewService(repo)
+	handler := NewHandler(service)
+
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.POST("/register", handler.CreateUser)
+	r.PUT("/user/:user_id", handler.UpdateUser)
+
+	// SUCCESS USER 1
+	payload := `{
+		"nama":     "vwxyz",
+		"noHp":     "+6283785332789",
+		"email":    "admin@xyz.com",
+		"password": "123456781234567812",
+		"noRek":    "1234"
+	}`
+	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "success", res.Message)
+
+	// UPDATE USER
+	payload = `{
+		"nama":     "abcde",
+		"noHp":     "+6282876443890",
+		"email":    "admin@xyz.com",
+		"password": "123456781234567812",
+		"noRek":    "6789"
+	}`
+	req, err = http.NewRequest("PUT", "/user/1000", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "bad request", res.Message)
+}

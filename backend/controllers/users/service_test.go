@@ -79,7 +79,7 @@ func TestGetUserDetails(t *testing.T) {
 		NoHp:     "+6281234567890",
 		Email:    "julyusmanurung@gmail.com",
 		Password: "julyus123",
-		NoRek:    "1",
+		NoRek:    "6181801052",
 	}
 
 	err := service.CreateUser(&req)
@@ -112,4 +112,63 @@ func TestGetUserDetailsError(t *testing.T) {
 	res, err2 := serviceError.GetUserDetails("1")
 	assert.NotNil(t, err2)
 	assert.Empty(t, res)
+}
+
+func TestUserUpdate(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+	service := NewService(repo)
+
+	req := DataRequest{
+		Nama:     "Julyus Andreas",
+		NoHp:     "+6281234567890",
+		Email:    "julyusmanurung@gmail.com",
+		Password: "julyus123",
+		NoRek:    "6181801052",
+	}
+
+	err := service.CreateUser(&req)
+	assert.Empty(t, err)
+
+	reqUpdateUser := DataRequest{
+		Nama:     "Ferdi Sambo",
+		NoHp:     "+6281234567891",
+		Email:    "fsambo@gmail.com",
+		Password: "sambo123",
+		NoRek:    "618101052",
+	}
+
+	err2 := service.UpdateUser("1", reqUpdateUser)
+	assert.Nil(t, err2)
+}
+
+func TestServiceUpdateUserError(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+	service := NewService(repo)
+	dbError := newTestDBError(t)
+	repoError := NewRepository(dbError)
+	serviceError := NewService(repoError)
+
+	req := DataRequest{
+		Nama:     "Julyus Andreas",
+		NoHp:     "+6281234567890",
+		Email:    "julyusmanurung@gmail.com",
+		Password: "julyus123",
+		NoRek:    "6181801052",
+	}
+
+	err := service.CreateUser(&req)
+	assert.Empty(t, err)
+
+	reqUpdateUser := DataRequest{
+		Nama:     "Ferdi Sambo",
+		NoHp:     "+6281234567891",
+		Email:    "fsambo@gmail.com",
+		Password: "sambo123",
+		NoRek:    "618101052",
+	}
+
+	err2 := serviceError.UpdateUser("abc", reqUpdateUser)
+	assert.NotNil(t, err2)
 }

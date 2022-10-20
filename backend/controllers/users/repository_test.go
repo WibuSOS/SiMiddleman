@@ -230,3 +230,47 @@ func TestGetUserDetailsErrorFetchingData(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Equal(t, "Error while fetching data", err.Message)
 }
+
+func TestUpdateUserDetailRepository(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+
+	req := DataRequest{
+		Nama:     "Julyus Andreas",
+		NoHp:     "+6281234567890",
+		Email:    "julyusmanurung@gmail.com",
+		Password: "julyus123",
+		NoRek:    "6181801052",
+	}
+
+	createUser := repo.CreateUser(&req)
+	assert.Nil(t, createUser)
+
+	reqUpdate := DataRequest{
+		Nama:     "Binoto Manurung",
+		NoHp:     "+66666666666",
+		Email:    "andreasjulyus@gmail.com",
+		Password: "66666666",
+		NoRek:    "66666666",
+	}
+
+	updateUser := repo.UpdateUser("1", reqUpdate)
+	assert.Empty(t, updateUser)
+}
+
+func TestUpdateUserError(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+
+	req := DataRequest{
+		Nama:     "Julyus Andreas",
+		NoHp:     "+6281234567890",
+		Email:    "julyusmanurung@gmail.com",
+		Password: "julyus123",
+		NoRek:    "6181801052",
+	}
+
+	err := repo.UpdateUser("abc", req)
+	assert.Equal(t, "strconv.ParseUint: parsing \"abc\": invalid syntax", err.Message)
+	assert.NotNil(t, err)
+}
