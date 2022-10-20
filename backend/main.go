@@ -6,8 +6,14 @@ import (
 
 	"github.com/WibuSOS/sinarmas/backend/api"
 	"github.com/WibuSOS/sinarmas/backend/database"
+	"github.com/WibuSOS/sinarmas/backend/utils/localization"
+
 	_ "github.com/joho/godotenv/autoload"
 )
+
+func init() {
+	go localization.WriteJSON()
+}
 
 func main() {
 	file, err := os.OpenFile("./logs.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
