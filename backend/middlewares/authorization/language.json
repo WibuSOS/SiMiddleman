@@ -1,0 +1,12 @@
+{
+    "en": {
+        "unauthorized": "Unauthorized",
+        "invalidRoomID": "Invalid room ID",
+        "roomNotFound": "Room not found"
+    },
+    "id": {
+        "unauthorized": "Tidak terotorisasi",
+        "invalidRoomID": "ID room tidak valid",
+        "roomNotFound": "Room tidak ditemukan"
+    }
+}

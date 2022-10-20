@@ -3,29 +3,16 @@ package auth
 import (
 	"testing"
 
-	"github.com/WibuSOS/sinarmas/backend/models"
+	"github.com/WibuSOS/sinarmas/backend/database"
 
-	"github.com/glebarez/sqlite"
 	"github.com/stretchr/testify/assert"
-	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
 func newTestDB(t *testing.T) *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
+	db, err := database.SetupDb()
 	assert.NoError(t, err)
 	assert.NotNil(t, db)
-
-	err = db.AutoMigrate(&models.Users{})
-	assert.NoError(t, err)
-
-	password := "fikri123"
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
-	assert.NoError(t, err)
-
-	user := models.Users{Email: "fikri@gmail.com", Password: string(hash)}
-	result := db.Create(&user)
-	assert.NoError(t, result.Error)
 
 	return db
 }
@@ -35,8 +22,8 @@ func TestLoginSuccess(t *testing.T) {
 	repo := NewRepository(db)
 
 	req := DataRequest{
-		Email:    "fikri@gmail.com",
-		Password: "fikri123",
+		Email:    "penjual@custom.com",
+		Password: "12345678",
 	}
 
 	user, err := repo.Login(req)
@@ -55,7 +42,7 @@ func TestLoginErrorUserNotFound(t *testing.T) {
 
 	_, err := repo.Login(req)
 	assert.NotNil(t, err)
-	assert.Equal(t, "User not found", err.Message)
+	assert.Equal(t, "userNotFound", err.Message)
 	assert.Equal(t, 400, err.Status)
 	assert.Equal(t, "Bad_Request", err.Error)
 }
@@ -65,13 +52,13 @@ func TestLoginErrorAuthenticationFailed(t *testing.T) {
 	repo := NewRepository(db)
 
 	req := DataRequest{
-		Email:    "fikri@gmail.com",
+		Email:    "penjual@custom.com",
 		Password: "lubis123",
 	}
 
 	_, err := repo.Login(req)
 	assert.NotNil(t, err)
-	assert.Equal(t, "Authentication failed", err.Message)
+	assert.Equal(t, "authFailed", err.Message)
 	assert.Equal(t, 400, err.Status)
 	assert.Equal(t, "Bad_Request", err.Error)
 }

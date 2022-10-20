@@ -50,12 +50,12 @@ func (r *repository) GetPaymentDetails(idRoom int) (models.Rooms, *errors.RestEr
 	res := r.db.Where("id = ?", idRoom).Preload("Product").Find(&room)
 	if res.Error != nil {
 		log.Println("Get Payment Details: Error while fetching data")
-		return models.Rooms{}, errors.NewInternalServerError("Error while fetching data")
+		return models.Rooms{}, errors.NewInternalServerError("errorfetchingdata")
 	}
 
 	if room.RoomCode == "" {
 		log.Println("Get Payment Details: Room not found")
-		return models.Rooms{}, errors.NewBadRequestError("Room not found")
+		return models.Rooms{}, errors.NewBadRequestError("roomnotfound")
 	}
 
 	return room, nil

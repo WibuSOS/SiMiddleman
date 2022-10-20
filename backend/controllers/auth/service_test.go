@@ -15,8 +15,8 @@ func TestLoginServiceSuccess(t *testing.T) {
 	service := NewService(repo)
 
 	req := DataRequest{
-		Email:    "fikri@gmail.com",
-		Password: "fikri123",
+		Email:    "penjual@custom.com",
+		Password: "12345678",
 	}
 
 	res, token, err := service.Login(req)
@@ -37,7 +37,7 @@ func TestLoginServiceErrorInvalidEmail(t *testing.T) {
 
 	_, _, err := service.Login(req)
 	assert.NotNil(t, err)
-	assert.Equal(t, "Invalid email", err.Message)
+	assert.Equal(t, "invalidEmail", err.Message)
 	assert.Equal(t, 400, err.Status)
 	assert.Equal(t, "Bad_Request", err.Error)
 }
@@ -54,7 +54,7 @@ func TestLoginServiceErrorInvalidPassword(t *testing.T) {
 
 	_, _, err := service.Login(req)
 	assert.NotNil(t, err)
-	assert.Equal(t, "Invalid password", err.Message)
+	assert.Equal(t, "invalidPassword", err.Message)
 	assert.Equal(t, 400, err.Status)
 	assert.Equal(t, "Bad_Request", err.Error)
 }
@@ -71,7 +71,7 @@ func TestLoginServiceErrorUserNotFound(t *testing.T) {
 
 	_, _, err := service.Login(req)
 	assert.NotNil(t, err)
-	assert.Equal(t, "User not found", err.Message)
+	assert.Equal(t, "userNotFound", err.Message)
 	assert.Equal(t, 400, err.Status)
 	assert.Equal(t, "Bad_Request", err.Error)
 }

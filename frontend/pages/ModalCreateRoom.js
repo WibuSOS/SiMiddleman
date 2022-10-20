@@ -23,7 +23,7 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
       }
     }
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/rooms`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms`, {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
@@ -34,7 +34,7 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
       });
       const data = await res.json();
 
-      if (data.message === "success") {
+      if (data?.message) {
         Swal.fire({ icon: 'success', title: 'Room berhasil dibuat', showConfirmButton: false, timer: 1500, })
       } else {
         Swal.fire({ icon: 'error', title: 'Buat Room gagal', text: data.message, })

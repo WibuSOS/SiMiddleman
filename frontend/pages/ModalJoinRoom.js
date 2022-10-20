@@ -18,7 +18,7 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
             roomcode: formData.get("kodeRuangan"),
         }
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/joinroom/${body.roomcode}/${body.id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/join/${body.roomcode}/${body.id}`, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -29,7 +29,7 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
             const data = await res.json();
             console.log(data);
 
-            if (data.message === "success") {
+            if (data.message) {
                 Swal.fire({ icon: 'success', title: 'Berhasil join room', text: 'Silahkan refresh untuk melihat room', showConfirmButton: false, timer: 1500, })
             } else {
                 Swal.fire({ icon: 'error', title: 'Join Room gagal', text: data.message, })

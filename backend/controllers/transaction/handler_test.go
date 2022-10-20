@@ -5,11 +5,14 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 
 	"github.com/WibuSOS/sinarmas/backend/controllers/rooms"
+	"github.com/WibuSOS/sinarmas/backend/middlewares/localizator"
 	"github.com/WibuSOS/sinarmas/backend/models"
+	"gorm.io/gorm"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
@@ -24,64 +27,92 @@ type getPaymentDetailsResponse struct {
 	Message string              `json:"message"`
 	Data    ResponsePaymentInfo `json:"data"`
 }
+type response struct {
+	Message string `json:"message"`
+}
 
-func TestUpdateStatusDelivery(t *testing.T) {
-
-	db := newTestDB(t)
+func setEndPointHandler(t *testing.T, db *gorm.DB) *Handler {
 	repo := NewRepository(db)
+	assert.NotNil(t, repo)
 	service := NewService(repo)
+	assert.NotNil(t, service)
 	handler := NewHandler(service)
+	assert.NotNil(t, handler)
 
-	db.Create(&models.Products{
-		RoomsID:   1,
-		Nama:      "produk1",
-		Harga:     15000,
-		Kuantitas: 2,
-		Deskripsi: "ini adalah produk 1",
-	})
+	return handler
+}
 
+func setLocalizationHandler(t *testing.T) *localizator.Handler {
+	handler, err := localizator.NewHandler()
+	assert.NotNil(t, handler)
+	assert.NoError(t, err)
+
+	return handler
+}
+
+func setRoutes(localizationHandler *localizator.Handler, endPointHandler *Handler) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.PUT("/updatestatus/:room_id", handler.UpdateStatusDelivery)
+	r.Use(localizationHandler.PassLocalizator)
+	r.PUT("/:lang/rooms/details/updatestatus/:room_id", endPointHandler.UpdateStatusDelivery)
+	r.GET("/:lang/rooms/details/getHarga/:room_id", endPointHandler.GetPaymentDetails)
+	return r
+}
+
+func setEnv() {
+	os.Setenv("ENVIRONMENT", "TEST")
+	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+}
+
+func TestUpdateStatusDelivery(t *testing.T) {
+	setEnv()
+
+	// DB INITIALIZATION
+	db := newTestDB(t)
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	var res response
+
 	payload := `{"status": "barang dibayar"}`
-	req, err := http.NewRequest("PUT", "/updatestatus/1", strings.NewReader(payload))
+	req, err := http.NewRequest("PUT", "/en/rooms/details/updatestatus/1", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
 	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 
-	assert.Equal(t, http.StatusOK, w.Code)
-
-	type getUpdateStatusDelivery struct {
-		Message string `json:"message"`
-	}
-
-	var res getUpdateStatusDelivery
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success update status barang dibayar", res.Message)
+	assert.Equal(t, "Success Update Status", res.Message)
+
 }
 
 func TestUpdateStatusDeliveryInvalidJSON(t *testing.T) {
+	setEnv()
 
+	// DB INITIALIZATION
 	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
 
-	db.Create(&models.Products{
-		RoomsID:   1,
-		Nama:      "produk1",
-		Harga:     15000,
-		Kuantitas: 2,
-		Deskripsi: "ini adalah produk 1",
-	})
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.PUT("/updatestatus/:room_id", handler.UpdateStatusDelivery)
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	var res response
+
 	payload := `{"status": 123}`
-	req, err := http.NewRequest("PUT", "/updatestatus/1", strings.NewReader(payload))
+	req, err := http.NewRequest("PUT", "/en/rooms/details/updatestatus/1", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -89,28 +120,29 @@ func TestUpdateStatusDeliveryInvalidJSON(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
 }
 
 func TestUpdateErrorStatusDelivery(t *testing.T) {
 
+	setEnv()
+
+	// DB INITIALIZATION
 	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
 
-	db.Create(&models.Products{
-		RoomsID:   1,
-		Nama:      "produk1",
-		Harga:     15000,
-		Kuantitas: 2,
-		Deskripsi: "ini adalah produk 1",
-	})
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.PUT("/updatestatus/:room_id", handler.UpdateStatusDelivery)
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	var res response
+
 	payload := `{"status": "barang dibayar"}`
-	req, err := http.NewRequest("PUT", "/updatestatus/asasdaweq", strings.NewReader(payload))
+	req, err := http.NewRequest("PUT", "/en/rooms/details/updatestatus/asasdaweq", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -118,12 +150,6 @@ func TestUpdateErrorStatusDelivery(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
-
-	type getUpdateStatusDelivery struct {
-		Message string `json:"message"`
-	}
-
-	var res getUpdateStatusDelivery
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
 	assert.Equal(t, "WHERE conditions required", res.Message)
 }
@@ -132,20 +158,25 @@ func newTestGetPaymentDetailsHandler(t *testing.T, withID bool, roomID *string) 
 	var createRoomRes createRoomResponse
 	var res getPaymentDetailsResponse
 
-	db := newTestDB2(t)
+	setEnv()
+
+	// DB INITIALIZATION
+	db := newTestDB(t)
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
 
 	roomRepo := rooms.NewRepository(db)
 	roomService := rooms.NewService(roomRepo)
 	roomHandler := rooms.NewHandler(roomService)
 
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
-
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/rooms", roomHandler.CreateRoom)
-	r.GET("/getHarga/:room_id", handler.GetPaymentDetails)
+	r.POST("/:lang/rooms", roomHandler.CreateRoom)
 
 	payload := `{
 		"id": 1,
@@ -157,7 +188,7 @@ func newTestGetPaymentDetailsHandler(t *testing.T, withID bool, roomID *string) 
 		}
 	}`
 
-	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -167,17 +198,17 @@ func newTestGetPaymentDetailsHandler(t *testing.T, withID bool, roomID *string) 
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createRoomRes))
-	assert.Equal(t, "success", createRoomRes.Message)
+	assert.Equal(t, "Success Create Room, please refresh to view room", createRoomRes.Message)
 	assert.NotEmpty(t, createRoomRes.Data.RoomCode)
 
 	var url string
 	if withID {
-		url = fmt.Sprintf("/getHarga/%d", createRoomRes.Data.ID)
+		url = fmt.Sprintf("/en/rooms/details/getHarga/%d", createRoomRes.Data.ID)
 	} else {
 		if roomID != nil {
-			url = fmt.Sprintf("/getHarga/%s", *roomID)
+			url = fmt.Sprintf("/en/rooms/details/getHarga/%s", *roomID)
 		} else {
-			url = fmt.Sprintf("/getHarga/%s", createRoomRes.Data.RoomCode)
+			url = fmt.Sprintf("/en/rooms/details/getHarga/%s", createRoomRes.Data.RoomCode)
 		}
 	}
 
@@ -195,7 +226,7 @@ func TestGetPaymentDetailsHandlerSuccess(t *testing.T) {
 	w, paymentDetails := newTestGetPaymentDetailsHandler(t, true, nil)
 
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &paymentDetails))
-	assert.Equal(t, "success", paymentDetails.Message)
+	assert.Equal(t, "Success get payment detail", paymentDetails.Message)
 	assert.Greater(t, int(paymentDetails.Data.Total), 0)
 }
 

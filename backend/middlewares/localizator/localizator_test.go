@@ -7,8 +7,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/WibuSOS/sinarmas/backend/api"
 	"github.com/WibuSOS/sinarmas/backend/controllers/rooms"
+	"github.com/WibuSOS/sinarmas/backend/database"
 	"github.com/WibuSOS/sinarmas/backend/models"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
@@ -26,8 +26,13 @@ type response struct {
 // 	log.SetOutput(file)
 // }
 
+func setEnv() {
+	os.Setenv("ENVIRONMENT", "TEST")
+	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+}
+
 func newTestDB(t *testing.T) *gorm.DB {
-	db, err := api.SetupDb()
+	db, err := database.SetupDb()
 	assert.NoError(t, err)
 	assert.NotNil(t, db)
 
@@ -53,8 +58,18 @@ func setLocalizationHandler(t *testing.T) *Handler {
 	return handler
 }
 
+func setRoutes(localizationHandler *Handler, endPointHandler *rooms.Handler) *gin.Engine {
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.Use(localizationHandler.PassLocalizator)
+	r.GET("/:lang/joinroom/:room_id/:user_id", endPointHandler.JoinRoom)
+
+	return r
+}
+
 func TestLocalizeSuccess(t *testing.T) {
-	os.Setenv("ENVIRONMENT", "TEST")
+	// SET ALL ENVIRONMENT VARIABLES
+	setEnv()
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -68,12 +83,9 @@ func TestLocalizeSuccess(t *testing.T) {
 	endPointHandler := setEndPointHandler(t, db)
 
 	// ROUTES INITIALIZATION
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.Use(localizationHandler.PassLocalizator)
-	r.GET("/:lang/joinroom/:room_id/:user_id", endPointHandler.JoinRoom)
+	r := setRoutes(localizationHandler, endPointHandler)
 
-	// SUCCESS
+	// SUCCESS ID LANGUAGE
 	req, err := http.NewRequest("GET", "/id/joinroom/1/1", nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
@@ -81,52 +93,34 @@ func TestLocalizeSuccess(t *testing.T) {
 	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "sukses", res.Message)
+	assert.Equal(t, "Berhasil masuk ruangan, silahkan refresh untuk menampilkan ruangan", res.Message)
 }
 
-// func TestLocalizeFail(t *testing.T) {
-// 	// DB INITIALIZATION
-// 	os.Setenv("ENVIRONMENT", "TEST")
-// 	db, err := api.SetupDb()
-// 	assert.NoError(t, err)
-// 	assert.NotNil(t, db)
+func TestLocalizeDefaultLanguage(t *testing.T) {
+	// SET ALL ENVIRONMENT VARIABLES
+	setEnv()
 
-// 	var res response
+	// DB INITIALIZATION
+	db := newTestDB(t)
 
-// 	// LOCALIZATION HANDLER
-// 	handler, err := NewHandler()
-// 	assert.NotNil(t, handler)
-// 	assert.NoError(t, err)
+	var res response
 
-// 	// USERS HANDLER
-// 	usersRepo := users.NewRepository(db)
-// 	assert.NotNil(t, usersRepo)
-// 	usersService := users.NewService(usersRepo)
-// 	assert.NotNil(t, usersService)
-// 	usersHandler := users.NewHandler(usersService)
-// 	assert.NotNil(t, usersHandler)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
 
-// 	// ROUTES INITIALIZATION
-// 	gin.SetMode(gin.ReleaseMode)
-// 	r := gin.Default()
-// 	r.POST("/register", handler.PassLocalizator, usersHandler.CreateUser)
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
 
-// 	// SUCCESS
-// 	payload := `{
-// 		"nama":     "vwxyz",
-// 		"noHp":     "+6283785332789",
-// 		"email":    "admin@xyz.com",
-// 		"password": "123456781234567812",
-// 		"noRek":    "1234"
-// 	}`
-// 	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
-// 	assert.NoError(t, err)
-// 	assert.NotEmpty(t, req)
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
 
-// 	w := httptest.NewRecorder()
-// 	r.ServeHTTP(w, req)
+	// SUCCESS DEFAULT LANGUAGE
+	req, err := http.NewRequest("GET", "/fr/joinroom/1/1", nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
 
-// 	assert.Equal(t, http.StatusOK, w.Code)
-// 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-// 	assert.Equal(t, "success", res.Message)
-// }
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Success join room, please refresh to view room", res.Message)
+}

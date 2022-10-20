@@ -13,7 +13,7 @@ func (r *RequestUpdateStatus) Validation() *errors.RestError {
 	statusArr := []string{"mulai transaksi", "barang dibayar", "barang dikirim", "konfirmasi barang sampai"}
 
 	if r.Status == "" || !helpers.Contains(statusArr, r.Status) {
-		return errors.NewBadRequestError("Invalid Status")
+		return errors.NewBadRequestError("invalidstatus")
 	}
 
 	return nil
