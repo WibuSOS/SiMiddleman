@@ -14,6 +14,13 @@ type DataRequest struct {
 	NoRek    string `json:"noRek" binding:"required"`
 }
 
+type DataRequestUpdateProfile struct {
+	Nama  string `json:"nama" binding:"required"`
+	NoHp  string `json:"noHp" binding:"required"`
+	Email string `json:"email" binding:"required"`
+	NoRek string `json:"noRek" binding:"required"`
+}
+
 func (req *DataRequest) ValidateReq() *errors.RestError {
 	if req.Nama == "" || len(req.Nama) > 30 {
 		return errors.NewBadRequestError("nama tidak memenuhi syarat")

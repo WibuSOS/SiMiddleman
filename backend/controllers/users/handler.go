@@ -57,7 +57,7 @@ func (h *Handler) GetUserDetails(c *gin.Context) {
 
 func (h *Handler) UpdateUser(c *gin.Context) {
 	idUser := c.Param("user_id")
-	var req DataRequest
+	var req DataRequestUpdateProfile
 	if err := c.ShouldBindJSON(&req); err != nil {
 		error := errors.NewBadRequestError(err.Error())
 		errors.LogError(error)

@@ -9,7 +9,7 @@ import (
 type Service interface {
 	CreateUser(req *DataRequest) *errors.RestError
 	GetUserDetails(idUser string) (DataResponse, *errors.RestError)
-	UpdateUser(idUser string, req DataRequest) *errors.RestError
+	UpdateUser(idUser string, req DataRequestUpdateProfile) *errors.RestError
 }
 
 type service struct {
@@ -42,7 +42,7 @@ func (s *service) GetUserDetails(idUser string) (DataResponse, *errors.RestError
 	return res, nil
 }
 
-func (s *service) UpdateUser(idUser string, req DataRequest) *errors.RestError {
+func (s *service) UpdateUser(idUser string, req DataRequestUpdateProfile) *errors.RestError {
 
 	err := s.repo.UpdateUser(idUser, req)
 	if err != nil {
