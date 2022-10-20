@@ -38,7 +38,7 @@ func (h *Handler) CreateRoom(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": localizator.(*language.Config).Lookup(langReq, "success"),
+		"message": localizator.(*language.Config).Lookup(langReq, "successcreateroom"),
 		"data":    newRoom,
 	})
 }
@@ -58,7 +58,7 @@ func (h *Handler) GetAllRooms(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": localizator.(*language.Config).Lookup(langReq, "success"),
+		"message": localizator.(*language.Config).Lookup(langReq, "successgetallroom"),
 		"data":    newRooms,
 	})
 }
@@ -81,7 +81,7 @@ func (h *Handler) JoinRoom(c *gin.Context) {
 	statusArr := []string{"mulai transaksi", "barang dibayar", "barang dikirim", "konfirmasi barang sampai"}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":  localizator.(*language.Config).Lookup(langReq, "success"),
+		"message":  localizator.(*language.Config).Lookup(langReq, "successjoinroom"),
 		"data":     room,
 		"statuses": statusArr,
 	})
@@ -102,6 +102,6 @@ func (h *Handler) JoinRoomPembeli(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": localizator.(*language.Config).Lookup(langReq, "success"),
+		"message": localizator.(*language.Config).Lookup(langReq, "successjoinroombuyer"),
 	})
 }

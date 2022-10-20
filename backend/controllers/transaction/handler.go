@@ -1,7 +1,6 @@
 package transaction
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -35,10 +34,8 @@ func (h *Handler) UpdateStatusDelivery(c *gin.Context) {
 		return
 	}
 
-	message := fmt.Sprintf("success update status %s", req.Status)
-
 	c.JSON(http.StatusOK, gin.H{
-		"message": message,
+		"message": localizator.(*language.Config).Lookup(langReq, "successupdatestatus"),
 	})
 }
 
@@ -61,7 +58,7 @@ func (h *Handler) GetPaymentDetails(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "success",
+		"message": localizator.(*language.Config).Lookup(langReq, "successgetpaymentdetail"),
 		"data":    res,
 	})
 }

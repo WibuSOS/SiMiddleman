@@ -1,0 +1,16 @@
+{
+    "en": {
+        "errorfetchingdata": "Error Fetching Data",
+        "roomnotfound": "Room Not Found",
+        "invalidstatus": "Invalid Status",
+        "successgetpaymentdetail": "Success get payment detail",
+        "successupdatestatus": "Success Update Status"
+    },
+    "id": {
+        "errorfetchingdata": "Error ketika mengambil data",
+        "roomnotfound": "Ruangan tidak tersedia",
+        "invalidstatus": "Status tidak ditemukan",
+        "successgetpaymentdetail": "Sukses mengambil rincian pembayaran",
+        "successupdatestatus": "Sukses mengubah status"
+    }
+}

@@ -90,7 +90,7 @@ func TestUpdateStatusDelivery(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success update status barang dibayar", res.Message)
+	assert.Equal(t, "Success Update Status", res.Message)
 
 }
 
@@ -198,7 +198,7 @@ func newTestGetPaymentDetailsHandler(t *testing.T, withID bool, roomID *string) 
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createRoomRes))
-	assert.Equal(t, "success", createRoomRes.Message)
+	assert.Equal(t, "Success Create Room, please refresh to view room", createRoomRes.Message)
 	assert.NotEmpty(t, createRoomRes.Data.RoomCode)
 
 	var url string
@@ -226,7 +226,7 @@ func TestGetPaymentDetailsHandlerSuccess(t *testing.T) {
 	w, paymentDetails := newTestGetPaymentDetailsHandler(t, true, nil)
 
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &paymentDetails))
-	assert.Equal(t, "success", paymentDetails.Message)
+	assert.Equal(t, "Success get payment detail", paymentDetails.Message)
 	assert.Greater(t, int(paymentDetails.Data.Total), 0)
 }
 

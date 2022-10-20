@@ -99,7 +99,7 @@ func TestCreateRoomHandlerSuccess(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
+	assert.Equal(t, "Success Create Room, please refresh to view room", res.Message)
 }
 
 func TestCreateRoomHandlerErrorBind(t *testing.T) {
@@ -215,7 +215,7 @@ func TestGetAllRoomsHandlerSuccess(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
+	assert.Equal(t, "Success Create Room, please refresh to view room", res.Message)
 
 	// SUCCESS ADA ISINYA
 	req, err = http.NewRequest("GET", "/en/rooms/1", nil)
@@ -227,7 +227,7 @@ func TestGetAllRoomsHandlerSuccess(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
+	assert.Equal(t, "Succes Get all Room", res.Message)
 }
 
 func TestGetAllRoomsHandlerErrorRequest(t *testing.T) {
@@ -297,7 +297,7 @@ func TestJoinRoomPembeliHandlerFail(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
+	assert.Equal(t, "Success Create Room, please refresh to view room", res.Message)
 
 	// Fail join room not found pembeli
 	req, err = http.NewRequest("PUT", "/en/joinroom/1/2", nil)
@@ -349,7 +349,7 @@ func TestJoinRoomPembeliHandlerSuccess(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res2))
-	assert.Equal(t, "success", res2.Message)
+	assert.Equal(t, "Success Create Room, please refresh to view room", res2.Message)
 
 	roomCode := res2.Data.RoomCode
 
@@ -363,7 +363,7 @@ func TestJoinRoomPembeliHandlerSuccess(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
+	assert.Equal(t, "Success join seller room", res.Message)
 }
 
 func TestJoinRoomPembeliHandlerAlreadyInRoom(t *testing.T) {
@@ -404,7 +404,7 @@ func TestJoinRoomPembeliHandlerAlreadyInRoom(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res2))
-	assert.Equal(t, "success", res2.Message)
+	assert.Equal(t, "Success Create Room, please refresh to view room", res2.Message)
 
 	roomCode := res2.Data.RoomCode
 
@@ -459,7 +459,7 @@ func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res2))
-	assert.Equal(t, "success", res2.Message)
+	assert.Equal(t, "Success Create Room, please refresh to view room", res2.Message)
 
 	roomCode := res2.Data.RoomCode
 
@@ -473,7 +473,7 @@ func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "invalid id user", res.Message)
+	assert.Equal(t, "Invalid Id User", res.Message)
 }
 
 func TestJoinRoomError(t *testing.T) {
@@ -503,7 +503,7 @@ func TestJoinRoomError(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "Cannot Enter Room", res.Message)
+	assert.Equal(t, "Cannot Join Room", res.Message)
 }
 
 func TestJoinRoomSuccessWithPembeli(t *testing.T) {
@@ -544,7 +544,7 @@ func TestJoinRoomSuccessWithPembeli(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res2))
-	assert.Equal(t, "success", res2.Message)
+	assert.Equal(t, "Success Create Room, please refresh to view room", res2.Message)
 
 	roomCode := res2.Data.RoomCode
 
@@ -559,7 +559,7 @@ func TestJoinRoomSuccessWithPembeli(t *testing.T) {
 	//JOIN ROOM
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
+	assert.Equal(t, "Success join seller room", res.Message)
 
 	url = fmt.Sprintf("/en/joinroom/%v/%v", "1", "1")
 	req, err = http.NewRequest("GET", url, nil)
@@ -571,7 +571,7 @@ func TestJoinRoomSuccessWithPembeli(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
+	assert.Equal(t, "Success join room, please refresh to view room", res.Message)
 }
 
 func TestJoinRoomSuccessWithoutPembeli(t *testing.T) {
@@ -612,7 +612,7 @@ func TestJoinRoomSuccessWithoutPembeli(t *testing.T) {
 	//JOIN ROOM
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
+	assert.Equal(t, "Success Create Room, please refresh to view room", res.Message)
 
 	url := fmt.Sprintf("/en/joinroom/%v/%v", "1", "1")
 	req, err = http.NewRequest("GET", url, nil)
@@ -624,5 +624,5 @@ func TestJoinRoomSuccessWithoutPembeli(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
+	assert.Equal(t, "Success join room, please refresh to view room", res.Message)
 }
