@@ -26,6 +26,7 @@ func readDirectory(dir string) []fs.FileInfo {
 	dir = filepath.Clean(dir)
 	f, err := os.Open(dir)
 	check(err)
+	defer f.Close()
 
 	files, err := f.Readdir(0)
 	check(err)
