@@ -41,7 +41,7 @@ func setRoutes(localizationHandler *localizator.Handler, endPointHandler *Handle
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.Use(localizationHandler.PassLocalizator)
-	r.PUT("/:lang/updateproduct/:id", endPointHandler.UpdateProduct)
+	r.PUT("/:lang/updateproduct/:product_id", endPointHandler.UpdateProduct)
 
 	return r
 }
