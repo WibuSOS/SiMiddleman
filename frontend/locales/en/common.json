@@ -32,12 +32,12 @@
     },
     "user-action": {
       "title": [
-        "Create Room", "Join Room", "Sign Out"
+        "Create Room", "Join Room", "View Profile", "Sign Out"
       ],
       "text": [
         "You can create a room to make transactions with buyers.",
         "Register the room that has been created by the seller into your room list.",
-        "Signing out to log out of your account."
+        "View details of the account you have created."
       ]
     },
     "room-list": {
@@ -82,5 +82,6 @@
     "copyright": "Made with Team 2 for a better web.",
     "privacyPolicy": "Privacy Policy",
     "termsCondition": "Terms & Conditions"
-  }
+  },
+  "buttonProfile": "View Profile"
 }

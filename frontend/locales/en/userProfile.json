@@ -1,0 +1,11 @@
+{
+    "header": "User Profile",
+    "email": "Email",
+    "handphone": "Phone Number",
+    "rekening": "Account Number",
+    "load": {
+        "load-fail": "Failed to load room list",
+        "loading": "Loading data... please wait",
+        "list-empty": "Data Empty"
+    }
+}

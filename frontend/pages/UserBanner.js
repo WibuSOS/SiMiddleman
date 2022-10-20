@@ -8,7 +8,7 @@ export default function UserBanner () {
     <div className='home-banner text-center'>
       <h2>{t('logged-in.banner.title')}</h2>
       <h3>{t('logged-in.banner.text')}</h3>
-      <Button onClick={() => signOut()} className='btn-simiddleman'>{t('logged-in.user-action.title.2')}</Button>
+      <Button onClick={() => signOut()} className='btn-simiddleman'>{t('logged-in.user-action.title.3')}</Button>
     </div>
   )
 }

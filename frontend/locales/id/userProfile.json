@@ -1,0 +1,11 @@
+{
+    "header": "Profile Pengguna",
+    "email": "Email",
+    "handphone": "No HP",
+    "rekening": "Nomor Rekening",
+    "load": {
+        "load-fail": "Failed to load room list",
+        "loading": "Loading data... please wait",
+        "list-empty": "Data Empty"
+    }
+}
