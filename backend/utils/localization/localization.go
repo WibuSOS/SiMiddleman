@@ -3,7 +3,9 @@ package localization
 import (
 	"encoding/json"
 	"io/fs"
+	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/WibuSOS/sinarmas/backend/helpers"
 )
@@ -13,17 +15,32 @@ type data struct {
 	Id map[string]string `json:"id"`
 }
 
+func check(e error) {
+	if e != nil {
+		log.Println(e.Error())
+		panic(e)
+	}
+}
+
 func readDirectory(dir string) []fs.FileInfo {
-	f, _ := os.Open(dir)
-	files, _ := f.Readdir(0)
+	dir = filepath.Clean(dir)
+	f, err := os.Open(dir)
+	check(err)
+
+	files, err := f.Readdir(0)
+	check(err)
 
 	return files
 }
 
 func readJSON(file string) map[string]interface{} {
-	content, _ := os.ReadFile(file)
+	file = filepath.Clean(file)
+	content, err := os.ReadFile(file)
+	check(err)
+
 	var payload map[string]interface{}
-	json.Unmarshal(content, &payload)
+	err = json.Unmarshal(content, &payload)
+	check(err)
 
 	return payload
 }
@@ -100,5 +117,6 @@ func WriteJSON() {
 	data := collectData()
 
 	content, _ := json.Marshal(data)
-	os.WriteFile(rootPath+"/middlewares/localizator/language.json", content, 0644)
+	err := os.WriteFile(rootPath+"/middlewares/localizator/language.json", content, 0600)
+	check(err)
 }
