@@ -37,7 +37,7 @@ func (r *repository) CreateUser(req *DataRequest) *errors.RestError {
 	}
 	res := r.db.Omit(clause.Associations).Create(&newUser)
 	if res.Error != nil {
-		return errors.NewBadRequestError(res.Error.Error())
+		return errors.NewBadRequestError("badRequest")
 	}
 
 	return nil

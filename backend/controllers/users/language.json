@@ -1,0 +1,18 @@
+{
+    "en": {
+        "nameDoesNotQualify": "Name doesn't qualify",
+        "hpDoesNotQualify": "HP number doesn't qualify",
+        "emailDoesNotQualify": "Email doesn't qualify",
+        "passwordDoesNotQualify": "Password doesn't qualify",
+        "accountnumberDoesNotQualify": "Account number doesn't qualify",
+        "badRequest": "Bad Request"
+    },
+    "id": {
+        "nameDoesNotQualify": "Nama tidak memenuhi syarat",
+        "hpDoesNotQualify": "No HP tidak memenuhi syarat",
+        "emailDoesNotQualify": "Email tidak memenuhi syarat",
+        "passwordDoesNotQualify": "Password tidak memenuhi syarat",
+        "accountnumberDoesNotQualify": "Nomor rekening tidak memenuhi syarat",
+        "badRequest": "Permintaan tidak dapat diakses"
+    }
+}

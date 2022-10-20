@@ -4,23 +4,15 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/WibuSOS/sinarmas/backend/models"
-	"github.com/glebarez/sqlite"
+	"github.com/WibuSOS/sinarmas/backend/database"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )
 
 func newTestDB(t *testing.T) *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
+	db, err := database.SetupDb()
 	assert.NoError(t, err)
 	assert.NotNil(t, db)
-
-	err = db.AutoMigrate(&models.Users{})
-	// err = db.AutoMigrate(&models.Users{}, &models.Rooms{}, &models.Products{}, &models.Transactions{})
-	assert.NoError(t, err)
-
-	res := db.Exec("PRAGMA foreign_keys = ON", nil)
-	assert.NoError(t, res.Error)
 
 	return db
 }
@@ -101,7 +93,7 @@ func TestCreateUserRepositoryErrorNama(t *testing.T) {
 	err := repo.CreateUser(&req)
 	assert.NotEmpty(t, err)
 	assert.Equal(t, http.StatusBadRequest, err.Status)
-	assert.Equal(t, "nama tidak memenuhi syarat", err.Message)
+	assert.Equal(t, "nameDoesNotQualify", err.Message)
 }
 
 func TestCreateUserRepositoryErrorNoHp(t *testing.T) {
@@ -120,7 +112,7 @@ func TestCreateUserRepositoryErrorNoHp(t *testing.T) {
 	err := repo.CreateUser(&req)
 	assert.NotEmpty(t, err)
 	assert.Equal(t, http.StatusBadRequest, err.Status)
-	assert.Equal(t, "no hp tidak memenuhi syarat", err.Message)
+	assert.Equal(t, "hpDoesNotQualify", err.Message)
 }
 
 func TestCreateUserRepositoryErrorEmail(t *testing.T) {
@@ -139,7 +131,7 @@ func TestCreateUserRepositoryErrorEmail(t *testing.T) {
 	err := repo.CreateUser(&req)
 	assert.NotEmpty(t, err)
 	assert.Equal(t, http.StatusBadRequest, err.Status)
-	assert.Equal(t, "email tidak memenuhi syarat", err.Message)
+	assert.Equal(t, "emailDoesNotQualify", err.Message)
 }
 
 func TestCreateUserRepositoryErrorPassword(t *testing.T) {
@@ -158,7 +150,7 @@ func TestCreateUserRepositoryErrorPassword(t *testing.T) {
 	err := repo.CreateUser(&req)
 	assert.NotEmpty(t, err)
 	assert.Equal(t, http.StatusBadRequest, err.Status)
-	assert.Equal(t, "password tidak memenuhi syarat", err.Message)
+	assert.Equal(t, "passwordDoesNotQualify", err.Message)
 }
 
 func TestCreateUserRepositoryErrorNoRek(t *testing.T) {
@@ -177,5 +169,5 @@ func TestCreateUserRepositoryErrorNoRek(t *testing.T) {
 	err := repo.CreateUser(&req)
 	assert.NotEmpty(t, err)
 	assert.Equal(t, http.StatusBadRequest, err.Status)
-	assert.Equal(t, "no rek tidak memenuhi syarat", err.Message)
+	assert.Equal(t, "accountnumberDoesNotQualify", err.Message)
 }
