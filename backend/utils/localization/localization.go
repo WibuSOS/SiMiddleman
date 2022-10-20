@@ -2,12 +2,9 @@ package localization
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/fs"
 	"log"
 	"os"
-	"path/filepath"
-	"strings"
 
 	"github.com/WibuSOS/sinarmas/backend/helpers"
 )
@@ -25,29 +22,27 @@ func check(e error) {
 }
 
 func readDirectory(dir string) []fs.DirEntry {
-	rootPath := helpers.GetRootPath()
-	root := strings.ReplaceAll(rootPath, `/`, `\`)
+	// rootPath := helpers.GetRootPath()
+	// root := strings.ReplaceAll(rootPath, `/`, `\`)
 
-	dir = filepath.Join(root, filepath.Clean(dir))
-	if !strings.HasPrefix(dir, root) {
-		panic(fmt.Errorf("unsafe input"))
-	}
+	// dir = filepath.Join(root, filepath.Clean(dir))
+	// if !strings.HasPrefix(dir, root) {
+	// 	panic(fmt.Errorf("unsafe input"))
+	// }
 	f, err := os.ReadDir(dir)
-	check(err)
-
 	check(err)
 
 	return f
 }
 
 func readJSON(file string) map[string]interface{} {
-	rootPath := helpers.GetRootPath()
-	root := strings.ReplaceAll(rootPath, `/`, `\`)
+	// rootPath := helpers.GetRootPath()
+	// root := strings.ReplaceAll(rootPath, `/`, `\`)
 
-	file = filepath.Join(root, filepath.Clean(file))
-	if !strings.HasPrefix(file, root) {
-		panic(fmt.Errorf("unsafe input"))
-	}
+	// file = filepath.Join(root, filepath.Clean(file))
+	// if !strings.HasPrefix(file, root) {
+	// 	panic(fmt.Errorf("unsafe input"))
+	// }
 	content, err := os.ReadFile(file)
 	check(err)
 
@@ -62,9 +57,9 @@ func collectData() data {
 	en := map[string]string{}
 	id := map[string]string{}
 
-	//rootPath := helpers.GetRootPath()
+	rootPath := helpers.GetRootPath()
 
-	middlewaresPath := "/middlewares"
+	middlewaresPath := rootPath + "/middlewares"
 	dirMiddleware := readDirectory(middlewaresPath)
 	for _, v := range dirMiddleware {
 		if v.IsDir() && v.Name() != "localizator" {
@@ -90,7 +85,7 @@ func collectData() data {
 		}
 	}
 
-	controllersPath := "/controllers"
+	controllersPath := rootPath + "/controllers"
 	dirController := readDirectory(controllersPath)
 	for _, v := range dirController {
 		if v.IsDir() {
