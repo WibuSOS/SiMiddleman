@@ -59,7 +59,7 @@ func collectData() data {
 
 	rootPath := helpers.GetRootPath()
 
-	middlewaresPath := rootPath + ""
+	middlewaresPath := rootPath + "/middlewares"
 	dirMiddleware := readDirectory(middlewaresPath)
 	for _, v := range dirMiddleware {
 		if v.IsDir() && v.Name() != "localizator" {

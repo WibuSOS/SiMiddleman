@@ -64,7 +64,7 @@ func setRoutes(localizationHandler *localizator.Handler, endPointHandler *Handle
 }
 
 func TestCreateRoomHandlerSuccess(t *testing.T) {
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -103,7 +103,7 @@ func TestCreateRoomHandlerSuccess(t *testing.T) {
 }
 
 func TestCreateRoomHandlerErrorBind(t *testing.T) {
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -141,7 +141,7 @@ func TestCreateRoomHandlerErrorBind(t *testing.T) {
 }
 
 func TestCreateRoomHandlerErrorRequest(t *testing.T) {
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -180,7 +180,7 @@ func TestCreateRoomHandlerErrorRequest(t *testing.T) {
 }
 
 func TestGetAllRoomsHandlerSuccess(t *testing.T) {
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -231,7 +231,7 @@ func TestGetAllRoomsHandlerSuccess(t *testing.T) {
 }
 
 func TestGetAllRoomsHandlerErrorRequest(t *testing.T) {
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -261,7 +261,7 @@ func TestGetAllRoomsHandlerErrorRequest(t *testing.T) {
 }
 
 func TestJoinRoomPembeliHandlerFail(t *testing.T) {
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -312,7 +312,7 @@ func TestJoinRoomPembeliHandlerFail(t *testing.T) {
 }
 
 func TestJoinRoomPembeliHandlerSuccess(t *testing.T) {
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -367,7 +367,7 @@ func TestJoinRoomPembeliHandlerSuccess(t *testing.T) {
 }
 
 func TestJoinRoomPembeliHandlerAlreadyInRoom(t *testing.T) {
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -422,7 +422,7 @@ func TestJoinRoomPembeliHandlerAlreadyInRoom(t *testing.T) {
 }
 
 func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -477,7 +477,7 @@ func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
 }
 
 func TestJoinRoomError(t *testing.T) {
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -507,7 +507,7 @@ func TestJoinRoomError(t *testing.T) {
 }
 
 func TestJoinRoomSuccessWithPembeli(t *testing.T) {
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 
 	// DB INITIALIZATION
 	db := newTestDB(t)
@@ -575,7 +575,7 @@ func TestJoinRoomSuccessWithPembeli(t *testing.T) {
 }
 
 func TestJoinRoomSuccessWithoutPembeli(t *testing.T) {
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 
 	// DB INITIALIZATION
 	db := newTestDB(t)

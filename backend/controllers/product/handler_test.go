@@ -48,7 +48,7 @@ func setRoutes(localizationHandler *localizator.Handler, endPointHandler *Handle
 
 func setEnv() {
 	os.Setenv("ENVIRONMENT", "TEST")
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 }
 
 func TestUpdateProduct(t *testing.T) {
