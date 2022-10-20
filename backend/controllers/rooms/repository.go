@@ -84,7 +84,7 @@ func (r *repository) GetAllRooms(userId string) ([]models.Rooms, *errors.RestErr
 		Preload("PembeliRooms.Transaction").
 		First(&user, id)
 	if res.Error != nil {
-		return []models.Rooms{}, errors.NewBadRequestError(res.Error.Error())
+		return []models.Rooms{}, errors.NewBadRequestError("internalServer")
 	}
 
 	newRooms = append(newRooms, user.PenjualRooms...)

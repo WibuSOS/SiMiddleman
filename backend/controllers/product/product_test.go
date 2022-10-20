@@ -107,7 +107,7 @@ func TestUpdateProduct(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "Success Update Product", res.Message)
+	assert.Equal(t, "Success update data product", res.Message)
 }
 
 func TestErrorStatusBadRequest(t *testing.T) {

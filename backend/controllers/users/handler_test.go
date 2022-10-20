@@ -216,5 +216,5 @@ func TestCreateUserHandlerErrorRequest(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "badRequest", res.Message)
+	assert.Equal(t, "Bad Request", res.Message)
 }
