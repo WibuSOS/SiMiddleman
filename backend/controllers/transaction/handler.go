@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	language "github.com/moemoe89/go-localization"
 )
 
 type Handler struct {
@@ -18,6 +19,8 @@ func NewHandler(service Service) *Handler {
 
 func (h *Handler) UpdateStatusDelivery(c *gin.Context) {
 	id := c.Param("room_id")
+	langReq := c.Param("lang")
+	localizator := c.MustGet("localizator")
 	var req RequestUpdateStatus
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -27,7 +30,7 @@ func (h *Handler) UpdateStatusDelivery(c *gin.Context) {
 	err := h.Service.UpdateStatusDelivery(id, req)
 	if err != nil {
 		c.JSON(err.Status, gin.H{
-			"message": err.Message,
+			"message": localizator.(*language.Config).Lookup(langReq, err.Message),
 		})
 		return
 	}
@@ -41,6 +44,8 @@ func (h *Handler) UpdateStatusDelivery(c *gin.Context) {
 
 func (h *Handler) GetPaymentDetails(c *gin.Context) {
 	idRoom := c.Param("room_id")
+	langReq := c.Param("lang")
+	localizator := c.MustGet("localizator")
 	id, errConvert := strconv.Atoi(idRoom)
 	if errConvert != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": errConvert.Error()})
@@ -50,7 +55,7 @@ func (h *Handler) GetPaymentDetails(c *gin.Context) {
 	res, err := h.Service.GetPaymentDetails(id)
 	if err != nil {
 		c.JSON(err.Status, gin.H{
-			"message": err.Message,
+			"message": localizator.(*language.Config).Lookup(langReq, err.Message),
 		})
 		return
 	}

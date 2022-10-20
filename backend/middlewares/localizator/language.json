@@ -1,30 +1,34 @@
 {
-    "en": {
-        "authFailed": "Authentication failed",
-        "internalServer": "Internal Server Error",
-        "invalidEmail": "Email is not valid",
-        "invalidJSON": "Invalid JSON",
-        "invalidPassword": "Password is not valid",
-        "invalidRoomID": "Invalid room ID",
-        "invalidToken": "Token is not valid",
-        "noToken": "Unable to verify token",
-        "roomNotFound": "Room not found",
-        "success": "success",
-        "unauthorized": "Unauthorized",
-        "userNotFound": "User not found"
-    },
-    "id": {
-        "authFailed": "Autentikasi gagal",
-        "internalServer": "Kesalahan di dalam server",
-        "invalidEmail": "Email tidak valid",
-        "invalidJSON": "JSON tidak valid",
-        "invalidPassword": "Password tidak valid",
-        "invalidRoomID": "ID room tidak valid",
-        "invalidToken": "Token tidak valid",
-        "noToken": "Tidak dapat memverifikasi token",
-        "roomNotFound": "Room tidak ditemukan",
-        "success": "sukses",
-        "unauthorized": "Tidak terotorisasi",
-        "userNotFound": "User tidak ditemukan"
-    }
+  "en": {
+    "NoToken": "Unable to verify token",
+    "cannotjoinroom": "Cannot Enter Room",
+    "alreadyjoinroom": "Already Join This Room",
+    "invalididuser": "invalid id user",
+    "alreadyhavebuyer": "Already has Buyer in this room",
+    "internalServer": "Internal Server Error",
+    "success": "success",
+    "successupdate": "Success Update Product",
+    "emptyname": "Name Cannot Be Empty",
+    "emptyprice": "Price Cannot Be Empty",
+    "emptyquantity": "Quantity Cannot Be Empty",
+    "emptydescription": "Description Cannot Be Empty",
+    "roomnotfound": "Room Not Found",
+    "errorfetchingdata": "Error while fetching data"
+  },
+  "id": {
+    "NoToken": "Tidak dapat memverifikasi token",
+    "cannotjoinroom": "Tidak Bisa Memasuki Ruangan",
+    "alreadyjoinroom": "Anda Sudah Masuk Ruangan ini",
+    "invalididuser": "id user salah",
+    "alreadyhavebuyer": "Sudah ada Pembeli di ruangan",
+    "internalServer": "Kesalahan di dalam server",
+    "success": "sukses",
+    "successupdate": "Berhasil mengubah data",
+    "emptyname": "Nama tidak boleh kosong",
+    "emptyprice": "Harga tidak boleh kosong",
+    "emptyquantity": "Kuantitas tidak boleh kosong",
+    "emptydescription": "Deskripsi tidak boleh kosong",
+    "roomnotfound": "Ruangan tidak ditemukan",
+    "errorfetchingdata": "Error ketika mengambil data"
+  }
 }
