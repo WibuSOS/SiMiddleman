@@ -1,0 +1,10 @@
+{
+    "en": {
+        "noToken": "Unable to verify token",
+        "invalidToken": "Token is not valid"
+    },
+    "id": {
+        "noToken": "Tidak dapat memverifikasi token",
+        "invalidToken": "Token tidak valid"
+    }
+}
