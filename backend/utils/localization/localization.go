@@ -35,8 +35,6 @@ func readDirectory(dir string) []fs.DirEntry {
 	f, err := os.ReadDir(dir)
 	check(err)
 
-	check(err)
-
 	return f
 }
 
