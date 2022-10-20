@@ -9,9 +9,7 @@ import (
 	"testing"
 
 	"github.com/WibuSOS/sinarmas/backend/middlewares/localizator"
-	"github.com/WibuSOS/sinarmas/backend/models"
 	"github.com/gin-gonic/gin"
-	"github.com/glebarez/sqlite"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )
@@ -51,32 +49,6 @@ func setRoutes(localizationHandler *localizator.Handler, endPointHandler *Handle
 func setEnv() {
 	os.Setenv("ENVIRONMENT", "TEST")
 	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
-}
-
-func newTestDB(t *testing.T) *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
-	assert.NoError(t, err)
-	assert.NotNil(t, db)
-
-	err = db.AutoMigrate(&models.Users{}, &models.Products{}, &models.Rooms{})
-	assert.NoError(t, err)
-
-	db.Create(&models.Users{
-		Nama:     "test2",
-		NoHp:     "081234523415",
-		NoRek:    "12341415",
-		Email:    "test12@gmail.com",
-		Password: "123456789",
-	})
-
-	db.Create(&models.Products{
-		Nama:      "ayam",
-		Harga:     15000,
-		Kuantitas: 2,
-		Deskripsi: "ini adalah ayam",
-	})
-
-	return db
 }
 
 func TestUpdateProduct(t *testing.T) {
