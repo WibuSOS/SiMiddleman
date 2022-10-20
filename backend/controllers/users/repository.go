@@ -14,6 +14,7 @@ import (
 type Repository interface {
 	CreateUser(req *DataRequest) *errors.RestError
 	GetUserDetails(userId string) (models.Users, *errors.RestError)
+	UpdateUser(userId string, req DataRequest) *errors.RestError
 }
 
 type repository struct {
@@ -59,4 +60,26 @@ func (r *repository) GetUserDetails(userId string) (models.Users, *errors.RestEr
 	}
 
 	return user, nil
+}
+
+func (r *repository) UpdateUser(userId string, req DataRequest) *errors.RestError {
+	idUser, err := strconv.ParseUint(userId, 10, 64)
+	if err != nil {
+		return errors.NewBadRequestError(err.Error())
+	}
+
+	user := models.Users{
+		Nama:     req.Nama,
+		NoHp:     req.NoHp,
+		Email:    req.Email,
+		Password: req.Password,
+		NoRek:    req.NoRek,
+	}
+
+	err = r.db.Where("ID = ?", idUser).Updates(&user).First(&user).Error
+	if err != nil {
+		return errors.NewBadRequestError("bad request")
+	}
+
+	return nil
 }
