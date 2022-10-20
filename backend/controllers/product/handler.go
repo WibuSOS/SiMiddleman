@@ -19,7 +19,7 @@ func NewHandler(service Service) *Handler {
 
 func (h *Handler) UpdateProduct(c *gin.Context) {
 	var req DataRequest
-	id := c.Param("id")
+	id := c.Param("product_id")
 	langReq := c.Param("lang")
 	localizator := c.MustGet("localizator")
 	if err := c.ShouldBindJSON(&req); err != nil {
