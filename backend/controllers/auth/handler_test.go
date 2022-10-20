@@ -58,7 +58,7 @@ func setEnv() {
 }
 
 func TestMain(m *testing.M) {
-	localization.WriteJSON()
+	go localization.WriteJSON()
 	exitVal := m.Run()
 	os.Exit(exitVal)
 }
