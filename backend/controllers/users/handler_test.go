@@ -7,9 +7,15 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/WibuSOS/sinarmas/backend/models"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
+
+type responseGetUserDetails struct {
+	Message string       `json:"message"`
+	Data    models.Users `json:"data"`
+}
 
 func TestCreateUserHandlerSuccess(t *testing.T) {
 	type response struct {
@@ -171,4 +177,71 @@ func TestCreateUserHandlerErrorRequest(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
 	assert.Equal(t, "constraint failed: UNIQUE constraint failed: users.email (2067)", res.Message)
+}
+
+func newTestGetUserDetailsHandler(t *testing.T, isError bool) (*httptest.ResponseRecorder, responseGetUserDetails) {
+	type response struct {
+		Message string `json:"message"`
+	}
+	var res response
+	var resGetDetails responseGetUserDetails
+
+	db := newTestDB(t)
+	repo := NewRepository(db)
+	service := NewService(repo)
+	handler := NewHandler(service)
+
+	dbError := newTestDBError(t)
+	repoError := NewRepository(dbError)
+	serviceError := NewService(repoError)
+	handlerError := NewHandler(serviceError)
+
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.POST("/register", handler.CreateUser)
+	if isError {
+		r.GET("/:lang/user/:user_id", handlerError.GetUserDetails)
+	} else {
+		r.GET("/:lang/user/:user_id", handler.GetUserDetails)
+	}
+	// SUCCESS USER 1
+	payload := `{
+		"nama":     "vwxyz",
+		"noHp":     "+6283785332789",
+		"email":    "admin@xyz.com",
+		"password": "123456781234567812",
+		"noRek":    "1234"
+	}`
+	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "success", res.Message)
+
+	req, err = http.NewRequest("GET", "/en/user/1", nil)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	return w, resGetDetails
+}
+
+func TestGetUserDetailsHandlerSuccess(t *testing.T) {
+	w, userDetails := newTestGetUserDetailsHandler(t, false)
+
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &userDetails))
+	assert.Equal(t, "success", userDetails.Message)
+}
+
+func TestGetUserDetailsHandlerError(t *testing.T) {
+	w, userDetails := newTestGetUserDetailsHandler(t, true)
+
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &userDetails))
+	assert.Equal(t, "Error while fetching data", userDetails.Message)
 }
