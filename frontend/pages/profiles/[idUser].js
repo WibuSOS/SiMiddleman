@@ -7,6 +7,12 @@ import UserProfile from './UserProfile'
 export default function Profile({ user }) {
     const [data, setData] = useState(null);
     const [error] = useState(null);
+    const [nama, setNama] = useState("");
+    const [noHp, setNoHp] = useState("");
+    const [noRek, setNoRek] = useState("");
+    const [updateProfileModal, setupdateProfileModal] = useState(false);
+    const openUpdateProfileModal = () => setupdateProfileModal(true);
+    const closeUpdateProfileModal = () => setupdateProfileModal(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -25,14 +31,62 @@ export default function Profile({ user }) {
             });
             const data = await res.json();
             setData(data);
+            setNama(data?.data.nama);
+            setNoHp(data?.data.noHp);
+            setNoRek(data?.data.noRek);
         } catch (error) {
             console.error();
         }
     }
 
+    const onChangeText = (e, type) => {
+        if (type === "nama"){
+            setNama(e.target.value);
+        }
+        if (type === "noHp"){
+            setNoHp(e.target.value);
+        }
+        if (type === "noRek"){
+            setNoRek(e.target.value);
+        }
+    }
+
+    const handleSubmitUpdateProfile = async (e) => {
+        closeUpdateProfileModal();
+        e.preventDefault();
+    
+        const body = {
+            Nama: nama,
+            NoHp: noHp,
+            NoRek: noRek
+        }
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updateproduct/${data?.data.product.ID}`, {
+                method: 'PUT',
+                body: JSON.stringify(body),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + user,
+                }
+            });
+            const dataRes = await res.json();
+    
+            if (dataRes?.message === "berhasil mengupdate data") {
+                Swal.fire({ icon: 'success', title: 'Profile Berhasil diupdate', showConfirmButton: false, timer: 1500, })
+                getUserDetails();
+            } else {
+                Swal.fire({ icon: 'error', title: 'Profile Gagal Diupdate', text: dataRes?.message, })
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div className='content'>
-            <UserProfile data={data} error={error} />
+            <UserProfile data={data} error={error} updateProfileModal={updateProfileModal} closeUpdateProfileModal={closeUpdateProfileModal} openUpdateProfileModal={openUpdateProfileModal} onChangeText={onChangeText} handleSubmitUpdateProfile={handleSubmitUpdateProfile} nama={nama} noHp={noHp} noRek={noRek} />
         </div >
     )
 }

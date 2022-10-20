@@ -7,5 +7,12 @@
         "load-fail": "Failed to load room list",
         "loading": "Loading data... please wait",
         "list-empty": "Data Empty"
+    },
+    "modal": {
+        "header": "Perbaharui Profile",
+        "btnUpdateProfile": "Perbaharui Profile",
+        "placeholder": [
+            "Nama", "Nomor HP", "Nomor Rekening"
+        ]
     }
 }
