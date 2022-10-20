@@ -2,8 +2,12 @@ package localization
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/fs"
+	"log"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/WibuSOS/sinarmas/backend/helpers"
 )
@@ -13,17 +17,43 @@ type data struct {
 	Id map[string]string `json:"id"`
 }
 
-func readDirectory(dir string) []fs.FileInfo {
-	f, _ := os.Open(dir)
-	files, _ := f.Readdir(0)
+func check(e error) {
+	if e != nil {
+		log.Println(e.Error())
+		panic(e)
+	}
+}
 
-	return files
+func readDirectory(dir string) []fs.DirEntry {
+	rootPath := helpers.GetRootPath()
+	root := strings.ReplaceAll(rootPath, `/`, `\`)
+
+	dir = filepath.Join(root, filepath.Clean(dir))
+	if !strings.HasPrefix(dir, root) {
+		panic(fmt.Errorf("unsafe input"))
+	}
+	f, err := os.ReadDir(dir)
+	check(err)
+
+	check(err)
+
+	return f
 }
 
 func readJSON(file string) map[string]interface{} {
-	content, _ := os.ReadFile(file)
+	rootPath := helpers.GetRootPath()
+	root := strings.ReplaceAll(rootPath, `/`, `\`)
+
+	file = filepath.Join(root, filepath.Clean(file))
+	if !strings.HasPrefix(file, root) {
+		panic(fmt.Errorf("unsafe input"))
+	}
+	content, err := os.ReadFile(file)
+	check(err)
+
 	var payload map[string]interface{}
-	json.Unmarshal(content, &payload)
+	err = json.Unmarshal(content, &payload)
+	check(err)
 
 	return payload
 }
@@ -32,9 +62,9 @@ func collectData() data {
 	en := map[string]string{}
 	id := map[string]string{}
 
-	rootPath := helpers.GetRootPath()
+	//rootPath := helpers.GetRootPath()
 
-	middlewaresPath := rootPath + "/middlewares"
+	middlewaresPath := "/middlewares"
 	dirMiddleware := readDirectory(middlewaresPath)
 	for _, v := range dirMiddleware {
 		if v.IsDir() && v.Name() != "localizator" {
@@ -60,7 +90,7 @@ func collectData() data {
 		}
 	}
 
-	controllersPath := rootPath + "/controllers"
+	controllersPath := "/controllers"
 	dirController := readDirectory(controllersPath)
 	for _, v := range dirController {
 		if v.IsDir() {
@@ -100,5 +130,6 @@ func WriteJSON() {
 	data := collectData()
 
 	content, _ := json.Marshal(data)
-	os.WriteFile(rootPath+"/middlewares/localizator/language.json", content, 0644)
+	err := os.WriteFile(rootPath+"/middlewares/localizator/language.json", content, 0600)
+	check(err)
 }
