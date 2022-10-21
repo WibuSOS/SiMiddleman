@@ -1,6 +1,10 @@
 package users
 
 import (
+	err_package "errors"
+	"log"
+	"strconv"
+
 	"github.com/WibuSOS/sinarmas/backend/models"
 	"github.com/WibuSOS/sinarmas/backend/utils/errors"
 	"golang.org/x/crypto/bcrypt"
@@ -10,6 +14,8 @@ import (
 
 type Repository interface {
 	CreateUser(req *DataRequest) *errors.RestError
+	GetUserDetails(userId string) (models.Users, *errors.RestError)
+	UpdateUser(userId string, req DataRequestUpdateProfile) *errors.RestError
 }
 
 type repository struct {
@@ -38,6 +44,41 @@ func (r *repository) CreateUser(req *DataRequest) *errors.RestError {
 	res := r.db.Omit(clause.Associations).Create(&newUser)
 	if res.Error != nil {
 		return errors.NewBadRequestError("badRequest")
+	}
+
+	return nil
+}
+
+func (r *repository) GetUserDetails(userId string) (models.Users, *errors.RestError) {
+	var user models.Users
+
+	id, _ := strconv.ParseUint(userId, 10, 64)
+	res := r.db.Where("id = ?", id).First(&user)
+
+	if err := res.Error; err_package.Is(err, gorm.ErrRecordNotFound) {
+		log.Println("Get User Details: Error while fetching data")
+		return models.Users{}, errors.NewInternalServerError("Error while fetching data")
+	}
+
+	return user, nil
+}
+
+func (r *repository) UpdateUser(userId string, req DataRequestUpdateProfile) *errors.RestError {
+	idUser, err := strconv.ParseUint(userId, 10, 64)
+	if err != nil {
+		return errors.NewBadRequestError(err.Error())
+	}
+
+	user := models.Users{
+		Nama:  req.Nama,
+		NoHp:  req.NoHp,
+		Email: req.Email,
+		NoRek: req.NoRek,
+	}
+
+	err = r.db.Where("ID = ?", idUser).Updates(&user).First(&user).Error
+	if err != nil {
+		return errors.NewBadRequestError("bad request")
 	}
 
 	return nil

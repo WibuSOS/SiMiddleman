@@ -9,10 +9,16 @@ import (
 	"testing"
 
 	"github.com/WibuSOS/sinarmas/backend/middlewares/localizator"
+	"github.com/WibuSOS/sinarmas/backend/models"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )
+
+type responseGetUserDetails struct {
+	Message string       `json:"message"`
+	Data    models.Users `json:"data"`
+}
 
 type response struct {
 	Message string `json:"message"`
@@ -42,18 +48,23 @@ func setRoutes(localizationHandler *localizator.Handler, endPointHandler *Handle
 	r := gin.Default()
 	r.Use(localizationHandler.PassLocalizator)
 	r.POST("/:lang/register", endPointHandler.CreateUser)
+	r.GET("/:lang/user/:user_id", endPointHandler.GetUserDetails)
+	r.PUT("/:lang/user/:user_id", endPointHandler.UpdateUser)
 
 	return r
 }
 
 func setEnv() {
 	os.Setenv("ENVIRONMENT", "TEST")
-	os.Setenv("LOCALIZATOR_PATH", "")
+}
+
+func TestMain(m *testing.M) {
+	setEnv()
+	exitVal := m.Run()
+	os.Exit(exitVal)
 }
 
 func TestCreateUserHandlerSuccess(t *testing.T) {
-	setEnv()
-
 	// DB INITIALIZATION
 	db := newTestDB(t)
 
@@ -108,8 +119,6 @@ func TestCreateUserHandlerSuccess(t *testing.T) {
 }
 
 func TestCreateUserHandlerErrorBind(t *testing.T) {
-	setEnv()
-
 	// DB INITIALIZATION
 	db := newTestDB(t)
 
@@ -164,8 +173,6 @@ func TestCreateUserHandlerErrorBind(t *testing.T) {
 }
 
 func TestCreateUserHandlerErrorRequest(t *testing.T) {
-	setEnv()
-
 	// DB INITIALIZATION
 	db := newTestDB(t)
 
@@ -217,4 +224,150 @@ func TestCreateUserHandlerErrorRequest(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
 	assert.Equal(t, "Bad Request", res.Message)
+}
+
+func newTestGetUserDetailsHandler(t *testing.T, isError bool) (*httptest.ResponseRecorder, responseGetUserDetails) {
+	var resGetDetails responseGetUserDetails
+	var req *http.Request
+	var err error
+
+	db := newTestDB(t)
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	if isError {
+		req, err = http.NewRequest("GET", "/en/user/10", nil)
+	} else {
+		req, err = http.NewRequest("GET", "/en/user/1", nil)
+	}
+
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+	return w, resGetDetails
+}
+
+func TestGetUserDetailsHandlerSuccess(t *testing.T) {
+	w, userDetails := newTestGetUserDetailsHandler(t, false)
+
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &userDetails))
+	assert.Equal(t, "success", userDetails.Message)
+}
+
+func TestGetUserDetailsHandlerError(t *testing.T) {
+	w, userDetails := newTestGetUserDetailsHandler(t, true)
+
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &userDetails))
+	assert.Equal(t, "Error while fetching data", userDetails.Message)
+}
+
+func TestUpdateUserHandlerSuccessRequest(t *testing.T) {
+	type response struct {
+		Message string `json:"message"`
+	}
+	var res response
+
+	db := newTestDB(t)
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	// UPDATE USER
+	payload := `{
+		"nama":     "abcde",
+		"noHp":     "+6282876443890",
+		"email":    "admin@xyz.com",
+		"noRek":    "6789"
+	}`
+	req, err := http.NewRequest("PUT", "/en/user/1", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "success", res.Message)
+}
+
+func TestUpdateUserHandlerErrorRequest(t *testing.T) {
+	type response struct {
+		Message string `json:"message"`
+	}
+	var res response
+
+	db := newTestDB(t)
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	// UPDATE USER
+	req, err := http.NewRequest("PUT", "/en/user/1", nil)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "invalid request", res.Message)
+}
+
+func TestUpdateUserHandlerErrorIDRequest(t *testing.T) {
+	type response struct {
+		Message string `json:"message"`
+	}
+	var res response
+
+	db := newTestDB(t)
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	// UPDATE USER
+	payload := `{
+		"nama":     "abcde",
+		"noHp":     "+6282876443890",
+		"email":    "admin@xyz.com",
+		"noRek":    "6789"
+	}`
+	req, err := http.NewRequest("PUT", "/en/user/1000", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotEmpty(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "bad request", res.Message)
 }

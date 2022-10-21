@@ -5,6 +5,7 @@
     "*": ["common"],
     "/": ["home", "cardRoom", "createRoom", "joinRoom"],
     "/rooms/[idRoom]": ["detailProduct"],
-    "/rooms/payment/[idRoom]": ["payment"]
+    "/rooms/payment/[idRoom]": ["payment"],
+    "/profiles/[idUser]": ["userProfile"]
   }
 }
