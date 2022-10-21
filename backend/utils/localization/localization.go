@@ -62,25 +62,28 @@ func collectData() data {
 	middlewaresPath := rootPath + "/middlewares"
 	dirMiddleware := readDirectory(middlewaresPath)
 	for _, v := range dirMiddleware {
-		if v.IsDir() && v.Name() != "localizator" {
-			subPath := middlewaresPath + "/" + v.Name()
-			files := readDirectory(subPath)
-			for _, v := range files {
-				if v.Name() == "language.json" {
-					data := readJSON(subPath + "/" + v.Name())
-					for key, value := range data {
-						rec := value.(map[string]interface{})
-						if key == "en" {
-							for k, val := range rec {
-								en[k] = val.(string)
-							}
-						} else if key == "id" {
-							for k, val := range rec {
-								id[k] = val.(string)
-							}
+		if !v.IsDir() || v.Name() == "localizator" {
+			continue
+		}
+
+		subPath := middlewaresPath + "/" + v.Name()
+		files := readDirectory(subPath)
+		for _, v := range files {
+			if v.Name() == "language.json" {
+				data := readJSON(subPath + "/" + v.Name())
+				for key, value := range data {
+					rec := value.(map[string]interface{})
+					if key == "en" {
+						for k, val := range rec {
+							en[k] = val.(string)
+						}
+					} else if key == "id" {
+						for k, val := range rec {
+							id[k] = val.(string)
 						}
 					}
 				}
+				break
 			}
 		}
 	}

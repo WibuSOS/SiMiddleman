@@ -12,7 +12,7 @@ import (
 	//"github.com/WibuSOS/sinarmas/utils/errors"
 
 	"github.com/WibuSOS/sinarmas/backend/middlewares/localizator"
-	"github.com/WibuSOS/sinarmas/backend/utils/localization"
+	// "github.com/WibuSOS/sinarmas/backend/utils/localization"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
@@ -54,14 +54,14 @@ func setRoutes(localizationHandler *localizator.Handler, endPointHandler *Handle
 
 func setEnv() {
 	os.Setenv("ENVIRONMENT", "TEST")
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
+	os.Setenv("LOCALIZATOR_PATH", "")
 }
 
-func TestMain(m *testing.M) {
-	go localization.WriteJSON()
-	exitVal := m.Run()
-	os.Exit(exitVal)
-}
+// func TestMain(m *testing.M) {
+// 	go localization.WriteJSON()
+// 	exitVal := m.Run()
+// 	os.Exit(exitVal)
+// }
 
 func TestLoginHandler(t *testing.T) {
 	setEnv()

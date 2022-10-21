@@ -1,5 +1,6 @@
 {
     "en": {
+        "success": "success",
         "nameDoesNotQualify": "Name doesn't qualify",
         "hpDoesNotQualify": "HP number doesn't qualify",
         "emailDoesNotQualify": "Email doesn't qualify",
@@ -8,6 +9,7 @@
         "badRequest": "Bad Request"
     },
     "id": {
+        "success": "sukses",
         "nameDoesNotQualify": "Nama tidak memenuhi syarat",
         "hpDoesNotQualify": "No HP tidak memenuhi syarat",
         "emailDoesNotQualify": "Email tidak memenuhi syarat",

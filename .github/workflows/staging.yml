@@ -1,7 +1,12 @@
 name: Staging deployment
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
     branches:
       - staging
 
