@@ -14,3 +14,14 @@
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=WibuSOS_SiMiddleman&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=WibuSOS_SiMiddleman)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=WibuSOS_SiMiddleman&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=WibuSOS_SiMiddleman)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=WibuSOS_SiMiddleman&metric=coverage)](https://sonarcloud.io/summary/new_code?id=WibuSOS_SiMiddleman)
+
+# SINARMAS SIMIDDLEMAN+
+Fikri Aulia P. Lubis
+
+Khalil Attalla
+
+Thea Kevin Hartono
+
+Julyus Andreas Binoto
+
+Vincent Joyan Sutandijo
