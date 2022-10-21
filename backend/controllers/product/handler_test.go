@@ -108,7 +108,7 @@ func TestErrorStatusBadRequest(t *testing.T) {
 	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "json: cannot unmarshal string into Go struct field DataRequest.harga of type uint", res.Message)
+	assert.Equal(t, "Bad Request", res.Message)
 }
 
 func TestErrorNameEmpty(t *testing.T) {
@@ -255,5 +255,5 @@ func TestErrorIdNotFound(t *testing.T) {
 
 	assert.Equal(t, 400, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "record not found", res.Message)
+	assert.Equal(t, "Record Not Found", res.Message)
 }
