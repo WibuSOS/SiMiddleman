@@ -73,6 +73,7 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
               placeholder={t("placeholder.1")}
               data-testid="hargaProduk"
               name="hargaProduk"
+              min={1}
               autoFocus
             />
           </Form.Group>
@@ -82,6 +83,7 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
               placeholder={t("placeholder.2")}
               data-testid="kuantitasProduk"
               name="kuantitasProduk"
+              min={1}
               autoFocus
             />
           </Form.Group>

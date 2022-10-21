@@ -36,6 +36,7 @@ export default function ModalUpdateProduct({ closeUpdateProductModal, updateProd
                         placeholder={t("updateProductModal.placeholder.1")}
                         data-testid="hargaProduk"
                         name="hargaProduk"
+                        min={1}
                         value={hargaProduk}
                         onChange={(e) => onChangeText(e , "hargaProduk")}
                         />
@@ -46,6 +47,7 @@ export default function ModalUpdateProduct({ closeUpdateProductModal, updateProd
                         placeholder={t("updateProductModal.placeholder.2")}
                         data-testid="kuantitasProduk"
                         name="kuantitasProduk"
+                        min={1}
                         value={kuantitasProduk}
                         onChange={(e) => onChangeText(e , "kuantitasProduk")}
                         />
