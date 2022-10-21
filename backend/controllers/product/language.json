@@ -5,7 +5,8 @@
         "emptyprice": "Price Cannot Be Empty",
         "emptyquantity": "Quantity Cannot Be Empty",
         "emptydescription": "Description Cannot Be Empty",
-        "badRequest": "Bad Request"
+        "badRequest": "Bad Request",
+        "recordnotfound": "Record Not Found"
     },
     "id": {
         "successupdate": "Berhasil update data produk",
@@ -13,6 +14,7 @@
         "emptyprice": "Harga tidak boleh kosong",
         "emptyquantity": "Kuantitas tidak boleh kosong",
         "emptydescription": "Deskripsi tidak boleh kosong",
-        "badRequest": "Permintaan tidak dapat diakses"
+        "badRequest": "Permintaan tidak dapat diakses",
+        "recordnotfound": "Data Tidak Ditemukan"
     }
 }
