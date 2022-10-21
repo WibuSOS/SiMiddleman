@@ -69,48 +69,55 @@ func collectData() data {
 		subPath := middlewaresPath + "/" + v.Name()
 		files := readDirectory(subPath)
 		for _, v := range files {
-			if v.Name() == "language.json" {
-				data := readJSON(subPath + "/" + v.Name())
-				for key, value := range data {
-					rec := value.(map[string]interface{})
-					if key == "en" {
-						for k, val := range rec {
-							en[k] = val.(string)
-						}
-					} else if key == "id" {
-						for k, val := range rec {
-							id[k] = val.(string)
-						}
+			if v.Name() != "language.json" {
+				continue
+			}
+
+			data := readJSON(subPath + "/" + v.Name())
+			for key, value := range data {
+				rec := value.(map[string]interface{})
+				if key == "en" {
+					for k, val := range rec {
+						en[k] = val.(string)
+					}
+				} else if key == "id" {
+					for k, val := range rec {
+						id[k] = val.(string)
 					}
 				}
-				break
 			}
+			break
 		}
 	}
 
 	controllersPath := rootPath + "/controllers"
 	dirController := readDirectory(controllersPath)
 	for _, v := range dirController {
-		if v.IsDir() {
-			subPath := controllersPath + "/" + v.Name()
-			files := readDirectory(subPath)
-			for _, v := range files {
-				if v.Name() == "language.json" {
-					data := readJSON(subPath + "/" + v.Name())
-					for key, value := range data {
-						rec := value.(map[string]interface{})
-						if key == "en" {
-							for k, val := range rec {
-								en[k] = val.(string)
-							}
-						} else if key == "id" {
-							for k, val := range rec {
-								id[k] = val.(string)
-							}
-						}
+		if !v.IsDir() {
+			continue
+		}
+
+		subPath := controllersPath + "/" + v.Name()
+		files := readDirectory(subPath)
+		for _, v := range files {
+			if v.Name() != "language.json" {
+				continue
+			}
+
+			data := readJSON(subPath + "/" + v.Name())
+			for key, value := range data {
+				rec := value.(map[string]interface{})
+				if key == "en" {
+					for k, val := range rec {
+						en[k] = val.(string)
+					}
+				} else if key == "id" {
+					for k, val := range rec {
+						id[k] = val.(string)
 					}
 				}
 			}
+			break
 		}
 	}
 
@@ -128,6 +135,6 @@ func WriteJSON() {
 	data := collectData()
 
 	content, _ := json.Marshal(data)
-	err := os.WriteFile(rootPath+"/middlewares/localizator/language.json", content, 0600)
+	err := os.WriteFile(rootPath+os.Getenv("LOCALIZATOR_PATH")+"/language.json", content, 0600)
 	check(err)
 }
