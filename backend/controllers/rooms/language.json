@@ -8,7 +8,8 @@
         "cannotjoinroom": "Cannot Join Room",
         "invalididuser": "Invalid Id User",
         "alreadyjoinroom": "Already Join This Room",
-        "alreadyhavebuyer": "Already have buyer in this room"
+        "alreadyhavebuyer": "Already have buyer in this room",
+        "badRequest": "Bad Request"
     },
     "id": {
         "successjoinroombuyer": "Berhasil masuk ruangan penjual",
@@ -19,6 +20,7 @@
         "cannotjoinroom": "Tidak dapat memasuki ruangan",
         "invalididuser": "Id user tidak valid",
         "alreadyjoinroom": "Sudah memasuki ruangan ini",
-        "alreadyhavebuyer": "Sudah ada pembeli yang memasuki ruangan ini"
+        "alreadyhavebuyer": "Sudah ada pembeli yang memasuki ruangan ini",
+        "badRequest": "Permintaan tidak dapat diakses"
     }
 }

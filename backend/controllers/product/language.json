@@ -4,13 +4,15 @@
         "emptyname": "Name Cannot Be Empty",
         "emptyprice": "Price Cannot Be Empty",
         "emptyquantity": "Quantity Cannot Be Empty",
-        "emptydescription": "Description Cannot Be Empty"
+        "emptydescription": "Description Cannot Be Empty",
+        "badRequest": "Bad Request"
     },
     "id": {
         "successupdate": "Berhasil update data produk",
         "emptyname": "Nama tidak boleh kosong",
         "emptyprice": "Harga tidak boleh kosong",
         "emptyquantity": "Kuantitas tidak boleh kosong",
-        "emptydescription": "Deskripsi tidak boleh kosong"
+        "emptydescription": "Deskripsi tidak boleh kosong",
+        "badRequest": "Permintaan tidak dapat diakses"
     }
 }

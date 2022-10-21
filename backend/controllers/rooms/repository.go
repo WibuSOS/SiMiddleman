@@ -145,7 +145,7 @@ func (r *repository) JoinRoomPembeli(roomId string, userId string) *errors.RestE
 			PembeliID: &idRoom,
 		})
 	if res.Error != nil {
-		return errors.NewBadRequestError(res.Error.Error())
+		return errors.NewBadRequestError("internalServer")
 	}
 
 	return nil

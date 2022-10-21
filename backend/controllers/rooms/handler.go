@@ -20,10 +20,11 @@ func (h *Handler) CreateRoom(c *gin.Context) {
 	var req DataRequest
 	langReq := c.Param("lang")
 	localizator := c.MustGet("localizator")
+
 	if err := c.ShouldBindJSON(&req); err != nil {
-		error := errors.NewBadRequestError(err.Error())
-		errors.LogError(error)
-		c.JSON(error.Status, gin.H{"message": error.Message})
+		errRest := errors.NewBadRequestError(err.Error())
+		errors.LogError(errRest)
+		c.JSON(errRest.Status, gin.H{"message": localizator.(*language.Config).Lookup(langReq, "badRequest")})
 		return
 	}
 
