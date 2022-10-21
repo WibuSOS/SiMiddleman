@@ -21,8 +21,9 @@ func (h *Handler) UpdateStatusDelivery(c *gin.Context) {
 	langReq := c.Param("lang")
 	localizator := c.MustGet("localizator")
 	var req RequestUpdateStatus
+
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": localizator.(*language.Config).Lookup(langReq, "badRequest")})
 		return
 	}
 
@@ -43,9 +44,10 @@ func (h *Handler) GetPaymentDetails(c *gin.Context) {
 	idRoom := c.Param("room_id")
 	langReq := c.Param("lang")
 	localizator := c.MustGet("localizator")
+
 	id, errConvert := strconv.Atoi(idRoom)
 	if errConvert != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": errConvert.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": localizator.(*language.Config).Lookup(langReq, "badRequest")})
 		return
 	}
 

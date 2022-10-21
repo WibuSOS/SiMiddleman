@@ -33,7 +33,7 @@ func (r *repository) UpdateProduct(id string, req DataRequest) (models.Products,
 	err := r.db.First(&product, "id = ?", id).Find(&product).Error
 	if err != nil {
 		log.Println("Get The Update Data error : ", err.Error())
-		return models.Products{}, errors.NewBadRequestError(err.Error())
+		return models.Products{}, errors.NewBadRequestError("recordnotfound")
 	}
 
 	return product, nil

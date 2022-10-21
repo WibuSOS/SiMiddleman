@@ -48,7 +48,7 @@ func TestCreateRoomServiceError(t *testing.T) {
 	newRoom, err := service.CreateRoom(&req)
 	assert.NotEmpty(t, err)
 	assert.Equal(t, http.StatusBadRequest, err.Status)
-	assert.Equal(t, "constraint failed: FOREIGN KEY constraint failed (787)", err.Message)
+	assert.Equal(t, "badRequest", err.Message)
 	assert.Empty(t, newRoom.RoomCode)
 }
 

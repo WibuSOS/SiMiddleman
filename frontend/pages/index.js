@@ -44,8 +44,8 @@ function Home({ user }) {
 
   return (
     <div className='content'>
-      <UserBanner decoded={decoded}/>
-      <UserAction decoded={decoded} user={user}/>
+      <UserBanner decoded={decoded} />
+      <UserAction decoded={decoded} user={user} GetAllRoom={GetAllRoom}/>
       <ShowRoomList data={data} decoded={decoded}/>
     </div>
   )

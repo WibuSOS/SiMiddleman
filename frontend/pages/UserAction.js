@@ -13,14 +13,14 @@ export default function UserAction ( props ) {
           <Card.Body className='d-flex flex-column justify-content-around'>
             <Card.Title className='mb-5'>{t('logged-in.user-action.title.0')}</Card.Title>
             <Card.Text>{t('logged-in.user-action.text.0')}</Card.Text>
-            <CreateRoom idPenjual={props.decoded?.ID} sessionToken={props.user} />
+            <CreateRoom idPenjual={props.decoded?.ID} sessionToken={props.user} GetAllRoom={props.GetAllRoom} />
           </Card.Body>
         </Card>
         <Card className='user-action col-lg-4 col-md-5 col-sm-12'>
           <Card.Body className='d-flex flex-column justify-content-around'>
             <Card.Title className='mb-5'>{t('logged-in.user-action.title.1')}</Card.Title>
             <Card.Text>{t('logged-in.user-action.text.1')}</Card.Text>
-            <JoinRoom idPembeli={props.decoded?.ID} sessionToken={props.user} />
+            <JoinRoom idPembeli={props.decoded?.ID} sessionToken={props.user} GetAllRoom={props.GetAllRoom} />
           </Card.Body>
         </Card>
       </div>

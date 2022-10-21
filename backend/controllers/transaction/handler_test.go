@@ -198,7 +198,7 @@ func newTestGetPaymentDetailsHandler(t *testing.T, withID bool, roomID *string) 
 	assert.Equal(t, http.StatusOK, w.Code)
 
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createRoomRes))
-	assert.Equal(t, "Success Create Room, please refresh to view room", createRoomRes.Message)
+	assert.Equal(t, "Success Create Room", createRoomRes.Message)
 	assert.NotEmpty(t, createRoomRes.Data.RoomCode)
 
 	var url string

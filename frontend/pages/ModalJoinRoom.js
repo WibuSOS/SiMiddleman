@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 
-export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomModal, joinRoomModal }) {
+export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomModal, joinRoomModal, GetAllRoom }) {
     const { t, lang } = useTranslation('joinRoom');
     const router = useRouter();
 
@@ -29,10 +29,11 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
             const data = await res.json();
             console.log(data);
 
-            if (data.message) {
-                Swal.fire({ icon: 'success', title: 'Berhasil join room', text: 'Silahkan refresh untuk melihat room', showConfirmButton: false, timer: 1500, })
+            if (data?.message === "Success join seller room" || data?.message === "Berhasil masuk ruangan penjual") {
+                Swal.fire({ icon: 'success', title: t("successJoin"), text: data.message, showConfirmButton: false, timer: 1500, })
+                GetAllRoom();
             } else {
-                Swal.fire({ icon: 'error', title: 'Join Room gagal', text: data.message, })
+                Swal.fire({ icon: 'error', title: t("failJoin"), text: data.message, })
             }
         }
         catch (error) {
