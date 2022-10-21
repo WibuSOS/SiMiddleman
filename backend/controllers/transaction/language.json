@@ -1,6 +1,6 @@
 {
     "en": {
-        "successcreateroom": "Success Create Room, please refresh to view room",
+        "successcreateroom": "Success Create Room",
         "errorfetchingdata": "Error Fetching Data",
         "roomnotfound": "Room Not Found",
         "invalidstatus": "Invalid Status",
@@ -8,7 +8,7 @@
         "successupdatestatus": "Success Update Status"
     },
     "id": {
-        "successcreateroom": "Berhasil membuat ruangan, silahkan refresh untuk menampilkan ruangan",
+        "successcreateroom": "Berhasil membuat ruangan",
         "errorfetchingdata": "Error ketika mengambil data",
         "roomnotfound": "Ruangan tidak tersedia",
         "invalidstatus": "Status tidak ditemukan",

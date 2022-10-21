@@ -26,14 +26,14 @@ export default function RegisterForm() {
         });
         const data = await res.json();
   
-        if (data.message) 
+        if (data?.message === "success" || data?.message === "sukses") 
           Swal.fire({ icon: 'success', title: 'Register berhasil, silahkan login', confirmButtonText: 'Login', }).then((result) => { result.isConfirmed ? signIn : null })
         else if (data.message === "ERROR: duplicate key value violates unique constraint \"users_email_key\" (SQLSTATE 23505)")
-          Swal.fire({ icon: 'error', title: 'Register gagal', text: 'Email sudah digunakan', })
+          Swal.fire({ icon: 'error', title: 'Register gagal', text: t("register-modal.emailExist"), })
         else Swal.fire({ icon: 'error', title: 'Register gagal', text: data.message, })
       }
       catch (error) { console.log(error) }
-    } else Swal.fire({ icon: 'error', title: 'Register gagal', text: 'Password dan Confirm Password berbeda', })
+    } else Swal.fire({ icon: 'error', title: 'Register gagal', text: t("register-modal.confirmPasswordFail"), })
   }
 
   return (

@@ -11,7 +11,7 @@ export default function CreateRoom(props) {
   return (
     <>
       <Button onClick={() => openCreateRoomModal()} data-testid="createRoomButton" className='w-100 btn-simiddleman'>{t("createRoomBtnCard")}</Button>
-      <ModalCreateRoom idPenjual={props.idPenjual} sessionToken={props.sessionToken} closeCreateRoomModal={closeCreateRoomModal} createRoomModal={createRoomModal} />
+      <ModalCreateRoom idPenjual={props.idPenjual} sessionToken={props.sessionToken} closeCreateRoomModal={closeCreateRoomModal} createRoomModal={createRoomModal} GetAllRoom={props.GetAllRoom} />
     </>
   )
 }

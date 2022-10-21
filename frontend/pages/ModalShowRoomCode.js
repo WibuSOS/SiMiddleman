@@ -23,7 +23,7 @@ export default function ModalShowRoomCode(props) {
           navigator.clipboard.writeText(props.roomCode);
           Swal.fire({
             icon: 'success',
-            title: 'Kode ruangan berhasil disalin',
+            title: t("showRoomCode.successCopyCode"),
             showConfirmButton: false,
             timer: 1500,
           })

@@ -11,7 +11,7 @@ export default function JoinRoom(props) {
     return (
         <>
             <Button onClick={() => openJoinRoomModal()} data-testid="joinRoomButton" className='w-100 btn-simiddleman'>{t("joinRoomBtnCard")}</Button>
-            <ModalJoinRoom idPembeli={props.idPembeli} sessionToken={props.sessionToken} closeJoinRoomModal={closeJoinRoomModal} joinRoomModal={joinRoomModal} />
+            <ModalJoinRoom idPembeli={props.idPembeli} sessionToken={props.sessionToken} closeJoinRoomModal={closeJoinRoomModal} joinRoomModal={joinRoomModal} GetAllRoom={props.GetAllRoom} />
         </>
     )
 }

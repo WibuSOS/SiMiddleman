@@ -4,6 +4,7 @@ import { getSession, signIn } from 'next-auth/react';
 import jwt from "jsonwebtoken";
 import Swal from 'sweetalert2';
 import DetailProduk from './detailProduk';
+import useTranslation from 'next-translate/useTranslation';
 
 export default function Room({ user }) {
   const [data, setData] = useState(null);
@@ -13,6 +14,7 @@ export default function Room({ user }) {
   const [deskripsiProduk, setDeskripsiProduk] = useState("");
   const [hargaProduk, setHargaProduk] = useState("");
   const router = useRouter();
+  const { t, lang } = useTranslation('detailProduct');
   useEffect(() => {
     getRoomDetails();
   }, [])
@@ -56,10 +58,10 @@ export default function Room({ user }) {
       body: JSON.stringify({ status: data.statuses.at(-1) })
     }).then(response => response.json()).then(data => res = data).catch(error => console.error('Error:', error));
 
-    if (res?.message) {
-      Swal.fire({ icon: 'success', title: 'Status Barang Berhasil Diubah', showConfirmButton: false, timer: 1500, })
+    if (res?.message === "Success Update Status" || res?.message === "Sukses mengubah status") {
+      Swal.fire({ icon: 'success', title: t("success"), text: res?.message, showConfirmButton: false, timer: 1500, })
       getRoomDetails();
-    } else { Swal.fire({ icon: 'error', title: 'Status Barang Tidak Dapat Diubah', showConfirmButton: false, timer: 1500 }) }
+    } else { Swal.fire({ icon: 'error', title: t("fail"), text: res?.message, showConfirmButton: false, timer: 1500 }) }
   }
 
   const kirimBarang = async () => {
@@ -78,10 +80,10 @@ export default function Room({ user }) {
       body: JSON.stringify({ status: data.statuses.at(-2) })
     }).then(response => response.json()).then(data => res = data).catch(error => console.error('Error:', error));
 
-    if (res?.message) {
-      Swal.fire({ icon: 'success', title: 'Status Barang Berhasil Diubah', showConfirmButton: false, timer: 1500 });
+    if (res?.message === "Success Update Status" || res?.message === "Sukses mengubah status") {
+      Swal.fire({ icon: 'success', title: t("success"), text: res?.message, showConfirmButton: false, timer: 1500 });
       router.push('https://forms.gle/4uFn5cDSnYLW88ek9');
-    } else { Swal.fire({ icon: 'error', title: 'Status Barang Tidak Dapat Diubah', showConfirmButton: false, timer: 1500 }) }
+    } else { Swal.fire({ icon: 'error', title: t("fail"), text: res?.message, showConfirmButton: false, timer: 1500 }) }
   }
 
   return (

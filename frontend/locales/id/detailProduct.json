@@ -13,14 +13,17 @@
     ],
     "showRoomCode": {
         "roomCode": "Kode Ruangan",
-        "copyRoomCode": "Salin Kode Ruangan"
+        "copyRoomCode": "Salin Kode Ruangan",
+        "successCopyCode": "Kode ruangan berhasil disalin"
     },
     "updateProductModal": {
         "modalTitle": "Perbaharui Produk",
         "placeholder": [
             "Nama Produk", "Harga Produk", "Kuantitas Produk", "Deskripsi Produk"
         ],
-        "updateProductBtnModal": "Perbaharui Produk"
+        "updateProductBtnModal": "Perbaharui Produk",
+        "successUpdate": "Data Produk Berhasil Diupdate",
+        "failUpdate": "Data Produk Gagal Diupdate"
     },
     "statusExplanationBuyer": [
         "Silahkan bernegosiasi dengan penjual menggunakan whatsapp. Jika merasa sudah yakin untuk melakukan transaksi silahkan mengklik tombol beli.",
@@ -41,5 +44,7 @@
     },
     "buttonUpload": "Upload Bukti Pembayaran",
     "chatPenjual": "Chat Penjual",
-    "chatPembeli": "Chat Pembeli"
+    "chatPembeli": "Chat Pembeli",
+    "success": "Status Barang Berhasil Diubah",
+    "fail": "Status Barang Tidak Dapat Diubah"
 }

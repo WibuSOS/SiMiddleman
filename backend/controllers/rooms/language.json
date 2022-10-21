@@ -1,9 +1,9 @@
 {
     "en": {
         "successjoinroombuyer": "Success join seller room",
-        "successjoinroom": "Success join room, please refresh to view room",
+        "successjoinroom": "Success join room",
         "successgetallroom": "Succes Get all Room",
-        "successcreateroom": "Success Create Room, please refresh to view room",
+        "successcreateroom": "Success Create Room",
         "internalServer": "record not found",
         "cannotjoinroom": "Cannot Join Room",
         "invalididuser": "Invalid Id User",
@@ -12,9 +12,9 @@
     },
     "id": {
         "successjoinroombuyer": "Berhasil masuk ruangan penjual",
-        "successjoinroom": "Berhasil masuk ruangan, silahkan refresh untuk menampilkan ruangan",
+        "successjoinroom": "Berhasil masuk ruangan",
         "successgetallroom": "Berhasil mengambil semua data ruangan",
-        "successcreateroom": "Berhasil membuat ruangan, silahkan refresh untuk menampilkan ruangan",
+        "successcreateroom": "Berhasil membuat ruangan",
         "internalServer": "Tidak ada data",
         "cannotjoinroom": "Tidak dapat memasuki ruangan",
         "invalididuser": "Id user tidak valid",

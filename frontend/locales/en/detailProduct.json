@@ -13,14 +13,17 @@
     ],
     "showRoomCode": {
         "roomCode": "Room Code",
-        "copyRoomCode": "Copy Room Code"
+        "copyRoomCode": "Copy Room Code",
+        "successCopyCode": "Room code copied successfully"
     },
     "updateProductModal": {
         "modalTitle": "Update Product",
         "placeholder": [
             "Product Name", "Product Price", "Product Quantity", "Product Description"
         ],
-        "updateProductBtnModal": "Update Product"
+        "updateProductBtnModal": "Update Product",
+        "successUpdate": "Product Data Update Successfully",
+        "failUpdate": "Product Data Update Failed"
     },
     "statusExplanationBuyer": [
         "Please negotiate with seller using whatsapp. If you feel you are sure to make a transaction, please click the buy button",
@@ -41,5 +44,7 @@
     },
     "buttonUpload": "Upload Payment Proof",
     "chatPenjual": "Chat Seller",
-    "chatPembeli": "Chat Buyer"
+    "chatPembeli": "Chat Buyer",
+    "success": "Product Status Changed Successfully",
+    "fail": "Product Status Can't Be Changed"
 }

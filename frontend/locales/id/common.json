@@ -73,7 +73,9 @@
       "password": "Kata sandi anda",
       "confirm-password": "Masukkan kembali kata sandi anda"
     },
-    "btn-register": "Daftar"
+    "btn-register": "Daftar",
+    "confirmPasswordFail": "Password dan Confirm Password berbeda",
+    "emailExist": "Email sudah digunakan"
   },
   "seller" : "Kamu Penjual",
   "buyer" : "Kamu Pembeli",

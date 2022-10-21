@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from "next/router";
 
-export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRoomModal, createRoomModal }) {
+export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRoomModal, createRoomModal, GetAllRoom }) {
   const { t, lang } = useTranslation('createRoom');
   const router = useRouter();
 
@@ -34,10 +34,11 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
       });
       const data = await res.json();
 
-      if (data?.message) {
-        Swal.fire({ icon: 'success', title: 'Room berhasil dibuat', showConfirmButton: false, timer: 1500, })
+      if (data?.message === "Success Create Room" || data?.message === "Berhasil membuat ruangan") {
+        Swal.fire({ icon: 'success', title: t("successCreate"), text: data.message, showConfirmButton: false, timer: 1500, })
+        GetAllRoom();
       } else {
-        Swal.fire({ icon: 'error', title: 'Buat Room gagal', text: data.message, })
+        Swal.fire({ icon: 'error', title: t("failCreate"), text: data.message, })
       }
     }
     catch (error) {
