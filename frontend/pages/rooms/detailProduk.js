@@ -75,7 +75,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
                 </div>
               </div>
               <div className='row pt-3 d-flex justify-content-center'>
-                <div className='col-3'>
+                <div className='col-lg-4 col-md-6 col-sm-8'>
                   {data?.data.pembeliID === decoded?.ID && data?.statuses[0] === data?.data.status && <Button className='w-100' variant='simiddleman' onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}` } }) }}>{t("buyButton")}</Button>}
                   {data?.data.pembeliID === decoded?.ID && data?.statuses[0] != data?.data.status && data?.statuses[3] != data?.data.status && <Button className='w-100' variant='simiddleman' onClick={() => { router.push("https://forms.gle/yAtYBvu583nuVqmN6") }}>{t("buttonUpload")}</Button>}
                 </div>

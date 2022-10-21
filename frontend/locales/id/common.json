@@ -32,12 +32,12 @@
     },
     "user-action": {
       "title": [
-        "Buat Ruangan", "Gabung Ruangan", "Keluar"
+        "Buat Ruangan", "Gabung Ruangan", "Lihat Profile", "Keluar"
       ],
       "text": [
         "Kamu dapat membuat room untuk melakukan transaksi dengan pembeli.",
         "Mendaftarkan room yang telah dibuat oleh penjual kedalam list room kamu.",
-        "Keluar dari akun kamu"
+        "Melihat detail dari akun yang telah kamu buat."
       ]
     },
     "room-list": {
@@ -81,5 +81,6 @@
     "copyright": "Dibuat oleh tim 2 untuk web yang lebih baik.",
     "privacyPolicy": "Kebijakan Pribadi",
     "termsCondition": "Syarat & Ketentuan"
-  }
+  },
+  "buttonProfile": "Lihat Profile"
 }

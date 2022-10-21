@@ -63,6 +63,8 @@ func (s *server) SetupRouter() error {
 
 		// users controller (register)
 		langRoutes.POST("/register", usersHandler.CreateUser)
+		langRoutes.GET("/user/:user_id", authentication.Authentication, usersHandler.GetUserDetails)
+		langRoutes.PUT("/user/:user_id", authentication.Authentication, usersHandler.UpdateUser)
 
 		roomRoutes := langRoutes.Group("/rooms", authentication.Authentication, consumerHandler.RoleAuthorize)
 		{

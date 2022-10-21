@@ -171,3 +171,53 @@ func TestCreateUserRepositoryErrorNoRek(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, err.Status)
 	assert.Equal(t, "accountnumberDoesNotQualify", err.Message)
 }
+
+func TestGetUserDetailsRepository(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+
+	userDetails, err := repo.GetUserDetails("1")
+	assert.NotEmpty(t, userDetails)
+	assert.Nil(t, err)
+}
+
+func TestGetUserDetailsErrorFetchingData(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+
+	userDetails, err := repo.GetUserDetails("10")
+	assert.Empty(t, userDetails)
+	assert.NotNil(t, err)
+	assert.Equal(t, "Error while fetching data", err.Message)
+}
+
+func TestUpdateUserDetailRepository(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+
+	reqUpdate := DataRequestUpdateProfile{
+		Nama:  "Binoto Manurung",
+		NoHp:  "+66666666666",
+		Email: "andreasjulyus@gmail.com",
+		NoRek: "66666666",
+	}
+
+	updateUser := repo.UpdateUser("1", reqUpdate)
+	assert.Empty(t, updateUser)
+}
+
+func TestUpdateUserError(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+
+	req := DataRequestUpdateProfile{
+		Nama:  "Julyus Andreas",
+		NoHp:  "+6281234567890",
+		Email: "julyusmanurung@gmail.com",
+		NoRek: "6181801052",
+	}
+
+	err := repo.UpdateUser("abc", req)
+	assert.Equal(t, "strconv.ParseUint: parsing \"abc\": invalid syntax", err.Message)
+	assert.NotNil(t, err)
+}
