@@ -66,7 +66,7 @@ func (r *repository) CreateRoom(req *DataRequest) (models.Rooms, *errors.RestErr
 	})
 
 	if err != nil {
-		return models.Rooms{}, errors.NewBadRequestError(err.Error())
+		return models.Rooms{}, errors.NewBadRequestError("badRequest")
 	}
 
 	return newRoom, nil
@@ -145,7 +145,7 @@ func (r *repository) JoinRoomPembeli(roomId string, userId string) *errors.RestE
 			PembeliID: &idRoom,
 		})
 	if res.Error != nil {
-		return errors.NewBadRequestError("internalServer")
+		return errors.NewBadRequestError("badRequest")
 	}
 
 	return nil

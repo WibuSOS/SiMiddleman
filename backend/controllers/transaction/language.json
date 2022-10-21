@@ -5,7 +5,8 @@
         "roomnotfound": "Room Not Found",
         "invalidstatus": "Invalid Status",
         "successgetpaymentdetail": "Success get payment detail",
-        "successupdatestatus": "Success Update Status"
+        "successupdatestatus": "Success Update Status",
+        "badRequest": "Bad Request"
     },
     "id": {
         "successcreateroom": "Berhasil membuat ruangan",
@@ -13,6 +14,7 @@
         "roomnotfound": "Ruangan tidak tersedia",
         "invalidstatus": "Status tidak ditemukan",
         "successgetpaymentdetail": "Sukses mengambil rincian pembayaran",
-        "successupdatestatus": "Sukses mengubah status"
+        "successupdatestatus": "Sukses mengubah status",
+        "badRequest": "Permintaan tidak dapat diakses"
     }
 }
