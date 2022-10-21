@@ -5,17 +5,18 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 
 	"github.com/WibuSOS/sinarmas/backend/controllers/auth"
 	"github.com/WibuSOS/sinarmas/backend/controllers/rooms"
 	"github.com/WibuSOS/sinarmas/backend/controllers/transaction"
+	"github.com/WibuSOS/sinarmas/backend/database"
 	"github.com/WibuSOS/sinarmas/backend/middlewares/authentication"
 	"github.com/WibuSOS/sinarmas/backend/models"
 
 	"github.com/gin-gonic/gin"
-	"github.com/glebarez/sqlite"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -46,13 +47,14 @@ type getPaymentDetailsResponse struct {
 	Data    transaction.ResponsePaymentInfo `json:"data"`
 }
 
+func setEnv() {
+	os.Setenv("ENVIRONMENT", "TEST")
+}
+
 func newTestDB(t *testing.T) *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("file::memory:"), &gorm.Config{})
+	db, err := database.SetupDb()
 	assert.NoError(t, err)
 	assert.NotNil(t, db)
-
-	err = db.AutoMigrate(&models.Users{}, &models.Rooms{}, &models.Products{}, &models.Transactions{})
-	assert.NoError(t, err)
 
 	consumerArr := []string{consumer1, consumer2, consumer3}
 	for i := 0; i < len(consumerArr); i++ {
@@ -65,6 +67,12 @@ func newTestDB(t *testing.T) *gorm.DB {
 	}
 
 	return db
+}
+
+func TestMain(m *testing.M) {
+	setEnv()
+	exitVal := m.Run()
+	os.Exit(exitVal)
 }
 
 func newTestLoginHandler(t *testing.T, email string) loginResponse {

@@ -28,7 +28,6 @@ type response struct {
 
 func setEnv() {
 	os.Setenv("ENVIRONMENT", "TEST")
-	os.Setenv("LOCALIZATOR_PATH", "/middlewares/localizator")
 }
 
 func newTestDB(t *testing.T) *gorm.DB {
@@ -67,10 +66,13 @@ func setRoutes(localizationHandler *Handler, endPointHandler *rooms.Handler) *gi
 	return r
 }
 
-func TestLocalizeSuccess(t *testing.T) {
-	// SET ALL ENVIRONMENT VARIABLES
+func TestMain(m *testing.M) {
 	setEnv()
+	exitVal := m.Run()
+	os.Exit(exitVal)
+}
 
+func TestLocalizeSuccess(t *testing.T) {
 	// DB INITIALIZATION
 	db := newTestDB(t)
 
@@ -97,9 +99,6 @@ func TestLocalizeSuccess(t *testing.T) {
 }
 
 func TestLocalizeDefaultLanguage(t *testing.T) {
-	// SET ALL ENVIRONMENT VARIABLES
-	setEnv()
-
 	// DB INITIALIZATION
 	db := newTestDB(t)
 
