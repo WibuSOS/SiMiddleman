@@ -1,0 +1,16 @@
+{
+    "header": "Payment Detail",
+    "totalPembayaran": "Total Payment",
+    "detail": [
+        "Please make payment to the account number above.",
+        "Have you already pay??",
+        "Please upload your proof of payment!"
+    ],
+    "buttonUpload": "Upload Payment Proof",
+    "load": {
+        "load-fail": "Failed to load room list",
+        "loading": "Loading data... please wait",
+        "list-empty": "Data Empty"
+    },
+    "successMessage": "Purchase Status changed Successfully"
+}

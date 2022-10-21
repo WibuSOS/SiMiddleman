@@ -68,3 +68,55 @@ func TestCreateUserServiceError(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, err.Status)
 	assert.Equal(t, "Bad_Request", err.Error)
 }
+
+func TestGetUserDetails(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+	service := NewService(repo)
+
+	res, err2 := service.GetUserDetails("1")
+	assert.Nil(t, err2)
+	assert.NotEmpty(t, res)
+}
+
+func TestGetUserDetailsError(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+	service := NewService(repo)
+
+	res, err := service.GetUserDetails("10")
+	assert.NotNil(t, err)
+	assert.Empty(t, res)
+}
+
+func TestUserUpdate(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+	service := NewService(repo)
+
+	reqUpdateUser := DataRequestUpdateProfile{
+		Nama:  "Ferdi Sambo",
+		NoHp:  "+6281234567891",
+		Email: "fsambo@gmail.com",
+		NoRek: "618101052",
+	}
+
+	err := service.UpdateUser("1", reqUpdateUser)
+	assert.Nil(t, err)
+}
+
+func TestServiceUpdateUserError(t *testing.T) {
+	db := newTestDB(t)
+	repo := NewRepository(db)
+	service := NewService(repo)
+
+	reqUpdateUser := DataRequestUpdateProfile{
+		Nama:  "Ferdi Sambo",
+		NoHp:  "+6281234567891",
+		Email: "fsambo@gmail.com",
+		NoRek: "618101052",
+	}
+
+	err := service.UpdateUser("abc", reqUpdateUser)
+	assert.NotNil(t, err)
+}

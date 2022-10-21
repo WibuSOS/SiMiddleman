@@ -1,8 +1,13 @@
 import { Form, Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
+import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from 'next/router';
 
-export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomModal, joinRoomModal }) {
+export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomModal, joinRoomModal, GetAllRoom }) {
+    const { t, lang } = useTranslation('joinRoom');
+    const router = useRouter();
+
     const handleSubmitJoinRoom = async (e) => {
         closeJoinRoomModal();
         e.preventDefault();
@@ -13,7 +18,7 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
             roomcode: formData.get("kodeRuangan"),
         }
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${body.roomcode}/${body.id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/join/${body.roomcode}/${body.id}`, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',
@@ -22,11 +27,13 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
                 }
             });
             const data = await res.json();
+            console.log(data);
 
-            if (data.message === "success") {
-                Swal.fire({ icon: 'success', title: 'Berhasil join room', text: 'Silahkan refresh untuk melihat room', showConfirmButton: false, timer: 1500, })
+            if (data?.message === "Success join seller room" || data?.message === "Berhasil masuk ruangan penjual") {
+                Swal.fire({ icon: 'success', title: t("successJoin"), text: data.message, showConfirmButton: false, timer: 1500, })
+                GetAllRoom();
             } else {
-                Swal.fire({ icon: 'error', title: 'Join Room gagal', text: data.message, })
+                Swal.fire({ icon: 'error', title: t("failJoin"), text: data.message, })
             }
         }
         catch (error) {
@@ -42,14 +49,14 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
                 <div className="avatar" data-testid="avatar">
                     <img src={logo.src} alt="logo SiMiddleman+" data-testid="logo" />
                 </div>
-                <Modal.Title className="ms-auto mt-4" data-testid="title">Join Room</Modal.Title>
+                <Modal.Title className="ms-auto mt-4" data-testid="title">{t("modalTitle")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmitJoinRoom} id="joinRoomForm">
                     <Form.Group className="mb-3">
                         <Form.Control
                             type="text"
-                            placeholder="Kode Ruangan"
+                            placeholder={t("placeholder")}
                             data-testid="kodeRuangan"
                             name="kodeRuangan"
                             autoFocus
@@ -59,7 +66,7 @@ export default function ModalJoinRoom({ idPembeli, sessionToken, closeJoinRoomMo
                         className='w-100'
                         type='submit'
                         form='joinRoomForm'
-                        data-testid="buttonJoinRoom">Join Room
+                        data-testid="buttonJoinRoom">{t("joinRoomBtnModal")}
                     </Button>
                 </Form>
             </Modal.Body>

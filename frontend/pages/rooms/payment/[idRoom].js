@@ -5,6 +5,7 @@ import { getSession } from 'next-auth/react';
 import Swal from 'sweetalert2';
 import jwt from "jsonwebtoken";
 import LogoBankSinarmas from '../../assets/logoBankSinarmas.png'
+import useTranslation from 'next-translate/useTranslation';
 
 function Pembayaran({ user }) {
     const router = useRouter();
@@ -13,6 +14,7 @@ function Pembayaran({ user }) {
     const [dataAfterChangeStatus, setDataAfterChangeStatus] = useState(null);
     const [error, setError] = useState(null);
     const decoded = jwt.verify(user, process.env.NEXT_PUBLIC_JWT_SECRET);
+    const { t, lang } = useTranslation('payment');
 
     useEffect(() => {
         getHarga();
@@ -22,9 +24,9 @@ function Pembayaran({ user }) {
     const getHarga = async () => {
         const idRoom = router.query.idRoom;
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getHarga/${idRoom}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/details/getHarga/${idRoom}`, {
                 method: 'GET',
-                headers: {'Authorization': 'Bearer ' + user,}
+                headers: { 'Authorization': 'Bearer ' + user, }
             });
             const data = await res.json();
             setData(data);
@@ -36,9 +38,9 @@ function Pembayaran({ user }) {
     const getRoomDetails = async () => {
         const idRoom = router.query.idRoom;
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/joinroom/${idRoom}/${decoded.ID}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/join/${idRoom}/${decoded.ID}`, {
                 method: 'GET',
-                headers: {'Authorization': 'Bearer ' + user,}
+                headers: { 'Authorization': 'Bearer ' + user, }
             });
             const data = await res.json();
             setDataRoom(data);
@@ -51,9 +53,9 @@ function Pembayaran({ user }) {
         const idRoom = router.query.idRoom;
         if (data.data.status != dataRoom.statuses[1] && dataRoom.statuses[0] == data.data.status) {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/details/updatestatus/${idRoom}`, {
                     method: 'PUT',
-                    headers: {'Authorization': 'Bearer ' + user,},
+                    headers: { 'Authorization': 'Bearer ' + user, },
                     body: JSON.stringify({ status: dataRoom.statuses[1] })
                 });
                 const data = await res.json();
@@ -63,38 +65,38 @@ function Pembayaran({ user }) {
             }
         }
         if (dataAfterChangeStatus?.message !== null) {
-            Swal.fire({ icon: 'success', title: 'Status Pembelian Berhasil diubah', showConfirmButton: false, timer: 1500, })
+            Swal.fire({ icon: 'success', title: t("successMessage"), text: dataAfterChangeStatus?.message, showConfirmButton: false, timer: 1500, })
             router.push("https://forms.gle/yAtYBvu583nuVqmN6")
         }
     }
 
     return (
         <div className='content'>
-          <div className="detail-produk-header">
+            <div className="detail-produk-header">
+                <div className='container'>
+                    <h2>{t("header")}</h2>
+                </div>
+            </div>
             <div className='container'>
-              <h2>Detail Pembayaran</h2>
+                <div className='d-flex flex-column justify-content-left detail-pembayaran align-items-center mx-auto'>
+                    <img className='logo-bank-sinarmas' src={LogoBankSinarmas.src}></img>
+                    {/* <h2>Bank Sinarmas</h2> */}
+                    <h3 className='mt-3'>0056221875</h3>
+                    <p>(Admin SiMiddleman)</p>
+                    {error && <div>{t("load.load-fail")} {error.toString()}</div>}
+                    {
+                        !data ? <div>{t("load.loading")}</div> : (
+                            (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>{t("load.list-empty")}</p>
+                        )
+                    }
+                    <p>{t("totalPembayaran")} : <b>Rp{data?.data.total.toLocaleString()}</b></p>
+                    <p className='mt-3'>{t("detail.0")}</p>
+                    <p className='mt-3'>{t("detail.1")}</p>
+                    <p>{t("detail.2")}</p>
+                    <Button variant='simiddleman' onClick={() => changeStatus()}>{t("buttonUpload")}</Button>
+                </div>
             </div>
-          </div>
-          <div className='container'>
-            <div className='d-flex flex-column justify-content-left detail-pembayaran align-items-center mx-auto'>
-              <img className='logo-bank-sinarmas' src={LogoBankSinarmas.src}></img>
-              {/* <h2>Bank Sinarmas</h2> */}
-              <h3 className='mt-5'>0056221875</h3>
-              <p>(Admin SiMiddleman)</p>
-              {error && <div>Failed to load {error.toString()}</div>}
-              {
-                !data ? <div>Loading...</div> : (
-                  (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>Data Kosong</p>
-                )
-              }
-              <p>Total Pembayaran : <b>Rp{data?.data.total}</b></p>
-              <p className='mt-5'>Silahkan lakukan pembayaran ke nomor yang ada diatas.</p>
-              <p className='mt-5'>Anda sudah melakukan pembayaran?</p>
-              <p>Silahkan upload bukti pembayaran anda!</p>
-              <Button variant='simiddleman' onClick={() => changeStatus()}>Upload Bukti Pembayaran</Button>
-            </div>
-          </div>
-      </div>
+        </div>
     )
 }
 
@@ -102,7 +104,7 @@ export async function getServerSideProps(ctx) {
     const session = await getSession(ctx)
     if (!session) {
         return {
-            props: {}
+            redirect: { permanent: false, destination: "/api/auth/signin" }
         }
     }
     const { user } = session;

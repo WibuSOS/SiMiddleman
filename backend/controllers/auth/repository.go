@@ -28,19 +28,17 @@ func (r *repository) Login(req DataRequest) (models.Users, *errors.RestError) {
 	res := r.db.Where("email = ?", req.Email).Find(&user)
 
 	if res.Error != nil {
-		log.Println("Login: Error while fetching data")
-		return models.Users{}, errors.NewInternalServerError("Error while fetching data")
+		log.Println(res.Error)
+		return models.Users{}, errors.NewInternalServerError("internalServer")
 	}
 
 	if user.Email == "" {
-		log.Println("Login: User not found")
-		return models.Users{}, errors.NewBadRequestError("User not found")
+		return models.Users{}, errors.NewBadRequestError("userNotFound")
 	}
 
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 	if err != nil {
-		log.Println("Login: Authentication failed")
-		return models.Users{}, errors.NewBadRequestError("Authentication failed")
+		return models.Users{}, errors.NewBadRequestError("authFailed")
 	}
 
 	return user, nil

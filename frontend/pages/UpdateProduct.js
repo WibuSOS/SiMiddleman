@@ -1,7 +1,12 @@
 import Swal from 'sweetalert2';
 import ModalUpdateProduct from './ModalUpdateProduct';
+import { useRouter } from 'next/router';
+import useTranslation from 'next-translate/useTranslation';
 
 export default function UpdateProduct({ closeUpdateProductModal, updateProductModal, data, user, namaProduk, setNamaProduk, hargaProduk, setHargaProduk, deskripsiProduk, setDeskripsiProduk, kuantitasProduk, setKuantitasProduk, getRoomDetails }) {
+    const router = useRouter();
+    const { t, lang } = useTranslation('detailProduct');
+
     const handleSubmitUpdateProduct = async (e) => {
         closeUpdateProductModal();
         e.preventDefault();
@@ -13,7 +18,7 @@ export default function UpdateProduct({ closeUpdateProductModal, updateProductMo
             Kuantitas: parseInt(kuantitasProduk),
         }
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updateproduct/${data?.data.product.ID}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/details/updateproduct/${data?.data.product.ID}`, {
                 method: 'PUT',
                 body: JSON.stringify(body),
                 headers: {
@@ -24,11 +29,11 @@ export default function UpdateProduct({ closeUpdateProductModal, updateProductMo
             });
             const dataRes = await res.json();
     
-            if (dataRes?.message === "berhasil mengupdate data") {
-                Swal.fire({ icon: 'success', title: 'Data Produk Berhasil Diupdate', showConfirmButton: false, timer: 1500, })
+            if (dataRes?.message === "Success update data product" || dataRes?.message === "Berhasil update data produk") {
+                Swal.fire({ icon: 'success', title: t("updateProductModal.successUpdate"), text: dataRes?.message, showConfirmButton: false, timer: 1500, })
                 getRoomDetails();
             } else {
-                Swal.fire({ icon: 'error', title: 'Data Produk Gagal Diupdate', text: dataRes?.message, })
+                Swal.fire({ icon: 'error', title: t("updateProductModal.failUpdate"), text: dataRes?.message, })
             }
         }
         catch (error) {

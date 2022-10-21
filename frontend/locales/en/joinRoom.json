@@ -1,0 +1,8 @@
+{
+    "joinRoomBtnCard": "Join Room",
+    "modalTitle": "Join Room",
+    "placeholder": "Room Code", 
+    "joinRoomBtnModal": "Join Room",
+    "successJoin": "Success Join Room",
+    "failJoin": "Failed to Join Room"
+}

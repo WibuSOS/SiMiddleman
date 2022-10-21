@@ -3,33 +3,82 @@ package rooms
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
 
-	"github.com/WibuSOS/sinarmas/backend/controllers/users"
+	"github.com/WibuSOS/sinarmas/backend/middlewares/localizator"
 	"github.com/WibuSOS/sinarmas/backend/models"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"gorm.io/gorm"
 )
 
-func TestCreateRoomHandlerSuccess(t *testing.T) {
-	type response struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
-	var res response
+// func setLog(t *testing.T) {
+// 	file, err := os.OpenFile("./logs_test.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
+// 	assert.NoError(t, err)
+// 	log.SetOutput(file)
+// }
 
-	db := newTestDB(t)
+type response struct {
+	Message string `json:"message"`
+}
+
+type responseRoomCode struct {
+	Message string       `json:"message"`
+	Data    models.Rooms `json:"data"`
+}
+
+func setEndPointHandler(t *testing.T, db *gorm.DB) *Handler {
 	repo := NewRepository(db)
+	assert.NotNil(t, repo)
 	service := NewService(repo)
+	assert.NotNil(t, service)
 	handler := NewHandler(service)
+	assert.NotNil(t, handler)
 
+	return handler
+}
+
+func setLocalizationHandler(t *testing.T) *localizator.Handler {
+	handler, err := localizator.NewHandler()
+	assert.NotNil(t, handler)
+	assert.NoError(t, err)
+
+	return handler
+}
+
+func setRoutes(localizationHandler *localizator.Handler, endPointHandler *Handler) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.POST("/rooms", handler.CreateRoom)
+	r.Use(localizationHandler.PassLocalizator)
+	r.GET("/:lang/joinroom/:room_id/:user_id", endPointHandler.JoinRoom)
+	r.POST("/:lang/rooms", endPointHandler.CreateRoom)
+	r.GET("/:lang/rooms/:id", endPointHandler.GetAllRooms)
+	r.PUT("/:lang/joinroom/:room_id/:user_id", endPointHandler.JoinRoomPembeli)
+
+	return r
+}
+
+func TestCreateRoomHandlerSuccess(t *testing.T) {
+	os.Setenv("LOCALIZATOR_PATH", "")
+
+	// DB INITIALIZATION
+	db := newTestDB(t)
+
+	var res response
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
 
 	// SUCCESS
 	payload := `{
@@ -41,7 +90,7 @@ func TestCreateRoomHandlerSuccess(t *testing.T) {
 			"kuantitas": 1
 		}
 	}`
-	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -50,25 +99,25 @@ func TestCreateRoomHandlerSuccess(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
-	assert.NotEmpty(t, res.Data.RoomCode)
+	assert.Equal(t, "Success Create Room", res.Message)
 }
 
 func TestCreateRoomHandlerErrorBind(t *testing.T) {
-	type response struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
+	os.Setenv("LOCALIZATOR_PATH", "")
+
+	// DB INITIALIZATION
+	db := newTestDB(t)
+
 	var res response
 
-	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/rooms", handler.CreateRoom)
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
 
 	// ERROR BIND
 	payload := `{
@@ -79,7 +128,7 @@ func TestCreateRoomHandlerErrorBind(t *testing.T) {
 			"kuantitas": 1
 		}
 	}`
-	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -88,25 +137,25 @@ func TestCreateRoomHandlerErrorBind(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "Key: 'DataRequest.PenjualID' Error:Field validation for 'PenjualID' failed on the 'required' tag", res.Message)
-	assert.Empty(t, res.Data.RoomCode)
+	assert.Equal(t, "Bad Request", res.Message)
 }
 
 func TestCreateRoomHandlerErrorRequest(t *testing.T) {
-	type response struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
+	os.Setenv("LOCALIZATOR_PATH", "")
+
+	// DB INITIALIZATION
+	db := newTestDB(t)
+
 	var res response
 
-	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/rooms", handler.CreateRoom)
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
 
 	// ERROR PENJUAL ID
 	payload := `{
@@ -118,7 +167,7 @@ func TestCreateRoomHandlerErrorRequest(t *testing.T) {
 			"kuantitas": 1
 		}
 	}`
-	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -127,31 +176,25 @@ func TestCreateRoomHandlerErrorRequest(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "constraint failed: FOREIGN KEY constraint failed (787)", res.Message)
-	assert.Empty(t, res.Data.RoomCode)
+	assert.Equal(t, "Bad Request", res.Message)
 }
 
 func TestGetAllRoomsHandlerSuccess(t *testing.T) {
-	type getAllRoomsResponse struct {
-		Message string         `json:"message"`
-		Data    []models.Rooms `json:"data"`
-	}
-	type createRoomResponse struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
-	var getAllRoomsRes getAllRoomsResponse
-	var createRoomRes createRoomResponse
+	os.Setenv("LOCALIZATOR_PATH", "")
 
+	// DB INITIALIZATION
 	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/rooms", handler.CreateRoom)
-	r.GET("/rooms/:id", handler.GetAllRooms)
+	var res response
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
 
 	// ROOM 1
 	payload := `{
@@ -163,7 +206,7 @@ func TestGetAllRoomsHandlerSuccess(t *testing.T) {
 			"kuantitas": 1
 		}
 	}`
-	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -171,12 +214,11 @@ func TestGetAllRoomsHandlerSuccess(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &createRoomRes))
-	assert.Equal(t, "success", createRoomRes.Message)
-	assert.NotEmpty(t, createRoomRes.Data.RoomCode)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Success Create Room", res.Message)
 
 	// SUCCESS ADA ISINYA
-	req, err = http.NewRequest("GET", "/rooms/1", nil)
+	req, err = http.NewRequest("GET", "/en/rooms/1", nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -184,164 +226,108 @@ func TestGetAllRoomsHandlerSuccess(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &getAllRoomsRes))
-	assert.Equal(t, "success", getAllRoomsRes.Message)
-	assert.NotEmpty(t, getAllRoomsRes.Data)
-	assert.Len(t, getAllRoomsRes.Data, 1)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Succes Get all Room", res.Message)
 }
 
 func TestGetAllRoomsHandlerErrorRequest(t *testing.T) {
-	type getAllRoomsResponse struct {
-		Message string         `json:"message"`
-		Data    []models.Rooms `json:"data"`
-	}
-	var getAllRoomsRes getAllRoomsResponse
+	os.Setenv("LOCALIZATOR_PATH", "")
 
+	// DB INITIALIZATION
 	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.GET("/rooms/:id", handler.GetAllRooms)
-
-	// ERROR RECORD NOT FOUND
-	req, err := http.NewRequest("GET", "/rooms/10", nil)
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
-
-	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusBadRequest, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &getAllRoomsRes))
-	assert.Equal(t, "record not found", getAllRoomsRes.Message)
-	assert.Empty(t, getAllRoomsRes.Data)
-}
-
-func TestJoinRoomPembeliHandlerFail(t *testing.T) {
-	type response struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
 	var res response
 
-	db := newTestDB(t)
-	// Rooms Handler
-	roomsRepo := NewRepository(db)
-	roomsService := NewService(roomsRepo)
-	roomsHandler := NewHandler(roomsService)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
 
-	// Users Handler
-	usersRepo := users.NewRepository(db)
-	usersService := users.NewService(usersRepo)
-	usersHandler := users.NewHandler(usersService)
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
 
-	// Set Routes
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/register" /*authentication.Authentication, isAdmin.Authorize,*/, usersHandler.CreateUser)
-	r.POST("/rooms", roomsHandler.CreateRoom)
-	r.PUT("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
 
-	// Create User 1
-	payload := `{
-		"nama": "klmno",
-		"email": "admin@klm.com",
-		"password": "123456781234567812",
-		"noHp": "+6281223440777",
-		"noRek": "1234"
-	}`
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	// ERROR RECORD NOT FOUND
+	req, err := http.NewRequest("GET", "/en/rooms/10", nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
 	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
-
-	// Create User 2
-	payload = `{
-		"nama": "thea",
-		"email": "admin@admin.com",
-		"password": "123456781234567812",
-		"noHp": "+6281223440777",
-		"noRek": "1234"
-	}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
-
-	w = httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
-
-	// Create Room 1
-	payload = `{
-		"id": 1,
-		"product" : {
-			"nama": "Razer Mouse",
-			"deskripsi": "Ini Razer Mouse",
-			"harga": 150000,
-			"kuantitas": 1
-		}
-	}`
-
-	req, err = http.NewRequest("POST", "/rooms", strings.NewReader(payload))
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
-
-	w = httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
-
-	// Fail join room not found pembeli
-	req, err = http.NewRequest("PUT", "/joinroom/1/2", nil)
-	assert.NoError(t, err)
-	assert.NotNil(t, req)
-
-	w = httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
 	assert.Equal(t, "record not found", res.Message)
-	assert.NotEmpty(t, res.Data)
+}
+
+func TestJoinRoomPembeliHandlerFail(t *testing.T) {
+	os.Setenv("LOCALIZATOR_PATH", "")
+
+	// DB INITIALIZATION
+	db := newTestDB(t)
+
+	var res response
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	// Create Room 1
+	payload := `{
+		"id": 1,
+		"product" : {
+			"nama": "Razer Mouse",
+			"deskripsi": "Ini Razer Mouse",
+			"harga": 150000,
+			"kuantitas": 1
+		}
+	}`
+
+	req, err := http.NewRequest("POST", "/en/rooms", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Success Create Room", res.Message)
+
+	// Fail join room not found pembeli
+	req, err = http.NewRequest("PUT", "/en/joinroom/1/2", nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
 }
 
 func TestJoinRoomPembeliHandlerSuccess(t *testing.T) {
-	type responseCreateRoom struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
-	var resCreateRoom responseCreateRoom
+	os.Setenv("LOCALIZATOR_PATH", "")
 
-	type responseJoinRoom struct {
-		Message string `json:"message"`
-	}
-	var resJoinRoom responseJoinRoom
-
+	// DB INITIALIZATION
 	db := newTestDB(t)
-	// Rooms Handler
-	roomsRepo := NewRepository(db)
-	roomsService := NewService(roomsRepo)
-	roomsHandler := NewHandler(roomsService)
 
-	// Set Routes
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/rooms", roomsHandler.CreateRoom)
-	r.PUT("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
+	var res response
+	var res2 responseRoomCode
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
 
 	// Create Room 1
 	payload := (`{
@@ -354,7 +340,7 @@ func TestJoinRoomPembeliHandlerSuccess(t *testing.T) {
 		}
 	}`)
 
-	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -362,12 +348,12 @@ func TestJoinRoomPembeliHandlerSuccess(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resCreateRoom))
-	assert.Equal(t, "success", resCreateRoom.Message)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res2))
+	assert.Equal(t, "Success Create Room", res2.Message)
 
-	roomCode := resCreateRoom.Data.RoomCode
+	roomCode := res2.Data.RoomCode
 
-	url := fmt.Sprintf("/joinroom/%s/%d", roomCode, 2)
+	url := fmt.Sprintf("/en/joinroom/%s/%d", roomCode, 2)
 	req, err = http.NewRequest("PUT", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
@@ -376,33 +362,27 @@ func TestJoinRoomPembeliHandlerSuccess(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resJoinRoom))
-	assert.Equal(t, "success", resJoinRoom.Message)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Success join seller room", res.Message)
 }
 
 func TestJoinRoomPembeliHandlerAlreadyInRoom(t *testing.T) {
-	type responseCreateRoom struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
-	var resCreateRoom responseCreateRoom
+	os.Setenv("LOCALIZATOR_PATH", "")
 
-	type responseJoinRoom struct {
-		Message string `json:"message"`
-	}
-	var resJoinRoom responseJoinRoom
-
+	// DB INITIALIZATION
 	db := newTestDB(t)
-	// Rooms Handler
-	roomsRepo := NewRepository(db)
-	roomsService := NewService(roomsRepo)
-	roomsHandler := NewHandler(roomsService)
 
-	// Set Routes
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/rooms", roomsHandler.CreateRoom)
-	r.PUT("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
+	var res response
+	var res2 responseRoomCode
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
 
 	// Create Room 1
 	payload := (`{
@@ -415,7 +395,7 @@ func TestJoinRoomPembeliHandlerAlreadyInRoom(t *testing.T) {
 		}
 	}`)
 
-	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -423,12 +403,12 @@ func TestJoinRoomPembeliHandlerAlreadyInRoom(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resCreateRoom))
-	assert.Equal(t, "success", resCreateRoom.Message)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res2))
+	assert.Equal(t, "Success Create Room", res2.Message)
 
-	roomCode := resCreateRoom.Data.RoomCode
+	roomCode := res2.Data.RoomCode
 
-	url := fmt.Sprintf("/joinroom/%s/%d", roomCode, 1)
+	url := fmt.Sprintf("/en/joinroom/%s/%d", roomCode, 1)
 	req, err = http.NewRequest("PUT", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
@@ -437,33 +417,27 @@ func TestJoinRoomPembeliHandlerAlreadyInRoom(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resJoinRoom))
-	assert.Equal(t, "Anda sudah masuk kedalam room ini", resJoinRoom.Message)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Already Join This Room", res.Message)
 }
 
 func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
-	type responseCreateRoom struct {
-		Message string       `json:"message"`
-		Data    models.Rooms `json:"data"`
-	}
-	var resCreateRoom responseCreateRoom
+	os.Setenv("LOCALIZATOR_PATH", "")
 
-	type responseJoinRoom struct {
-		Message string `json:"message"`
-	}
-	var resJoinRoom responseJoinRoom
-
+	// DB INITIALIZATION
 	db := newTestDB(t)
-	// Rooms Handler
-	roomsRepo := NewRepository(db)
-	roomsService := NewService(roomsRepo)
-	roomsHandler := NewHandler(roomsService)
 
-	// Set Routes
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/rooms", roomsHandler.CreateRoom)
-	r.PUT("/joinroom/:room_id/:user_id" /*authentication.Authentication, isAdmin.Authorize,*/, roomsHandler.JoinRoomPembeli)
+	var res response
+	var res2 responseRoomCode
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
 
 	// Create Room 1
 	payload := (`{
@@ -476,7 +450,7 @@ func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
 		}
 	}`)
 
-	req, err := http.NewRequest("POST", "/rooms", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/rooms", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
 
@@ -484,12 +458,12 @@ func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resCreateRoom))
-	assert.Equal(t, "success", resCreateRoom.Message)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res2))
+	assert.Equal(t, "Success Create Room", res2.Message)
 
-	roomCode := resCreateRoom.Data.RoomCode
+	roomCode := res2.Data.RoomCode
 
-	url := fmt.Sprintf("/joinroom/%s/%s", roomCode, "abc")
+	url := fmt.Sprintf("/en/joinroom/%s/%s", roomCode, "abc")
 	req, err = http.NewRequest("PUT", url, nil)
 	assert.NoError(t, err)
 	assert.NotNil(t, req)
@@ -498,6 +472,157 @@ func TestJoinRoomPembeliHandlerInvalidUserID(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &resJoinRoom))
-	assert.Equal(t, "Invalid User ID", resJoinRoom.Message)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Invalid Id User", res.Message)
+}
+
+func TestJoinRoomError(t *testing.T) {
+	os.Setenv("LOCALIZATOR_PATH", "")
+
+	// DB INITIALIZATION
+	db := newTestDB(t)
+
+	var res response
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	url := fmt.Sprintf("/en/joinroom/%v/%v", "10", "1")
+	req, err := http.NewRequest("GET", url, nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusBadRequest, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Cannot Join Room", res.Message)
+}
+
+func TestJoinRoomSuccessWithPembeli(t *testing.T) {
+	os.Setenv("LOCALIZATOR_PATH", "")
+
+	// DB INITIALIZATION
+	db := newTestDB(t)
+
+	var res response
+	var res2 responseRoomCode
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	// Create Room 1
+	payload := (`{
+		"id": 1,
+		"product" : {
+			"nama": "Razer Mouse",
+			"deskripsi": "Ini Razer Mouse",
+			"harga": 150000,
+			"kuantitas": 1
+		}
+	}`)
+
+	req, err := http.NewRequest("POST", "/en/rooms", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res2))
+	assert.Equal(t, "Success Create Room", res2.Message)
+
+	roomCode := res2.Data.RoomCode
+
+	url := fmt.Sprintf("/en/joinroom/%s/%d", roomCode, 2)
+	req, err = http.NewRequest("PUT", url, nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	//JOIN ROOM
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Success join seller room", res.Message)
+
+	url = fmt.Sprintf("/en/joinroom/%v/%v", "1", "1")
+	req, err = http.NewRequest("GET", url, nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Success join room", res.Message)
+}
+
+func TestJoinRoomSuccessWithoutPembeli(t *testing.T) {
+	os.Setenv("LOCALIZATOR_PATH", "")
+
+	// DB INITIALIZATION
+	db := newTestDB(t)
+
+	var res response
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	// Create Room 1
+	payload := (`{
+		"id": 1,
+		"product" : {
+			"nama": "Razer Mouse",
+			"deskripsi": "Ini Razer Mouse",
+			"harga": 150000,
+			"kuantitas": 1
+		}
+	}`)
+
+	req, err := http.NewRequest("POST", "/en/rooms", strings.NewReader(payload))
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	//JOIN ROOM
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Success Create Room", res.Message)
+
+	url := fmt.Sprintf("/en/joinroom/%v/%v", "1", "1")
+	req, err = http.NewRequest("GET", url, nil)
+	assert.NoError(t, err)
+	assert.NotNil(t, req)
+
+	w = httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	assert.Equal(t, http.StatusOK, w.Code)
+	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
+	assert.Equal(t, "Success join room", res.Message)
 }

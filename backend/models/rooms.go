@@ -1,6 +1,8 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Rooms struct {
 	gorm.Model
@@ -10,4 +12,6 @@ type Rooms struct {
 	Status      string        `json:"status,omitempty" gorm:"varchar(20);default:mulai transaksi"`
 	Product     *Products     `json:"product,omitempty" gorm:"foreignKey:RoomsID"`
 	Transaction *Transactions `json:"transaction,omitempty" gorm:"foreignKey:RoomsID"`
+	Penjual     *Users        `json:"penjual,omitempty" gorm:"foreignKey:PenjualID"`
+	Pembeli     *Users        `json:"pembeli,omitempty" gorm:"foreignKey:PembeliID"`
 }

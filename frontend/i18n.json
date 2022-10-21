@@ -1,0 +1,11 @@
+{
+  "locales": ["en", "id"],
+  "defaultLocale": "en",
+  "pages": {
+    "*": ["common"],
+    "/": ["home", "cardRoom", "createRoom", "joinRoom"],
+    "/rooms/[idRoom]": ["detailProduct"],
+    "/rooms/payment/[idRoom]": ["payment"],
+    "/profiles/[idUser]": ["userProfile"]
+  }
+}

@@ -1,0 +1,16 @@
+{
+    "header": "Detail Pembayaran",
+    "totalPembayaran": "Total Pembayaran",
+    "detail": [
+        "Silahkan lakukan pembayaran ke nomor rekening yang ada diatas.",
+        "Anda sudah melakukan pembayaran?",
+        "Silahkan upload bukti pembayaran anda!"
+    ],
+    "buttonUpload": "Upload Bukti Pembayaran",
+    "load": {
+        "load-fail": "Gagal untuk memuat data",
+        "loading": "Memuat data... harap tunggu",
+        "list-empty": "Data Kosong"
+    },
+    "successMessage": "Status Pembelian Berhasil diubah"
+}

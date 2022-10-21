@@ -1,8 +1,13 @@
 import { Form, Modal, Button } from 'react-bootstrap';
 import logo from './assets/logo.png';
 import Swal from 'sweetalert2';
+import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from "next/router";
 
-export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRoomModal, createRoomModal }) {
+export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRoomModal, createRoomModal, GetAllRoom }) {
+  const { t, lang } = useTranslation('createRoom');
+  const router = useRouter();
+
   const handleSubmitCreateRoom = async (e) => {
     closeCreateRoomModal();
     e.preventDefault();
@@ -18,7 +23,7 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
       }
     }
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/rooms`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms`, {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
@@ -29,10 +34,11 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
       });
       const data = await res.json();
 
-      if (data.message === "success") {
-        Swal.fire({ icon: 'success', title: 'Room berhasil dibuat', showConfirmButton: false, timer: 1500, })
+      if (data?.message === "Success Create Room" || data?.message === "Berhasil membuat ruangan") {
+        Swal.fire({ icon: 'success', title: t("successCreate"), text: data.message, showConfirmButton: false, timer: 1500, })
+        GetAllRoom();
       } else {
-        Swal.fire({ icon: 'error', title: 'Buat Room gagal', text: data.message, })
+        Swal.fire({ icon: 'error', title: t("failCreate"), text: data.message, })
       }
     }
     catch (error) {
@@ -48,14 +54,14 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
         <div className="avatar" data-testid="avatar">
           <img src={logo.src} alt="logo SiMiddleman+" data-testid="logo" />
         </div>
-        <Modal.Title className="ms-auto" data-testid="title">Create Room</Modal.Title>
+        <Modal.Title className="ms-auto" data-testid="title">{t("modalTitle")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmitCreateRoom} id="createRoomForm">
           <Form.Group className="mb-3">
             <Form.Control
               type="text"
-              placeholder="Nama Produk"
+              placeholder={t("placeholder.0")}
               data-testid="namaProduk"
               name="namaProduk"
               autoFocus
@@ -64,24 +70,26 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
           <Form.Group className="mb-3">
             <Form.Control
               type="number"
-              placeholder="Harga Produk"
+              placeholder={t("placeholder.1")}
               data-testid="hargaProduk"
               name="hargaProduk"
+              min={1}
               autoFocus
             />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Control
               type="number"
-              placeholder="Kuantitas Produk"
+              placeholder={t("placeholder.2")}
               data-testid="kuantitasProduk"
               name="kuantitasProduk"
+              min={1}
               autoFocus
             />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Control
-              placeholder="Deskripsi Produk"
+              placeholder={t("placeholder.3")}
               as="textarea"
               rows={5}
               data-testid="deskripsiProduk"
@@ -93,7 +101,7 @@ export default function ModalCreateRoom({ idPenjual, sessionToken, closeCreateRo
             className='w-100'
             type='submit'
             form='createRoomForm'
-            data-testid="buttonCreateRoom">Buat Room</Button>
+            data-testid="buttonCreateRoom">{t("createRoomBtnModal")}</Button>
         </Form>
       </Modal.Body>
     </Modal>
