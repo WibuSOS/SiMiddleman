@@ -74,7 +74,9 @@
       "password": "Your passwrod",
       "confirm-password": "Re-type your password"
     },
-    "btn-register": "Register"
+    "btn-register": "Register",
+    "confirmPasswordFail": "Password and Confirm Password are different",
+    "emailExist": "Email already exist"
   },
   "seller" : "You're the Seller",
   "buyer" : "You're the Buyer",

@@ -11,5 +11,6 @@
         "load-fail": "Failed to load room list",
         "loading": "Loading data... please wait",
         "list-empty": "Data Empty"
-    }
+    },
+    "successMessage": "Purchase Status changed Successfully"
 }

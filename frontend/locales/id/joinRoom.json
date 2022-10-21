@@ -2,5 +2,7 @@
     "joinRoomBtnCard": "Gabung Ruangan",
     "modalTitle": "Gabung Ruangan",
     "placeholder": "Kode Ruangan", 
-    "joinRoomBtnModal": "Gabung Ruangan"
+    "joinRoomBtnModal": "Gabung Ruangan",
+    "successJoin": "Berhasil Masuk Ruangan",
+    "failJoin": "Gagal Masuk Ruangan"
 }

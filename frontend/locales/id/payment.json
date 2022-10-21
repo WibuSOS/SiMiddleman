@@ -11,5 +11,6 @@
         "load-fail": "Gagal untuk memuat data",
         "loading": "Memuat data... harap tunggu",
         "list-empty": "Data Kosong"
-    }
+    },
+    "successMessage": "Status Pembelian Berhasil diubah"
 }

@@ -65,7 +65,7 @@ function Pembayaran({ user }) {
             }
         }
         if (dataAfterChangeStatus?.message !== null) {
-            Swal.fire({ icon: 'success', title: 'Status Pembelian Berhasil diubah', showConfirmButton: false, timer: 1500, })
+            Swal.fire({ icon: 'success', title: t("successMessage"), text: dataAfterChangeStatus?.message, showConfirmButton: false, timer: 1500, })
             router.push("https://forms.gle/yAtYBvu583nuVqmN6")
         }
     }
