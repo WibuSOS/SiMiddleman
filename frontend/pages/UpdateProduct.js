@@ -16,7 +16,7 @@ export default function UpdateProduct({ closeUpdateProductModal, updateProductMo
             Kuantitas: parseInt(kuantitasProduk),
         }
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updateproduct/${data?.data.product.ID}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/details/updateproduct/${data?.data.product.ID}`, {
                 method: 'PUT',
                 body: JSON.stringify(body),
                 headers: {
@@ -27,7 +27,7 @@ export default function UpdateProduct({ closeUpdateProductModal, updateProductMo
             });
             const dataRes = await res.json();
     
-            if (dataRes?.message === "berhasil mengupdate data") {
+            if (dataRes?.message) {
                 Swal.fire({ icon: 'success', title: 'Data Produk Berhasil Diupdate', showConfirmButton: false, timer: 1500, })
                 getRoomDetails();
             } else {

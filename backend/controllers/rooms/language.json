@@ -1,0 +1,24 @@
+{
+    "en": {
+        "successjoinroombuyer": "Success join seller room",
+        "successjoinroom": "Success join room, please refresh to view room",
+        "successgetallroom": "Succes Get all Room",
+        "successcreateroom": "Success Create Room, please refresh to view room",
+        "internalServer": "record not found",
+        "cannotjoinroom": "Cannot Join Room",
+        "invalididuser": "Invalid Id User",
+        "alreadyjoinroom": "Already Join This Room",
+        "alreadyhavebuyer": "Already have buyer in this room"
+    },
+    "id": {
+        "successjoinroombuyer": "Berhasil masuk ruangan penjual",
+        "successjoinroom": "Berhasil masuk ruangan, silahkan refresh untuk menampilkan ruangan",
+        "successgetallroom": "Berhasil mengambil semua data ruangan",
+        "successcreateroom": "Berhasil membuat ruangan, silahkan refresh untuk menampilkan ruangan",
+        "internalServer": "Tidak ada data",
+        "cannotjoinroom": "Tidak dapat memasuki ruangan",
+        "invalididuser": "Id user tidak valid",
+        "alreadyjoinroom": "Sudah memasuki ruangan ini",
+        "alreadyhavebuyer": "Sudah ada pembeli yang memasuki ruangan ini"
+    }
+}

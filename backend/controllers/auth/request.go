@@ -11,11 +11,11 @@ type DataRequest struct {
 
 func (r *DataRequest) Validation() *errors.RestError {
 	if r.Email == "" {
-		return errors.NewBadRequestError("Invalid email")
+		return errors.NewBadRequestError("invalidEmail")
 	}
 
 	if r.Password == "" {
-		return errors.NewBadRequestError("Invalid password")
+		return errors.NewBadRequestError("invalidPassword")
 	}
 
 	return nil

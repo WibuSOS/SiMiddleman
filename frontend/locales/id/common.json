@@ -75,8 +75,8 @@
     },
     "btn-register": "Daftar"
   },
-  "seller" : "Kamu Pembeli",
-  "buyer" : "Kamu Penjual",
+  "seller" : "Kamu Penjual",
+  "buyer" : "Kamu Pembeli",
   "footer": {
     "copyright": "Dibuat oleh tim 2 untuk web yang lebih baik.",
     "privacyPolicy": "Kebijakan Pribadi",

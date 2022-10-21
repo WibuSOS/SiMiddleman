@@ -5,6 +5,7 @@ import (
 
 	"github.com/WibuSOS/sinarmas/backend/utils/errors"
 	"github.com/gin-gonic/gin"
+	language "github.com/moemoe89/go-localization"
 )
 
 type Handler struct {
@@ -17,6 +18,8 @@ func NewHandler(service Service) *Handler {
 
 func (h *Handler) CreateUser(c *gin.Context) {
 	var req DataRequest
+	langReq := c.Param("lang")
+	localizator := c.MustGet("localizator")
 	if err := c.ShouldBindJSON(&req); err != nil {
 		error := errors.NewBadRequestError(err.Error())
 		errors.LogError(error)
@@ -28,13 +31,13 @@ func (h *Handler) CreateUser(c *gin.Context) {
 	if err != nil {
 		errors.LogError(err)
 		c.JSON(err.Status, gin.H{
-			"message": err.Message,
+			"message": localizator.(*language.Config).Lookup(langReq, err.Message),
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "success",
+		"message": localizator.(*language.Config).Lookup(langReq, "success"),
 	})
 }
 

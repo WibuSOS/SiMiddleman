@@ -1,0 +1,18 @@
+{
+    "en": {
+        "successcreateroom": "Success Create Room, please refresh to view room",
+        "errorfetchingdata": "Error Fetching Data",
+        "roomnotfound": "Room Not Found",
+        "invalidstatus": "Invalid Status",
+        "successgetpaymentdetail": "Success get payment detail",
+        "successupdatestatus": "Success Update Status"
+    },
+    "id": {
+        "successcreateroom": "Berhasil membuat ruangan, silahkan refresh untuk menampilkan ruangan",
+        "errorfetchingdata": "Error ketika mengambil data",
+        "roomnotfound": "Ruangan tidak tersedia",
+        "invalidstatus": "Status tidak ditemukan",
+        "successgetpaymentdetail": "Sukses mengambil rincian pembayaran",
+        "successupdatestatus": "Sukses mengubah status"
+    }
+}

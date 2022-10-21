@@ -35,7 +35,7 @@ func TestServiceUpdateStatusInvalidStatus(t *testing.T) {
 
 	err := service.UpdateStatusDelivery("1", req)
 	assert.NotNil(t, err)
-	assert.Equal(t, "Invalid Status", err.Message)
+	assert.Equal(t, "invalidstatus", err.Message)
 	assert.Equal(t, http.StatusBadRequest, err.Status)
 	assert.Equal(t, "Bad_Request", err.Error)
 }
@@ -92,7 +92,7 @@ func TestGetPaymentDetailsServiceRoomNotFound(t *testing.T) {
 
 	_, err := service.GetPaymentDetails(int(idRoom))
 	assert.NotNil(t, err)
-	assert.Equal(t, "Room not found", err.Message)
+	assert.Equal(t, "roomnotfound", err.Message)
 	assert.Equal(t, http.StatusBadRequest, err.Status)
 	assert.Equal(t, "Bad_Request", err.Error)
 }

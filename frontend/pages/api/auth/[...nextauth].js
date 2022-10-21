@@ -12,9 +12,10 @@ export default NextAuth ({
         password: { 
           label: "Password", 
           type: "password",},
+        locale: {}
       },
       authorize : async (credentials, req) => {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${credentials.locale}/login`, {
           method: 'POST',
           body: JSON.stringify(credentials),
           headers: { "Content-Type": "application/json" }

@@ -19,7 +19,7 @@ export default function ModalShowRoomCode(props) {
         <div className='roomCode' data-testid="roomCode">
           <p><strong>{props.roomCode}</strong></p>
         </div>
-        <Button data-testid="buttonSalin" onClick={() => {
+        <Button variant='simiddleman' data-testid="buttonSalin" onClick={() => {
           navigator.clipboard.writeText(props.roomCode);
           Swal.fire({
             icon: 'success',

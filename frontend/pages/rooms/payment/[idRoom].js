@@ -24,7 +24,7 @@ function Pembayaran({ user }) {
     const getHarga = async () => {
         const idRoom = router.query.idRoom;
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/getHarga/${idRoom}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/details/getHarga/${idRoom}`, {
                 method: 'GET',
                 headers: { 'Authorization': 'Bearer ' + user, }
             });
@@ -38,7 +38,7 @@ function Pembayaran({ user }) {
     const getRoomDetails = async () => {
         const idRoom = router.query.idRoom;
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/joinroom/${idRoom}/${decoded.ID}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/join/${idRoom}/${decoded.ID}`, {
                 method: 'GET',
                 headers: { 'Authorization': 'Bearer ' + user, }
             });
@@ -53,7 +53,7 @@ function Pembayaran({ user }) {
         const idRoom = router.query.idRoom;
         if (data.data.status != dataRoom.statuses[1] && dataRoom.statuses[0] == data.data.status) {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/updatestatus/${idRoom}`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${router.locale}/rooms/details/updatestatus/${idRoom}`, {
                     method: 'PUT',
                     headers: { 'Authorization': 'Bearer ' + user, },
                     body: JSON.stringify({ status: dataRoom.statuses[1] })
@@ -83,10 +83,10 @@ function Pembayaran({ user }) {
                     {/* <h2>Bank Sinarmas</h2> */}
                     <h3 className='mt-3'>0056221875</h3>
                     <p>(Admin SiMiddleman)</p>
-                    {error && <div>{t("load-fail")} {error.toString()}</div>}
+                    {error && <div>{t("load.load-fail")} {error.toString()}</div>}
                     {
-                        !data ? <div>{t("loading")}</div> : (
-                            (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>{t("list-empty")}</p>
+                        !data ? <div>{t("load.loading")}</div> : (
+                            (data?.data ?? []).length === 0 && <p className='text-xl p-8 text-center text-gray-100'>{t("load.list-empty")}</p>
                         )
                     }
                     <p>{t("totalPembayaran")} : <b>Rp{data?.data.total.toLocaleString()}</b></p>

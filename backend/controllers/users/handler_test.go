@@ -4,12 +4,15 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 
+	"github.com/WibuSOS/sinarmas/backend/middlewares/localizator"
 	"github.com/WibuSOS/sinarmas/backend/models"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"gorm.io/gorm"
 )
 
 type responseGetUserDetails struct {
@@ -17,20 +20,64 @@ type responseGetUserDetails struct {
 	Data    models.Users `json:"data"`
 }
 
-func TestCreateUserHandlerSuccess(t *testing.T) {
-	type response struct {
-		Message string `json:"message"`
-	}
-	var res response
+type response struct {
+	Message string `json:"message"`
+}
 
-	db := newTestDB(t)
+func setEndPointHandler(t *testing.T, db *gorm.DB) *Handler {
 	repo := NewRepository(db)
+	assert.NotNil(t, repo)
 	service := NewService(repo)
+	assert.NotNil(t, service)
 	handler := NewHandler(service)
+	assert.NotNil(t, handler)
 
+	return handler
+}
+
+func setLocalizationHandler(t *testing.T) *localizator.Handler {
+	handler, err := localizator.NewHandler()
+	assert.NotNil(t, handler)
+	assert.NoError(t, err)
+
+	return handler
+}
+
+func setRoutes(localizationHandler *localizator.Handler, endPointHandler *Handler) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	r.POST("/register", handler.CreateUser)
+	r.Use(localizationHandler.PassLocalizator)
+	r.POST("/:lang/register", endPointHandler.CreateUser)
+	r.GET("/:lang/user/:user_id", endPointHandler.GetUserDetails)
+	r.PUT("/:lang/user/:user_id", endPointHandler.UpdateUser)
+
+	return r
+}
+
+func setEnv() {
+	os.Setenv("ENVIRONMENT", "TEST")
+}
+
+func TestMain(m *testing.M) {
+	setEnv()
+	exitVal := m.Run()
+	os.Exit(exitVal)
+}
+
+func TestCreateUserHandlerSuccess(t *testing.T) {
+	// DB INITIALIZATION
+	db := newTestDB(t)
+
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	var res response
 
 	// SUCCESS USER 1
 	payload := `{
@@ -40,7 +87,7 @@ func TestCreateUserHandlerSuccess(t *testing.T) {
 		"password": "123456781234567812",
 		"noRek":    "1234"
 	}`
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/register", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -59,7 +106,7 @@ func TestCreateUserHandlerSuccess(t *testing.T) {
 		"password": "123456781234567812",
 		"noRek":    "6789"
 	}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err = http.NewRequest("POST", "/en/register", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -72,19 +119,19 @@ func TestCreateUserHandlerSuccess(t *testing.T) {
 }
 
 func TestCreateUserHandlerErrorBind(t *testing.T) {
-	type response struct {
-		Message string `json:"message"`
-	}
-	var res response
-
+	// DB INITIALIZATION
 	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/register", handler.CreateUser)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	var res response
 
 	// SUCCESS USER 1
 	payload := `{
@@ -94,7 +141,7 @@ func TestCreateUserHandlerErrorBind(t *testing.T) {
 		"password": "123456781234567812",
 		"noRek":    "1234"
 	}`
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/register", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -113,7 +160,7 @@ func TestCreateUserHandlerErrorBind(t *testing.T) {
 		"password": "123456781234567812",
 		"noRek":    "6789"
 	}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err = http.NewRequest("POST", "/en/register", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -126,19 +173,19 @@ func TestCreateUserHandlerErrorBind(t *testing.T) {
 }
 
 func TestCreateUserHandlerErrorRequest(t *testing.T) {
-	type response struct {
-		Message string `json:"message"`
-	}
-	var res response
-
+	// DB INITIALIZATION
 	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/register", handler.CreateUser)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
+
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	var res response
 
 	// SUCCESS USER 1
 	payload := `{
@@ -148,7 +195,7 @@ func TestCreateUserHandlerErrorRequest(t *testing.T) {
 		"password": "123456781234567812",
 		"noRek":    "1234"
 	}`
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err := http.NewRequest("POST", "/en/register", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -167,7 +214,7 @@ func TestCreateUserHandlerErrorRequest(t *testing.T) {
 		"password": "123456781234567812",
 		"noRek":    "6789"
 	}`
-	req, err = http.NewRequest("POST", "/register", strings.NewReader(payload))
+	req, err = http.NewRequest("POST", "/en/register", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
@@ -176,58 +223,35 @@ func TestCreateUserHandlerErrorRequest(t *testing.T) {
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "constraint failed: UNIQUE constraint failed: users.email (2067)", res.Message)
+	assert.Equal(t, "Bad Request", res.Message)
 }
 
 func newTestGetUserDetailsHandler(t *testing.T, isError bool) (*httptest.ResponseRecorder, responseGetUserDetails) {
-	type response struct {
-		Message string `json:"message"`
-	}
-	var res response
 	var resGetDetails responseGetUserDetails
+	var req *http.Request
+	var err error
 
 	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
 
-	dbError := newTestDBError(t)
-	repoError := NewRepository(dbError)
-	serviceError := NewService(repoError)
-	handlerError := NewHandler(serviceError)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/register", handler.CreateUser)
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
 	if isError {
-		r.GET("/:lang/user/:user_id", handlerError.GetUserDetails)
+		req, err = http.NewRequest("GET", "/en/user/10", nil)
 	} else {
-		r.GET("/:lang/user/:user_id", handler.GetUserDetails)
+		req, err = http.NewRequest("GET", "/en/user/1", nil)
 	}
-	// SUCCESS USER 1
-	payload := `{
-		"nama":     "vwxyz",
-		"noHp":     "+6283785332789",
-		"email":    "admin@xyz.com",
-		"password": "123456781234567812",
-		"noRek":    "1234"
-	}`
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
 	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
-
-	req, err = http.NewRequest("GET", "/en/user/1", nil)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, req)
-
-	w = httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 	return w, resGetDetails
 }
@@ -253,46 +277,28 @@ func TestUpdateUserHandlerSuccessRequest(t *testing.T) {
 	var res response
 
 	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/register", handler.CreateUser)
-	r.PUT("/user/:user_id", handler.UpdateUser)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
 
-	// SUCCESS USER 1
-	payload := `{
-		"nama":     "vwxyz",
-		"noHp":     "+6283785332789",
-		"email":    "admin@xyz.com",
-		"password": "123456781234567812",
-		"noRek":    "1234"
-	}`
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
-	assert.NoError(t, err)
-	assert.NotEmpty(t, req)
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
 
-	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
 
 	// UPDATE USER
-	payload = `{
+	payload := `{
 		"nama":     "abcde",
 		"noHp":     "+6282876443890",
 		"email":    "admin@xyz.com",
 		"noRek":    "6789"
 	}`
-	req, err = http.NewRequest("PUT", "/user/1", strings.NewReader(payload))
+	req, err := http.NewRequest("PUT", "/en/user/1", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
-	w = httptest.NewRecorder()
+	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -307,39 +313,22 @@ func TestUpdateUserHandlerErrorRequest(t *testing.T) {
 	var res response
 
 	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/register", handler.CreateUser)
-	r.PUT("/user/:user_id", handler.UpdateUser)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
 
-	// SUCCESS USER 1
-	payload := `{
-		"nama":     "vwxyz",
-		"noHp":     "+6283785332789",
-		"email":    "admin@xyz.com",
-		"password": "123456781234567812",
-		"noRek":    "1234"
-	}`
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
+
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
+
+	// UPDATE USER
+	req, err := http.NewRequest("PUT", "/en/user/1", nil)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
 	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
-
-	req, err = http.NewRequest("PUT", "/user/1", nil)
-	assert.NoError(t, err)
-	assert.NotEmpty(t, req)
-
-	w = httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)
@@ -354,46 +343,28 @@ func TestUpdateUserHandlerErrorIDRequest(t *testing.T) {
 	var res response
 
 	db := newTestDB(t)
-	repo := NewRepository(db)
-	service := NewService(repo)
-	handler := NewHandler(service)
 
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
-	r.POST("/register", handler.CreateUser)
-	r.PUT("/user/:user_id", handler.UpdateUser)
+	// LOCALIZATION HANDLER
+	localizationHandler := setLocalizationHandler(t)
 
-	// SUCCESS USER 1
-	payload := `{
-		"nama":     "vwxyz",
-		"noHp":     "+6283785332789",
-		"email":    "admin@xyz.com",
-		"password": "123456781234567812",
-		"noRek":    "1234"
-	}`
-	req, err := http.NewRequest("POST", "/register", strings.NewReader(payload))
-	assert.NoError(t, err)
-	assert.NotEmpty(t, req)
+	// END-POINT HANDLER
+	endPointHandler := setEndPointHandler(t, db)
 
-	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code)
-	assert.NoError(t, json.Unmarshal(w.Body.Bytes(), &res))
-	assert.Equal(t, "success", res.Message)
+	// ROUTES INITIALIZATION
+	r := setRoutes(localizationHandler, endPointHandler)
 
 	// UPDATE USER
-	payload = `{
+	payload := `{
 		"nama":     "abcde",
 		"noHp":     "+6282876443890",
 		"email":    "admin@xyz.com",
 		"noRek":    "6789"
 	}`
-	req, err = http.NewRequest("PUT", "/user/1000", strings.NewReader(payload))
+	req, err := http.NewRequest("PUT", "/en/user/1000", strings.NewReader(payload))
 	assert.NoError(t, err)
 	assert.NotEmpty(t, req)
 
-	w = httptest.NewRecorder()
+	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusBadRequest, w.Code)

@@ -44,7 +44,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
           <div className='row d-flex justify-content-start'>
             <div className='col-lg-4 col-md-5 col-sm-12'>
               <ShowRoomCode roomCode={data?.data.roomCode} />
-              {data?.data.penjualID === decoded?.ID && data?.statuses[0] === data?.data.status ? <Button className='btn-simiddleman' onClick={openUpdateProductModal}>{t("updateProductButton")}</Button> : "" }
+              {data?.data.penjualID === decoded?.ID && data?.statuses[0] === data?.data.status ? <Button className='btn-simiddleman' onClick={openUpdateProductModal}>{t("updateProductButton")}</Button> : ""}
             </div>
             <div className='col-lg-4 col-md-5 col-sm-12'>
               <UpdateProduct closeUpdateProductModal={closeUpdateProductModal} updateProductModal={updateProductModal} data={data} user={user} namaProduk={namaProduk} setNamaProduk={setNamaProduk} hargaProduk={hargaProduk} setHargaProduk={setHargaProduk} deskripsiProduk={deskripsiProduk} setDeskripsiProduk={setDeskripsiProduk} kuantitasProduk={kuantitasProduk} setKuantitasProduk={setKuantitasProduk} getRoomDetails={getRoomDetails} />
@@ -77,7 +77,7 @@ export default function DetailProduk({ data, error, decoded, router, kirimBarang
               <div className='row pt-3 d-flex justify-content-center'>
                 <div className='col-lg-4 col-md-6 col-sm-8'>
                   {data?.data.pembeliID === decoded?.ID && data?.statuses[0] === data?.data.status && <Button className='w-100' variant='simiddleman' onClick={() => { router.push({ pathname: '/rooms/payment/[idRoom]', query: { idRoom: `${data?.data.ID}` } }) }}>{t("buyButton")}</Button>}
-                    {data?.data.pembeliID === decoded?.ID && data?.statuses[0] != data?.data.status && data?.statuses[3] != data?.data.status && <Button className='w-100' variant='simiddleman' onClick={() => { router.push("https://forms.gle/yAtYBvu583nuVqmN6") }}>{t("buttonUpload")}</Button>}
+                  {data?.data.pembeliID === decoded?.ID && data?.statuses[0] != data?.data.status && data?.statuses[3] != data?.data.status && <Button className='w-100' variant='simiddleman' onClick={() => { router.push("https://forms.gle/yAtYBvu583nuVqmN6") }}>{t("buttonUpload")}</Button>}
                 </div>
               </div>
             </div>

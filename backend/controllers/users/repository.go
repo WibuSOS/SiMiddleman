@@ -1,6 +1,7 @@
 package users
 
 import (
+	err_package "errors"
 	"log"
 	"strconv"
 
@@ -42,7 +43,7 @@ func (r *repository) CreateUser(req *DataRequest) *errors.RestError {
 	}
 	res := r.db.Omit(clause.Associations).Create(&newUser)
 	if res.Error != nil {
-		return errors.NewBadRequestError(res.Error.Error())
+		return errors.NewBadRequestError("badRequest")
 	}
 
 	return nil
@@ -52,9 +53,9 @@ func (r *repository) GetUserDetails(userId string) (models.Users, *errors.RestEr
 	var user models.Users
 
 	id, _ := strconv.ParseUint(userId, 10, 64)
-	res := r.db.Where("id = ?", id).Find(&user)
+	res := r.db.Where("id = ?", id).First(&user)
 
-	if res.Error != nil {
+	if err := res.Error; err_package.Is(err, gorm.ErrRecordNotFound) {
 		log.Println("Get User Details: Error while fetching data")
 		return models.Users{}, errors.NewInternalServerError("Error while fetching data")
 	}

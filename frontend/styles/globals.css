@@ -372,14 +372,22 @@ footer .footer-content {
 
 /* css styling for show room code modal */
 .roomCode {
-  background-color: var(--primary);
-  color: #fff;
+  color: var(--primary);
   padding: .5rem;
   margin-bottom: 1rem;
 }
 
 .roomCode p {
   font-size: 2rem;
+}
+
+.modal-content {
+  border-radius: 20px !important;
+}
+
+.modal-title {
+  font-family: 'Ubuntu' !important;
+  font-size: 28px !important;
 }
 
 /* css styling for show room code modal */
